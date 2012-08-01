@@ -1,0 +1,16 @@
+description "Arcade Game Analysis and Repair\377";
+
+uses
+	CtrlLib,
+	plugin\sqlite3,
+	SqlCtrl;
+
+file
+	AGAR.h,
+	main.cpp,
+	AGAR.lay,
+	AGAR.sch;
+
+mainconfig
+	"" = "GUI SSE2";
+
