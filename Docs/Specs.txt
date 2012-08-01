@@ -1,0 +1,69 @@
+* Fabricant (Fabricant du jeu)
+ - Champs : nom du fabricant
+
+
+* Jeu (le jeu lui même)
+ - Lié au fabricant. Un seul fabricant par jeu.
+ - Champs : nom du jeu, idFabricant
+
+
+* PCB (PCB de jeu)
+ - Lié au jeu. [idJeu]
+ - Est de certain type [idTypePCB]
+ - Est dans un certain état [idEtatPCB]
+ - Contient un tag unique servant à l'identifier, qui n'est pas obligatoirement rempli (pour les pcbs fonctionnels) [tag]
+ - se trouve à un endroit en particulier [idLocalisation]
+ - Origine du PCB [idOrigine]
+ - Date de dernier test [dateDernierTest]
+ - Problèmes concernant le PCB : aucun, un ou plusieurs (non exclusifs). A enregistrer dans une zone pouvant contenir plusieurs valeurs [listeProblemes]
+
+
+* PCB Type [Enum]
+ - Original
+ - Bootleg
+ - Conversion
+
+* PCB Etat [Enum]
+ - Complètement fonctionnel
+ - Fonctionnel avec reste à faire
+ - Incomplet
+ - Travail en cours
+ - Difficultés
+ - Mort
+ - Pour pièces
+ - Pas testé
+
+* PCB Problemes [Enum]
+ - Autres
+ - Contrôles
+ - Graphismes
+ - Logique
+ - Ne démarre pas
+ - Son
+
+
+* Analyse
+ - Liée au PCB [idPCB]
+ - Date d'analyse [dateAnalyse]
+ - commentaire [commentaire]
+
+* Action
+ - Liée au PCB [idPCB]
+ - Date d'action [dateAction]
+ - Etat du PCB à la fin de l'action. Doit être propagé au PCB. [idEtatPCB]
+ - commentaire [commentaire]
+
+* Localisation (à quel endroit se trouve le PCB)
+ - Libellé [libelle]
+
+
+* Origine (d'où provient le PCB)
+ - Nom / Pseudo [nom]
+ - Origine (forum, etc.) [origine]
+ - zone de commentaire [commentaire]
+
+* Notes
+
+* Achats
+
+Gestion des images ?

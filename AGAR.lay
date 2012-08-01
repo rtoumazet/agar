@@ -1,0 +1,8 @@
+LAYOUT(AGARLayout, 320, 200)
+END_LAYOUT
+
+LAYOUT(MakerLayout, 192, 216)
+	ITEM(SqlArray, tab_maker, LeftPosZ(4, 124).VSizePosZ(8, 4))
+	ITEM(Button, Close_BTN, SetLabel(t_("Close")).LeftPosZ(132, 56).TopPosZ(12, 15))
+END_LAYOUT
+
