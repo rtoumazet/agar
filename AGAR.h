@@ -15,7 +15,6 @@ using namespace Upp;
 #define LAYOUTFILE <AGAR/AGAR.lay>
 #include <CtrlCore/lay.h>
 
-
 class AGAR : public WithAGARLayout<TopWindow> {
 	//WithModifyLayout<ParentCtrl> modify;
 
@@ -31,4 +30,5 @@ public:
 	AGAR();
 };
 
+#endif
 #endif
