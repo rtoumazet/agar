@@ -24,8 +24,9 @@ public:
 	void MainMenu( Bar& bar);
 	void SubMenu(Bar& bar);
 	void MakerList();
+	void GameList();
 	void Exit();
-	
+
 	typedef AGAR CLASSNAME;
 	AGAR();
 };
