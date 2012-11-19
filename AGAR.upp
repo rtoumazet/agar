@@ -6,11 +6,20 @@ uses
 	SqlCtrl;
 
 file
+	converts.cpp,
+	converts.h,
+	lookups.h,
+	Main readonly separator,
 	AGAR.h,
-	maker.cpp,
 	main.cpp,
-	AGAR.lay,
+	Dialogs readonly separator,
 	maker.h,
+	maker.cpp,
+	game.h,
+	game.cpp,
+	Layouts readonly separator,
+	AGAR.lay,
+	Database readonly separator,
 	AGAR.sch;
 
 mainconfig
