@@ -16,19 +16,29 @@ using namespace Upp;
 #include <CtrlCore/lay.h>
 
 class AGAR : public WithAGARLayout<TopWindow> {
-	//WithModifyLayout<ParentCtrl> modify;
+
+	typedef AGAR CLASSNAME;
 
 public:
-	// Main menu
-	MenuBar menu;
+
+	void DatabaseInit();
 	void MainMenu( Bar& bar);
-	void SubMenu(Bar& bar);
+	void SubMenuMain(Bar& bar);
 	void MakerList();
+	void RemoveMaker();
+	
 	void GameList();
 	void Exit();
 
-	typedef AGAR CLASSNAME;
+	void SubMenuPcb(Bar& bar);
+	void PcbList();
+
 	AGAR();
+	
+private:
+	// Main menu
+	MenuBar MB_menu_;
+	
 };
 
 #endif
