@@ -3,92 +3,89 @@
 #include <Sql/sch_schema.h>
 #include <Sql/sch_source.h>
 
-#include "converts.h"
+#include "dialogs/maker.h"
+#include "dialogs/game.h"
 
-#include "maker.h"
-#include "game.h"
-#include "lookups.h"
+
+SqlId count("count(*)");
 
 AGAR::AGAR()
 {
 	CtrlLayout(*this, "AGAR 1.0 alpha");
 	
-	AddFrame(menu);
-    menu.Set(THISBACK(MainMenu));
+	AddFrame(MB_menu_);
+    MB_menu_.Set(THISBACK(MainMenu));
+    
+    DatabaseInit();
+}
+
+void AGAR::DatabaseInit() {
+
+	// Various database init
+	Sql sql;
+	
+	// PCB_TYPE default values
+	sql.Execute("select count(*) from sqlite_master where type='table' and name='PCB_TYPE';");
+	sql.Fetch();
+	if(!sql[0]) {
+		// table doesn't exist, it's created and populated
+		sql.Execute("create table PCB_TYPE;");
+		
+		S_PCB_TYPE type;
+		type.PCB_TYPE_LABEL = "Original";
+		sql * Insert(type);
+		type.PCB_TYPE_LABEL = "Bootleg";
+		sql * Insert(type);
+		type.PCB_TYPE_LABEL = "Conversion";
+		sql * Insert(type);
+		
+	}
+	
+	
 }
 
 void AGAR::Exit() {
 
     if(PromptOKCancel("Exit AGAR ?"))
-
     Break();
-
 }
 
-void AGAR::SubMenu(Bar& bar) {
+void AGAR::MainMenu(Bar& bar) {
+	bar.Add("Menu", THISBACK(SubMenuMain));
+	bar.Add("PCB", THISBACK(SubMenuPcb));
+}
+
+void AGAR::SubMenuMain(Bar& bar) {
        bar.Add("Makers", THISBACK(MakerList));
        bar.Add("Games", THISBACK(GameList));
        bar.Add("Exit", THISBACK(Exit));
 }
 
-void AGAR::MainMenu(Bar& bar) {
-	bar.Add("Menu", THISBACK(SubMenu));
+void AGAR::SubMenuPcb(Bar& bar) {
+       bar.Add("List", THISBACK(PcbList));
 }
 
 void AGAR::MakerList() {
 
 	MakerDlg dlg;
-	CtrlLayout(dlg, t_("Makers list"));
 	
-
-	/*S_MAKER maker;
-	maker.MAKER_NAME = "SEGA";		
-	SQL * Insert(maker);
-	maker.MAKER_NAME = "CAPCOM";		
-	SQL * Insert(maker);*/
-	
-	
-	EditString name;
-	
-	dlg.tab_maker.SetTable(MAKER);
-	dlg.tab_maker.AddIndex(ID);
-	dlg.tab_maker.AddColumn(MAKER_NAME, "NAME").Edit(name);
-	dlg.tab_maker.Appending().Removing();
-	dlg.tab_maker.SetOrderBy(MAKER_NAME);
-	
-	dlg.tab_maker.Query();
-
 	dlg.Run();
+}
 
+void AGAR::RemoveMaker() {
+	PromptOK("Remove ?");
 }
 
 void AGAR::GameList() {
+	
 	// Displays game table records
 	
 	GameDlg dlg;
-	CtrlLayout(dlg, t_("Games list"));
-	
-	DropList maker;
-	EditString gameName;
-
-	SQL * Select(SqlAll()).From(MAKER);
-	while(SQL.Fetch()) {
-		maker.Add(SQL[0],SQL[1]);
-	}
-	
-	dlg.tab_game.SetTable(GAME);
-	dlg.tab_game.AddIndex(ID);
-	dlg.tab_game.AddColumn(MAKER_ID,"Maker").SetConvert(Single<Lookup(MAKER,ID,MAKER_NAME)>()).Edit(maker);
-	dlg.tab_game.AddColumn(GAME_NAME,"Game name").Edit(gameName);
-	dlg.tab_game.Appending().Removing();
-	dlg.tab_game.SetOrderBy(GAME_NAME);
-	
-	dlg.tab_game.Query();
-	
+		
 	dlg.Run();
-	
-	
-	
+}
+
+void AGAR::PcbList() {
 	
 }
 
