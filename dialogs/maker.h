@@ -3,7 +3,6 @@
 class MakerDlg : public WithMakerLayout<TopWindow> {
 
 	public:
-		
 		MakerDlg();	
 	
 	private:

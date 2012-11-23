@@ -12,7 +12,7 @@ LAYOUT(GameLayout, 324, 200)
 END_LAYOUT
 
 LAYOUT(PcbTypeLayout, 324, 200)
-	ITEM(SqlArray, TAB_game, LeftPosZ(4, 248).VSizePosZ(8, 4))
+	ITEM(SqlArray, TAB_pcbType, LeftPosZ(4, 248).VSizePosZ(8, 4))
 	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(260, 56).TopPosZ(12, 15))
 END_LAYOUT
 

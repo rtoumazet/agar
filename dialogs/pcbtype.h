@@ -5,4 +5,8 @@ class PcbTypeDlg : public WithPcbTypeLayout<TopWindow> {
 
 public:
 	PcbTypeDlg();
+	
+private:
+	EditString ES_label_;
+	
 };
