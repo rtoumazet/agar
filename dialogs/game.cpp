@@ -10,7 +10,7 @@ GameDlg::GameDlg() {
 	
 	
 	Sql sql;
-	sql * Select(SqlAll()).From(MAKER);
+	sql * Select(SqlAll()).From(MAKER).OrderBy(MAKER_NAME);
 	while(sql.Fetch()) {
 		DL_maker_.Add(sql[0],sql[1]);
 	}

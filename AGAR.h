@@ -30,8 +30,8 @@ public:
 	void GameList();
 	void Exit();
 
-	void SubMenuPcb(Bar& bar);
-	void PcbList();
+	void SubMenuOptions(Bar& bar);
+	void PcbType();
 
 	AGAR();
 	

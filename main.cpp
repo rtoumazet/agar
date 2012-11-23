@@ -5,6 +5,7 @@
 
 #include "dialogs/maker.h"
 #include "dialogs/game.h"
+#include "dialogs/pcbtype.h"
 
 
 SqlId count("count(*)");
@@ -32,11 +33,11 @@ void AGAR::DatabaseInit() {
 		sql.Execute("create table PCB_TYPE;");
 		
 		S_PCB_TYPE type;
-		type.PCB_TYPE_LABEL = "Original";
+		type.LABEL = "Original";
 		sql * Insert(type);
-		type.PCB_TYPE_LABEL = "Bootleg";
+		type.LABEL = "Bootleg";
 		sql * Insert(type);
-		type.PCB_TYPE_LABEL = "Conversion";
+		type.LABEL = "Conversion";
 		sql * Insert(type);
 		
 	}
@@ -52,7 +53,7 @@ void AGAR::Exit() {
 
 void AGAR::MainMenu(Bar& bar) {
 	bar.Add("Menu", THISBACK(SubMenuMain));
-	bar.Add("PCB", THISBACK(SubMenuPcb));
+	bar.Add("Options", THISBACK(SubMenuOptions));
 }
 
 void AGAR::SubMenuMain(Bar& bar) {
@@ -61,8 +62,8 @@ void AGAR::SubMenuMain(Bar& bar) {
        bar.Add("Exit", THISBACK(Exit));
 }
 
-void AGAR::SubMenuPcb(Bar& bar) {
-       bar.Add("List", THISBACK(PcbList));
+void AGAR::SubMenuOptions(Bar& bar) {
+       bar.Add("PCB Types", THISBACK(PcbType));
 }
 
 void AGAR::MakerList() {
@@ -85,8 +86,12 @@ void AGAR::GameList() {
 	dlg.Run();
 }
 
-void AGAR::PcbList() {
+void AGAR::PcbType() {
 	
+	// Displays PCB types
+	PcbTypeDlg dlg;
+	
+	dlg.Run();
 }
 
 GUI_APP_MAIN
