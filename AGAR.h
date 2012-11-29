@@ -5,7 +5,6 @@
 #include <plugin/sqlite3/Sqlite3.h>
 #include <SqlCtrl/SqlCtrl.h>
 
-
 using namespace Upp;
 
 #define SCHEMADIALECT <plugin/sqlite3/Sqlite3Schema.h>
