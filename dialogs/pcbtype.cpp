@@ -4,6 +4,7 @@ PcbTypeDlg::PcbTypeDlg()
 {
 	CtrlLayout(*this, "PCB Type");
 	BTN_Close <<= Breaker(999);
+	TAB_pcbType.WhenBar = THISBACK(MyMenu);
 
 	TAB_pcbType.SetTable(PCB_TYPE);
 	TAB_pcbType.AddIndex(ID);
@@ -12,4 +13,9 @@ PcbTypeDlg::PcbTypeDlg()
 	TAB_pcbType.SetOrderBy(LABEL);
 	
 	TAB_pcbType.Query();
+}
+
+void PcbTypeDlg::MyMenu(Bar& bar) {
+	bar.Add("Option 1",THISBACK(Add));
+	bar.Add("Option 2",THISBACK(Add));
 }

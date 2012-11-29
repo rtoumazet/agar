@@ -26,12 +26,8 @@ void AGAR::DatabaseInit() {
 	Sql sql;
 	
 	// PCB_TYPE default values
-	sql.Execute("select count(*) from sqlite_master where type='table' and name='PCB_TYPE';");
-	sql.Fetch();
-	if(!sql[0]) {
-		// table doesn't exist, it's created and populated
-		sql.Execute("create table PCB_TYPE;");
-		
+	sql.Execute("select * from PCB_TYPE;");
+	if(!sql.Fetch()) {
 		S_PCB_TYPE type;
 		type.LABEL = "Original";
 		sql * Insert(type);
@@ -39,7 +35,6 @@ void AGAR::DatabaseInit() {
 		sql * Insert(type);
 		type.LABEL = "Conversion";
 		sql * Insert(type);
-		
 	}
 	
 	
