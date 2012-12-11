@@ -1,4 +1,5 @@
 #include "maker.h"
+#include <plugin/sqlite3/Sqlite3.h>
 
 MakerDlg::MakerDlg() {
 	
@@ -38,9 +39,15 @@ void MakerDlg::MenuEdit() {
 void MakerDlg::MenuRemove() {
 	
 	// behaviour is overwritten to perform checks before removing
-	//Sql slq;
+	Sql sql;
 	
-	//sql.Execute("select * from GAME where MAKER_ID = ");
-	
-	//TAB_maker.DoRemove();
+	sql.Execute("select * from GAME where MAKER_ID = ?",TAB_maker.Get(ID));
+	if(!sql.Fetch()) {
+		// nothing's linked to that record, it can be deleted
+		TAB_maker.DoRemove();
+	} else {
+		PromptOK(t_("Record can't be removed, at least one game is using it."));
+	}
+
+	//PromptOK(TAB_maker.Get(MAKER_NAME).ToString());
 }

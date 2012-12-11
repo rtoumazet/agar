@@ -2,7 +2,7 @@
 
 PcbTypeDlg::PcbTypeDlg()
 {
-	CtrlLayout(*this, "PCB Type");
+	CtrlLayout(*this, t_("PCB Type"));
 	BTN_Close <<= Breaker(999);
 	TAB_pcbType.WhenBar = THISBACK(MyMenu);
 

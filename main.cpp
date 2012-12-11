@@ -42,7 +42,7 @@ void AGAR::DatabaseInit() {
 
 void AGAR::Exit() {
 
-    if(PromptOKCancel("Exit AGAR ?"))
+    if(PromptOKCancel(t_("Exit AGAR ?")))
     Break();
 }
 
@@ -52,13 +52,13 @@ void AGAR::MainMenu(Bar& bar) {
 }
 
 void AGAR::SubMenuMain(Bar& bar) {
-       bar.Add("Makers", THISBACK(MakerList));
-       bar.Add("Games", THISBACK(GameList));
-       bar.Add("Exit", THISBACK(Exit));
+       bar.Add(t_("Makers"), THISBACK(MakerList));
+       bar.Add(t_("Games"), THISBACK(GameList));
+       bar.Add(t_("Exit"), THISBACK(Exit));
 }
 
 void AGAR::SubMenuOptions(Bar& bar) {
-       bar.Add("PCB Types", THISBACK(PcbType));
+       bar.Add(t_("PCB Types"), THISBACK(PcbType));
 }
 
 void AGAR::MakerList() {
@@ -69,7 +69,7 @@ void AGAR::MakerList() {
 }
 
 void AGAR::RemoveMaker() {
-	PromptOK("Remove ?");
+	PromptOK(t_("Remove ?"));
 }
 
 void AGAR::GameList() {
@@ -94,7 +94,7 @@ GUI_APP_MAIN
 	// Connecting to the main database
 	Sqlite3Session sqlite3;
 	if(!sqlite3.Open(ConfigFile("AGAR.db"))) {
-		Cout() << "Can't create or open database file\n";
+		Cout() << t_("Can't create or open database file\n");
 		return;
 	}
 
