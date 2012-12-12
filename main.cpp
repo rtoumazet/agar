@@ -36,8 +36,46 @@ void AGAR::DatabaseInit() {
 		type.LABEL = "Conversion";
 		sql * Insert(type);
 	}
+
+	// PCB_STATE default values	
+	sql.Execute("select * from PCB_STATE;");
+	if(!sql.Fetch()) {
+		S_PCB_STATE state;
+		state.LABEL = "Fully working";
+		sql * Insert(state);
+		state.LABEL = "Working with things to be done";
+		sql * Insert(state);
+		state.LABEL = "Incomplete";
+		sql * Insert(state);
+		state.LABEL = "Work in progress";
+		sql * Insert(state);
+		state.LABEL = "Difficulties";
+		sql * Insert(state);
+		state.LABEL = "Dead";
+		sql * Insert(state);
+		state.LABEL = "For parts";
+		sql * Insert(state);
+		state.LABEL = "Untested";
+		sql * Insert(state);
+	}
 	
-	
+	// PCB_FAULT default values
+	sql.Execute("select * from PCB_FAULT;");
+	if(!sql.Fetch()) {
+		S_PCB_FAULT fault;
+		fault.LABEL = "Other";
+		sql * Insert(fault);
+		fault.LABEL = "Controls";
+		sql * Insert(fault);
+		fault.LABEL = "Graphics";
+		sql * Insert(fault);
+		fault.LABEL = "Logical";
+		sql * Insert(fault);
+		fault.LABEL = "Doesn't boot";
+		sql * Insert(fault);
+		fault.LABEL = "Sound";
+		sql * Insert(fault);
+	}
 }
 
 void AGAR::Exit() {

@@ -46,7 +46,7 @@ void MakerDlg::MenuRemove() {
 		// nothing's linked to that record, it can be deleted
 		TAB_maker.DoRemove();
 	} else {
-		PromptOK(t_("Record can't be removed, at least one game is using it."));
+		PromptOK(t_("Entry can't be deleted, at least one record is using it."));
 	}
 
 	//PromptOK(TAB_maker.Get(MAKER_NAME).ToString());
