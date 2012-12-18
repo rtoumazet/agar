@@ -21,16 +21,21 @@ class AGAR : public WithAGARLayout<TopWindow> {
 public:
 
 	void DatabaseInit();
+
+	// menu handling functions
 	void MainMenu( Bar& bar);
 	void SubMenuMain(Bar& bar);
-	void MakerList();
-	void RemoveMaker();
-	
-	void GameList();
-	void Exit();
-
 	void SubMenuOptions(Bar& bar);
+
+	// menu dispatch functions
+	void MakerList();
+	void GameList();
+	void PcbList();
+	void Exit();
+	void PcbFault();
+	void PcbState();
 	void PcbType();
+	
 
 	AGAR();
 	
