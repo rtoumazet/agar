@@ -6,6 +6,9 @@
 #include "dialogs/maker.h"
 #include "dialogs/game.h"
 #include "dialogs/pcbtype.h"
+#include "dialogs/pcbstate.h"
+#include "dialogs/pcbfault.h"
+#include "dialogs/pcb.h"
 
 
 SqlId count("count(*)");
@@ -92,10 +95,13 @@ void AGAR::MainMenu(Bar& bar) {
 void AGAR::SubMenuMain(Bar& bar) {
        bar.Add(t_("Makers"), THISBACK(MakerList));
        bar.Add(t_("Games"), THISBACK(GameList));
+       bar.Add(t_("Pcbs"), THISBACK(PcbList));
        bar.Add(t_("Exit"), THISBACK(Exit));
 }
 
 void AGAR::SubMenuOptions(Bar& bar) {
+       bar.Add(t_("PCB Faults"), THISBACK(PcbFault));
+       bar.Add(t_("PCB States"), THISBACK(PcbState));
        bar.Add(t_("PCB Types"), THISBACK(PcbType));
 }
 
@@ -104,10 +110,6 @@ void AGAR::MakerList() {
 	MakerDlg dlg;
 	
 	dlg.Run();
-}
-
-void AGAR::RemoveMaker() {
-	PromptOK(t_("Remove ?"));
 }
 
 void AGAR::GameList() {
@@ -119,8 +121,33 @@ void AGAR::GameList() {
 	dlg.Run();
 }
 
-void AGAR::PcbType() {
+void AGAR::PcbList() {
 	
+	// Displays pcbs records
+	
+	PcbDlg dlg;
+		
+	dlg.Run();
+}
+
+void AGAR::PcbFault() {
+	
+	// Displays PCB faults
+	PcbFaultDlg dlg;
+	
+	dlg.Run();
+}
+
+void AGAR::PcbState() {
+	
+	// Displays PCB states
+	PcbStateDlg dlg;
+	
+	dlg.Run();
+}
+
+void AGAR::PcbType() {
+
 	// Displays PCB types
 	PcbTypeDlg dlg;
 	
