@@ -1,6 +1,6 @@
 #include "..\AGAR.h"
 
-class PcbFaultDlg : public WithPcbFaultLayout<TopWindow> {
+class PcbFaultDlg : public WithPcbFaultsLayout<TopWindow> {
 	typedef PcbFaultDlg CLASSNAME;
 
 public:
@@ -10,7 +10,5 @@ private:
 	EditString ES_label_;
 	
 	void MyMenu(Bar& bar);
-	void Add(){};
 
-	
 };

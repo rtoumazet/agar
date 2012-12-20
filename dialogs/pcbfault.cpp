@@ -16,6 +16,6 @@ PcbFaultDlg::PcbFaultDlg()
 }
 
 void PcbFaultDlg::MyMenu(Bar& bar) {
-	bar.Add("Option 1",THISBACK(Add));
-	bar.Add("Option 2",THISBACK(Add));
+	//bar.Add("Option 1",THISBACK(Add));
+	//bar.Add("Option 2",THISBACK(Add));
 }

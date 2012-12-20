@@ -1,6 +1,6 @@
 #include "../AGAR.h"
 
-class GameDlg : public WithGameLayout<TopWindow> {
+class GameDlg : public WithGamesLayout<TopWindow> {
 
 	typedef GameDlg CLASSNAME;
 	

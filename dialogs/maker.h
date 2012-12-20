@@ -1,6 +1,6 @@
 #include "..\AGAR.h"
 
-class MakerDlg : public WithMakerLayout<TopWindow> {
+class MakerDlg : public WithMakersLayout<TopWindow> {
 
 	typedef MakerDlg CLASSNAME;
 
