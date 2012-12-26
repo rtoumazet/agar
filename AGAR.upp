@@ -16,6 +16,8 @@ file
 	Dialogs readonly separator,
 	dialogs\pcb.h,
 	dialogs\pcb.cpp,
+	dialogs\pcbs.h,
+	dialogs\pcbs.cpp,
 	dialogs\pcbfault.h,
 	dialogs\pcbfault.cpp,
 	dialogs\pcbstate.h,

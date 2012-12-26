@@ -8,7 +8,7 @@
 #include "dialogs/pcbtype.h"
 #include "dialogs/pcbstate.h"
 #include "dialogs/pcbfault.h"
-#include "dialogs/pcb.h"
+#include "dialogs/pcbs.h"
 
 
 SqlId count("count(*)");
@@ -125,7 +125,7 @@ void AGAR::PcbList() {
 	
 	// Displays pcbs records
 	
-	PcbDlg dlg;
+	PcbsDlg dlg;
 		
 	dlg.Run();
 }
