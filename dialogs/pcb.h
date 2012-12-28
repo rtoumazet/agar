@@ -1,17 +1,12 @@
 #include "../AGAR.h"
 
-class PcbsDlg : public WithPcbsLayout<TopWindow> {
+class PcbDlg : public WithPcbLayout<TopWindow> {
 
-	typedef PcbsDlg CLASSNAME;
+	typedef PcbDlg CLASSNAME;
 	
-	private:
-		void Create();
-		void Edit();
-		void Remove();
-		
-		void MyMenu(Bar& bar);
-
 	public:
-		PcbsDlg();	
+		SqlCtrls ctrls;
+		
+		PcbDlg();	
 	
 };
