@@ -9,7 +9,7 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		void Edit();
 		void Remove();
 		
-		void MyMenu(Bar& bar);
+		void OwnMenu(Bar& bar);
 
 	public:
 		PcbsDlg();	

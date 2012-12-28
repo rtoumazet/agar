@@ -15,6 +15,9 @@ SqlId count("count(*)");
 
 AGAR::AGAR()
 {
+	SetDateFormat("%3:02d/%2:02d/%1:4d"); // set dd/mm/yyyy format
+	SetDateScan("dmy"); // same but for input
+	
 	CtrlLayout(*this, "AGAR 1.0 alpha");
 	
 	AddFrame(MB_menu_);

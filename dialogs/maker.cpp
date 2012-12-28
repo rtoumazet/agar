@@ -19,9 +19,9 @@ MakerDlg::MakerDlg() {
 
 void MakerDlg::OwnMenu(Bar& bar) {
 	
-	bar.Add("Insert record",THISBACK(MenuAdd));
-	bar.Add("Edit record",THISBACK(MenuEdit));
-	bar.Add("Remove record",THISBACK(MenuRemove));
+	bar.Add(t_("Insert record"),THISBACK(MenuAdd));
+	bar.Add(t_("Edit record"),THISBACK(MenuEdit));
+	bar.Add(t_("Remove record"),THISBACK(MenuRemove));
 	
 }
 
