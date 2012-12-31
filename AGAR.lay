@@ -26,9 +26,9 @@ LAYOUT(PcbFaultsLayout, 244, 200)
 	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(184, 56).VSizePosZ(8, 177))
 END_LAYOUT
 
-LAYOUT(PcbsLayout, 392, 200)
-	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(328, 56).VSizePosZ(8, 177))
-	ITEM(SqlArray, TAB_pcbs, LeftPosZ(4, 316).VSizePosZ(8, 4))
+LAYOUT(PcbsLayout, 648, 368)
+	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(588, 56).VSizePosZ(8, 345))
+	ITEM(SqlArray, TAB_pcbs, LeftPosZ(4, 572).VSizePosZ(8, 4))
 END_LAYOUT
 
 LAYOUT(PcbLayout, 480, 204)
