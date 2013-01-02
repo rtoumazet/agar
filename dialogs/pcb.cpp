@@ -16,20 +16,28 @@ PcbDlg::PcbDlg() {
 		DL_Game.Add(temp);
 
 	}
-	
-	// Type droplist
+	// type droplist
 	sql.Execute("select LABEL from PCB_TYPE");
 	while(sql.Fetch()) {
 		String temp = sql[0].ToString();
 		DL_Type.Add(temp);
 
-	}
+	}	
+	
+	// state droplist
+	sql.Execute("select LABEL from PCB_STATE");
+	while(sql.Fetch()) {
+		String temp = sql[0].ToString();
+		DL_State.Add(temp);
+
+	}	
+
 	
 	//ctrls(*this, PCB); //	matches widgets to columns based on Layout and schema introspection
 	
 	ctrls // manual declaration
 		(PCB_STATE_ID, DL_State)
-/*		(DL_Origin, DL_Origin)
+		/*(DL_Origin, DL_Origin)
 		(DL_Location, DL_Location)*/
 		(PCB_TYPE_ID, DL_Type)
 		(GAME_ID, DL_Game)

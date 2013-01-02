@@ -96,16 +96,20 @@ void AGAR::MainMenu(Bar& bar) {
 }
 
 void AGAR::SubMenuMain(Bar& bar) {
-       bar.Add(t_("Makers"), THISBACK(MakerList));
-       bar.Add(t_("Games"), THISBACK(GameList));
-       bar.Add(t_("Pcbs"), THISBACK(PcbList));
-       bar.Add(t_("Exit"), THISBACK(Exit));
+    bar.Add(t_("Makers"), THISBACK(MakerList));
+    bar.Add(t_("Games"), THISBACK(GameList));
+    bar.Add(t_("Pcbs"), THISBACK(PcbList));
+    bar.Add(t_("Exit"), THISBACK(Exit));
 }
 
 void AGAR::SubMenuOptions(Bar& bar) {
-       bar.Add(t_("PCB Faults"), THISBACK(PcbFault));
-       bar.Add(t_("PCB States"), THISBACK(PcbState));
-       bar.Add(t_("PCB Types"), THISBACK(PcbType));
+	bar.Add(t_("PCB"), THISBACK(SubMenuOptionsPcb));
+}
+
+void AGAR::SubMenuOptionsPcb(Bar& bar) {
+    bar.Add(t_("Faults"), THISBACK(PcbFault));
+    bar.Add(t_("States"), THISBACK(PcbState));
+    bar.Add(t_("Types"), THISBACK(PcbType));
 }
 
 void AGAR::MakerList() {

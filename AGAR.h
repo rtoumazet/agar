@@ -26,6 +26,7 @@ public:
 	void MainMenu( Bar& bar);
 	void SubMenuMain(Bar& bar);
 	void SubMenuOptions(Bar& bar);
+	void SubMenuOptionsPcb(Bar& bar);
 
 	// menu dispatch functions
 	void MakerList();
