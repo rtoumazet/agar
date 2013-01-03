@@ -51,3 +51,19 @@ LAYOUT(PcbLayout, 480, 204)
 	ITEM(Button, cancel, SetLabel(t_("Cancel")).LeftPosZ(76, 56).TopPosZ(180, 15))
 END_LAYOUT
 
+LAYOUT(OriginLayout, 400, 200)
+	ITEM(Button, ok, SetLabel(t_("OK")).LeftPosZ(276, 56).TopPosZ(180, 15))
+	ITEM(Button, cancel, SetLabel(t_("Cancel")).LeftPosZ(340, 56).TopPosZ(180, 15))
+	ITEM(LineEdit, LE_Origin, LeftPosZ(80, 316).TopPosZ(36, 19))
+	ITEM(DocEdit, DE_Comment, LeftPosZ(80, 316).TopPosZ(64, 108))
+	ITEM(LineEdit, LE_Name, LeftPosZ(80, 316).TopPosZ(8, 19))
+	ITEM(Label, L_Comment, SetLabel(t_("Comment")).LeftPosZ(8, 392).VSizePosZ(60, 24))
+	ITEM(Label, L_Origin, SetLabel(t_("Origin")).LeftPosZ(8, 392).VSizePosZ(32, 140))
+	ITEM(Label, L_Name, SetLabel(t_("Name")).LeftPosZ(8, 392).VSizePosZ(4, 168))
+END_LAYOUT
+
+LAYOUT(OriginsLayout, 512, 300)
+	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(452, 56).VSizePosZ(8, 277))
+	ITEM(SqlArray, TAB_origins, LeftPosZ(4, 436).VSizePosZ(8, 4))
+END_LAYOUT
+
