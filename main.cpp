@@ -5,6 +5,7 @@
 
 #include "dialogs/maker.h"
 #include "dialogs/game.h"
+#include "dialogs/origins.h"
 #include "dialogs/pcbtype.h"
 #include "dialogs/pcbstate.h"
 #include "dialogs/pcbfault.h"
@@ -91,25 +92,31 @@ void AGAR::Exit() {
 }
 
 void AGAR::MainMenu(Bar& bar) {
-	bar.Add("Menu", THISBACK(SubMenuMain));
-	bar.Add("Options", THISBACK(SubMenuOptions));
+	bar.Add(t_("File"), THISBACK(SubMenuFile));
+	bar.Add(t_("PCB"), THISBACK(SubMenuPcb));
+	bar.Add(t_("Options"), THISBACK(SubMenuOptions));
 }
 
-void AGAR::SubMenuMain(Bar& bar) {
+void AGAR::SubMenuFile(Bar& bar) {
     bar.Add(t_("Makers"), THISBACK(MakerList));
     bar.Add(t_("Games"), THISBACK(GameList));
-    bar.Add(t_("Pcbs"), THISBACK(PcbList));
+    bar.Add(t_("Origins"), THISBACK(OriginList));
+    bar.Separator();
     bar.Add(t_("Exit"), THISBACK(Exit));
 }
 
-void AGAR::SubMenuOptions(Bar& bar) {
-	bar.Add(t_("PCB"), THISBACK(SubMenuOptionsPcb));
+void AGAR::SubMenuPcb(Bar& bar) {
+    bar.Add(t_("PCB list"), THISBACK(PcbList));
 }
 
-void AGAR::SubMenuOptionsPcb(Bar& bar) {
-    bar.Add(t_("Faults"), THISBACK(PcbFault));
-    bar.Add(t_("States"), THISBACK(PcbState));
-    bar.Add(t_("Types"), THISBACK(PcbType));
+void AGAR::SubMenuOptions(Bar& bar) {
+	bar.Add(t_("Default values"), THISBACK(SubMenuOptionsDefaultvalues));
+}
+
+void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
+    bar.Add(t_("PCB Faults"), THISBACK(PcbFault));
+    bar.Add(t_("PCB States"), THISBACK(PcbState));
+    bar.Add(t_("PCB Types"), THISBACK(PcbType));
 }
 
 void AGAR::MakerList() {
@@ -124,6 +131,15 @@ void AGAR::GameList() {
 	// Displays game table records
 	
 	GameDlg dlg;
+		
+	dlg.Run();
+}
+
+void AGAR::OriginList() {
+	
+	// Displays origin table records
+	
+	OriginsDlg dlg;
 		
 	dlg.Run();
 }

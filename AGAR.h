@@ -24,15 +24,18 @@ public:
 
 	// menu handling functions
 	void MainMenu( Bar& bar);
-	void SubMenuMain(Bar& bar);
+
+	void SubMenuFile(Bar& bar);
+	void SubMenuPcb(Bar& bar);
 	void SubMenuOptions(Bar& bar);
-	void SubMenuOptionsPcb(Bar& bar);
+	void SubMenuOptionsDefaultvalues(Bar& bar);
 
 	// menu dispatch functions
 	void MakerList();
 	void GameList();
-	void PcbList();
+	void OriginList();
 	void Exit();
+	void PcbList();
 	void PcbFault();
 	void PcbState();
 	void PcbType();
