@@ -11,18 +11,4 @@ OriginDlg::OriginDlg() {
 		(ORIGIN, LE_Origin)
 		(COMMENTARY, DE_Comment)
 	;	
-	
-	//IterateFocusForward()
-	
-}
-
-bool OriginDlg::Key(dword key, int count) {
-	
-/*if(key == K_TAB) {
-	Ctrl *ctrl = GetFocusChildDeep();
-	if(ctrl && IterateFocusForward(ctrl, this))
-		return true;
-}
-	//if(GetFirstChild()->SetWantFocus()) 
-return false;*/
 }

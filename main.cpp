@@ -202,3 +202,10 @@ GUI_APP_MAIN
 	// Entering the main window modal loop
 	AGAR().Run();
 }
+
+bool AGAR::Key(dword key, int count) {
+	if (key == K_TAB) {
+		return false;	
+	}
+	return TopWindow::Key(key,count);
+}

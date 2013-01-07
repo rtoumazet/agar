@@ -17,6 +17,7 @@ PcbsDlg::PcbsDlg() {
 	TAB_pcbs.AddColumn(PCB_STATE_ID, t_("State"));
 	TAB_pcbs.AddColumn(TAG,t_("Tag"));
 	TAB_pcbs.AddColumn(LOCATION_ID,t_("Location"));
+	TAB_pcbs.WhenLeftDouble = THISBACK(Edit);
 
 	//TAB_pcbs.SetOrderBy(LABEL);
 	
