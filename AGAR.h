@@ -40,6 +40,7 @@ public:
 	void PcbState();
 	void PcbType();
 	
+	bool Key(dword key,int);
 
 	AGAR();
 	

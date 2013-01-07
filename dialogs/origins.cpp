@@ -28,6 +28,12 @@ void OriginsDlg::OwnMenu(Bar& bar) {
 void OriginsDlg::Create() {
 	OriginDlg dlg;
 	dlg.Title(t_("New origin"));
+
+	// remove tab character insertion to allow tab navigation in the control
+	dlg.LE_Name.NoProcessTab();
+	dlg.LE_Origin.NoProcessTab();
+	dlg.DE_Comment.NoProcessTab();
+	
 	if(dlg.Execute() != IDOK)
 		return;
 	SQL * dlg.ctrls.Insert(ORIGIN);
@@ -42,6 +48,12 @@ void OriginsDlg::Edit() {
 		return;
 	OriginDlg dlg;
 	dlg.Title(t_("Edit origin"));
+
+	// remove tab character insertion to allow tab navigation in the control
+	dlg.LE_Name.NoProcessTab();
+	dlg.LE_Origin.NoProcessTab();
+	dlg.DE_Comment.NoProcessTab();
+
 	if(!dlg.ctrls.Load(ORIGIN, ID == id))
 		return;
 	if(dlg.Execute() != IDOK)
