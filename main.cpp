@@ -5,6 +5,7 @@
 
 #include "dialogs/maker.h"
 #include "dialogs/game.h"
+#include "dialogs/locations.h"
 #include "dialogs/origins.h"
 #include "dialogs/pcbtype.h"
 #include "dialogs/pcbstate.h"
@@ -100,6 +101,7 @@ void AGAR::MainMenu(Bar& bar) {
 void AGAR::SubMenuFile(Bar& bar) {
     bar.Add(t_("Makers"), THISBACK(MakerList));
     bar.Add(t_("Games"), THISBACK(GameList));
+    bar.Add(t_("Locations"), THISBACK(LocationList));
     bar.Add(t_("Origins"), THISBACK(OriginList));
     bar.Separator();
     bar.Add(t_("Exit"), THISBACK(Exit));
@@ -140,6 +142,15 @@ void AGAR::OriginList() {
 	// Displays origin table records
 	
 	OriginsDlg dlg;
+		
+	dlg.Run();
+}
+
+void AGAR::LocationList() {
+	
+	// Displays location table records
+	
+	LocationsDlg dlg;
 		
 	dlg.Run();
 }

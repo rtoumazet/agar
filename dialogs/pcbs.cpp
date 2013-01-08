@@ -33,6 +33,7 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 void PcbsDlg::Create() {
 	PcbDlg dlg;
 	dlg.Title(t_("New PCB"));
+	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
 	if(dlg.Execute() != IDOK)
 		return;
 	SQL * dlg.ctrls.Insert(PCB);
@@ -47,6 +48,7 @@ void PcbsDlg::Edit() {
 		return;
 	PcbDlg dlg;
 	dlg.Title(t_("Edit PCB"));
+	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;
 	if(dlg.Execute() != IDOK)

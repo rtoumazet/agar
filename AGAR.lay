@@ -67,3 +67,15 @@ LAYOUT(OriginsLayout, 512, 300)
 	ITEM(SqlArray, TAB_origins, LeftPosZ(4, 436).VSizePosZ(8, 4))
 END_LAYOUT
 
+LAYOUT(LocationsLayout, 516, 200)
+	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(452, 56).VSizePosZ(8, 177))
+	ITEM(SqlArray, TAB_locations, LeftPosZ(4, 436).VSizePosZ(8, 4))
+END_LAYOUT
+
+LAYOUT(LocationLayout, 400, 56)
+	ITEM(LineEdit, LE_Label, LeftPosZ(80, 316).TopPosZ(8, 19))
+	ITEM(Button, ok, SetLabel(t_("OK")).LeftPosZ(276, 56).TopPosZ(36, 15))
+	ITEM(Button, cancel, SetLabel(t_("Cancel")).LeftPosZ(340, 56).TopPosZ(36, 15))
+	ITEM(Label, L_Label, SetLabel(t_("Location")).LeftPosZ(8, 392).VSizePosZ(4, 24))
+END_LAYOUT
+

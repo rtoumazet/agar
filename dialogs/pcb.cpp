@@ -14,14 +14,13 @@ PcbDlg::PcbDlg() {
 	while(sql.Fetch()) {
 		String temp = sql[0].ToString() + ' - ' + sql[1].ToString();
 		DL_Game.Add(temp);
-
 	}
+	
 	// type droplist
 	sql.Execute("select LABEL from PCB_TYPE");
 	while(sql.Fetch()) {
 		String temp = sql[0].ToString();
 		DL_Type.Add(temp);
-
 	}	
 	
 	// state droplist
@@ -29,16 +28,28 @@ PcbDlg::PcbDlg() {
 	while(sql.Fetch()) {
 		String temp = sql[0].ToString();
 		DL_State.Add(temp);
-
 	}	
 
+	// location droplist
+	sql.Execute("select LABEL from LOCATION");
+	while(sql.Fetch()) {
+		String temp = sql[0].ToString();
+		DL_Location.Add(temp);
+	}	
+
+	// origin droplist
+	sql.Execute("select ORIGIN from ORIGIN");
+	while(sql.Fetch()) {
+		String temp = sql[0].ToString();
+		DL_Origin.Add(temp);
+	}	
 	
 	//ctrls(*this, PCB); //	matches widgets to columns based on Layout and schema introspection
 	
 	ctrls // manual declaration
 		(PCB_STATE_ID, DL_State)
-		/*(DL_Origin, DL_Origin)
-		(DL_Location, DL_Location)*/
+		(ORIGIN_ID, DL_Origin)
+		(LOCATION_ID, DL_Location)
 		(PCB_TYPE_ID, DL_Type)
 		(GAME_ID, DL_Game)
 		(LAST_TEST_DATE, D_LastTestDate)
