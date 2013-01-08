@@ -12,9 +12,7 @@ LocationsDlg::LocationsDlg() {
 	TAB_locations.AddColumn(LABEL, t_("Label"));
 	TAB_locations.WhenLeftDouble = THISBACK(Edit);
 
-	//TAB_pcbs.SetOrderBy(LABEL);
-	
-	TAB_origins.Query();
+	TAB_locations.Query();
 }
                  
 void LocationsDlg::OwnMenu(Bar& bar) {

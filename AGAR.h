@@ -33,6 +33,7 @@ public:
 	// menu dispatch functions
 	void MakerList();
 	void GameList();
+	void LocationList();
 	void OriginList();
 	void Exit();
 	void PcbList();

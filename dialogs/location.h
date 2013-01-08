@@ -8,8 +8,5 @@ class LocationDlg : public WithLocationLayout<TopWindow> {
 		SqlCtrls ctrls;
 		
 		LocationDlg();	
-		
-		bool Key(dword key,int);
-		
-	
+
 };
