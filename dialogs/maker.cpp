@@ -10,7 +10,7 @@ MakerDlg::MakerDlg() {
 	TAB_maker.SetTable(MAKER);
 	TAB_maker.AddIndex(ID);
 	TAB_maker.AddColumn(MAKER_NAME, "NAME").Edit(ES_name_);
-	//TAB_maker.Appending().Removing();
+	TAB_maker.Appending().Removing();
 	TAB_maker.SetOrderBy(MAKER_NAME);
 	
 	TAB_maker.Query();
@@ -19,9 +19,10 @@ MakerDlg::MakerDlg() {
 
 void MakerDlg::OwnMenu(Bar& bar) {
 	
-	bar.Add(t_("Insert record"),THISBACK(MenuAdd));
-	bar.Add(t_("Edit record"),THISBACK(MenuEdit));
-	bar.Add(t_("Remove record"),THISBACK(MenuRemove));
+	//bar.Add(t_("Insert"),THISBACK(MenuAdd));
+	bar.Add(t_("Insert"),THISBACK(DoInsertBefore)).Key(K_ENTER);
+	bar.Add(t_("Edit"),THISBACK(MenuEdit));
+	bar.Add(t_("Remove"),THISBACK(MenuRemove));
 	
 }
 
