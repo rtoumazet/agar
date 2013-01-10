@@ -26,6 +26,7 @@ AGAR::AGAR()
     MB_menu_.Set(THISBACK(MainMenu));
     
     DatabaseInit();
+    
 }
 
 void AGAR::DatabaseInit() {

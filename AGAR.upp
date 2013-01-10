@@ -6,6 +6,8 @@ uses
 	SqlCtrl;
 
 file
+	AGAR.rc,
+	icon.iml,
 	Utilities readonly separator,
 	utilities\converts.cpp,
 	utilities\lookups.h,
