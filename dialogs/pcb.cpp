@@ -26,8 +26,7 @@ PcbDlg::PcbDlg() {
 	// state droplist
 	sql.Execute("select LABEL from PCB_STATE");
 	while(sql.Fetch()) {
-		String temp = sql[0].ToString();
-		DL_State.Add(temp);
+		DL_State.Add(sql[0],AttrText(sql[0].ToString()).Paper(Red()));
 	}	
 
 	// location droplist
