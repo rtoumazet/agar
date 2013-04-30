@@ -51,20 +51,36 @@ void AGAR::DatabaseInit() {
 	if(!sql.Fetch()) {
 		S_PCB_STATE state;
 		state.LABEL = "Fully working";
+		state.PAPER = Green().GetRaw();
+		state.INK	= White().GetRaw();
 		sql * Insert(state);
 		state.LABEL = "Working with things to be done";
+		state.PAPER = LtGreen().GetRaw();
+		state.INK	= Black().GetRaw();
 		sql * Insert(state);
 		state.LABEL = "Incomplete";
+		state.PAPER = Magenta().GetRaw();
+		state.INK	= White().GetRaw();
 		sql * Insert(state);
 		state.LABEL = "Work in progress";
+		state.PAPER = Yellow().GetRaw();
+		state.INK	= Black().GetRaw();
 		sql * Insert(state);
 		state.LABEL = "Difficulties";
+		state.PAPER = Red().GetRaw();
+		state.INK	= White().GetRaw();
 		sql * Insert(state);
 		state.LABEL = "Dead";
+		state.PAPER = Black().GetRaw();
+		state.INK	= White().GetRaw();
 		sql * Insert(state);
 		state.LABEL = "For parts";
+		state.PAPER = LtMagenta().GetRaw();
+		state.INK	= Black().GetRaw();
 		sql * Insert(state);
 		state.LABEL = "Untested";
+		state.PAPER = LtGray().GetRaw();
+		state.INK	= Black().GetRaw();
 		sql * Insert(state);
 	}
 	
