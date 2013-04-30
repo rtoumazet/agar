@@ -24,9 +24,11 @@ PcbDlg::PcbDlg() {
 	}	
 	
 	// state droplist
-	sql.Execute("select LABEL from PCB_STATE");
+	sql.Execute("select LABEL,PAPER,INK from PCB_STATE");
 	while(sql.Fetch()) {
-		DL_State.Add(sql[0],AttrText(sql[0].ToString()).Paper(Red()));
+		DL_State.Add(sql[0],AttrText(sql[0].ToString())
+			.Paper(Color::FromRaw(static_cast<dword>(sql[1].To<int64>())))
+			.Ink(Color::FromRaw(static_cast<dword>(sql[2].To<int64>()))));
 	}	
 
 	// location droplist
