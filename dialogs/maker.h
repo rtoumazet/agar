@@ -14,5 +14,7 @@ class MakerDlg : public WithMakersLayout<TopWindow> {
 		void MenuAdd();
 		void MenuEdit();
 		void MenuRemove();
+		
+		void InsertCheck();
 	
 };

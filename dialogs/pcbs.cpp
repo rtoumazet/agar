@@ -10,50 +10,15 @@ PcbsDlg::PcbsDlg() {
 	BTN_Close <<= Breaker(999);
 	TAB_pcbs.WhenBar = THISBACK(OwnMenu); // own menu
 	
-	TAB_pcbs.SetTable(PCB);
 	TAB_pcbs.AddIndex(ID);
-	TAB_pcbs.AddColumn(GAME_ID,t_("Game"));
-	TAB_pcbs.AddColumn(PCB_TYPE_ID,t_("Type"));
-	TAB_pcbs.AddColumn(PCB_STATE_ID, t_("State"));
+	TAB_pcbs.AddColumn(GAME,t_("Game"));
+	TAB_pcbs.AddColumn(PCB_TYPE,t_("Type"));
 	TAB_pcbs.AddColumn(TAG,t_("Tag"));
-	TAB_pcbs.AddColumn(LOCATION_ID,t_("Location"));
+	TAB_pcbs.AddColumn(LOCATION,t_("Location"));
 	TAB_pcbs.WhenLeftDouble = THISBACK(Edit);
+	
+	ReloadTable();
 
-	TAB_pcbs.Query();
-	
-	//TAB_pcbs.HeaderObject().HideTab(2); // state is hidden
-	// formatting text
-	String str;
-	for (int i=0; i<TAB_pcbs.GetCount(); i++) {
-		str = TAB_pcbs.Get(i,1).ToString();
-		
-		
-	}
-	
-/*	Sql sql;
-	sql.Execute("select ID,GAME_ID,PCB_TYPE_ID,PCB_STATE_ID,TAG,LOCATION_ID from PCB);
-	while (sql.Fetch() {
-		
-		
-		
-		TAB_pcbs.Add(
-			sql[0], // record id.
-			
-	}
-	
-	sql.Execute("select ID,LABEL,INK,PAPER from PCB_STATE");
-	while(sql.Fetch()) {
-		ink = Color::FromRaw(static_cast<dword>(sql[2].To<int64>()));
-		paper = Color::FromRaw(static_cast<dword>(sql[3].To<int64>()));
-		
-		TAB_pcbStateArray.Add(
-			sql[0], // record id
-			AttrText(sql[1].ToString()).Ink(ink).Paper(paper), // formatted text
-			sql[1].ToString(), // raw text
-			paper, // background color
-			ink // text color
-		);
-	}*/
 }
 
 void PcbsDlg::OwnMenu(Bar& bar) {
@@ -70,7 +35,8 @@ void PcbsDlg::Create() {
 		return;
 	SQL * dlg.ctrls.Insert(PCB);
 	int id = SQL.GetInsertedId();
-	TAB_pcbs.ReQuery();
+//	TAB_pcbs.ReQuery();
+	ReloadTable();
 	TAB_pcbs.FindSetCursor(id);
 }
 
@@ -86,7 +52,8 @@ void PcbsDlg::Edit() {
 	if(dlg.Execute() != IDOK)
 		return;
 	SQL * dlg.ctrls.Update(PCB).Where(ID == id);
-	TAB_pcbs.ReQuery();
+//	TAB_pcbs.ReQuery();
+	ReloadTable();
 }
 
 void PcbsDlg::Remove() {
@@ -95,6 +62,36 @@ void PcbsDlg::Remove() {
 	if(IsNull(id) || PromptYesNo(t_("Delete PCB ?")))
 	   return;
 	 SQL * SqlDelete(PCB).Where(ID == id);
-	 TAB_pcbs.ReQuery();
+//	 TAB_pcbs.ReQuery();
+	ReloadTable();
 }
-                 
+
+void PcbsDlg::ReloadTable() {
+	// reloads table content from the database
+	TAB_pcbs.Clear();
+	
+	Sql sql;
+	String statement = "select PCB.ID, MAKER.MAKER_NAME, GAME.GAME_NAME, PCB_STATE.INK, PCB_STATE.PAPER, PCB_TYPE.LABEL, TAG, LOCATION.LABEL ";
+	statement += "from PCB,	GAME, MAKER, PCB_TYPE, PCB_STATE, LOCATION ";
+	statement += "where pcb.game_id = game.id ";
+	statement += "and game.maker_id = maker.id ";
+	statement += "and pcb.pcb_type_id = pcb_type.id ";
+	statement += "and pcb.pcb_state_id = pcb_state.id ";
+	statement += "and pcb.location_id = location.id ";
+	sql.Execute(statement);
+	while (sql.Fetch()) {
+		String game = sql[1].ToString()+" "+sql[2].ToString();
+		Color ink = Color::FromRaw(static_cast<dword>(sql[3].To<int64>()));
+		Color paper = Color::FromRaw(static_cast<dword>(sql[4].To<int64>()));
+		
+		AttrText atGame = AttrText(game).Ink(ink).Paper(paper);
+		TAB_pcbs.Add(
+			sql[0], // pcb id.
+			atGame, // maker + game formatted
+			sql[5], // type
+			sql[6], // tag
+			sql[7]  // location
+		);
+	}	
+		
+}

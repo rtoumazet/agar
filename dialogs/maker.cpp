@@ -13,14 +13,14 @@ MakerDlg::MakerDlg() {
 	TAB_maker.Appending().Removing();
 	TAB_maker.SetOrderBy(MAKER_NAME);
 	//TAB_maker.AutoInsertId(true);
-	
+	TAB_maker.WhenUpdateRow = THISBACK(InsertCheck);
 	TAB_maker.Query();
 
 }
 
 void MakerDlg::OwnMenu(Bar& bar) {
 	
-	bar.Add(t_("Insert"),THISBACK(MenuAdd));
+	bar.Add(t_("Add"),THISBACK(MenuAdd));
 	bar.Add(t_("Edit"),THISBACK(MenuEdit));
 	bar.Add(t_("Remove"),THISBACK(MenuRemove));
 	
@@ -30,6 +30,7 @@ void MakerDlg::MenuAdd() {
 	
 	// regular behaviour
 	TAB_maker.StartInsert();
+
 }
 
 void MakerDlg::MenuEdit() {
@@ -51,4 +52,11 @@ void MakerDlg::MenuRemove() {
 	}
 
 	//PromptOK(TAB_maker.Get(MAKER_NAME).ToString());
+}
+
+void MakerDlg::InsertCheck() {
+	//if (TAB_maker.Accept()) {
+		PromptOK(TAB_maker.Get(TAB_maker.GetCursor(),1).ToString());
+		TAB_maker.Reject();
+	//}
 }

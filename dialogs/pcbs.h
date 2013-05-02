@@ -8,6 +8,8 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		void Create();
 		void Edit();
 		void Remove();
+
+		void ReloadTable();
 		
 		void OwnMenu(Bar& bar);
 
