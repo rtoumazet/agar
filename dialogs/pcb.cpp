@@ -10,39 +10,51 @@ PcbDlg::PcbDlg() {
 	// Filling droplists data
 	Sql sql;
 	// Game droplist
-	sql.Execute("select MAKER_NAME, GAME_NAME from MAKER,GAME where GAME.MAKER_ID = MAKER.ID");
+	sql.Execute("select GAME.ID, MAKER_NAME, GAME_NAME from MAKER,GAME where GAME.MAKER_ID = MAKER.ID");
 	while(sql.Fetch()) {
-		String temp = sql[0].ToString() + ' - ' + sql[1].ToString();
-		DL_Game.Add(temp);
+		String temp = sql[1].ToString() + ' - ' + sql[2].ToString();
+		DL_Game.Add(
+			sql[0],
+			temp
+		);
 	}
 	
 	// type droplist
-	sql.Execute("select LABEL from PCB_TYPE");
+	sql.Execute("select ID,LABEL from PCB_TYPE");
 	while(sql.Fetch()) {
-		String temp = sql[0].ToString();
-		DL_Type.Add(temp);
+		DL_Type.Add(
+			sql[0],
+			sql[1].ToString()
+		);
 	}	
 	
 	// state droplist
-	sql.Execute("select LABEL,PAPER,INK from PCB_STATE");
+	sql.Execute("select ID,LABEL,PAPER,INK from PCB_STATE");
 	while(sql.Fetch()) {
-		DL_State.Add(sql[0],AttrText(sql[0].ToString())
-			.Paper(Color::FromRaw(static_cast<dword>(sql[1].To<int64>())))
-			.Ink(Color::FromRaw(static_cast<dword>(sql[2].To<int64>()))));
+		DL_State.Add(
+		    sql[0],
+			AttrText(sql[1].ToString())
+				.Paper(Color::FromRaw(static_cast<dword>(sql[2].To<int64>())))
+				.Ink(Color::FromRaw(static_cast<dword>(sql[3].To<int64>())))
+		);
 	}	
 
 	// location droplist
-	sql.Execute("select LABEL from LOCATION");
+	sql.Execute("select ID,LABEL from LOCATION");
 	while(sql.Fetch()) {
-		String temp = sql[0].ToString();
-		DL_Location.Add(temp);
+		DL_Location.Add(
+			sql[0],
+			sql[1].ToString()
+		);
 	}	
 
 	// origin droplist
-	sql.Execute("select ORIGIN from ORIGIN");
+	sql.Execute("select ID,ORIGIN from ORIGIN");
 	while(sql.Fetch()) {
-		String temp = sql[0].ToString();
-		DL_Origin.Add(temp);
+		DL_Origin.Add(
+			sql[0],
+			sql[1].ToString()
+		);
 	}	
 	
 	//ctrls(*this, PCB); //	matches widgets to columns based on Layout and schema introspection

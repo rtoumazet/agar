@@ -28,7 +28,7 @@ END_LAYOUT
 
 LAYOUT(PcbsLayout, 648, 368)
 	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(588, 56).VSizePosZ(8, 345))
-	ITEM(SqlArray, TAB_pcbs, LeftPosZ(4, 572).VSizePosZ(8, 4))
+	ITEM(ArrayCtrl, TAB_pcbs, LeftPosZ(4, 572).VSizePosZ(8, 4))
 END_LAYOUT
 
 LAYOUT(PcbLayout, 480, 204)
