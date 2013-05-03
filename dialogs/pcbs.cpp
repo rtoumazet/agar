@@ -52,17 +52,17 @@ void PcbsDlg::Edit() {
 	if(dlg.Execute() != IDOK)
 		return;
 	SQL * dlg.ctrls.Update(PCB).Where(ID == id);
-//	TAB_pcbs.ReQuery();
+
 	ReloadTable();
 }
 
 void PcbsDlg::Remove() {
 	//TAB_pcbs.DoRemove();
 	int id = TAB_pcbs.GetKey();
-	if(IsNull(id) || PromptYesNo(t_("Delete PCB ?")))
+	if(IsNull(id) || !PromptYesNo(t_("Delete PCB ?")))
 	   return;
-	 SQL * SqlDelete(PCB).Where(ID == id);
-//	 TAB_pcbs.ReQuery();
+	SQL * SqlDelete(PCB).Where(ID == id);
+
 	ReloadTable();
 }
 

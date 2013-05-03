@@ -6,9 +6,9 @@ LAYOUT(MakersLayout, 276, 216)
 	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(212, 56).TopPosZ(12, 15))
 END_LAYOUT
 
-LAYOUT(GamesLayout, 324, 200)
-	ITEM(SqlArray, TAB_game, LeftPosZ(4, 248).VSizePosZ(8, 4))
-	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(260, 56).TopPosZ(12, 15))
+LAYOUT(GamesLayout, 632, 404)
+	ITEM(SqlArray, TAB_game, LeftPosZ(4, 560).VSizePosZ(8, 4))
+	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(572, 56).TopPosZ(8, 15))
 END_LAYOUT
 
 LAYOUT(PcbTypesLayout, 244, 200)
