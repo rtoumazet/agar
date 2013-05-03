@@ -12,8 +12,7 @@ MakerDlg::MakerDlg() {
 	TAB_maker.AddColumn(MAKER_NAME, "NAME").Edit(ES_name_);
 	TAB_maker.Appending().Removing();
 	TAB_maker.SetOrderBy(MAKER_NAME);
-	//TAB_maker.AutoInsertId(true);
-	TAB_maker.WhenUpdateRow = THISBACK(InsertCheck);
+	ES_name_.WhenEnter = THISBACK(InsertCheck);
 	TAB_maker.Query();
 
 }
@@ -30,7 +29,6 @@ void MakerDlg::MenuAdd() {
 	
 	// regular behaviour
 	TAB_maker.StartInsert();
-
 }
 
 void MakerDlg::MenuEdit() {
@@ -50,13 +48,20 @@ void MakerDlg::MenuRemove() {
 	} else {
 		PromptOK(t_("Entry can't be deleted, at least one record is using it."));
 	}
-
-	//PromptOK(TAB_maker.Get(MAKER_NAME).ToString());
 }
 
 void MakerDlg::InsertCheck() {
-	//if (TAB_maker.Accept()) {
-		PromptOK(TAB_maker.Get(TAB_maker.GetCursor(),1).ToString());
+	// checking if the entered value doesn't already exist in the database
+	String str = ES_name_.GetData().ToString();
+
+	Sql sql;
+	sql.Execute("select * from MAKER where MAKER_NAME = ?",str);
+	if(!sql.Fetch()) {
+		// entry doesn't exist in the database, it can be added
+		TAB_maker.Accept();
+	} else {
+		PromptOK(t_("Entry can't be added as it already exists in the database."));
 		TAB_maker.Reject();
-	//}
+	}	
+	TAB_maker.Query();
 }

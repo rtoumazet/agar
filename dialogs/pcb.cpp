@@ -10,7 +10,7 @@ PcbDlg::PcbDlg() {
 	// Filling droplists data
 	Sql sql;
 	// Game droplist
-	sql.Execute("select GAME.ID, MAKER_NAME, GAME_NAME from MAKER,GAME where GAME.MAKER_ID = MAKER.ID");
+	sql.Execute("select GAME.ID, MAKER_NAME, GAME_NAME from MAKER,GAME where GAME.MAKER_ID = MAKER.ID order by MAKER_NAME,GAME_NAME");
 	while(sql.Fetch()) {
 		String temp = sql[1].ToString() + ' - ' + sql[2].ToString();
 		DL_Game.Add(

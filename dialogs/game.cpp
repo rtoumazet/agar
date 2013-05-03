@@ -23,4 +23,6 @@ GameDlg::GameDlg() {
 	TAB_game.SetOrderBy(GAME_NAME);
 	
 	TAB_game.Query();	
+	
+	TAB_game.SetSortColumn(1);
 }
