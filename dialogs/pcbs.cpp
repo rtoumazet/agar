@@ -33,9 +33,14 @@ void PcbsDlg::Create() {
 	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
 	if(dlg.Execute() != IDOK)
 		return;
+	
+	// generating faults data
+	for (int i=0; i<dlg.option.GetCount(); i++) {
+		//PromptOK(dlg.option[i].GetData().ToString());
+		//PromptOK(dlg.option[i].get);
+	}
 	SQL * dlg.ctrls.Insert(PCB);
 	int id = SQL.GetInsertedId();
-//	TAB_pcbs.ReQuery();
 	ReloadTable();
 	TAB_pcbs.FindSetCursor(id);
 }

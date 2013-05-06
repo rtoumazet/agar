@@ -49,6 +49,7 @@ LAYOUT(PcbLayout, 480, 204)
 	ITEM(EditDate, D_LastTestDate, LeftPosZ(220, 64).TopPosZ(140, 19))
 	ITEM(Button, ok, SetLabel(t_("OK")).LeftPosZ(12, 56).TopPosZ(180, 15))
 	ITEM(Button, cancel, SetLabel(t_("Cancel")).LeftPosZ(76, 56).TopPosZ(180, 15))
+	ITEM(EditString, ES_Faults, LeftPosZ(176, 100).TopPosZ(176, 19))
 END_LAYOUT
 
 LAYOUT(OriginLayout, 400, 200)
