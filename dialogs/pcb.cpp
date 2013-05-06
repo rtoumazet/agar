@@ -57,8 +57,15 @@ PcbDlg::PcbDlg() {
 		);
 	}	
 	
-	//ctrls(*this, PCB); //	matches widgets to columns based on Layout and schema introspection
-	
+	// fault option list
+	int y = 100;
+	int linecy = Draw::GetStdFontCy() + 4;
+	sql.Execute("select ID,LABEL from PCB_FAULT");
+	while(sql.Fetch()) {
+		Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).LeftPos(340, 100));
+		y += linecy;
+	}	
+
 	ctrls // manual declaration
 		(PCB_STATE_ID, DL_State)
 		(ORIGIN_ID, DL_Origin)

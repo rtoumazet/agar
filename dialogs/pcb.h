@@ -7,6 +7,9 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 		
+		Array<Label> 			label;
+		ArrayMap<int, Option>  	option;
+		
 		PcbDlg();	
 	
 };
