@@ -32,6 +32,7 @@ void PcbsDlg::Create() {
 	dlg.ES_Faults.Hide(); // control is hidden as it contains data to fill fault options
 	dlg.Title(t_("New PCB"));
 	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
+	dlg.LoadFaultData();
 	if(dlg.Execute() != IDOK)
 		return;
 	dlg.GenerateFaultData();
