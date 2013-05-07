@@ -29,16 +29,13 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 
 void PcbsDlg::Create() {
 	PcbDlg dlg;
+	dlg.ES_Faults.Hide(); // control is hidden as it contains data to fill fault options
 	dlg.Title(t_("New PCB"));
 	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
 	if(dlg.Execute() != IDOK)
 		return;
-	
-	// generating faults data
-	for (int i=0; i<dlg.option.GetCount(); i++) {
-		//PromptOK(dlg.option[i].GetData().ToString());
-		//PromptOK(dlg.option[i].get);
-	}
+	dlg.GenerateFaultData();
+		
 	SQL * dlg.ctrls.Insert(PCB);
 	int id = SQL.GetInsertedId();
 	ReloadTable();
@@ -50,12 +47,17 @@ void PcbsDlg::Edit() {
 	if(IsNull(id))
 		return;
 	PcbDlg dlg;
+	dlg.ES_Faults.Hide(); // control is hidden as it contains data to fill fault options
 	dlg.Title(t_("Edit PCB"));
 	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;
+	
+	dlg.LoadFaultData();
 	if(dlg.Execute() != IDOK)
 		return;
+	dlg.GenerateFaultData();
+	
 	SQL * dlg.ctrls.Update(PCB).Where(ID == id);
 
 	ReloadTable();
