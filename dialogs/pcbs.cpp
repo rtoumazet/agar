@@ -29,16 +29,29 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 
 void PcbsDlg::Create() {
 	PcbDlg dlg;
+	
+	// Hiding controls
 	dlg.ES_Faults.Hide(); // control is hidden as it contains data to fill fault options
+	dlg.TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's no entry in creation
+	dlg.TC_AnalysisAction.Disable(); // no action allowed on the TC during creation
+	
 	dlg.Title(t_("New PCB"));
 	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
 	dlg.LoadFaultData();
+	
 	if(dlg.Execute() != IDOK)
 		return;
 	dlg.GenerateFaultData();
 		
-	SQL * dlg.ctrls.Insert(PCB);
+	SQL * dlg.ctrls.Insert(PCB); // record is inserted in the database
 	int id = SQL.GetInsertedId();
+	// Do we want an initial analysis to be created ?
+	if (PromptYesNo(t_("Do you want to create an initial analysis ?"))) {
+		// Creation of the initial analysis
+		// TODO
+		dlg.AddAnalysis(id);
+	}
+	
 	ReloadTable();
 	TAB_pcbs.FindSetCursor(id);
 }
@@ -48,13 +61,19 @@ void PcbsDlg::Edit() {
 	if(IsNull(id))
 		return;
 	PcbDlg dlg;
-	dlg.ES_Faults.Hide(); // control is hidden as it contains data to fill fault options
 	dlg.Title(t_("Edit PCB"));
 	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;
 	
 	dlg.LoadFaultData();
+	dlg.BuildActionTree(id);
+	if (!dlg.GetRecordNumber(id)) {
+		// no record for this pcb
+		dlg.TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's nothing to display
+		dlg.SetAddActionMenuEntryVisible(false);
+		dlg.SetEditMenuEntryVisible(false);
+	}
 	if(dlg.Execute() != IDOK)
 		return;
 	dlg.GenerateFaultData();
@@ -69,6 +88,7 @@ void PcbsDlg::Remove() {
 	int id = TAB_pcbs.GetKey();
 	if(IsNull(id) || !PromptYesNo(t_("Delete PCB ?")))
 	   return;
+	SQL * SqlDelete(PCB_ACTION).Where(PCB_ID == id);
 	SQL * SqlDelete(PCB).Where(ID == id);
 
 	ReloadTable();

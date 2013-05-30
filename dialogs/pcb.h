@@ -10,6 +10,26 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void GenerateFaultData();
 		void LoadFaultData();
 		
+		// Menu related functions
+		void TreeControlMenu(Bar& bar);
+		bool DisplayAddActionMenuEntry();
+		bool DisplayEditMenuEntry();
+		bool DisplayRemoveMenuEntry();
+		void SetAddActionMenuEntryVisible(const bool& val);
+		void SetEditMenuEntryVisible(const bool& val);
+		void SetRemoveMenuEntryVisible(const bool& val);
+		
+		void AddAnalysis(const int& pcbId);
+		void AddAction(const int& pcbId);
+		void Edit();
+		void Remove();
+		
+		void BuildActionTree(const int& pcbId);
+		
+		
+
+		int	GetRecordNumber(const int& pcbId);
+		
 		PcbDlg();	
 	
 	private:
@@ -17,4 +37,10 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		ArrayMap<int, Option>  	option;
 	
 		bool GetFaultValue(const int& i); // returns the option value for the id selected
+		
+		bool addActionMenuEntryVisible_;
+		bool editMenuEntryVisible_;
+		bool removeMenuEntryVisible_;
+		
+		
 };

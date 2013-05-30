@@ -23,6 +23,7 @@
  - Bootleg
  - Conversion
 
+
 * PCB Etat [Enum]
  - Complètement fonctionnel
  - Fonctionnel avec reste à faire
@@ -33,6 +34,7 @@
  - Pour pièces
  - Pas testé
 
+
 * PCB Problemes [Enum]
  - Autres
  - Contrôles
@@ -41,17 +43,6 @@
  - Ne démarre pas
  - Son
 
-
-* Analyse
- - Liée au PCB [idPCB]
- - Date d'analyse [dateAnalyse]
- - commentaire [commentaire]
-
-* Action
- - Liée au PCB [idPCB]
- - Date d'action [dateAction]
- - Etat du PCB à la fin de l'action. Doit être propagé au PCB. [idEtatPCB]
- - commentaire [commentaire]
 
 * Localisation (à quel endroit se trouve le PCB)
  - Libellé [libelle]
@@ -62,8 +53,25 @@
  - Origine (forum, etc.) [origine]
  - zone de commentaire [commentaire]
 
+
+* Analyse
+ - Liée au PCB [idPCB]
+ - Date d'analyse [dateAnalyse]
+ - commentaire [commentaire]
+
+
+* Action
+ - Liée au PCB [idPCB]
+ - Liée à une analyse [idAnalyse]
+ - Date d'action [dateAction]
+ - commentaire [commentaire]
+ - Terminée [done]
+
+
 * Notes
 
+
 * Achats
+
 
 Gestion des images ?

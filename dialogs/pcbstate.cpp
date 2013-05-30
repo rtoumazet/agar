@@ -82,7 +82,8 @@ void PcbStateDlg::CellUpdate(int i) {
 }
 
 void PcbStateDlg::Edit() {
-	
+	// Cell is initialized with the raw text value to prevent a blank line during edit
+	TAB_pcbStateArray.Set(TAB_pcbStateArray.GetCursor(),1,TAB_pcbStateArray.Get(TAB_pcbStateArray.GetCursor(),2).ToString());
 	TAB_pcbStateArray.DoEdit();
 }
 
