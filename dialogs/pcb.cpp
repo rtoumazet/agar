@@ -1,4 +1,5 @@
 #include "pcb.h"
+#include "action.h"
 
 #include "../utilities/converts.h"
 #include "../utilities/lookups.h"
@@ -6,6 +7,10 @@
 PcbDlg::PcbDlg() {
 
 	CtrlLayoutOKCancel(*this, t_("Pcb"));
+	
+	// Hiding controls not to be displayed
+	E_PcbId.Hide();
+	ES_Faults.Hide();
 
 	// Filling droplists data
 	Sql sql;
@@ -58,7 +63,16 @@ PcbDlg::PcbDlg() {
 	}	
 	
 
+	// Tree control
+	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
+	
+		
+	//BTN_AddAnalysis <<= THISBACK(AddAnalysis);
+	//BTN_AddAction <<= THISBACK(AddAction);
+	
+
 	ctrls // manual declaration
+		(ID, E_PcbId)
 		(PCB_STATE_ID, DL_State)
 		(ORIGIN_ID, DL_Origin)
 		(LOCATION_ID, DL_Location)
@@ -130,4 +144,158 @@ void PcbDlg::LoadFaultData() {
 		y += linecy;
 		current++;
 	}	
+}
+
+void PcbDlg::TreeControlMenu(Bar& bar) {
+	// Setting options to display
+	int id = TC_AnalysisAction.GetCursor();
+	if (id != -1 && id != 0) {
+		SetAddActionMenuEntryVisible(true);
+		SetEditMenuEntryVisible(true);
+		if (TC_AnalysisAction.GetChildCount(id) || TC_AnalysisAction.GetCursor() == 0) {
+			// At least one child exists for the selected node, removal isn't allowed
+			// Root removal isn't allowed either
+			SetRemoveMenuEntryVisible(false);
+		} else {
+			SetRemoveMenuEntryVisible(true);
+		}
+	} else {
+		// Nothing's selected, menu options are greyed
+		SetAddActionMenuEntryVisible(false);
+		SetEditMenuEntryVisible(false);
+		SetRemoveMenuEntryVisible(false);
+	}
+
+	bar.Add(t_("Add analysis"),THISBACK1(AddAnalysis, ~E_PcbId));
+	bar.Add(DisplayAddActionMenuEntry(), t_("Link an action"), THISBACK1(AddAction, ~E_PcbId));
+	bar.Add(DisplayEditMenuEntry(), t_("Edit"), THISBACK(Edit));
+	bar.Add(DisplayRemoveMenuEntry(), t_("Remove"), THISBACK(Remove));
+}
+
+void PcbDlg::Edit() {
+	// Edits currently selected analysis / action in the treecontrol
+
+	int key = TC_AnalysisAction.Get();
+	if(IsNull(key))
+		return;
+	
+	ActionDlg dlg(~E_PcbId, key);
+	
+	if(dlg.Execute() != IDOK)
+		return;
+	
+	SQL * dlg.ctrls.Update(PCB_ACTION).Where(ID == key);
+	
+	BuildActionTree(~E_PcbId);	
+};
+
+void PcbDlg::Remove() {
+	// Removes currectly selected analysis / action in the treecontrol
+	
+	int key = TC_AnalysisAction.Get();
+	if(IsNull(key) || !PromptYesNo(t_("Delete entry ?")))
+	   return;
+	SQL * SqlDelete(PCB_ACTION).Where(ID == key);	
+	
+	// Tree is rebuilt
+	BuildActionTree(~E_PcbId);
+}
+
+void PcbDlg::AddAnalysis(const int& pcbId) {
+	// Adds a new analysis
+	ActionDlg dlg(pcbId, ActionDlg::ANALYSIS, ActionDlg::CREATION);
+	if(dlg.Execute() != IDOK)
+		return;
+
+	SQL * dlg.ctrls.Insert(PCB_ACTION);
+	if(SQL.WasError()){
+    	PromptOK(SQL.GetLastError());
+    	//PromptOK(SQL.GetErrorStatement());
+	}
+	int id = SQL.GetInsertedId();
+	
+	BuildActionTree(pcbId);
+};
+
+void PcbDlg::AddAction(const int& pcbId) {
+	// Adds a new action linked to an analysis
+	ActionDlg dlg(pcbId, ActionDlg::ACTION, ActionDlg::CREATION, TC_AnalysisAction.GetCursor());
+	
+	if(dlg.Execute() != IDOK)
+		return;
+
+	SQL * dlg.ctrls.Insert(PCB_ACTION);
+	if(SQL.WasError()){
+    	PromptOK(SQL.GetLastError());
+    	//PromptOK(SQL.GetErrorStatement());
+	}
+	int id = SQL.GetInsertedId();
+	
+	BuildActionTree(pcbId);	
+};
+
+int PcbDlg::GetRecordNumber(int const& pcbId) {
+	// returns number of record from action table for the pcb id in parameter
+	
+	int count = 0;
+	
+	Sql sql;
+	sql.Execute(Format("select count(*) from PCB_ACTION where PCB_ID =%i",pcbId));
+	if (sql.Fetch()) {
+		count = sql[0];
+	}
+	
+	return count;
+}
+
+bool PcbDlg::DisplayAddActionMenuEntry() {
+	
+	return addActionMenuEntryVisible_;
+}
+
+bool PcbDlg::DisplayEditMenuEntry() {
+	
+	return editMenuEntryVisible_;	
+}
+
+bool PcbDlg::DisplayRemoveMenuEntry() {
+	
+	return removeMenuEntryVisible_;	
+}
+
+void PcbDlg::SetAddActionMenuEntryVisible(const bool& val) {
+	addActionMenuEntryVisible_ = val;
+}
+
+void PcbDlg::SetEditMenuEntryVisible(const bool& val) {
+	editMenuEntryVisible_ = val;
+}
+
+void PcbDlg::SetRemoveMenuEntryVisible(const bool& val) {
+	removeMenuEntryVisible_ = val;
+}
+
+void PcbDlg::BuildActionTree(const int& pcbId) {
+	// Fills the tree control with data from action file
+
+	TC_AnalysisAction.Clear();
+		
+	Sql sql;
+	sql.Execute(Format("select ID,PARENT_ID,COMMENTARY from PCB_ACTION where PCB_ID = %i order by ACTION_DATE",pcbId));
+	
+	TC_AnalysisAction.SetRoot(Null,0,t_("Analysis & Actions"));
+	TC_AnalysisAction.NoRoot(false);
+
+	while(sql.Fetch()) {
+		TC_AnalysisAction.Add(sql[PARENT_ID], Null, sql[ID], sql[COMMENTARY]);
+	}	
+	
+	TC_AnalysisAction.OpenDeep(0,true);
+	
+	/*//Image img = StreamRaster::LoadFileAny("img\magnifying-glass.png");
+	Image img = StreamRaster::LoadFileAny("zoom.png");
+	TC_AnalysisAction.SetRoot(img,0,"Initial analysis");
+	Image img2 = StreamRaster::LoadFileAny("hand-right.png");
+	TC_AnalysisAction.Add(0,img2,2,AttrText("Actio").Paper(LtRed()),false);
+	TC_AnalysisAction.Add(0,img2,1,AttrText("Action").Paper(LtRed()),false);*/
 }

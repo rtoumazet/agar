@@ -7,6 +7,7 @@ uses
 
 file
 	AGAR.rc,
+	Images readonly separator,
 	icon.iml,
 	Utilities readonly separator,
 	utilities\converts.cpp,
@@ -16,6 +17,8 @@ file
 	AGAR.h,
 	main.cpp,
 	Dialogs readonly separator,
+	dialogs\action.cpp,
+	dialogs\action.h,
 	dialogs\location.h,
 	dialogs\location.cpp,
 	dialogs\locations.h,
