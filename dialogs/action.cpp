@@ -38,6 +38,8 @@ ActionDlg::ActionDlg(const int& pcbId, const int& actionType, const int& opening
 		(FINISHED, O_Finished)
 		(ACTION_TYPE, E_ActionType)
 	;
+	
+	ActiveFocus(DE_Comment);
 }
 
 ActionDlg::ActionDlg(const int& pcbId, const int& actionId) {
@@ -70,16 +72,5 @@ ActionDlg::ActionDlg(const int& pcbId, const int& actionId) {
 		O_Finished.Show(true);
 	}
 
-	//PromptOK(E_Time.GetText().ToString());
-	
-	//PromptOK(FormatDate(E_Time.GetText().ToString(),"DD/MM/YYYY",GetSystemLNG()));
-	
-	//Time tm = ScanTime(E_Time.GetText().ToString());
-    //PromptOK(AsString(tm.year));
-	
-	//Time tm = ScanTime(E_Time);
-	//PromptOK(FormatTime(tm,"DD/MM/YYYY HH:MM"));
-	
-	//PromptOK(Format(E_Time.GetText(),"'DD/MM/YYYY hh:mm'"));
-	//PromptOK(FormatTime(E_Time.GetText().ToString());
+	ActiveFocus(DE_Comment);
 }

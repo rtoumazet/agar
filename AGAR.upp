@@ -8,7 +8,7 @@ uses
 file
 	AGAR.rc,
 	Images readonly separator,
-	icon.iml,
+	images.iml,
 	Utilities readonly separator,
 	utilities\converts.cpp,
 	utilities\lookups.h,

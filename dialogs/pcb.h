@@ -1,5 +1,9 @@
 #include "../AGAR.h"
 
+#define IMAGECLASS MyImages
+#define IMAGEFILE  "../images.iml"
+#include <Draw/iml_header.h>
+
 class PcbDlg : public WithPcbLayout<TopWindow> {
 
 	typedef PcbDlg CLASSNAME;
