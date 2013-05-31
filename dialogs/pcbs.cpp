@@ -15,7 +15,7 @@ PcbsDlg::PcbsDlg() {
 	TAB_pcbs.AddColumn(PCB_TYPE,t_("Type"));
 	TAB_pcbs.AddColumn(TAG,t_("Tag"));
 	TAB_pcbs.AddColumn(LOCATION,t_("Location"));
-	TAB_pcbs.WhenLeftDouble = THISBACK(Edit);
+	TAB_pcbs.WhenLeftDouble = THISBACK1(Edit,0);
 	
 	ReloadTable();
 
@@ -23,7 +23,7 @@ PcbsDlg::PcbsDlg() {
 
 void PcbsDlg::OwnMenu(Bar& bar) {
 	bar.Add(t_("Create"),THISBACK(Create));
-	bar.Add(t_("Edit"),THISBACK(Edit));
+	bar.Add(t_("Edit"),THISBACK1(Edit,0));
 	bar.Add(t_("Remove"),THISBACK(Remove));
 }
 
@@ -50,14 +50,16 @@ void PcbsDlg::Create() {
 		// Creation of the initial analysis
 		// TODO
 		dlg.AddAnalysis(id);
+		Edit(id);
 	}
 	
 	ReloadTable();
 	TAB_pcbs.FindSetCursor(id);
 }
 
-void PcbsDlg::Edit() {
-	int id = TAB_pcbs.GetKey();
+void PcbsDlg::Edit(int pcbId) {
+	int id = pcbId;
+	if (!id) id = TAB_pcbs.GetKey();
 	if(IsNull(id))
 		return;
 	PcbDlg dlg;
@@ -106,6 +108,7 @@ void PcbsDlg::ReloadTable() {
 	statement += "and pcb.pcb_type_id = pcb_type.id ";
 	statement += "and pcb.pcb_state_id = pcb_state.id ";
 	statement += "and pcb.location_id = location.id ";
+	statement += "order by MAKER_NAME,GAME_NAME";
 	sql.Execute(statement);
 	while (sql.Fetch()) {
 		String game = sql[1].ToString()+" "+sql[2].ToString();

@@ -6,7 +6,7 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 	
 	private:
 		void Create();
-		void Edit();
+		void Edit(int pcbId=0);
 		void Remove();
 
 		void ReloadTable();

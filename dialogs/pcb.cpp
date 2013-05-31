@@ -1,6 +1,10 @@
 #include "pcb.h"
 #include "action.h"
 
+#define IMAGECLASS MyImages
+#define IMAGEFILE  "../images.iml"
+#include <Draw/iml_source.h>
+
 #include "../utilities/converts.h"
 #include "../utilities/lookups.h"
 
@@ -66,11 +70,6 @@ PcbDlg::PcbDlg() {
 	// Tree control
 	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
 	
-		
-	//BTN_AddAnalysis <<= THISBACK(AddAnalysis);
-	//BTN_AddAction <<= THISBACK(AddAction);
-	
-
 	ctrls // manual declaration
 		(ID, E_PcbId)
 		(PCB_STATE_ID, DL_State)
@@ -95,12 +94,10 @@ void PcbDlg::GenerateFaultData() {
 		faults += data.ToString() +";";
 	}
 	ES_Faults = faults;
-	//PromptOK(dlg.ES_Faults.GetData().ToString());	
 }
 
 bool PcbDlg::GetFaultValue(const int& id) {
 	// returns the option state for the fault id parameter
-
 
 	Sql sql;
 	int startPos = 0;
@@ -112,13 +109,10 @@ bool PcbDlg::GetFaultValue(const int& id) {
 	while (endPos != -1) {
 		subStr = str.Mid(startPos, endPos - startPos);
 		int end = subStr.Find(":");
-		//Value val = subStr.Mid(0,end);
 		int val = StdConvertInt().Scan(subStr.Mid(0,end));
 		if (val == id) {
 			// id was found, getting the option value
-			//val = subStr.Mid(end+1);
 			ret = StdConvertInt().Scan(subStr.Mid(end+1));
-			//ret = true;
 			break;	
 		}
 
@@ -210,7 +204,6 @@ void PcbDlg::AddAnalysis(const int& pcbId) {
 	SQL * dlg.ctrls.Insert(PCB_ACTION);
 	if(SQL.WasError()){
     	PromptOK(SQL.GetLastError());
-    	//PromptOK(SQL.GetErrorStatement());
 	}
 	int id = SQL.GetInsertedId();
 	
@@ -281,21 +274,27 @@ void PcbDlg::BuildActionTree(const int& pcbId) {
 	TC_AnalysisAction.Clear();
 		
 	Sql sql;
-	sql.Execute(Format("select ID,PARENT_ID,COMMENTARY from PCB_ACTION where PCB_ID = %i order by ACTION_DATE",pcbId));
+	sql.Execute(Format("select ID,PARENT_ID,COMMENTARY,FINISHED from PCB_ACTION where PCB_ID = %i order by ACTION_DATE",pcbId));
 	
 	TC_AnalysisAction.SetRoot(Null,0,t_("Analysis & Actions"));
 	TC_AnalysisAction.NoRoot(false);
 
 	while(sql.Fetch()) {
-		TC_AnalysisAction.Add(sql[PARENT_ID], Null, sql[ID], sql[COMMENTARY]);
+		Image img;
+		if (sql[PARENT_ID]==0) {
+			// Analysis
+			img = MyImages::analysis();
+		} else {
+			if (sql[FINISHED]=="0") {
+				img = MyImages::action();
+			} else {
+				 img = MyImages::actionDone();
+			}
+		}
+		
+		TC_AnalysisAction.Add(sql[PARENT_ID], img, sql[ID], sql[COMMENTARY]);
 	}	
 	
 	TC_AnalysisAction.OpenDeep(0,true);
 	
-	/*//Image img = StreamRaster::LoadFileAny("img\magnifying-glass.png");
-	Image img = StreamRaster::LoadFileAny("zoom.png");
-	TC_AnalysisAction.SetRoot(img,0,"Initial analysis");
-	Image img2 = StreamRaster::LoadFileAny("hand-right.png");
-	TC_AnalysisAction.Add(0,img2,2,AttrText("Actio").Paper(LtRed()),false);
-	TC_AnalysisAction.Add(0,img2,1,AttrText("Action").Paper(LtRed()),false);*/
 }
