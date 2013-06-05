@@ -9,9 +9,12 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		void Edit(int pcbId=0);
 		void Remove();
 
-		void ReloadTable();
+		void ReloadTable(const bool& ascSort);
+		void SortTable(const int& i);
 		
 		void OwnMenu(Bar& bar);
+		
+		bool isSortedAsc_;
 
 	public:
 		PcbsDlg();	

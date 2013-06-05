@@ -11,13 +11,15 @@ PcbsDlg::PcbsDlg() {
 	TAB_pcbs.WhenBar = THISBACK(OwnMenu); // own menu
 	
 	TAB_pcbs.AddIndex(ID);
-	TAB_pcbs.AddColumn(GAME,t_("Game"));
-	TAB_pcbs.AddColumn(PCB_TYPE,t_("Type"));
-	TAB_pcbs.AddColumn(TAG,t_("Tag"));
-	TAB_pcbs.AddColumn(LOCATION,t_("Location"));
+	TAB_pcbs.AddColumn(GAME,t_("Game")).HeaderTab().WhenAction = THISBACK1(SortTable, 0);
+	TAB_pcbs.AddColumn(PCB_TYPE,t_("Type")).HeaderTab().WhenAction = THISBACK1(SortTable, 1);
+	TAB_pcbs.AddColumn(TAG,t_("Tag")).HeaderTab().WhenAction = THISBACK1(SortTable, 2);
+	TAB_pcbs.AddColumn(LOCATION,t_("Location")).HeaderTab().WhenAction = THISBACK1(SortTable, 3);
 	TAB_pcbs.WhenLeftDouble = THISBACK1(Edit,0);
+	TAB_pcbs.ColumnWidths("346 82 81 82");
 	
-	ReloadTable();
+	isSortedAsc_ = true;
+	ReloadTable(isSortedAsc_);
 
 }
 
@@ -53,7 +55,7 @@ void PcbsDlg::Create() {
 		Edit(id);
 	}
 	
-	ReloadTable();
+	ReloadTable(true);
 	TAB_pcbs.FindSetCursor(id);
 }
 
@@ -82,7 +84,7 @@ void PcbsDlg::Edit(int pcbId) {
 	
 	SQL * dlg.ctrls.Update(PCB).Where(ID == id);
 
-	ReloadTable();
+	ReloadTable(true);
 }
 
 void PcbsDlg::Remove() {
@@ -93,10 +95,23 @@ void PcbsDlg::Remove() {
 	SQL * SqlDelete(PCB_ACTION).Where(PCB_ID == id);
 	SQL * SqlDelete(PCB).Where(ID == id);
 
-	ReloadTable();
+	ReloadTable(true);
 }
 
-void PcbsDlg::ReloadTable() {
+void PcbsDlg::SortTable(const int& i) {
+	TAB_pcbs.ToggleSortColumn(i);
+	TAB_pcbs.DoColumnSort();	
+	if (!i) {
+		// Sorting is manualle done through table reload for the first column as it's not possible to sort directly
+		// AttrText data from a column directly.
+		if (isSortedAsc_) isSortedAsc_ = false;
+		else isSortedAsc_ = true;
+
+		ReloadTable(isSortedAsc_);
+	}
+}
+
+void PcbsDlg::ReloadTable(const bool& ascSort) {
 	// reloads table content from the database
 	TAB_pcbs.Clear();
 	
@@ -108,10 +123,12 @@ void PcbsDlg::ReloadTable() {
 	statement += "and pcb.pcb_type_id = pcb_type.id ";
 	statement += "and pcb.pcb_state_id = pcb_state.id ";
 	statement += "and pcb.location_id = location.id ";
-	statement += "order by MAKER_NAME,GAME_NAME";
+	//statement += "order by MAKER_NAME,GAME_NAME ";
+	if (ascSort) statement += "order by MAKER_NAME asc,GAME_NAME asc";
+	else statement += "order by MAKER_NAME desc,GAME_NAME desc";
 	sql.Execute(statement);
 	while (sql.Fetch()) {
-		String game = sql[1].ToString()+" "+sql[2].ToString();
+		String game = sql[1].ToString()+" - "+sql[2].ToString();
 		Color ink = Color::FromRaw(static_cast<dword>(sql[3].To<int64>()));
 		Color paper = Color::FromRaw(static_cast<dword>(sql[4].To<int64>()));
 		
