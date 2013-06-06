@@ -18,9 +18,32 @@ PcbsDlg::PcbsDlg() {
 	TAB_pcbs.WhenLeftDouble = THISBACK1(Edit,0);
 	TAB_pcbs.ColumnWidths("346 82 81 82");
 	
+	// Filters
+	// state droplist
+	filterState_ = 0; // state selected is reset
+	DL_State.Add(0, t_("All")); // First line of the dropbox
+
+	Sql sql;
+	sql * Select(ID,LABEL,PAPER,INK).From(PCB_STATE);
+	while(sql.Fetch()) {
+		DL_State.Add(
+		    sql[ID],
+			AttrText(sql[LABEL].ToString())
+				.Paper(Color::FromRaw(static_cast<dword>(sql[PAPER].To<int64>())))
+				.Ink(Color::FromRaw(static_cast<dword>(sql[INK].To<int64>())))
+		);
+	}		
+	DL_State.WhenAction = THISBACK(ExecuteFilter);
+	DL_State.SetIndex(0); // first line is selected
+	
+	LoadFaultData();
+	for (int i=0; i<option_.GetCount(); i++) {
+		option_[i].WhenAction = THISBACK(ExecuteFilter);
+	}
+	
+	// Table is filled and sorted
 	isSortedAsc_ = true;
 	ReloadTable(isSortedAsc_);
-
 }
 
 void PcbsDlg::OwnMenu(Bar& bar) {
@@ -123,8 +146,25 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 	statement += "and pcb.pcb_type_id = pcb_type.id ";
 	statement += "and pcb.pcb_state_id = pcb_state.id ";
 	statement += "and pcb.location_id = location.id ";
-	//statement += "order by MAKER_NAME,GAME_NAME ";
-	if (ascSort) statement += "order by MAKER_NAME asc,GAME_NAME asc";
+	// State filter
+	if (filterState_) statement += Format("and pcb.pcb_state_id = %1 ",filterState_);
+	// Faults filter
+	Value key;
+	String str = "";
+	for (int i=0; i<option_.GetCount(); i++) {
+		if (option_[i]){
+			// option is checked, statement is modified
+			key = option_.GetKey(i);
+			str = "\"%";
+			str += key.ToString();
+			str += ":1%\"";
+
+			statement += Format(" and pcb.pcb_fault_option like % ",str);
+		}
+	}
+
+	
+	if (ascSort) statement += " order by MAKER_NAME asc,GAME_NAME asc";
 	else statement += "order by MAKER_NAME desc,GAME_NAME desc";
 	sql.Execute(statement);
 	while (sql.Fetch()) {
@@ -141,5 +181,32 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 			sql[7]  // location
 		);
 	}	
-		
+}
+
+void PcbsDlg::ExecuteFilter() {
+	// State filter
+	filterState_ = ~DL_State;
+	
+	// Faults filter
+	
+	
+	// Table is reloaded
+	ReloadTable(isSortedAsc_);
+}
+
+void PcbsDlg::LoadFaultData() {
+	// fault option list
+	Sql sql;
+	int y = 130;
+	int linecy = Draw::GetStdFontCy() + 4;
+	int current = 0; 
+	//sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
+	sql * Select(ID,LABEL).From(PCB_FAULT).OrderBy(LABEL);
+	while(sql.Fetch()) {
+		Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).LeftPos(650, 130));
+		int id = StdConvertInt().Scan(sql[ID].ToString());
+		//option_[current].SetData(GetFaultValue(id));
+		y += linecy;
+		current++;
+	}	
 }
