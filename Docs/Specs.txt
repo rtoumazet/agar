@@ -1,57 +1,54 @@
-* Fabricant (Fabricant du jeu)
- - Champs : nom du fabricant
+SCHEMA VERSION 1.0
+* MAKER (No duplicates)
+ - ID (INT) // primary key
+ - MAKER_NAME (STRING,100) // maker name
 
 
-* Jeu (le jeu lui même)
- - Lié au fabricant. Un seul fabricant par jeu.
- - Champs : nom du jeu, idFabricant
+* GAME (No duplicates)
+ - ID (INT) // primary key
+ - MAKER_ID (INT) // link to MAKER.ID
+ - GAME_NAME (STRING,200) // game name
 
 
-* PCB (PCB de jeu)
- - Lié au jeu. [idJeu]
- - Est de certain type [idTypePCB]
- - Est dans un certain état [idEtatPCB]
- - Contient un tag unique servant à l'identifier, qui n'est pas obligatoirement rempli (pour les pcbs fonctionnels) [tag]
- - se trouve à un endroit en particulier [idLocalisation]
- - Origine du PCB [idOrigine]
- - Date de dernier test [dateDernierTest]
- - Problèmes concernant le PCB : aucun, un ou plusieurs (non exclusifs). A enregistrer dans une zone pouvant contenir plusieurs valeurs [listeProblemes]
+* PCB 
+ - ID (INT) // primary key
+ - GAME_ID (INT) // link to GAME.ID
+ - PCB_TYPE_ID (INT)// link to PCB_TYPE.ID
+ - PCB_STATE_ID (INT) // link to PCB_STATE.ID
+ - PCB_FAULT_OPTION (STRING,20) // pcb faults : none, one or more (not exclusive) 
+ - TAG (STRING,50) // unique tag used to identify the pcb, can be blank
+ - LOCATION_ID (INT) // link to LOCATION.ID
+ - ORIGIN (INT) // link to ORIGIN.ID
+ - LAST_TEST_DATE (DATE) // last test date
 
 
-* PCB Type [Enum]
- - Original
- - Bootleg
- - Conversion
+* PCB_TYPE [Enum]
+ - ID (INT) // primary key
+ - LABEL (STRING,200) // values : Original, Bootleg, Conversion
 
 
-* PCB Etat [Enum]
- - Complètement fonctionnel
- - Fonctionnel avec reste à faire
- - Incomplet
- - Travail en cours
- - Difficultés
- - Mort
- - Pour pièces
- - Pas testé
+* PCB_STATE [Enum]
+ - ID (INT) // primary key
+ - LABEL (STRING,200) // values : fully fonctional, functional with things to do, work in progress, incomplete, difficulties, dead, for parts, untested
+ - INK (INT) // text color value
+ - PAPER (INT) // background color value
 
 
-* PCB Problemes [Enum]
- - Autres
- - Contrôles
- - Graphismes
- - Logique
- - Ne démarre pas
- - Son
+* PCB_FAULT [Enum]
+ - ID (INT) // primary key
+ - LABEL (STRING,200) // values : controls, doesn't boot, graphics, logical, other, sound
 
 
-* Localisation (à quel endroit se trouve le PCB)
- - Libellé [libelle]
+* LOCATION
+ - ID (INT) // primary key
+ - LABEL (STRING,200) // where is the pcb
 
 
-* Origine (d'où provient le PCB)
- - Nom / Pseudo [nom]
- - Origine (forum, etc.) [origine]
- - zone de commentaire [commentaire]
+* ORIGIN
+ - ID (INT) // primary key
+ - NAME (STRING,200) // name or pseudo
+ - ORIGIN (STRING,200) // forum, etc.
+ - COMMENTARY (STRING,200) // comments
 
 
 * Analyse
@@ -60,18 +57,29 @@
  - commentaire [commentaire]
 
 
-* Action
- - Liée au PCB [idPCB]
- - Liée à une analyse [idAnalyse]
- - Date d'action [dateAction]
- - commentaire [commentaire]
- - Terminée [done]
+* PCB_ACTION
+ - ID (INT) // primary key
+ - PCB_ID (INT) // link to PCB.ID
+ - PARENT_ID (INT) // used to build the tree structure. Always 0 for analysis, parent for actions
+ - ACTION_DATE (TIME)
+ - COMMENTARY (STRING,1000)
+ - FINISHED (BOOL) // only for action, true when finished
+ - ACTION_TYPE (INT) // analysis or action
 
 
+SCHEMA VERSION 1.1
+* PCB_PINOUT (new table)
+ - ID (INT) // primary key
+ - LABEL (STRING,200) // pinout name
+ - DETAIL (STRING,1000) // pinout detail
+
+* PCB
+ - PCB_PINOUT_ID (INT) (new) // link to PCB_PINOUT
+
+
+SCHEMA VERSION 1.X
 * Notes
-
 
 * Achats
 
-
-Gestion des images ?
+* Pictures management ?
