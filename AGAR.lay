@@ -99,3 +99,7 @@ LAYOUT(ActionLayout, 492, 188)
 	ITEM(EditInt, E_ParentId, HSizePosZ(12, 452).TopPosZ(156, 19))
 END_LAYOUT
 
+LAYOUT(AboutLayout, 400, 124)
+	ITEM(RichTextCtrl, RTC_About, LeftPosZ(8, 304).TopPosZ(8, 107))
+END_LAYOUT
+

@@ -41,6 +41,7 @@ public:
 	void PcbFault();
 	void PcbState();
 	void PcbType();
+	void About();
 	
 	bool Key(dword key,int);
 
