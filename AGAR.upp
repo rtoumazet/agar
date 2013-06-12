@@ -17,6 +17,8 @@ file
 	AGAR.h,
 	main.cpp,
 	Dialogs readonly separator,
+	dialogs\about.cpp,
+	dialogs\about.h,
 	dialogs\action.cpp,
 	dialogs\action.h,
 	dialogs\location.h,

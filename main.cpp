@@ -11,6 +11,7 @@
 #include "dialogs/pcbstate.h"
 #include "dialogs/pcbfault.h"
 #include "dialogs/pcbs.h"
+#include "dialogs/about.h"
 
 
 SqlId count("count(*)");
@@ -113,6 +114,7 @@ void AGAR::MainMenu(Bar& bar) {
 	bar.Add(t_("File"), THISBACK(SubMenuFile));
 	bar.Add(t_("PCB"), THISBACK(SubMenuPcb));
 	bar.Add(t_("Options"), THISBACK(SubMenuOptions));
+	bar.Add(t_("?"), THISBACK(About));
 }
 
 void AGAR::SubMenuFile(Bar& bar) {
@@ -236,4 +238,11 @@ bool AGAR::Key(dword key, int count) {
 		return false;	
 	}
 	return TopWindow::Key(key,count);
+}
+
+void AGAR::About() {
+	
+	AboutDlg dlg;
+	
+	dlg.Run();	
 }
