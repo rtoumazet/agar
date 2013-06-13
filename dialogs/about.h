@@ -5,6 +5,6 @@ class AboutDlg : public WithAboutLayout<TopWindow> {
 	typedef AboutDlg CLASSNAME;
 
 	public:
-		AboutDlg();	
+		AboutDlg(const String& version);	
 	
 };

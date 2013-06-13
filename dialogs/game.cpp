@@ -17,7 +17,7 @@ GameDlg::GameDlg() {
 	
 	TAB_game.SetTable(GAME);
 	TAB_game.AddIndex(ID);
-	TAB_game.AddColumn(MAKER_ID,"Maker").SetConvert(Single<Lookup(MAKER,ID,MAKER_NAME)>()).Edit(DL_maker_).HeaderTab().WhenAction = THISBACK1(SortTable,0);
+	TAB_game.AddColumn(MAKER_ID,"Manufacturer").SetConvert(Single<Lookup(MAKER,ID,MAKER_NAME)>()).Edit(DL_maker_).HeaderTab().WhenAction = THISBACK1(SortTable,0);
 	TAB_game.AddColumn(GAME_NAME,"Game name").Edit(ES_gameName_).HeaderTab().WhenAction = THISBACK1(SortTable,1);
 	TAB_game.Appending().Removing();
 	TAB_game.SetOrderBy(GAME_NAME);

@@ -3,7 +3,7 @@
 
 MakerDlg::MakerDlg() {
 	
-	CtrlLayout(*this, t_("Makers list"));
+	CtrlLayout(*this, t_("Manufacturers list"));
 	BTN_Close <<= Breaker(999);
 	TAB_maker.WhenBar = THISBACK(OwnMenu); // own menu
 	
