@@ -49,22 +49,28 @@ PcbDlg::PcbDlg() {
 	}	
 
 	// location droplist
+	DL_Location.Add(0,t_("Not selected"));
 	sql.Execute("select ID,LABEL from LOCATION");
 	while(sql.Fetch()) {
 		DL_Location.Add(
 			sql[0],
 			sql[1].ToString()
 		);
-	}	
+	}
+	DL_Location.SetIndex(0);
+	DL_Location.NotNull(true);
 
 	// origin droplist
+	DL_Origin.Add(0,t_("Not selected"));
 	sql.Execute("select ID,ORIGIN from ORIGIN");
 	while(sql.Fetch()) {
 		DL_Origin.Add(
 			sql[0],
 			sql[1].ToString()
 		);
-	}	
+	}
+	DL_Origin.SetIndex(0);
+	DL_Origin.NotNull(true);
 	
 
 	// Tree control
