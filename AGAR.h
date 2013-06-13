@@ -43,6 +43,8 @@ public:
 	void PcbType();
 	void About();
 	
+	String GetVersion();
+	
 	bool Key(dword key,int);
 
 	AGAR();
@@ -51,6 +53,7 @@ private:
 	// Main menu
 	MenuBar MB_menu_;
 	
+	String version_; // software version	
 };
 
 #endif

@@ -18,10 +18,12 @@ SqlId count("count(*)");
 
 AGAR::AGAR()
 {
+	version_ = "AGAR 1.0";
+	
 	SetDateFormat("%3:02d/%2:02d/%1:4d"); // set dd/mm/yyyy format
 	SetDateScan("dmy"); // same but for input
 	
-	CtrlLayout(*this, "AGAR 1.0");
+	CtrlLayout(*this, version_);
 	
 	AddFrame(MB_menu_);
     MB_menu_.Set(THISBACK(MainMenu));
@@ -118,7 +120,7 @@ void AGAR::MainMenu(Bar& bar) {
 }
 
 void AGAR::SubMenuFile(Bar& bar) {
-    bar.Add(t_("Makers"), THISBACK(MakerList));
+    bar.Add(t_("Manufacturers"), THISBACK(MakerList));
     bar.Add(t_("Games"), THISBACK(GameList));
     bar.Add(t_("Locations"), THISBACK(LocationList));
     bar.Add(t_("Origins"), THISBACK(OriginList));
@@ -242,7 +244,12 @@ bool AGAR::Key(dword key, int count) {
 
 void AGAR::About() {
 	
-	AboutDlg dlg;
+	AboutDlg dlg(GetVersion());
 	
 	dlg.Run();	
+}
+
+String AGAR::GetVersion() {
+	
+	return version_;
 }
