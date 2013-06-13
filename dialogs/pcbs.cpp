@@ -140,12 +140,14 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 	
 	Sql sql;
 	String statement = "select PCB.ID, MAKER.MAKER_NAME, GAME.GAME_NAME, PCB_STATE.INK, PCB_STATE.PAPER, PCB_TYPE.LABEL, TAG, LOCATION.LABEL ";
-	statement += "from PCB,	GAME, MAKER, PCB_TYPE, PCB_STATE, LOCATION ";
+	statement += "from PCB,	GAME, MAKER, PCB_TYPE, PCB_STATE ";
+	statement += "left outer join LOCATION ";
+	statement += "on pcb.location_id = location.id ";
 	statement += "where pcb.game_id = game.id ";
 	statement += "and game.maker_id = maker.id ";
 	statement += "and pcb.pcb_type_id = pcb_type.id ";
 	statement += "and pcb.pcb_state_id = pcb_state.id ";
-	statement += "and pcb.location_id = location.id ";
+	//statement += "and pcb.location_id = location.id ";
 	// State filter
 	if (filterState_) statement += Format("and pcb.pcb_state_id = %1 ",filterState_);
 	// Faults filter
@@ -165,7 +167,7 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 
 	
 	if (ascSort) statement += " order by MAKER_NAME asc,GAME_NAME asc";
-	else statement += "order by MAKER_NAME desc,GAME_NAME desc";
+	else statement += " order by MAKER_NAME desc,GAME_NAME desc";
 	sql.Execute(statement);
 	while (sql.Fetch()) {
 		String game = sql[1].ToString()+" - "+sql[2].ToString();
