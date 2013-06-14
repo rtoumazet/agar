@@ -218,11 +218,19 @@ GUI_APP_MAIN
 		return;
 	}
 
+
 	#ifdef _DEBUG
 	sqlite3.SetTrace();
 	#endif
 	
 	SQL = sqlite3;
+
+	/*Sql sql;
+	sql.Execute("PRAGMA user_version;");
+	while (sql.Fetch()) {
+		PromptOK(sql[0].ToString());
+	}*/
+
 	
 	SqlSchema sch(SQLITE3);
 	All_Tables(sch);
