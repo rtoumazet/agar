@@ -8,10 +8,10 @@
 using namespace Upp;
 
 #define SCHEMADIALECT <plugin/sqlite3/Sqlite3Schema.h>
-#define MODEL <AGAR/agar.sch>
+#define MODEL <agar/agar.sch>
 #include "Sql/sch_header.h"
 
-#define LAYOUTFILE <AGAR/agar.lay>
+#define LAYOUTFILE <agar/agar.lay>
 #include <CtrlCore/lay.h>
 
 
