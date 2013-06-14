@@ -2,7 +2,7 @@
 
 #include "converts.h"
 
-#define MODEL <AGAR/AGAR.sch>
+#define MODEL <agar/agar.sch>
 
 #define SCHEMADIALECT <plugin/sqlite3/Sqlite3Schema.h>
 #include "Sql/sch_header.h"
