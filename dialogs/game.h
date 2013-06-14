@@ -1,4 +1,4 @@
-#include "../agar.h"
+#include "agar/agar.h"
 
 class GameDlg : public WithGamesLayout<TopWindow> {
 

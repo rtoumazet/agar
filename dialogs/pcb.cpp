@@ -2,11 +2,11 @@
 #include "action.h"
 
 #define IMAGECLASS MyImages
-#define IMAGEFILE  "../images.iml"
+#define IMAGEFILE  "agar/images.iml"
 #include <Draw/iml_source.h>
 
-#include "../utilities/converts.h"
-#include "../utilities/lookups.h"
+#include "agar/utilities/converts.h"
+#include "agar/utilities/lookups.h"
 
 PcbDlg::PcbDlg() {
 

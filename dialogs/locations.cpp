@@ -1,5 +1,5 @@
-#include "Locations.h"
-#include "Location.h"
+#include "locations.h"
+#include "location.h"
 
 LocationsDlg::LocationsDlg() {
 

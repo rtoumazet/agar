@@ -1,4 +1,4 @@
-#include "../agar.h"
+#include "agar/agar.h"
 
 class LocationsDlg : public WithLocationsLayout<TopWindow> {
 	typedef LocationsDlg CLASSNAME;

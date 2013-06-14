@@ -1,4 +1,4 @@
-#include "../agar.h"
+#include "agar/agar.h"
 
 class MakerDlg : public WithMakersLayout<TopWindow> {
 
