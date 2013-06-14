@@ -1,4 +1,4 @@
-#include "../agar.h"
+#include "agar/agar.h"
 
 class AboutDlg : public WithAboutLayout<TopWindow> {
 

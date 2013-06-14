@@ -1,7 +1,7 @@
-#include "../agar.h"
+#include "agar/agar.h"
 
 #define IMAGECLASS MyImages
-#define IMAGEFILE  "../images.iml"
+#define IMAGEFILE  "agar/images.iml"
 #include <Draw/iml_header.h>
 
 class PcbDlg : public WithPcbLayout<TopWindow> {

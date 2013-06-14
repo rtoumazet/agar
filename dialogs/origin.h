@@ -1,4 +1,4 @@
-#include "../agar.h"
+#include "agar/agar.h"
 
 class OriginDlg : public WithOriginLayout<TopWindow> {
 

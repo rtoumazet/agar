@@ -1,4 +1,4 @@
-#include "../agar.h"
+#include "agar/agar.h"
 
 class PcbFaultDlg : public WithPcbFaultsLayout<TopWindow> {
 	typedef PcbFaultDlg CLASSNAME;
