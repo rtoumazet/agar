@@ -1,4 +1,4 @@
-#include "../AGAR.h"
+#include "../agar.h"
 
 class OriginsDlg : public WithOriginsLayout<TopWindow> {
 	typedef OriginsDlg CLASSNAME;

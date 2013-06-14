@@ -1,4 +1,4 @@
-#include "../AGAR.h"
+#include "../agar.h"
 
 class ActionDlg : public WithActionLayout<TopWindow> {
 

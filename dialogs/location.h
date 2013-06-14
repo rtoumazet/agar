@@ -1,4 +1,4 @@
-#include "../AGAR.h"
+#include "../agar.h"
 
 class LocationDlg : public WithLocationLayout<TopWindow> {
 

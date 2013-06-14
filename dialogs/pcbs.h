@@ -1,4 +1,4 @@
-#include "../AGAR.h"
+#include "../agar.h"
 
 class PcbsDlg : public WithPcbsLayout<TopWindow> {
 

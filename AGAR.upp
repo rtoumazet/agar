@@ -6,7 +6,7 @@ uses
 	SqlCtrl;
 
 file
-	AGAR.rc,
+	agar.rc,
 	Images readonly separator,
 	images.iml,
 	Utilities readonly separator,
@@ -14,7 +14,7 @@ file
 	utilities\lookups.h,
 	utilities\converts.h,
 	Main readonly separator,
-	AGAR.h,
+	agar.h,
 	main.cpp,
 	Dialogs readonly separator,
 	dialogs\about.cpp,
@@ -44,9 +44,9 @@ file
 	dialogs\maker.h,
 	dialogs\maker.cpp,
 	Layouts readonly separator,
-	AGAR.lay,
+	agar.lay,
 	Database readonly separator,
-	AGAR.sch;
+	agar.sch;
 
 mainconfig
 	"" = "GUI SSE2";
