@@ -1,4 +1,4 @@
-#include "..\AGAR.h"
+#include "../AGAR.h"
 
 class PcbFaultDlg : public WithPcbFaultsLayout<TopWindow> {
 	typedef PcbFaultDlg CLASSNAME;
