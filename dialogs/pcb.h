@@ -1,4 +1,4 @@
-#include "../AGAR.h"
+#include "../agar.h"
 
 #define IMAGECLASS MyImages
 #define IMAGEFILE  "../images.iml"

@@ -1,4 +1,4 @@
-#include "../AGAR.h"
+#include "../agar.h"
 
 class PcbTypeDlg : public WithPcbTypesLayout<TopWindow> {
 	typedef PcbTypeDlg CLASSNAME;
