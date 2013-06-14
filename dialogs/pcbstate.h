@@ -1,4 +1,4 @@
-#include "..\AGAR.h"
+#include "../AGAR.h"
 
 class PcbStateDlg : public WithPcbStatesLayout<TopWindow> {
 	typedef PcbStateDlg CLASSNAME;
