@@ -199,17 +199,16 @@ void PcbsDlg::ExecuteFilter() {
 void PcbsDlg::LoadFaultData() {
 	// fault option list
 	Sql sql;
-	int y = 130;
+	Rect r = L_Faults.GetRect();
+	int y = r.top + 20;
 	int linecy = Draw::GetStdFontCy() + 4;
 	int current = 0; 
-	//sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
 	sql * Select(ID,LABEL).From(PCB_FAULT).OrderBy(LABEL);
 	while(sql.Fetch()) {
 		
-		//Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).LeftPos(650, 130));
-		Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).RightPos(10, 200));
+		//Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).RightPos(10, 200));
+		Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).LeftPos(r.left+10,200));
 		int id = StdConvertInt().Scan(sql[ID].ToString());
-		//option_[current].SetData(GetFaultValue(id));
 		y += linecy;
 		current++;
 	}	
