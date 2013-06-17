@@ -1,5 +1,5 @@
 PREMULTIPLIED
-IMAGE_ID(Icon) IMAGE_META("exp", "")
+IMAGE_ID(smallIcon) IMAGE_META("exp", "")
 
 IMAGE_ID(action)
 IMAGE_ID(actionDone)

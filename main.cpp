@@ -3,6 +3,10 @@
 #include <Sql/sch_schema.h>
 #include <Sql/sch_source.h>
 
+#define IMAGECLASS MyImages
+#define IMAGEFILE  "agar/images.iml"
+#include <Draw/iml_source.h>
+
 #include "dialogs/maker.h"
 #include "dialogs/game.h"
 #include "dialogs/locations.h"
@@ -238,7 +242,9 @@ GUI_APP_MAIN
 	SqlPerformScript(sch.Attributes());
 	SQL.ClearError();	
 	
-
+	//Icon(MyImages::smallIcon());
+	AGAR().Icon(MyImages::smallIcon());
+	
 	// Entering the main window modal loop
 	AGAR().Run();
 }

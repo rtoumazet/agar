@@ -14,6 +14,9 @@ using namespace Upp;
 #define LAYOUTFILE <agar/agar.lay>
 #include <CtrlCore/lay.h>
 
+#define IMAGECLASS MyImages
+#define IMAGEFILE  "agar/images.iml"
+#include <Draw/iml_header.h>
 
 class AGAR : public WithAGARLayout<TopWindow> {
 
