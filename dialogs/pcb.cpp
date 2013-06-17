@@ -1,9 +1,9 @@
 #include "pcb.h"
 #include "action.h"
 
-#define IMAGECLASS MyImages
+/*#define IMAGECLASS MyImages
 #define IMAGEFILE  "agar/images.iml"
-#include <Draw/iml_source.h>
+#include <Draw/iml_source.h>*/
 
 #include "agar/utilities/converts.h"
 #include "agar/utilities/lookups.h"
