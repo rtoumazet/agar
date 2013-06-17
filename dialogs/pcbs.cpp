@@ -207,7 +207,7 @@ void PcbsDlg::LoadFaultData() {
 	while(sql.Fetch()) {
 		
 		//Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).LeftPos(650, 130));
-		Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).RightPos(100, 136));
+		Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).RightPos(10, 200));
 		int id = StdConvertInt().Scan(sql[ID].ToString());
 		//option_[current].SetData(GetFaultValue(id));
 		y += linecy;
