@@ -139,7 +139,7 @@ void PcbDlg::LoadFaultData() {
 	sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
 	while(sql.Fetch()) {
 		//Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).LeftPos(340, 100));
-		Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).RightPos(45, 136));
+		Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).RightPos(10, 150));
 		int id = StdConvertInt().Scan(sql[0].ToString());
 		option[current].SetData(GetFaultValue(id));
 		y += linecy;
