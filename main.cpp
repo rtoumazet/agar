@@ -217,7 +217,8 @@ GUI_APP_MAIN
 {
 	// Connecting to the main database
 	Sqlite3Session sqlite3;
-	if(!sqlite3.Open(ConfigFile("AGAR.db"))) {
+	String databaseFullPath = ConfigFile("AGAR.db");
+	if(!sqlite3.Open(databaseFullPath)) {
 		Cout() << t_("Can't create or open database file\n");
 		return;
 	}
@@ -229,17 +230,42 @@ GUI_APP_MAIN
 	
 	SQL = sqlite3;
 
-	/*Sql sql;
+	Sql sql;
+	String userVersion = "";
 	sql.Execute("PRAGMA user_version;");
-	while (sql.Fetch()) {
-		PromptOK(sql[0].ToString());
-	}*/
+	if (sql.Fetch()) {
+		//PromptOK(sql[0].ToString());
+		userVersion = sql[0].ToString();
+	}
 
-	
+	// strings initializations
+	String databaseDirectory = GetFileDirectory(databaseFullPath);
+
+	String backupDirectory = NativePath(databaseDirectory);
+	backupDirectory += "backup";
+	RealizeDirectory(backupDirectory);
+
+	String schemaDirectory = NativePath(databaseDirectory);
+	schemaDirectory += "schema";
+	RealizeDirectory(schemaDirectory);	
+
 	SqlSchema sch(SQLITE3);
 	All_Tables(sch);
-	SqlPerformScript(sch.Upgrade());
-	SqlPerformScript(sch.Attributes());
+    if(sch.ScriptChanged(SqlSchema::UPGRADE, schemaDirectory)) {
+	   // schema was updated, database is saved
+	   String backupFilename = "backup/AGAR.db.bck";
+	   backupFilename += userVersion;
+	   FileCopy(databaseFullPath, ConfigFile(backupFilename));
+	   SqlPerformScript(sch.Upgrade());
+	   int val = ScanInt(userVersion);
+	   val++;
+	   sql.Execute(Format("PRAGMA user_version = %i",val));
+    }
+    if(sch.ScriptChanged(SqlSchema::ATTRIBUTES, schemaDirectory)) {
+        SqlPerformScript(sch.Attributes());
+    }
+    sch.SaveNormal(schemaDirectory);
+    
 	SQL.ClearError();	
 	
 	//Icon(MyImages::smallIcon());
