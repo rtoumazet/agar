@@ -11,6 +11,7 @@
 #include "dialogs/game.h"
 #include "dialogs/locations.h"
 #include "dialogs/origins.h"
+#include "dialogs/pinouts.h"
 #include "dialogs/pcbtype.h"
 #include "dialogs/pcbstate.h"
 #include "dialogs/pcbfault.h"
@@ -128,6 +129,7 @@ void AGAR::SubMenuFile(Bar& bar) {
     bar.Add(t_("Games"), THISBACK(GameList));
     bar.Add(t_("Locations"), THISBACK(LocationList));
     bar.Add(t_("Origins"), THISBACK(OriginList));
+    bar.Add(t_("Pinouts"), THISBACK(PinoutList));
     bar.Separator();
     bar.Add(t_("Exit"), THISBACK(Exit));
 }
@@ -176,6 +178,15 @@ void AGAR::LocationList() {
 	// Displays location table records
 	
 	LocationsDlg dlg;
+		
+	dlg.Run();
+}
+
+void AGAR::PinoutList() {
+	
+	// Displays pinout table records
+	
+	PinoutsDlg dlg;
 		
 	dlg.Run();
 }

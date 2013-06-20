@@ -39,6 +39,7 @@ public:
 	void GameList();
 	void LocationList();
 	void OriginList();
+	void PinoutList();
 	void Exit();
 	void PcbList();
 	void PcbFault();
