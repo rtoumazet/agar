@@ -14,6 +14,14 @@ PcbDlg::PcbDlg() {
 	
 	//I_image.SetImage(MyImages::smallIcon());
 	
+	Size sz = TC_Tab.GetSize();
+	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx).TopPos(0, sz.cy), t_("Analysis & Action"));
+	
+	// to be filled
+	TC_Tab.Add(t_("Pictures"));
+	TC_Tab.Add(t_("Miscellaneous"));	
+	
+	
 	// Filling droplists data
 	Sql sql;
 	// Game droplist
@@ -70,6 +78,17 @@ PcbDlg::PcbDlg() {
 	DL_Origin.SetIndex(0);
 	DL_Origin.NotNull(true);
 	
+	// pinout droplist
+	DL_Pinout.Add(0,t_("Not selected"));
+	sql.Execute("select ID,LABEL from PINOUT");
+	while(sql.Fetch()) {
+		DL_Pinout.Add(
+			sql[ID],
+			sql[LABEL].ToString()
+		);
+	}
+	DL_Pinout.SetIndex(0);
+	DL_Pinout.NotNull(true);
 
 	// Tree control
 	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
@@ -79,6 +98,7 @@ PcbDlg::PcbDlg() {
 		(PCB_STATE_ID, DL_State)
 		(ORIGIN_ID, DL_Origin)
 		(LOCATION_ID, DL_Location)
+		(PINOUT_ID, DL_Pinout)
 		(PCB_TYPE_ID, DL_Type)
 		(GAME_ID, DL_Game)
 		(LAST_TEST_DATE, D_LastTestDate)
