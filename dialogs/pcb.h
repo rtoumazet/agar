@@ -26,8 +26,6 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		
 		void BuildActionTree(const int& pcbId);
 		
-		
-
 		int	GetRecordNumber(const int& pcbId);
 		
 		PcbDlg();	

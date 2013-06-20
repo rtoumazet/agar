@@ -1,10 +1,6 @@
 #include "pcb.h"
 #include "action.h"
 
-/*#define IMAGECLASS MyImages
-#define IMAGEFILE  "agar/images.iml"
-#include <Draw/iml_source.h>*/
-
 #include "agar/utilities/converts.h"
 #include "agar/utilities/lookups.h"
 
@@ -15,7 +11,9 @@ PcbDlg::PcbDlg() {
 	// Hiding controls not to be displayed
 	E_PcbId.Hide();
 	ES_Faults.Hide();
-
+	
+	//I_image.SetImage(MyImages::smallIcon());
+	
 	// Filling droplists data
 	Sql sql;
 	// Game droplist
