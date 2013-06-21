@@ -18,6 +18,11 @@ using namespace Upp;
 #define IMAGEFILE  "agar/images.iml"
 #include <Draw/iml_header.h>
 
+enum OpeningType {
+	OPENING_CREATION,
+	OPENING_EDIT
+};
+
 class AGAR : public WithAGARLayout<TopWindow> {
 
 	typedef AGAR CLASSNAME;

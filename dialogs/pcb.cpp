@@ -1,5 +1,6 @@
 #include "pcb.h"
 #include "action.h"
+#include "origin.h"
 
 #include "agar/utilities/converts.h"
 #include "agar/utilities/lookups.h"
@@ -92,6 +93,8 @@ PcbDlg::PcbDlg() {
 
 	// Tree control
 	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
+	
+	BTN_AddDL_Origin.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_ORIGIN);
 	
 	ctrls // manual declaration
 		(ID, E_PcbId)
@@ -323,4 +326,21 @@ void PcbDlg::BuildActionTree(const int& pcbId) {
 	
 	TC_AnalysisAction.OpenDeep(0,true);
 	
+}
+
+void PcbDlg::CreateLinkedRecord(const int& tableType) {
+	switch (tableType) {
+		case TABLE_ORIGIN:
+			OriginDlg dlg(OPENING_CREATION);
+			if(dlg.Execute() != IDOK)
+				return;
+			
+			SQL * dlg.ctrls.Insert(ORIGIN);
+			int id = SQL.GetInsertedId();
+			
+			// Needs combo refresh and new id automatic selection
+
+		break;
+		
+	}
 }

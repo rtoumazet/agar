@@ -28,6 +28,17 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		
 		int	GetRecordNumber(const int& pcbId);
 		
+		enum TableType {
+			TABLE_GAME,
+			TABLE_TYPE,
+			TABLE_STATE,
+			TABLE_PINOUT,
+			TABLE_LOCATION,
+			TABLE_ORIGIN
+		};
+		
+		void CreateLinkedRecord(const int& tableType);
+		
 		PcbDlg();	
 	
 	private:
