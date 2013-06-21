@@ -7,5 +7,5 @@ class OriginDlg : public WithOriginLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 		
-		OriginDlg();	
+		OriginDlg(const int& openingType);	
 };
