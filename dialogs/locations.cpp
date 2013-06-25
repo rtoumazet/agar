@@ -22,9 +22,7 @@ void LocationsDlg::OwnMenu(Bar& bar) {
 }
 
 void LocationsDlg::Create() {
-	LocationDlg dlg;
-	dlg.Title(t_("New origin"));
-	dlg.ActiveFocus(dlg.LE_Label); // setting focus
+	LocationDlg dlg(OPENING_NEW);
 	if(dlg.Execute() != IDOK)
 		return;
 	SQL * dlg.ctrls.Insert(LOCATION);
@@ -37,9 +35,7 @@ void LocationsDlg::Edit() {
 	int id = TAB_locations.GetKey();
 	if(IsNull(id))
 		return;
-	LocationDlg dlg;
-	dlg.Title(t_("Edit location"));
-	dlg.ActiveFocus(dlg.LE_Label); // setting focus
+	LocationDlg dlg(OPENING_EDIT);
 	if(!dlg.ctrls.Load(LOCATION, ID == id))
 		return;
 	if(dlg.Execute() != IDOK)
@@ -50,7 +46,7 @@ void LocationsDlg::Edit() {
 
 void LocationsDlg::Remove() {
 	int id = TAB_locations.GetKey();
-	if(IsNull(id) || PromptYesNo(t_("Delete location ?")))
+	if(IsNull(id) || !PromptYesNo(t_("Delete location ?")))
 	   return;
 	 SQL * SqlDelete(LOCATION).Where(ID == id);
 	 TAB_locations.ReQuery();

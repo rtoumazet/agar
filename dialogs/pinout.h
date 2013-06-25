@@ -7,5 +7,5 @@ class PinoutDlg : public WithPinoutLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 		
-		PinoutDlg();	
+		PinoutDlg(const int& openingType);	
 };

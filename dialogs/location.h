@@ -7,6 +7,6 @@ class LocationDlg : public WithLocationLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 		
-		LocationDlg();	
+		LocationDlg(const int& openingType);	
 
 };

@@ -19,7 +19,7 @@ using namespace Upp;
 #include <Draw/iml_header.h>
 
 enum OpeningType {
-	OPENING_CREATION,
+	OPENING_NEW,
 	OPENING_EDIT
 };
 
