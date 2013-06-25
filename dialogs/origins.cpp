@@ -26,7 +26,7 @@ void OriginsDlg::OwnMenu(Bar& bar) {
 }
 
 void OriginsDlg::Create() {
-	OriginDlg dlg(OPENING_CREATION);
+	OriginDlg dlg(OPENING_NEW);
 
 	if(dlg.Execute() != IDOK)
 		return;
@@ -52,7 +52,7 @@ void OriginsDlg::Edit() {
 
 void OriginsDlg::Remove() {
 	int id = TAB_origins.GetKey();
-	if(IsNull(id) || PromptYesNo(t_("Delete origin ?")))
+	if(IsNull(id) || !PromptYesNo(t_("Delete origin ?")))
 	   return;
 	 SQL * SqlDelete(ORIGIN).Where(ID == id);
 	 TAB_origins.ReQuery();

@@ -24,14 +24,8 @@ void PinoutsDlg::OwnMenu(Bar& bar) {
 }
 
 void PinoutsDlg::Create() {
-	PinoutDlg dlg;
-	dlg.Title(t_("New pinout"));
+	PinoutDlg dlg(OPENING_NEW);
 
-	// remove tab character insertion to allow tab navigation in the control
-	dlg.LE_Label.NoProcessTab();
-	dlg.LE_Size.NoProcessTab();
-	dlg.DE_Detail.NoProcessTab();
-	
 	if(dlg.Execute() != IDOK)
 		return;
 	SQL * dlg.ctrls.Insert(PINOUT);
@@ -44,13 +38,7 @@ void PinoutsDlg::Edit() {
 	int id = TAB_pinouts.GetKey();
 	if(IsNull(id))
 		return;
-	PinoutDlg dlg;
-	dlg.Title(t_("Edit pinout"));
-
-	// remove tab character insertion to allow tab navigation in the control
-	dlg.LE_Label.NoProcessTab();
-	dlg.LE_Size.NoProcessTab();
-	dlg.DE_Detail.NoProcessTab();
+	PinoutDlg dlg(OPENING_EDIT);
 
 	if(!dlg.ctrls.Load(PINOUT, ID == id))
 		return;
@@ -62,7 +50,7 @@ void PinoutsDlg::Edit() {
 
 void PinoutsDlg::Remove() {
 	int id = TAB_pinouts.GetKey();
-	if(IsNull(id) || PromptYesNo(t_("Delete pinout ?")))
+	if(IsNull(id) || !PromptYesNo(t_("Delete pinout ?")))
 	   return;
 	 SQL * SqlDelete(PINOUT).Where(ID == id);
 	 TAB_pinouts.ReQuery();

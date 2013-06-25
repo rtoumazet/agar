@@ -1,6 +1,9 @@
 #include "pcb.h"
 #include "action.h"
 #include "origin.h"
+#include "pinout.h"
+#include "location.h"
+#include "pcbstate.h"
 
 #include "agar/utilities/converts.h"
 #include "agar/utilities/lookups.h"
@@ -13,7 +16,11 @@ PcbDlg::PcbDlg() {
 	E_PcbId.Hide();
 	ES_Faults.Hide();
 	
-	//I_image.SetImage(MyImages::smallIcon());
+	// displaying images on controls
+	BTN_NewOrigin.SetImage(MyImages::add);
+	BTN_NewLocation.SetImage(MyImages::add);
+	BTN_NewPinout.SetImage(MyImages::add);
+	
 	
 	Size sz = TC_Tab.GetSize();
 	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx).TopPos(0, sz.cy), t_("Analysis & Action"));
@@ -24,77 +31,32 @@ PcbDlg::PcbDlg() {
 	
 	
 	// Filling droplists data
-	Sql sql;
+	//Sql sql;
 	// Game droplist
-	sql.Execute("select GAME.ID, MAKER_NAME, GAME_NAME from MAKER,GAME where GAME.MAKER_ID = MAKER.ID order by MAKER_NAME,GAME_NAME");
-	while(sql.Fetch()) {
-		String temp = sql[1].ToString() + ' - ' + sql[2].ToString();
-		DL_Game.Add(
-			sql[0],
-			temp
-		);
-	}
+	LoadDropList(TABLE_GAME);
 	
 	// type droplist
-	sql.Execute("select ID,LABEL from PCB_TYPE");
-	while(sql.Fetch()) {
-		DL_Type.Add(
-			sql[0],
-			sql[1].ToString()
-		);
-	}	
+	LoadDropList(TABLE_TYPE);
 	
 	// state droplist
-	sql.Execute("select ID,LABEL,PAPER,INK from PCB_STATE");
-	while(sql.Fetch()) {
-		DL_State.Add(
-		    sql[0],
-			AttrText(sql[1].ToString())
-				.Paper(Color::FromRaw(static_cast<dword>(sql[2].To<int64>())))
-				.Ink(Color::FromRaw(static_cast<dword>(sql[3].To<int64>())))
-		);
-	}	
+	LoadDropList(TABLE_STATE);
 
 	// location droplist
-	DL_Location.Add(0,t_("Not selected"));
-	sql.Execute("select ID,LABEL from LOCATION");
-	while(sql.Fetch()) {
-		DL_Location.Add(
-			sql[0],
-			sql[1].ToString()
-		);
-	}
-	DL_Location.SetIndex(0);
-	DL_Location.NotNull(true);
+	LoadDropList(TABLE_LOCATION);
 
 	// origin droplist
-	DL_Origin.Add(0,t_("Not selected"));
-	sql.Execute("select ID,ORIGIN from ORIGIN");
-	while(sql.Fetch()) {
-		DL_Origin.Add(
-			sql[0],
-			sql[1].ToString()
-		);
-	}
-	DL_Origin.SetIndex(0);
-	DL_Origin.NotNull(true);
+	LoadDropList(TABLE_ORIGIN);
 	
 	// pinout droplist
-	DL_Pinout.Add(0,t_("Not selected"));
-	sql.Execute("select ID,LABEL from PINOUT");
-	while(sql.Fetch()) {
-		DL_Pinout.Add(
-			sql[ID],
-			sql[LABEL].ToString()
-		);
-	}
-	DL_Pinout.SetIndex(0);
-	DL_Pinout.NotNull(true);
+	LoadDropList(TABLE_PINOUT);
 
 	// Tree control
 	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
 	
-	BTN_AddDL_Origin.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_ORIGIN);
+	// buttons actions
+	BTN_NewOrigin.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_ORIGIN);
+	BTN_NewLocation.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_LOCATION);
+	BTN_NewPinout.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_PINOUT);
 	
 	ctrls // manual declaration
 		(ID, E_PcbId)
@@ -329,18 +291,144 @@ void PcbDlg::BuildActionTree(const int& pcbId) {
 }
 
 void PcbDlg::CreateLinkedRecord(const int& tableType) {
+	int id = 0;
 	switch (tableType) {
+		case TABLE_PINOUT:
+		{
+			PinoutDlg dlg(OPENING_NEW);
+			if(dlg.Execute() != IDOK)
+				return;
+			
+			SQL * dlg.ctrls.Insert(PINOUT);
+			id = SQL.GetInsertedId();
+			
+			// Droplist refresh
+			LoadDropList(tableType);
+			DL_Pinout.SetIndex(id);
+			break;
+		}
 		case TABLE_ORIGIN:
-			OriginDlg dlg(OPENING_CREATION);
+		{
+			OriginDlg dlg(OPENING_NEW);
 			if(dlg.Execute() != IDOK)
 				return;
 			
 			SQL * dlg.ctrls.Insert(ORIGIN);
-			int id = SQL.GetInsertedId();
+			id = SQL.GetInsertedId();
 			
-			// Needs combo refresh and new id automatic selection
-
-		break;
-		
+			// Droplist refresh
+			LoadDropList(tableType);
+			DL_Origin.SetIndex(id);
+			break;
+		}
+		case TABLE_LOCATION:
+		{
+			LocationDlg dlg(OPENING_NEW);
+			if(dlg.Execute() != IDOK)
+				return;
+			
+			SQL * dlg.ctrls.Insert(LOCATION);
+			id = SQL.GetInsertedId();
+			
+			// Droplist refresh
+			LoadDropList(tableType);
+			DL_Location.SetIndex(id);
+			break;
+		}
+/*		case TABLE_STATE:
+		{
+			PcbStateDlg dlg(OPENING_NEW);
+			if(dlg.Execute() != IDOK)
+				return;
+			
+			SQL * dlg.ctrls.Insert(PCB_STATE);
+			id = SQL.GetInsertedId();
+			
+			// Droplist refresh
+			LoadDropList(tableType);
+			DL_State.SetIndex(id);
+			break;
+		}*/
 	}
+}
+
+void PcbDlg::LoadDropList(const int& tableType) {
+	Sql sql;
+	
+	switch (tableType) {
+		case TABLE_PINOUT:
+			DL_Pinout.Clear();
+			DL_Pinout.Add(0,t_("Not selected"));
+			sql.Execute("select ID,LABEL from PINOUT");
+			while(sql.Fetch()) {
+				DL_Pinout.Add(
+					sql[ID],
+					sql[LABEL].ToString()
+				);
+			}
+			DL_Pinout.SetIndex(0);
+			DL_Pinout.NotNull(true);
+			break;
+		
+		case TABLE_ORIGIN:
+			DL_Origin.Clear();
+			DL_Origin.Add(0,t_("Not selected"));
+			sql.Execute("select ID,ORIGIN from ORIGIN");
+			while(sql.Fetch()) {
+				DL_Origin.Add(
+					sql[ID],
+					sql[ORIGIN].ToString()
+				);
+			}			
+			DL_Origin.SetIndex(0);
+			DL_Origin.NotNull(true);
+			break;
+		
+		case TABLE_LOCATION:
+			DL_Location.Clear();
+			DL_Location.Add(0,t_("Not selected"));
+			sql.Execute("select ID,LABEL from LOCATION");
+			while(sql.Fetch()) {
+				DL_Location.Add(
+					sql[ID],
+					sql[LABEL].ToString()
+				);
+			}
+			DL_Location.SetIndex(0);
+			DL_Location.NotNull(true);
+			break;
+			
+		case TABLE_STATE:
+			DL_State.Clear();
+			sql.Execute("select ID,LABEL,PAPER,INK from PCB_STATE");
+			while(sql.Fetch()) {
+				DL_State.Add(
+				    sql[ID],
+					AttrText(sql[LABEL].ToString())
+						.Paper(Color::FromRaw(static_cast<dword>(sql[PAPER].To<int64>())))
+						.Ink(Color::FromRaw(static_cast<dword>(sql[INK].To<int64>())))
+				);
+			}		
+			break;
+			
+		case TABLE_TYPE:
+			sql.Execute("select ID,LABEL from PCB_TYPE");
+			while(sql.Fetch()) {
+				DL_Type.Add(
+					sql[ID],
+					sql[LABEL].ToString()
+				);
+			}
+			break;
+			
+		case TABLE_GAME:
+			sql.Execute("select GAME.ID, MAKER_NAME, GAME_NAME from MAKER,GAME where GAME.MAKER_ID = MAKER.ID order by MAKER_NAME,GAME_NAME");
+			while(sql.Fetch()) {
+				String temp = sql[1].ToString() + ' - ' + sql[2].ToString();
+				DL_Game.Add(
+					sql[0],
+					temp
+				);
+			}		
+	}	
 }

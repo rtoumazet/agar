@@ -38,6 +38,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		};
 		
 		void CreateLinkedRecord(const int& tableType);
+		void LoadDropList(const int& tableType);
 		
 		PcbDlg();	
 	

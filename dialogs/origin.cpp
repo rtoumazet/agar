@@ -18,7 +18,7 @@ OriginDlg::OriginDlg(const int& openingType) {
 	DE_Comment.NoProcessTab();
 	
 	switch (openingType) {
-		case OPENING_CREATION:
+		case OPENING_NEW:
 			Title(t_("New origin"));
 			break;	
 		case OPENING_EDIT:

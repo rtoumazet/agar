@@ -1,6 +1,6 @@
 #include "location.h"
 
-LocationDlg::LocationDlg() {
+LocationDlg::LocationDlg(const int& openingType) {
 	
 	CtrlLayoutOKCancel(*this, t_("Location"));
 
@@ -9,4 +9,15 @@ LocationDlg::LocationDlg() {
 	ctrls // manual declaration
 		(LABEL, LE_Label)
 	;	
+	
+	ActiveFocus(LE_Label); // setting focus
+	
+	switch (openingType) {
+		case OPENING_NEW:
+			Title(t_("New location"));
+			break;	
+		case OPENING_EDIT:
+			Title(t_("Edit location"));
+			break;
+	}	
 }
