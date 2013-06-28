@@ -125,3 +125,11 @@ LAYOUT(PinoutsLayout, 512, 300)
 	ITEM(SqlArray, TAB_pinouts, LeftPosZ(4, 436).VSizePosZ(8, 4))
 END_LAYOUT
 
+LAYOUT(TabMiscLayout, 500, 252)
+	ITEM(LabelBox, LB_FlukeData, SetLabel(t_("Fluke Data")).LeftPosZ(16, 440).TopPosZ(20, 40))
+	ITEM(EditString, ES_FlukeSig, MaxChars(4).LeftPosZ(412, 40).TopPosZ(36, 19))
+	ITEM(EditString, ES_FlukeCrc32, MaxChars(8).LeftPosZ(340, 72).TopPosZ(36, 19))
+	ITEM(EditString, ES_FlukeSection, MaxChars(20).LeftPosZ(180, 160).TopPosZ(36, 19))
+	ITEM(EditString, ES_FlukeRomName, MaxChars(20).LeftPosZ(20, 160).TopPosZ(36, 19))
+END_LAYOUT
+
