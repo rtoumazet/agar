@@ -7,6 +7,9 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 
+		WithTabMiscLayout<ParentCtrl> TabMisc;
+		
+		// fault data functions
 		void GenerateFaultData();
 		void LoadFaultData();
 		
@@ -19,6 +22,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void SetEditMenuEntryVisible(const bool& val);
 		void SetRemoveMenuEntryVisible(const bool& val);
 		
+		// analysis & actions related functions
 		void AddAnalysis(const int& pcbId);
 		void AddAction(const int& pcbId);
 		void Edit();
@@ -37,10 +41,26 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 			TABLE_ORIGIN
 		};
 		
+		// droplists related functions
 		void CreateLinkedRecord(const int& tableType);
 		void LoadDropList(const int& tableType);
 		
-		PcbDlg();	
+		virtual void ChildGotFocus() {
+			//Ctrl *c = GetFocusChild();
+			currentCtrl_ = GetFocusChildDeep();
+			if (!currentCtrl_ || !currentCtrl_->IsEditable()) return;
+			 
+			ResetDisplay(currentCtrl_);
+
+		}
+		
+		virtual void ChildLostFocus() {
+			if (!currentCtrl_) return;
+
+			SetupDisplay(currentCtrl_);
+			currentCtrl_ = 0;
+		}
+		PcbDlg(const int& openingType);	
 	
 	private:
 		Array<Label> 			label;
@@ -52,5 +72,9 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		bool editMenuEntryVisible_;
 		bool removeMenuEntryVisible_;
 		
+		EditString::Style 		editStyle_;
+		Ctrl*					currentCtrl_;
 		
+		void ResetDisplay(Ctrl* ctrl);
+		void SetupDisplay(Ctrl* ctrl);
 };

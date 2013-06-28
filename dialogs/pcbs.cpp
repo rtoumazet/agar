@@ -53,15 +53,8 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 }
 
 void PcbsDlg::Create() {
-	PcbDlg dlg;
+	PcbDlg dlg(OPENING_NEW);
 	
-	// Hiding controls
-	dlg.ES_Faults.Hide(); // control is hidden as it contains data to fill fault options
-	dlg.TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's no entry in creation
-	dlg.TC_AnalysisAction.Disable(); // no action allowed on the TC during creation
-	
-	dlg.Title(t_("New PCB"));
-	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
 	dlg.LoadFaultData();
 	
 	if(dlg.Execute() != IDOK)
@@ -87,9 +80,8 @@ void PcbsDlg::Edit(int pcbId) {
 	if (!id) id = TAB_pcbs.GetKey();
 	if(IsNull(id))
 		return;
-	PcbDlg dlg;
-	dlg.Title(t_("Edit PCB"));
-	dlg.ActiveFocus(dlg.DL_Game); // sets the focus to the first droplist 
+	PcbDlg dlg(OPENING_EDIT);
+
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;
 	

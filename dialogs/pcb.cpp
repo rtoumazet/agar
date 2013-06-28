@@ -8,9 +8,54 @@
 #include "agar/utilities/converts.h"
 #include "agar/utilities/lookups.h"
 
-PcbDlg::PcbDlg() {
+PcbDlg::PcbDlg(const int& openingType) {
 
 	CtrlLayoutOKCancel(*this, t_("Pcb"));
+	
+	currentCtrl_ = 0;
+	
+	editStyle_ = EditString::StyleDefault();
+	editStyle_.text = SGray();
+
+	// tab
+	Size sz = TC_Tab.GetSize();
+	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx).TopPos(0, sz.cy), t_("Analysis & Action"));
+	
+	// to be filled later
+	TC_Tab.Add(t_("Pictures"));
+	CtrlLayout(TabMisc);
+	TC_Tab.Add(TabMisc, "Miscellaneous");
+
+
+	Ctrl* child = NULL;
+	switch (openingType) {
+		case OPENING_NEW:
+			Title(t_("New PCB"));
+			TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's no entry in creation
+			TC_AnalysisAction.Disable(); // no action allowed on the TC during creation
+			
+			//PromptOK(Format("%i",TabMisc.GetChildCount()));
+			child = TabMisc.GetFirstChild();
+			while (child) {
+				SetupDisplay(child);
+				child = child->GetNext();	
+			}
+			break;	
+		case OPENING_EDIT:
+			Title(t_("Edit PCB"));
+
+			child = TabMisc.GetFirstChild();
+			while (child) {
+				ResetDisplay(child);
+				child = child->GetNext();	
+			}
+			
+			/*TabMisc.ES_FlukeRomName.SetStyle(EditString::StyleDefault());
+			TabMisc.ES_FlukeSection.SetStyle(EditString::StyleDefault());
+			TabMisc.ES_FlukeCrc32.SetStyle(EditString::StyleDefault());
+			TabMisc.ES_FlukeSig.SetStyle(EditString::StyleDefault());*/
+			break;
+	}		
 	
 	// Hiding controls not to be displayed
 	E_PcbId.Hide();
@@ -21,33 +66,14 @@ PcbDlg::PcbDlg() {
 	BTN_NewLocation.SetImage(MyImages::add);
 	BTN_NewPinout.SetImage(MyImages::add);
 	
-	
-	Size sz = TC_Tab.GetSize();
-	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx).TopPos(0, sz.cy), t_("Analysis & Action"));
-	
-	// to be filled
-	TC_Tab.Add(t_("Pictures"));
-	TC_Tab.Add(t_("Miscellaneous"));	
-	
+	ActiveFocus(DL_Game); // sets the focus to the first droplist
 	
 	// Filling droplists data
-	//Sql sql;
-	// Game droplist
 	LoadDropList(TABLE_GAME);
-	
-	// type droplist
 	LoadDropList(TABLE_TYPE);
-	
-	// state droplist
 	LoadDropList(TABLE_STATE);
-
-	// location droplist
 	LoadDropList(TABLE_LOCATION);
-
-	// origin droplist
 	LoadDropList(TABLE_ORIGIN);
-	
-	// pinout droplist
 	LoadDropList(TABLE_PINOUT);
 
 	// Tree control
@@ -69,7 +95,12 @@ PcbDlg::PcbDlg() {
 		(LAST_TEST_DATE, D_LastTestDate)
 		(TAG, ES_Tag)
 		(PCB_FAULT_OPTION, ES_Faults)
+		(ROM_NAME, TabMisc.ES_FlukeRomName)
+		(SECTION, TabMisc.ES_FlukeSection)
+		(CRC_32, TabMisc.ES_FlukeCrc32)
+		(FLUKE_SIG, TabMisc.ES_FlukeSig)
 	;
+	
 }
 
 void PcbDlg::GenerateFaultData() {
@@ -359,11 +390,12 @@ void PcbDlg::LoadDropList(const int& tableType) {
 		case TABLE_PINOUT:
 			DL_Pinout.Clear();
 			DL_Pinout.Add(0,t_("Not selected"));
-			sql.Execute("select ID,LABEL from PINOUT");
+			sql.Execute("select ID,LABEL,PIN_SIZE from PINOUT");
 			while(sql.Fetch()) {
+				String temp = Format("%s (%s)",sql[LABEL].ToString(),sql[PIN_SIZE].ToString());
 				DL_Pinout.Add(
 					sql[ID],
-					sql[LABEL].ToString()
+					temp
 				);
 			}
 			DL_Pinout.SetIndex(0);
@@ -430,5 +462,59 @@ void PcbDlg::LoadDropList(const int& tableType) {
 					temp
 				);
 			}		
+	}	
+}
+
+void PcbDlg::SetupDisplay(Ctrl* ctrl) {
+	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeRomName.GetLayoutId()) {
+		if (TabMisc.ES_FlukeRomName.GetData() == "") {
+			TabMisc.ES_FlukeRomName <<= "Rom name";
+			TabMisc.ES_FlukeRomName.SetStyle(editStyle_);
+		}
+	}
+	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeSection.GetLayoutId()) {
+		if (TabMisc.ES_FlukeSection.GetData() == "") {
+			TabMisc.ES_FlukeSection <<= "Section";
+			TabMisc.ES_FlukeSection.SetStyle(editStyle_);
+		}
+	}
+	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeCrc32.GetLayoutId()) {
+		if (TabMisc.ES_FlukeCrc32.GetData() == "") {
+			TabMisc.ES_FlukeCrc32 <<= "CRC32";
+			TabMisc.ES_FlukeCrc32.SetStyle(editStyle_);
+		}
+	}
+	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeSig.GetLayoutId()) {
+		if (TabMisc.ES_FlukeSig.GetData() == "") {
+			TabMisc.ES_FlukeSig <<= "Sig";
+			TabMisc.ES_FlukeSig.SetStyle(editStyle_);
+		}
+	}
+}
+
+void PcbDlg::ResetDisplay(Ctrl* ctrl) {
+	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeRomName.GetLayoutId()) {
+		TabMisc.ES_FlukeRomName.SetStyle(EditString::StyleDefault());
+		if (TabMisc.ES_FlukeRomName.GetData() == "Rom name") {
+			TabMisc.ES_FlukeRomName.Erase();
+		}
+	}
+	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeSection.GetLayoutId()) {
+		TabMisc.ES_FlukeSection.SetStyle(EditString::StyleDefault());
+		if (TabMisc.ES_FlukeSection.GetData() == "Section") {
+			TabMisc.ES_FlukeSection.Erase();
+		}
+	}
+	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeCrc32.GetLayoutId()) {
+		TabMisc.ES_FlukeCrc32.SetStyle(EditString::StyleDefault());
+		if (TabMisc.ES_FlukeCrc32.GetData() == "CRC32") {
+			TabMisc.ES_FlukeCrc32.Erase();
+		}
+	}
+	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeSig.GetLayoutId()) {
+		TabMisc.ES_FlukeSig.SetStyle(EditString::StyleDefault());
+		if (TabMisc.ES_FlukeSig.GetData() == "Sig") {
+			TabMisc.ES_FlukeSig.Erase();
+		}
 	}	
 }
