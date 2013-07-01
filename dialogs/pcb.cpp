@@ -34,7 +34,6 @@ PcbDlg::PcbDlg(const int& openingType) {
 			TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's no entry in creation
 			TC_AnalysisAction.Disable(); // no action allowed on the TC during creation
 			
-			//PromptOK(Format("%i",TabMisc.GetChildCount()));
 			child = TabMisc.GetFirstChild();
 			while (child) {
 				SetupDisplay(child);
@@ -44,16 +43,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 		case OPENING_EDIT:
 			Title(t_("Edit PCB"));
 
-			child = TabMisc.GetFirstChild();
-			while (child) {
-				ResetDisplay(child);
-				child = child->GetNext();	
-			}
-			
-			/*TabMisc.ES_FlukeRomName.SetStyle(EditString::StyleDefault());
-			TabMisc.ES_FlukeSection.SetStyle(EditString::StyleDefault());
-			TabMisc.ES_FlukeCrc32.SetStyle(EditString::StyleDefault());
-			TabMisc.ES_FlukeSig.SetStyle(EditString::StyleDefault());*/
+
 			break;
 	}		
 	
@@ -83,6 +73,9 @@ PcbDlg::PcbDlg(const int& openingType) {
 	BTN_NewOrigin.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_ORIGIN);
 	BTN_NewLocation.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_LOCATION);
 	BTN_NewPinout.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_PINOUT);
+	
+	// Tab action
+	TC_Tab.WhenSet = THISBACK(TabChanged);
 	
 	ctrls // manual declaration
 		(ID, E_PcbId)
@@ -517,4 +510,16 @@ void PcbDlg::ResetDisplay(Ctrl* ctrl) {
 			TabMisc.ES_FlukeSig.Erase();
 		}
 	}	
+}
+
+void PcbDlg::TabChanged() {
+	Ctrl* child = NULL;
+	if (~TC_Tab == 2) { // Misc tab
+		child = TabMisc.GetFirstChild();
+		while (child) {
+			ResetDisplay(child);
+			SetupDisplay(child);
+			child = child->GetNext();	
+		}
+	}
 }
