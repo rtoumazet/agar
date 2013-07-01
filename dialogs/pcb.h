@@ -77,4 +77,5 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		
 		void ResetDisplay(Ctrl* ctrl);
 		void SetupDisplay(Ctrl* ctrl);
+		void TabChanged();
 };
