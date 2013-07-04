@@ -3,7 +3,8 @@ description "Arcade Game Analysis and Repair\377";
 uses
 	CtrlLib,
 	plugin\sqlite3,
-	SqlCtrl;
+	SqlCtrl,
+	plugin/jpg;
 
 file
 	agar.rc,

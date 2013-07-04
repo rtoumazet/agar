@@ -7,6 +7,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 
+		WithTabPicturesLayout<ParentCtrl> TabPictures;
 		WithTabMiscLayout<ParentCtrl> TabMisc;
 		
 		// fault data functions
@@ -78,4 +79,29 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void ResetDisplay(Ctrl* ctrl);
 		void SetupDisplay(Ctrl* ctrl);
 		void TabChanged();
+		
+		void SelectImage();
+		void AddImageToDatabase();
+		void PopulatePicturesArray();
+		void DisplayPicture();
+};
+
+class Popup : public TopWindow {
+	
+	typedef Popup CLASSNAME;
+	
+	private:
+		Image img_;
+		
+	public:
+	    virtual void Paint(Draw& draw);
+
+    	Popup(const int& id) {
+			
+		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
+		    if (SQL.Fetch()) {
+		        PNGRaster pngr;
+		        img_ = pngr.LoadString(SQL[DATA]);
+		    }
+    	}
 };
