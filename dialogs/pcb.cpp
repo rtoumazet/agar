@@ -20,11 +20,10 @@ PcbDlg::PcbDlg(const int& openingType) {
 	// tab
 	Size sz = TC_Tab.GetSize();
 	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx).TopPos(0, sz.cy), t_("Analysis & Action"));
-	
-	// to be filled later
-	TC_Tab.Add(t_("Pictures"));
+	CtrlLayout(TabPictures);
+	TC_Tab.Add(TabPictures, t_("Pictures"));
 	CtrlLayout(TabMisc);
-	TC_Tab.Add(TabMisc, "Miscellaneous");
+	TC_Tab.Add(TabMisc, t_("Miscellaneous"));
 
 
 	Ctrl* child = NULL;
@@ -39,11 +38,14 @@ PcbDlg::PcbDlg(const int& openingType) {
 				SetupDisplay(child);
 				child = child->GetNext();	
 			}
+			child = TabPictures.GetFirstChild();
+			while (child) {
+				SetupDisplay(child);
+				child = child->GetNext();	
+			}
 			break;	
 		case OPENING_EDIT:
 			Title(t_("Edit PCB"));
-
-
 			break;
 	}		
 	
@@ -55,6 +57,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 	BTN_NewOrigin.SetImage(MyImages::add);
 	BTN_NewLocation.SetImage(MyImages::add);
 	BTN_NewPinout.SetImage(MyImages::add);
+	//TabPictures.BTN_Select.SetImage(MyImages::analysis);
 	
 	ActiveFocus(DL_Game); // sets the focus to the first droplist
 	
@@ -65,6 +68,9 @@ PcbDlg::PcbDlg(const int& openingType) {
 	LoadDropList(TABLE_LOCATION);
 	LoadDropList(TABLE_ORIGIN);
 	LoadDropList(TABLE_PINOUT);
+	
+	TabPictures.TAB_Pictures.AddIndex(ID);
+	TabPictures.TAB_Pictures.AddColumn(LABEL,t_("Label"));
 
 	// Tree control
 	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
@@ -73,6 +79,11 @@ PcbDlg::PcbDlg(const int& openingType) {
 	BTN_NewOrigin.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_ORIGIN);
 	BTN_NewLocation.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_LOCATION);
 	BTN_NewPinout.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_PINOUT);
+	
+	//TabPictures.BTN_Popup.WhenPush = THISBACK(DisplayPicture);
+	TabPictures.BTN_Select.WhenPush = THISBACK(SelectImage);
+	TabPictures.BTN_Add.WhenPush = THISBACK(AddImageToDatabase);
+	TabPictures.TAB_Pictures.WhenLeftDouble = THISBACK(DisplayPicture);
 	
 	// Tab action
 	TC_Tab.WhenSet = THISBACK(TabChanged);
@@ -483,6 +494,18 @@ void PcbDlg::SetupDisplay(Ctrl* ctrl) {
 			TabMisc.ES_FlukeSig.SetStyle(editStyle_);
 		}
 	}
+	if (ctrl->GetLayoutId() == TabPictures.ES_PictureLabel.GetLayoutId()) {
+		if (TabPictures.ES_PictureLabel.GetData() == "") {
+			TabPictures.ES_PictureLabel <<= "Label";
+			TabPictures.ES_PictureLabel.SetStyle(editStyle_);
+		}
+	}
+	if (ctrl->GetLayoutId() == TabPictures.ES_PicturePath.GetLayoutId()) {
+		if (TabPictures.ES_PicturePath.GetData() == "") {
+			TabPictures.ES_PicturePath <<= "Path";
+			TabPictures.ES_PicturePath.SetStyle(editStyle_);
+		}
+	}
 }
 
 void PcbDlg::ResetDisplay(Ctrl* ctrl) {
@@ -510,16 +533,96 @@ void PcbDlg::ResetDisplay(Ctrl* ctrl) {
 			TabMisc.ES_FlukeSig.Erase();
 		}
 	}	
+	if (ctrl->GetLayoutId() == TabPictures.ES_PictureLabel.GetLayoutId()) {
+		 TabPictures.ES_PictureLabel.SetStyle(EditString::StyleDefault());
+		if ( TabPictures.ES_PictureLabel.GetData() == "Label") {
+			 TabPictures.ES_PictureLabel.Erase();
+		}
+	}	
+	if (ctrl->GetLayoutId() == TabPictures.ES_PicturePath.GetLayoutId()) {
+		 TabPictures.ES_PicturePath.SetStyle(EditString::StyleDefault());
+		if ( TabPictures.ES_PicturePath.GetData() == "Path") {
+			 TabPictures.ES_PicturePath.Erase();
+		}
+	}	
 }
 
 void PcbDlg::TabChanged() {
 	Ctrl* child = NULL;
-	if (~TC_Tab == 2) { // Misc tab
-		child = TabMisc.GetFirstChild();
-		while (child) {
-			ResetDisplay(child);
-			SetupDisplay(child);
-			child = child->GetNext();	
-		}
+	int i = ~TC_Tab;
+	switch (i) {
+		case 1: // pictures tab
+			child = TabPictures.GetFirstChild();
+			while (child) {
+				ResetDisplay(child);
+				SetupDisplay(child);
+				child = child->GetNext();	
+			}
+			
+			PopulatePicturesArray();
+			break;
+		case 2: // Misc tab
+			child = TabMisc.GetFirstChild();
+			while (child) {
+				ResetDisplay(child);
+				SetupDisplay(child);
+				child = child->GetNext();	
+			}
+			break;
 	}
+
+}
+
+void PcbDlg::DisplayPicture() {
+
+	Popup p(TabPictures.TAB_Pictures.GetKey());
+	p.SetRect(0,0,800,600);
+	p.CenterScreen();
+	p.RunAppModal();
+
+}
+
+void PcbDlg::SelectImage() {
+    FileSel fs;
+    String s = "";
+    fs.Type("Image file", "*.bmp;*.png;*.jpg;*.jpeg");
+    if(fs.ExecuteOpen("Choose the image file to open")) {
+        TabPictures.ES_PicturePath = ~fs;
+        //img_ = StreamRaster::LoadFileAny(~fs);
+        //PNGEncoder png;
+        
+        //SQL * Insert(PICTURE)(LABEL, "TEST")(DATA, SqlBinary(png.SaveString(img_)));
+		//Refresh();
+    }
+	
+    //Sizeable();
+    //return s;
+}
+
+void PcbDlg::AddImageToDatabase() {
+	Image img = StreamRaster::LoadFileAny(AsString(~TabPictures.ES_PicturePath));
+	PNGEncoder png;
+
+	SQL * Insert(PICTURE)(LABEL, ~TabPictures.ES_PictureLabel)(DATA, SqlBinary(png.SaveString(img)))(PCB_ID, ~E_PcbId);
+
+	PopulatePicturesArray(); 
+}
+
+void PcbDlg::PopulatePicturesArray() {
+	// Fills pictures array with data from database
+	
+	TabPictures.TAB_Pictures.Clear();
+    SQL * Select(ID,LABEL).From(PICTURE).Where(PCB_ID == ~E_PcbId);
+    if (SQL.Fetch()) {
+        TabPictures.TAB_Pictures.Add(SQL[ID],SQL[LABEL]);
+    }
+}
+
+void Popup::Paint(Draw& w)
+{
+    w.DrawRect(GetSize(), White);
+    if(img_)
+        w.DrawImage(0, 0, img_);
+    else
+       w.DrawText(0, 0, "No image loaded!", Arial(30).Italic());
 }
