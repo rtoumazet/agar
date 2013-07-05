@@ -24,7 +24,9 @@ PcbDlg::PcbDlg(const int& openingType) {
 	TC_Tab.Add(TabPictures, t_("Pictures"));
 	CtrlLayout(TabMisc);
 	TC_Tab.Add(TabMisc, t_("Miscellaneous"));
-
+	
+	pictureWidth_ = 1024;
+	pictureHeight_ = 768;
 
 	Ctrl* child = NULL;
 	switch (openingType) {
@@ -57,7 +59,6 @@ PcbDlg::PcbDlg(const int& openingType) {
 	BTN_NewOrigin.SetImage(MyImages::add);
 	BTN_NewLocation.SetImage(MyImages::add);
 	BTN_NewPinout.SetImage(MyImages::add);
-	//TabPictures.BTN_Select.SetImage(MyImages::analysis);
 	
 	ActiveFocus(DL_Game); // sets the focus to the first droplist
 	
@@ -576,7 +577,7 @@ void PcbDlg::TabChanged() {
 void PcbDlg::DisplayPicture() {
 
 	Popup p(TabPictures.TAB_Pictures.GetKey());
-	p.SetRect(0,0,800,600);
+	p.SetRect(0,0,p.img_.GetWidth(),p.img_.GetHeight());
 	p.CenterScreen();
 	p.RunAppModal();
 
@@ -588,20 +589,21 @@ void PcbDlg::SelectImage() {
     fs.Type("Image file", "*.bmp;*.png;*.jpg;*.jpeg");
     if(fs.ExecuteOpen("Choose the image file to open")) {
         TabPictures.ES_PicturePath = ~fs;
-        //img_ = StreamRaster::LoadFileAny(~fs);
-        //PNGEncoder png;
-        
-        //SQL * Insert(PICTURE)(LABEL, "TEST")(DATA, SqlBinary(png.SaveString(img_)));
-		//Refresh();
     }
-	
-    //Sizeable();
-    //return s;
 }
 
 void PcbDlg::AddImageToDatabase() {
 	Image img = StreamRaster::LoadFileAny(AsString(~TabPictures.ES_PicturePath));
 	PNGEncoder png;
+	
+	if ((img.GetWidth() > pictureWidth_) || (img.GetHeight() > pictureHeight_)) {
+		// picture needs to be resized
+		Size sz;
+		sz.cx = pictureWidth_;
+		sz.cy = pictureHeight_;
+		Image newImg = Rescale(img, GetFitSize(img.GetSize(),sz));
+		img = newImg;
+	}
 
 	SQL * Insert(PICTURE)(LABEL, ~TabPictures.ES_PictureLabel)(DATA, SqlBinary(png.SaveString(img)))(PCB_ID, ~E_PcbId);
 
@@ -613,7 +615,7 @@ void PcbDlg::PopulatePicturesArray() {
 	
 	TabPictures.TAB_Pictures.Clear();
     SQL * Select(ID,LABEL).From(PICTURE).Where(PCB_ID == ~E_PcbId);
-    if (SQL.Fetch()) {
+    while (SQL.Fetch()) {
         TabPictures.TAB_Pictures.Add(SQL[ID],SQL[LABEL]);
     }
 }

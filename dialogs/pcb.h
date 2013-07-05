@@ -80,6 +80,8 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void SetupDisplay(Ctrl* ctrl);
 		void TabChanged();
 		
+		int	pictureWidth_; // max width of saved pictures in the db
+		int pictureHeight_; // max heigth of saved picture in the database
 		void SelectImage();
 		void AddImageToDatabase();
 		void PopulatePicturesArray();
@@ -91,9 +93,10 @@ class Popup : public TopWindow {
 	typedef Popup CLASSNAME;
 	
 	private:
-		Image img_;
+		//Image img_;
 		
 	public:
+	    Image img_;
 	    virtual void Paint(Draw& draw);
 
     	Popup(const int& id) {
