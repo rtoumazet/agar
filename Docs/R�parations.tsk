@@ -1,0 +1,1262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?taskcoach release="1.3.29" tskversion="37"?>
+
+<tasks>
+<task id="008ebcae-fd6a-11e0-ab33-001d92ae0bf5" plannedstartdate="2011-10-23 13:19:00" status="1" subject="Raiden - Seibu">
+<description>
+- Manque la couleur rouge
+- Sprites répétés 2 fois en dégradé
+- Son OK
+</description>
+<task id="008e959e-fd6a-11e0-ae01-001d92ae0bf5" plannedstartdate="2011-10-23 13:21:33.879000" status="1" subject="Analyse" />
+<task id="008e959f-fd6a-11e0-88bb-001d92ae0bf5" plannedstartdate="2011-10-23 13:22:33.881000" status="1" subject="A faire" />
+<task id="88f6fb9e-128a-11e1-99f0-001d92ae0bf5" plannedstartdate="2011-11-19 09:43:00" status="1" subject="#002" />
+<attachment id="e7fef451-fdad-11e0-adc6-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#002 -1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#002 -1.JPG" type="file" />
+<attachment id="e7fef452-fdad-11e0-a6b5-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#002 -2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#002 -2.JPG" type="file" />
+<attachment id="e7fef453-fdad-11e0-8ad1-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#002 -3.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#002 -3.JPG" type="file" />
+<attachment id="e7fef454-fdad-11e0-8266-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#002 -4.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#002 -4.JPG" type="file" />
+<attachment id="e7fef455-fdad-11e0-bfce-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#002 -5.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#002 -5.JPG" type="file" />
+</task>
+<task id="128885296:1292749507.6" plannedstartdate="2010-12-19 09:57:00" status="1" subject="Guerilla War - SNK">
+<description>
+Rom avec pins tordues. Ecrans colorés. LED2 allumée, LED1 allumée une fois par intermitence (reproduction ?). Pas de son.
+</description>
+<task expandedContexts="('taskviewer',)" id="128888496:1292749507.6" plannedstartdate="2010-12-19 09:59:48.135000" status="1" subject="A faire">
+<task completiondate="2010-12-19 10:07:00" id="128770288:1292749633.47" percentageComplete="100" plannedstartdate="2010-12-19 10:07:00" status="1" subject="Reclipser correctement les nappes">
+<description>
+Fais apparaitre les sprites et le fond
+</description>
+</task>
+<task id="86256240:1292868905.14" plannedstartdate="2010-12-20 19:15:00" status="1" subject="Remplacer les 2 nappes + connecteurs côté jamma" />
+<task completiondate="2010-12-19 10:07:00" id="87646992:1292749617.16" percentageComplete="100" plannedstartdate="2010-12-19 10:06:00" status="1" subject="Redresser les pins des roms">
+<description>
+Affichage du texte
+</description>
+</task>
+</task>
+<task expandedContexts="('taskviewer',)" id="83392432:1292868624.38" plannedstartdate="2010-12-20 19:10:00" status="1" subject="Achats">
+<task id="76635888:1292868700.42" plannedstartdate="2010-12-20 19:11:00" status="1" subject="Connecteurs HE10 mâles coudés verrouillables * 4" />
+<task id="79831152:1292868762.75" plannedstartdate="2010-12-20 19:12:00" status="1" subject="Connecteurs HE10 femelles à sertir * 4" />
+<task id="84872688:1292868632.51" plannedstartdate="2010-12-20 19:10:00" status="1" subject="Câble en nappe gris 50 conducteurs" />
+</task>
+<task expandedContexts="('taskviewer',)" id="88604336:1292749507.6" plannedstartdate="2010-12-19 09:58:48.135000" status="1" subject="Analyse">
+<task id="129101936:1292749598.27" plannedstartdate="2010-12-19 10:06:00" status="1" subject="Nappes mal fixées" />
+<task id="82778896:1292749577.41" plannedstartdate="2010-12-19 10:06:00" status="1" subject="Roms avec pins tordues" />
+</task>
+</task>
+<task id="134020304:1292750122.11" plannedstartdate="2010-12-19 10:07:00" status="1" subject="Thunder &amp; Lightning - Seta">
+<description>
+Ecran complètement brouillé. Pas de son. Hormis ceci il semble tourner
+</description>
+<task expandedContexts="('taskviewer',)" id="132680656:1292751645.35" plannedstartdate="2010-12-19 10:40:00" status="1" subject="Achats">
+<task id="137040656:1292751658.77" plannedstartdate="2010-12-19 10:40:00" status="1" subject="2 entretoises 20mm (vis M3 de 30mm)" />
+</task>
+<task expandedContexts="('taskviewer',)" id="134019568:1292750122.11" plannedstartdate="2010-12-19 10:10:02.648000" status="1" subject="A faire">
+<task completiondate="2010-12-21 21:53:59.705000" id="129699600:1292750881.18" percentageComplete="100" plannedstartdate="2010-12-19 10:28:00" status="1" subject="Nettoyer les 2 plaques">
+<description>
+Sortir les roms avant
+</description>
+</task>
+<task id="77351088:1296759862.28" plannedstartdate="2011-02-03 20:04:00" status="1" subject="Comparaison set Mame">
+<description>
+Eprom 32K (nmc27c256Q200) = m4 (Mame)
+Eprom 32K (am27c256) = m5 (Mame)
+
+</description>
+</task>
+<task completiondate="2011-01-09 15:50:34.770000" id="87687344:1292750978.39" percentageComplete="100" plannedstartdate="2010-12-19 10:29:00" status="1" subject="Remplacer les entretoises manquantes" />
+</task>
+<task expandedContexts="('taskviewer',)" id="82863728:1292750122.11" plannedstartdate="2010-12-19 10:09:02.647000" status="1" subject="Analyse">
+<task id="133313136:1292750873.71" plannedstartdate="2010-12-19 10:27:00" status="1" subject="Carte sale" />
+<task id="137547664:1292750967.14" plannedstartdate="2010-12-19 10:29:00" status="1" subject="Manquent 2 entretoises" />
+</task>
+</task>
+<task id="137413552:1293058045.27" plannedstartdate="2010-12-22 23:38:00" status="1" subject="Inconnu 3 - ?">
+<description>
+Ecran bleu au boot
+</description>
+<task expandedContexts="('taskviewer',)" id="137413808:1293058045.27" plannedstartdate="2010-12-22 23:41:50.407000" status="1" subject="A faire">
+<task completiondate="2011-01-10 22:18:00" id="78503472:1294694269.76" percentageComplete="100" plannedstartdate="2011-01-10 22:17:00" status="1" subject="Ressouder le fil">
+<description>
+Aucun changement
+</description>
+</task>
+</task>
+<task expandedContexts="('taskviewer',)" id="89495376:1293058045.27" plannedstartdate="2010-12-22 23:40:50.406000" status="1" subject="Analyse">
+<task id="78868400:1296291140.53" plannedstartdate="2011-01-29 09:52:00" status="1" subject="Introuvable dans romident" />
+<task id="79384624:1294694249.45" plannedstartdate="2011-01-10 22:17:00" status="1" subject="Fil dessoudé" />
+<task id="85197168:1293058087.13" plannedstartdate="2010-12-22 23:48:00" status="1" subject="Oscillateurs OK" />
+</task>
+</task>
+<task id="137544592:1292770197.21" plannedstartdate="2010-12-19 15:42:00" status="1" subject="Street Fighter 2 World Warriors - Capcom">
+<description>
+Gros soucis graphiques, pas de son
+</description>
+<task expandedContexts="('taskviewer',)" id="136282224:1292770197.21" plannedstartdate="2010-12-19 15:43:37.746000" status="1" subject="Analyse">
+<task id="129696464:1292770293.47" plannedstartdate="2010-12-19 15:51:00" status="1" subject="Morceau de pcb rajouté par dessus une partie existante" />
+<task id="139414192:1292770246.41" plannedstartdate="2010-12-19 15:50:00" status="1" subject="Partie de pcb brulée, impossible de voir les pistes" />
+<task id="142434832:1292879549.27" plannedstartdate="2010-12-20 22:12:00" status="1" subject="Quartz à 3.57 MHz mort" />
+<task id="143301488:1292770271.18" plannedstartdate="2010-12-19 15:51:00" status="1" subject="Pistes réparées à l'étain" />
+<task id="80758288:1297418095.74" plannedstartdate="2011-02-11 10:54:00" status="1" subject="Faux contact entre +5V et GND" />
+</task>
+<task expandedContexts="('taskviewer',)" id="141701264:1292770197.21" plannedstartdate="2010-12-19 15:44:37.747000" status="1" subject="A faire">
+<task id="144088368:1292879565.58" plannedstartdate="2010-12-20 22:12:00" status="1" subject="Remplacer quartz 3.57MHz" />
+</task>
+<task expandedContexts="('taskviewer',)" id="145252208:1292879579.38" plannedstartdate="2010-12-20 22:12:00" status="1" subject="Achats">
+<task id="142690608:1292879588.8" plannedstartdate="2010-12-20 22:13:00" status="1" subject="Quartz 3.57 MHz" />
+</task>
+<task id="5bdd0b80-128c-11e1-b94f-001d92ae0bf5" plannedstartdate="2011-11-19 09:56:00" status="1" subject="#017" />
+<attachment id="239aa8cf-085b-11e1-9574-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#017.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#017.JPG" type="file" />
+</task>
+<task id="139572208:1292768977.38" plannedstartdate="2010-12-19 15:21:00" status="1" subject="Double Dragon 3 - Technos">
+<description>
+RC-DI5
+Ecran bleu au boot
+Après remplacement du quartz, on peut entendre du son, mais il n'y a toujours pas de vidéo.
+</description>
+<task id="136929008:1292768977.38" plannedstartdate="2010-12-19 15:23:17.915000" status="1" subject="Analyse">
+<task id="83392272:1292878987.28" plannedstartdate="2010-12-20 22:03:00" status="1" subject="Le quartz à 12 Mhz n'oscille pas, sachant que sur la plaque c'est un 10 MHz qui était prévu" />
+</task>
+<task expandedContexts="('taskviewer',)" id="144563824:1292768977.38" plannedstartdate="2010-12-19 15:24:17.916000" status="1" subject="A faire">
+<task completiondate="2011-01-05 22:25:21.228000" id="142741360:1292879026.3" percentageComplete="100" plannedstartdate="2010-12-20 22:03:00" status="1" subject="Remplacer le quartz 12MHz" />
+</task>
+<task id="793bf740-128c-11e1-98c4-001d92ae0bf5" plannedstartdate="2011-11-19 09:57:00" status="1" subject="#019" />
+<task id="86893040:1292879046.84" plannedstartdate="2010-12-20 22:04:00" status="1" subject="Achats">
+<task id="141802288:1292879064.32" plannedstartdate="2010-12-20 22:04:00" status="1" subject="Quartz 12 MHz" />
+<task id="85381104:1292879055.32" plannedstartdate="2010-12-20 22:04:00" status="1" subject="Quartz 10 MHz" />
+</task>
+<attachment id="299a4dcf-085b-11e1-bc47-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#019.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#019.JPG" type="file" />
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor1',)" id="144047024:1292774517.14" plannedstartdate="2010-12-19 16:54:00" status="1" subject="Q-Bert - Midway">
+<description>
+Inconnu 1
+</description>
+<task expandedContexts="('taskviewer',)" id="135484784:1292774517.14" plannedstartdate="2010-12-19 16:55:37.679000" status="1" subject="Analyse">
+<task id="140297488:1292774602.94" plannedstartdate="2010-12-19 17:03:00" status="1" subject="Pile 3,6V 50mA NiCd  morte" />
+<task id="143980368:1292774587.39" plannedstartdate="2010-12-19 17:03:00" status="1" subject="Connecteur 22 pins sans adaptateur" />
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor1', 'taskviewer')" id="141170000:1292774517.14" plannedstartdate="2010-12-19 16:56:37.679000" status="1" subject="A faire">
+<task id="133969584:1292774764.35" plannedstartdate="2010-12-19 17:06:00" status="1" subject="Trouver le pinout (2*22 pins)">
+<description>
+Côté composants :
+1 - GND
+2 - GND
+3 - GND
+4 - +12V (vers l'ampli son)
+5 - -5V/-12V ? (vers ampli opérationnel)
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20 - GND
+21 - GND
+22 - GND
+
+Côté soudure :
+1 - +5V
+2 - +5V
+3 - +5V
+4 - +12V (vers l'ampli son)
+5 - -5V/-12V ? (vers ampli opérationnel)
+6 - GND (video ?)
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17 
+18 
+19 
+20 - +5V
+21 - +5V
+22 - +5V
+</description>
+</task>
+<task id="141059696:1292774777.09" plannedstartdate="2010-12-19 17:06:00" prerequisites="133969584:1292774764.35" status="1" subject="Faire l'adaptateur" />
+</task>
+<task expandedContexts="('taskviewer',)" id="77845936:1292774713.49" plannedstartdate="2010-12-19 17:05:00" status="1" subject="Achats">
+<task id="143394896:1292774731.8" plannedstartdate="2010-12-19 17:05:00" status="1" subject="Pile 3.6V 50mA NiCd">
+<description>
+Peut être remplacée par une NiMH 3.6V 80 mAh
+http://www.bestlaptopbattery.com/viewbattery.cfm/NiCd-NiMH-Cells/All-vendor/3-51FT-A.htm
+http://www.all-batteries.fr/accus-nimh-industriels-3-v80h-slf-3-6v-80mah-2ph-abh8804.html 6€40
+</description>
+</task>
+<task id="159577328:1292791465.89" plannedstartdate="2010-12-19 21:44:00" status="1" subject="Connecteur 2*22 pins" />
+</task>
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor',)" id="144421424:1292779547.85" plannedstartdate="2010-12-19 17:03:00" status="1" subject="Inconnu 2 - ?">
+<task expandedContexts="('taskviewer',)" id="144382736:1292779687.99" plannedstartdate="2010-12-19 17:05:00" status="1" subject="Achats">
+<task id="130528752:1292779687.99" plannedstartdate="2010-12-19 17:05:00" status="1" subject="Pile 3.6V 50mA NiCd">
+<description>
+Peut être remplacée par une NiMH 3.6V 80 mAh
+http://www.bestlaptopbattery.com/viewbattery.cfm/NiCd-NiMH-Cells/All-vendor/3-51FT-A.htm
+http://www.all-batteries.fr/accus-nimh-industriels-3-v80h-slf-3-6v-80mah-2ph-abh8804.html 6€40
+</description>
+</task>
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor', 'taskviewer')" id="149437840:1292779547.85" plannedstartdate="2010-12-19 18:20:28.388000" status="1" subject="A faire">
+<task id="154566576:1292779702.32" plannedstartdate="2010-12-19 18:28:00" status="1" subject="Trouver le pinout (2*18 pins)">
+<description>
+Côté composants :
+1 - +12V
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16 - GND
+17 - GND
+18 - +5V
+
+
+Côté soudure :
+1 - GND
+2 - GND
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16 - GND
+17 - GND
+18 - +5V
+
+</description>
+</task>
+<task id="155452240:1292779730.51" plannedstartdate="2010-12-19 18:28:00" prerequisites="154566576:1292779702.32" status="1" subject="Faire l'adaptateur" />
+</task>
+<task expandedContexts="('taskviewer',)" id="150745360:1292779547.85" plannedstartdate="2010-12-19 17:03:00" status="1" subject="Analyse">
+<task id="146158480:1292779659.99" plannedstartdate="2010-12-19 17:03:00" status="1" subject="Pile 3,6V 50mA NiCd  morte" />
+<task id="153017168:1292779641.87" plannedstartdate="2010-12-19 18:27:00" status="1" subject="Connecteur 2*18 pins sans adaptateur" />
+<task id="71537648:1297364436.27" plannedstartdate="2011-02-10 20:00:00" status="1" subject="Introuvable dans romident" />
+</task>
+</task>
+<task id="156538096:1292780854.01" plannedstartdate="2010-12-19 18:39:00" status="1" subject="King of Boxer - Woodplace Inc.">
+<task expandedContexts="('taskviewer',)" id="156538352:1292780854.01" plannedstartdate="2010-12-19 18:42:14.549000" status="1" subject="A faire">
+<task id="155391280:1292791497.84" plannedstartdate="2010-12-19 21:44:00" status="1" subject="Dessouder l'adaptateur existant" />
+<task id="169030064:1292791516.17" plannedstartdate="2010-12-19 21:45:00" status="1" subject="Faire l'adaptateur">
+<description>
+  SOLDER                PARTS
+ --------              -------
+  1  GND                A  GND
+  2  GND                B  GND
+  3  DEFENSE 1          C  DEFENSE 2
+  4  SPEAKER            D  SPEAKER
+  5  +12V               E  +12V
+  6  -5V                F  -5V
+  7  UPPER 1            H  UPPER 2
+  8  +5V                J  +5V
+  9  +5V                K  +5V
+ 10  UP 1               L  UP 2
+ 11  DOWN 1             M  DOWN 2
+ 12  START 2            N  SERVICE
+ 13  START 1            P  COIN 1
+ 14  RIGHT 1            R  STRAIGHT 1
+ 15  LEFT 1             S  RED
+ 16  BLUE               T  RIGHT 2
+ 17  GREEN              U  LEFT 2
+ 18  SYNC               V  STRAIGHT 2
+</description>
+</task>
+</task>
+<task id="156539888:1292780854.01" plannedstartdate="2010-12-19 18:41:14.548000" status="1" subject="Analyse" />
+</task>
+<task id="16028b5e-1298-11e1-83ef-001d92ae0bf5" plannedstartdate="2011-11-19 11:03:00" status="1" subject="Pengo - Sega">
+<task expandedContexts="('taskviewer',)" icon="cogwheels_icon" id="16023d40-1298-11e1-bd85-001d92ae0bf5" plannedstartdate="2011-11-19 11:06:21.135000" selectedIcon="cogwheels_icon" status="1" subject="Analyse">
+<task id="532622cf-1299-11e1-bf37-001d92ae0bf5" plannedstartdate="2011-11-19 11:29:00" status="1" subject="Connecteur 2*22" />
+</task>
+<task expandedContexts="('taskviewer',)" icon="wrench_icon" id="1602644f-1298-11e1-b0cc-001d92ae0bf5" plannedstartdate="2011-11-19 11:07:21.137000" selectedIcon="wrench_icon" status="1" subject="A faire">
+<task id="64fddac0-1299-11e1-b4a6-001d92ae0bf5" plannedstartdate="2011-11-19 11:29:00" status="1" subject="Adaptateur Jamma">
+<description>
+                          PENGO PINOUTS
+                          -------------
+
+       ---------------------------------------------------
+                   SOLDER SIDE  |  COMPONENT SIDE
+       -------------------------+-------------------------
+                       GND |  A | 1  | GND
+                       GND |  B | 2  | GND
+                        +5 |  C | 3  | +5
+                        +5 |  D | 4  | +5
+                        +5 |  E | 5  | +5
+                   1P PUSH |  F | 6  | METER 1
+                   2P PUSH |  H | 7  | METER 2
+                    COIN 1 |  J | 8  | COIN 2
+                      TEST |  K | 9  | SERVICE
+                  1P START |  L | 10 | 2P START
+                   1P LEFT |  M | 11 | 1P RIGHT
+                     1P UP |  N | 12 | 2P UP
+                      LEFT |  P | 13 | 2P RIGHT
+                        NC |  R | 14 | 1P DOWN
+                       GND |  S | 15 | VID GND
+                       RED |  T | 16 | GREEN
+                      BLUE |  U | 17 | SYNC (COMP)
+                   2P DOWN |  V | 18 | SPKR+
+                       +12 |  W | 19 | +12
+         REMOTE VOLUME POT |  X | 20 | REMOTE VOLUME POT
+                       GND |  Y | 21 | GND
+                       GND |  Y | 21 | SPKR- (GND)
+       ---------------------------------------------------
+</description>
+</task>
+</task>
+<task id="16026450-1298-11e1-a1e4-001d92ae0bf5" plannedstartdate="2011-11-19 11:15:00" status="1" subject="#025" />
+</task>
+<task id="178532112:1292708861.32" plannedstartdate="2010-12-18 22:39:00" status="1" subject="Mexico '86 - Taito">
+<description>
+Ecran bleu au boot
+</description>
+<task expandedContexts="('taskviewer',)" id="175240368:1292708861.32" plannedstartdate="2010-12-18 22:41:21.858000" status="1" subject="Analyse">
+<task id="176174640:1292708935.54" plannedstartdate="2010-12-18 22:48:00" status="1" subject="Composant inconnu arraché en haut à droite du pcb (un quartz ?)">
+<description>
+Alimente 2 Z80B à 6MHz
+</description>
+</task>
+<task icon="sign_warning_icon" id="76635376:1292876341.88" plannedstartdate="2010-12-20 21:19:00" selectedIcon="sign_warning_icon" status="1" subject="Destruction de la piste 5V du supergun après avoir bougé la rom H" />
+<task id="86527824:1292708949.16" plannedstartdate="2010-12-18 22:49:00" status="1" subject="Court circuit de l'alim au branchement (entre le +5V et la masse)" />
+</task>
+<task expandedContexts="('taskviewer',)" icon="wrench_icon" id="85308016:1292708861.32" plannedstartdate="2010-12-18 22:42:00" selectedIcon="wrench_icon" status="1" subject="A faire">
+<task icon="wrench_icon" id="80234736:1292876692.98" plannedstartdate="2010-12-20 21:24:00" selectedIcon="wrench_icon" status="1" subject="Remplacer la rom H" />
+<task icon="wrench_icon" id="84732272:1292876384.37" plannedstartdate="2010-12-20 21:19:00" selectedIcon="wrench_icon" status="1" subject="Remplacer le socket de la rom H (28 pins lyre)" />
+</task>
+<task expandedContexts="('taskviewer',)" id="86993136:1292876716.06" plannedstartdate="2010-12-20 21:25:00" status="1" subject="Achat">
+<task id="82238288:1292877195.35" plannedstartdate="2010-12-20 21:33:00" status="1" subject="MC68705P3S EPROM (MCU)">
+<description>
+45.50€ chez Electronique Diffusion
+</description>
+</task>
+<task id="85377200:1292876723.86" plannedstartdate="2010-12-20 21:25:00" status="1" subject="Support 28 pins lyre" />
+</task>
+<task id="b49d090f-128b-11e1-a9ac-001d92ae0bf5" plannedstartdate="2011-11-19 09:51:00" status="1" subject="#012" />
+<attachment id="ede2ce70-0404-11e1-96f7-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#012.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#012.JPG" type="file" />
+</task>
+<task id="34ee95de-128f-11e1-a6b9-001d92ae0bf5" plannedstartdate="2011-11-19 09:59:00" status="1" subject="Slot MVS - SNK">
+<description>
+SLOT1FZS (M1BBV)
+</description>
+<task expandedContexts="('taskviewer',)" icon="cogwheels_icon" id="34ee6ecf-128f-11e1-83a5-001d92ae0bf5" plannedstartdate="2011-11-19 10:02:00" selectedIcon="cogwheels_icon" status="1" subject="Analyse">
+<task id="659432de-128f-11e1-bbe5-001d92ae0bf5" plannedstartdate="2011-11-19 10:18:00" status="1" subject="BACKUP RAM ERROR">
+<description>
+WRITE : 5555
+READ : B255
+</description>
+</task>
+</task>
+<task icon="wrench_icon" id="34ee6ed0-128f-11e1-876d-001d92ae0bf5" plannedstartdate="2011-11-19 10:03:47.545000" selectedIcon="wrench_icon" status="1" subject="A faire" />
+<task id="34ee6ed1-128f-11e1-a2f4-001d92ae0bf5" plannedstartdate="2011-11-19 10:11:00" status="1" subject="#024" />
+</task>
+<task id="385be170-fdad-11e0-a064-001d92ae0bf5" plannedstartdate="2011-10-23 21:19:00" status="1" subject="USAAF Mustang - UPL">
+<description>
+- Background OK
+- Pas de sprites
+- Son OK
+</description>
+<task id="385bba61-fdad-11e0-ba35-001d92ae0bf5" plannedstartdate="2011-10-23 21:21:43.779000" status="1" subject="Analyse" />
+<task id="385bba62-fdad-11e0-9cf9-001d92ae0bf5" plannedstartdate="2011-10-23 21:22:43.781000" status="1" subject="A faire" />
+<task id="be6459e1-128a-11e1-87b1-001d92ae0bf5" plannedstartdate="2011-11-19 09:44:00" status="1" subject="#005" />
+<attachment id="bdecfef0-fdad-11e0-a78f-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#005 - 1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#005 - 1.JPG" type="file" />
+<attachment id="bdecfef1-fdad-11e0-b5a0-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#005 - 2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#005 - 2.JPG" type="file" />
+<attachment id="bdecfef2-fdad-11e0-9397-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#005 - 3.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#005 - 3.JPG" type="file" />
+<attachment id="bdecfef3-fdad-11e0-96b0-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#005 - 4.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#005 - 4.JPG" type="file" />
+</task>
+<task id="3e4ca770-fdaf-11e0-8b55-001d92ae0bf5" plannedstartdate="2011-10-23 21:34:00" status="1" subject="Street Fighter 2' - Capcom">
+<description>
+- Couleur très blanche au démarrage, qui deviennent normales après quelques minutes
+- Son moyen
+</description>
+<task id="3e4c8061-fdaf-11e0-83c2-001d92ae0bf5" plannedstartdate="2011-10-23 21:36:12.739000" status="1" subject="Analyse" />
+<task id="3e4c8062-fdaf-11e0-90de-001d92ae0bf5" plannedstartdate="2011-10-23 21:37:12.741000" status="1" subject="A faire" />
+<task id="ea311ea1-128a-11e1-8596-001d92ae0bf5" plannedstartdate="2011-11-19 09:46:00" status="1" subject="#006" />
+<attachment id="52a1bb70-fdaf-11e0-ab6a-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#006 - 4.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#006 - 4.JPG" type="file" />
+<attachment id="52a1bb71-fdaf-11e0-b461-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#006 - 1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#006 - 1.JPG" type="file" />
+<attachment id="52a1bb72-fdaf-11e0-9c83-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#006 - 2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#006 - 2.JPG" type="file" />
+<attachment id="52a1bb73-fdaf-11e0-bbac-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#006 - 3.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#006 - 3.JPG" type="file" />
+</task>
+<task id="3fdd0600-0342-11e1-a816-001d92ae0bf5" plannedstartdate="2011-10-30 22:47:00" status="1" subject="Fixeight - Toaplan">
+<description>
+"Le Fixeight n'a jamais fonctionné à 100% et il a aussi déjà été réparé.
+Au mieux il y a un bug quand on arrive au 4ème stage, et les contrôles ne répondent plus."
+
+- Pas de son
+</description>
+<task icon="cogwheel_icon" id="3fdcb7de-0342-11e1-9d3a-001d92ae0bf5" plannedstartdate="2011-10-30 22:49:07.195000" selectedIcon="cogwheel_icon" status="1" subject="Analyse" />
+<task icon="wrench_icon" id="3fdcdeee-0342-11e1-9a20-001d92ae0bf5" plannedstartdate="2011-10-30 22:50:07.197000" selectedIcon="wrench_icon" status="1" subject="A faire" />
+<task id="fdd367f0-128b-11e1-a837-001d92ae0bf5" plannedstartdate="2011-11-19 09:53:00" status="1" subject="#015" />
+</task>
+<task id="431b6d40-129a-11e1-a5b4-001d92ae0bf5" plannedstartdate="2011-11-19 11:18:00" status="1" subject="Twin Cobra - Toaplan">
+<task expandedContexts="('taskviewer',)" icon="cogwheels_icon" id="431b4630-129a-11e1-92f1-001d92ae0bf5" plannedstartdate="2011-11-19 11:21:55.790000" selectedIcon="cogwheels_icon" status="1" subject="Analyse">
+<task id="743cf100-129a-11e1-a054-001d92ae0bf5" plannedstartdate="2011-11-19 11:37:00" status="1" subject="Court circuit entre le +5V et le GND" />
+</task>
+<task icon="wrench_icon" id="431b4631-129a-11e1-beb5-001d92ae0bf5" plannedstartdate="2011-11-19 11:22:55.791000" selectedIcon="wrench_icon" status="1" subject="A faire" />
+<task id="431b4632-129a-11e1-b8f9-001d92ae0bf5" plannedstartdate="2011-11-19 11:30:00" status="1" subject="#026" />
+</task>
+<task id="627190df-fd6c-11e0-b9bc-001d92ae0bf5" plannedstartdate="2011-10-23 13:36:00" status="1" subject="West Story (Blood Bros) - Datsu">
+<description>
+- Logique OK
+- Sprites sous forme de carrés colorés
+- Pas de son
+</description>
+<task id="627169d1-fd6c-11e0-88ff-001d92ae0bf5" plannedstartdate="2011-10-23 13:38:37.097000" status="1" subject="Analyse" />
+<task id="627190de-fd6c-11e0-914f-001d92ae0bf5" plannedstartdate="2011-10-23 13:39:37.100000" status="1" subject="A faire" />
+<task id="717d328f-128b-11e1-b2da-001d92ae0bf5" plannedstartdate="2011-11-19 09:49:00" status="1" subject="#008" />
+<attachment id="2013b9f0-fdb0-11e0-b336-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#008 - 1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#008 - 1.JPG" type="file" />
+<attachment id="2013b9f1-fdb0-11e0-8db9-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#008 - 2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#008 - 2.JPG" type="file" />
+<attachment id="2013b9f2-fdb0-11e0-bb97-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#008 - 3.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#008 - 3.JPG" type="file" />
+<attachment id="2013b9f3-fdb0-11e0-960f-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#008 - 4.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#008 - 4.JPG" type="file" />
+<attachment id="2013b9f4-fdb0-11e0-a3eb-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#008 - 5.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#008 - 5.JPG" type="file" />
+</task>
+<task id="6aa8f2e1-fd6b-11e0-887f-001d92ae0bf5" plannedstartdate="2011-10-23 13:29:00" status="1" subject="Sky Smasher - ?">
+<description>
+- Ecran vert et noir fixe au démarrage
+- Problème de synchro
+</description>
+<task id="50975f70-128a-11e1-92ed-001d92ae0bf5" plannedstartdate="2011-11-19 09:41:00" status="1" subject="#001" />
+<task id="6aa8cbcf-fd6b-11e0-95d4-001d92ae0bf5" plannedstartdate="2011-10-23 13:31:41.385000" status="1" subject="Analyse" />
+<task id="6aa8cbd0-fd6b-11e0-9e4d-001d92ae0bf5" plannedstartdate="2011-10-23 13:32:41.387000" status="1" subject="A faire" />
+<attachment id="08d44221-fdae-11e0-a989-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#001 - 1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#001 - 1.JPG" type="file" />
+<attachment id="08d44222-fdae-11e0-b8a9-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#001 - 2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#001 - 2.JPG" type="file" />
+</task>
+<task id="76993776:1295383693.65" plannedstartdate="2011-01-18 21:39:00" status="1" subject="Phoenix - Centuri">
+<description>
+Est-ce que c'est vraiment un boot ?
+</description>
+<task id="76993456:1295383693.65" plannedstartdate="2011-01-18 21:42:38.788000" status="1" subject="A faire" />
+<task expandedContexts="('taskviewer',)" id="76994000:1295383693.65" plannedstartdate="2011-01-18 21:41:38.787000" status="1" subject="Analyse">
+<task id="81057872:1295383866.61" plannedstartdate="2011-01-18 21:51:00" status="1" subject="2 plaques séparées" />
+<task id="87534736:1295383834.15" plannedstartdate="2011-01-18 21:50:00" status="1" subject="Brochage 2*18 pins" />
+</task>
+</task>
+<task id="76995248:1295383036.82" plannedstartdate="2011-01-18 21:28:00" status="1" subject="Robocop - Data East">
+<task id="76992560:1295383036.82" plannedstartdate="2011-01-18 21:30:41.962000" status="1" subject="Analyse">
+<task id="81058928:1295383067.56" plannedstartdate="2011-01-18 21:37:00" status="1" subject="Quartz 24 MHz mort" />
+</task>
+<task expandedContexts="('taskviewer',)" id="76996464:1295383036.82" plannedstartdate="2011-01-18 21:31:41.964000" status="1" subject="A faire">
+<task completiondate="2011-02-01 21:48:52.919000" id="78564048:1296510279.39" percentageComplete="100" plannedstartdate="2011-01-31 22:44:00" status="1" subject="Remplacer le quartz 24MHz" />
+</task>
+<task id="77829040:1295383088.5" plannedstartdate="2011-01-18 21:38:00" status="1" subject="Achats">
+<task id="76994864:1295383146.46" plannedstartdate="2011-01-18 21:39:00" status="1" subject="Quartz 24MHz" />
+</task>
+<task id="a5195dcf-128c-11e1-a591-001d92ae0bf5" plannedstartdate="2011-11-19 09:58:00" status="1" subject="#022" />
+<attachment id="30de80c0-085b-11e1-9072-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#022-2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#022-2.JPG" type="file" />
+<attachment id="30de80c1-085b-11e1-89d2-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#022-1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#022-1.JPG" type="file" />
+</task>
+<task id="77785136:1295382476.66" plannedstartdate="2011-01-18 21:19:00" status="1" subject="Tiger Heli - Taito">
+<task expandedContexts="('taskviewer',)" id="77783920:1295382476.66" plannedstartdate="2011-01-18 21:21:21.802000" status="1" subject="Analyse">
+<task id="81020272:1295382503.94" plannedstartdate="2011-01-18 21:28:00" status="1" subject="Brochage 22 pins" />
+</task>
+<task expandedContexts="('taskviewer',)" id="77786672:1295382476.66" plannedstartdate="2011-01-18 21:22:21.804000" status="1" subject="A faire">
+<task id="78389072:1296289958.15" plannedstartdate="2011-01-29 09:32:00" status="1" subject="Faire l'adaptateur" />
+</task>
+</task>
+<task id="77808880:1295385093.86" plannedstartdate="2011-01-18 22:02:00" status="1" subject="Knuckle Joe - Taito">
+<task expandedContexts="('taskviewer',)" id="79816464:1295385093.86" plannedstartdate="2011-01-18 22:04:58.995000" status="1" subject="Analyse">
+<task id="79055856:1295385130.42" plannedstartdate="2011-01-18 22:12:00" status="1" subject="Brochage 2*22 pins" />
+</task>
+<task id="80874864:1295385093.86" plannedstartdate="2011-01-18 22:05:58.996000" status="1" subject="A faire" />
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor15',)" id="77811312:1295384337.59" plannedstartdate="2011-01-18 21:50:00" status="1" subject="Arkanoid - Revenge of Doh (Inconnu 4) - Taito">
+<description>
+Bootleg de Tayto, non référencé dans Mame
+</description>
+<task expandedContexts="('prerequisiteviewerintaskeditor15', 'taskviewer')" id="77808688:1295384337.59" plannedstartdate="2011-01-18 21:53:22.731000" status="1" subject="A faire">
+<task id="78386544:1296289826.01" plannedstartdate="2011-01-29 09:30:00" status="1" subject="Retrouver le pinout" />
+<task id="78797712:1296289836.02" plannedstartdate="2011-01-29 09:30:00" prerequisites="78386544:1296289826.01" status="1" subject="Faire l'adaptateur" />
+</task>
+<task expandedContexts="('taskviewer',)" id="77810448:1295384337.59" plannedstartdate="2011-01-18 21:52:22.730000" status="1" subject="Analyse">
+<task id="76791792:1295384357.74" plannedstartdate="2011-01-18 21:59:00" status="1" subject="Brochage 2*22 pins" />
+</task>
+</task>
+<task id="77895696:1302619355.47" plannedstartdate="2011-04-12 16:33:00" status="1" subject="Cobra Command - Nihon Bussan/AV Japan">
+<description>
+Gros bugs graphiques, écritures manquantes et doublées.
+La logique et le son semblent ok.
+</description>
+<task id="77896944:1302619355.47" plannedstartdate="2011-04-12 16:36:00.607000" status="1" subject="Analyse" />
+<task id="77897648:1302619355.47" plannedstartdate="2011-04-12 16:37:00.608000" status="1" subject="A faire" />
+</task>
+<task id="78088400:1293733926.34" plannedstartdate="2010-12-30 19:32:00" status="1" subject="Achats globaux">
+<task id="137103440:1294519408.88" plannedstartdate="2011-01-08 21:43:00" status="1" subject="Vernis de protection" />
+<task id="76947280:1294579625.15" plannedstartdate="2011-01-09 14:27:00" status="1" subject="Alimentation variable PS1503SB 0-15 Vcc/0-3 A" />
+<task id="79125520:1293734042.35" plannedstartdate="2010-12-30 19:34:00" status="1" subject="Pinces croco">
+<description>
+Pour faire des tests de branchement sur les adaptateurs
+</description>
+</task>
+<task id="83841328:1293733951.32" plannedstartdate="2010-12-30 19:32:00" status="1" subject="Fils 0.50mm² (rouge, jaune, orange, noir)" />
+</task>
+<task id="78510192:1302620203.47" plannedstartdate="2011-04-12 16:47:00" status="1" subject="Gigas - Sega">
+<task id="78510288:1302620203.47" plannedstartdate="2011-04-12 16:51:08.609000" status="1" subject="A faire" />
+<task expandedContexts="('taskviewer',)" id="79963632:1302620203.47" plannedstartdate="2011-04-12 16:50:08.607000" status="1" subject="Analyse">
+<task id="80096976:1302620234.06" plannedstartdate="2011-04-12 16:57:00" status="1" subject="Connecteur 2*18 (Sega System 8)" />
+</task>
+</task>
+<task id="78554096:1302622552.72" plannedstartdate="2011-04-12 17:27:00" status="1" subject="Terra Force - Nichibutsu">
+<description>
+- Son OK
+- Lignes verticales sur le background
+</description>
+<task id="78553392:1302622552.72" plannedstartdate="2011-04-12 17:30:17.864000" status="1" subject="A faire" />
+<task id="78556976:1302622552.72" plannedstartdate="2011-04-12 17:29:17.863000" status="1" subject="Analyse" />
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor7',)" id="78661744:1295384862.87" plannedstartdate="2011-01-18 21:58:00" status="1" subject="Wonderboy - Sega">
+<description>
+Inconnu 6
+</description>
+<task expandedContexts="('prerequisiteviewerintaskeditor7', 'taskviewer')" id="76102800:1295384862.87" plannedstartdate="2011-01-18 22:02:08.012000" status="1" subject="A faire">
+<task id="78387952:1296288860.54" plannedstartdate="2011-01-29 09:14:00" prerequisites="78409136:1296288841.66" status="1" subject="Refaire l'adaptateur" />
+<task id="78409136:1296288841.66" plannedstartdate="2011-01-29 09:14:00" status="1" subject="Dessouder l'adapateur actuel" />
+</task>
+<task expandedContexts="('taskviewer',)" id="81059248:1295384862.87" plannedstartdate="2011-01-18 22:01:08.010000" status="1" subject="Analyse">
+<task id="79056016:1295384945.88" plannedstartdate="2011-01-18 22:09:00" status="1" subject="Adaptateur 2*22 pins soudé directement sur la pcb" />
+<task id="80944048:1295384902.86" plannedstartdate="2011-01-18 22:08:00" status="1" subject="Brochage 2*22 pins" />
+</task>
+</task>
+<task id="78991792:1292748617.61" plannedstartdate="2010-12-19 09:42:00" status="1" subject="Erotictac - Sisteme France">
+<description>
+Ecran bleu au boot
+</description>
+<task expandedContexts="('taskviewer',)" id="78994672:1292748617.61" plannedstartdate="2010-12-19 09:43:58.142000" status="1" subject="Analyse">
+<task id="79233232:1292748691.26" plannedstartdate="2010-12-19 09:51:00" status="1" subject="Les marquages des 4 processeurs ont été effacés" />
+<task id="79325904:1292748670.53" plannedstartdate="2010-12-19 09:51:00" status="1" subject="Condensateur goutte coupé" />
+</task>
+<task expandedContexts="('taskviewer',)" icon="wrench_icon" id="78995120:1292748617.61" plannedstartdate="2010-12-19 09:44:00" selectedIcon="wrench_icon" status="1" subject="A faire">
+<task icon="wrench_icon" id="137028656:1292751932.53" plannedstartdate="2010-12-19 10:45:00" selectedIcon="wrench_icon" status="1" subject="Remplacer condensateur goutte (réf ?)" />
+<task completiondate="2010-12-19 09:52:16.650000" id="80724368:1292748720.32" percentageComplete="100" plannedstartdate="2010-12-19 09:52:00" status="1" subject="Réglage du voltage a 5V (diode verte allumée)" />
+</task>
+<task expandedContexts="('taskviewer',)" id="88394352:1292751967.66" plannedstartdate="2010-12-19 10:46:00" status="1" subject="Achats">
+<task id="133313328:1292751981.01" plannedstartdate="2010-12-19 10:46:00" status="1" subject="Condensateur goutte (réf n33) -&gt; 330 pF ?" />
+</task>
+<task id="a61e190f-128b-11e1-ac0a-001d92ae0bf5" plannedstartdate="2011-11-19 09:51:00" status="1" subject="#011" />
+<attachment id="ec5c0761-0404-11e1-b583-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#011.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#011.JPG" type="file" />
+</task>
+<task id="79056208:1295382321.8" plannedstartdate="2011-01-18 21:16:00" status="1" subject="Kangaroo - Sun Electronics">
+<task expandedContexts="('taskviewer',)" id="79053584:1295382321.8" plannedstartdate="2011-01-18 21:18:46.938000" status="1" subject="Analyse">
+<task id="77874480:1295382358.52" plannedstartdate="2011-01-18 21:25:00" status="1" subject="Brochage 22 pins" />
+</task>
+<task expandedContexts="('taskviewer',)" id="79053808:1295382321.8" plannedstartdate="2011-01-18 21:19:46.940000" status="1" subject="A faire">
+<task id="78397616:1296290031.21" plannedstartdate="2011-01-29 09:33:00" status="1" subject="Faire l'adaptateur" />
+</task>
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor13',)" id="79170512:1295384549.34" plannedstartdate="2011-01-18 21:53:00" status="1" subject="Arkanoid (Inconnu 5) - Taito">
+<task expandedContexts="('prerequisiteviewerintaskeditor13', 'taskviewer')" id="79169008:1295384549.34" plannedstartdate="2011-01-18 21:56:54.476000" status="1" subject="A faire">
+<task id="78755760:1296289792.46" plannedstartdate="2011-01-29 09:29:00" prerequisites="79680112:1296289781.56" status="1" subject="Faire l'adaptateur" />
+<task id="79680112:1296289781.56" plannedstartdate="2011-01-29 09:29:00" status="1" subject="Retrouver le pinout" />
+</task>
+<task expandedContexts="('taskviewer',)" id="79170640:1295384549.34" plannedstartdate="2011-01-18 21:55:54.475000" status="1" subject="Analyse">
+<task id="87535536:1295384579.27" plannedstartdate="2011-01-18 22:02:00" status="1" subject="Brochage 2*22 pins" />
+</task>
+</task>
+<task id="79184240:1292693278.11" plannedstartdate="2010-12-18 18:27:00" status="1" subject="The Combatribes - Taito">
+<description>
+Ecran noir. Graphismes brouillés lorsqu'on appuie sur la carte. Pas de son.
+</description>
+<task id="138055440:1292752037.93" plannedstartdate="2010-12-19 10:47:00" status="1" subject="Achats">
+<task id="141704400:1292752049.2" plannedstartdate="2010-12-19 10:47:00" status="1" subject="Réseau de résistance 4,7KOhms 8+1" />
+</task>
+<task expandedContexts="('taskviewer',)" id="79232016:1292693401.88" plannedstartdate="2010-12-18 18:30:00" status="1" subject="Analyse">
+<task id="77645648:1297418197.26" plannedstartdate="2011-02-11 10:56:00" status="1" subject="Musique OK, quelques bruitages sont morts" />
+<task id="80498896:1292693411.56" plannedstartdate="2010-12-18 18:30:00" status="1" subject="Pins écartées sur IC33" />
+<task id="80500240:1292693478.77" plannedstartdate="2010-12-18 18:31:00" status="1" subject="Carte sale" />
+<task id="80550864:1292693449.26" plannedstartdate="2010-12-18 18:30:00" status="1" subject=" RM8 fendue (réseau résistance 4,7KOhms 8+1)" />
+<task id="80657648:1292693646.29" plannedstartdate="2010-12-18 18:34:00" status="1" subject="Pin dessoudée sur IC33" />
+<task id="81482384:1297418142.8" plannedstartdate="2011-02-11 10:55:00" status="1" subject="En appuyant fortement sur IC84, on obtient un affichage presque parfait" />
+</task>
+<task expandedContexts="('taskviewer',)" id="79645968:1292693528.53" plannedstartdate="2010-12-18 18:32:00" status="1" subject="A faire">
+<task id="76983856:1297421842.61" plannedstartdate="2011-02-11 11:57:00" status="1" subject="Vérifier bruitages sur le Combatribes fonctionnel" />
+<task completiondate="2011-02-11 11:56:39.899000" id="79602512:1292693606.68" percentageComplete="100" plannedstartdate="2010-12-18 18:33:00" status="1" subject="Soudure patte IC33" />
+<task completiondate="2010-12-18 22:10:36.403000" id="79603408:1292706606.37" percentageComplete="100" plannedstartdate="2010-12-18 22:10:00" status="1" subject="Redresser les pins sur IC33" />
+<task expandedContexts="('taskviewer',)" id="79730672:1292693553.9" plannedstartdate="2010-12-18 18:32:00" status="1" subject="Nettoyage carte" />
+<task completiondate="2011-02-11 10:55:21.254000" id="80684944:1292693567.23" percentageComplete="100" plannedstartdate="2010-12-18 18:32:00" status="1" subject="Remplacement RM8" />
+<task id="80758608:1297421803.19" plannedstartdate="2011-02-11 11:56:00" status="1" subject="Soudure pattes IC84" />
+</task>
+<task id="b43b448f-128c-11e1-bd49-001d92ae0bf5" plannedstartdate="2011-11-19 09:58:00" status="1" subject="#023" />
+</task>
+<task id="79323440:1292749160.66" plannedstartdate="2010-12-19 09:51:00" status="1" subject="Block Out - Technos">
+<description>
+Ecran blanc moucheté de rose au boot
+</description>
+<task id="68ec3ee1-128c-11e1-b3b1-001d92ae0bf5" plannedstartdate="2011-11-19 09:56:00" status="1" subject="#018" />
+<task expandedContexts="('taskviewer',)" icon="cogwheels_icon" id="79284176:1292749160.65" plannedstartdate="2010-12-19 09:53:00" selectedIcon="cogwheels_icon" status="1" subject="Analyse">
+<task id="80684688:1292749206.44" plannedstartdate="2010-12-19 10:00:00" status="1" subject="Plaque très sale" />
+<task id="81334096:1292749192.74" plannedstartdate="2010-12-19 09:59:00" status="1" subject="Condensateur 100µF 16V coupé" />
+</task>
+<task expandedContexts="('taskviewer',)" id="79327088:1292749160.65" plannedstartdate="2010-12-19 09:54:01.191000" status="1" subject="A faire">
+<task completiondate="2011-02-11 11:03:44.951000" id="79349200:1292749221.79" percentageComplete="100" plannedstartdate="2010-12-19 10:00:00" status="1" subject="Remplacer condensateur 100µF 16V" />
+<task completiondate="2010-12-19 10:00:50.175000" id="83326928:1292749244.84" percentageComplete="100" plannedstartdate="2010-12-19 10:00:00" status="1" subject="Nettoyer plaque" />
+</task>
+<attachment id="271d18cf-085b-11e1-aeff-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#018.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#018.JPG" type="file" />
+</task>
+<task id="79765776:1295381527.84" plannedstartdate="2011-01-18 21:03:00" status="1" subject="Shootout - Data East">
+<task expandedContexts="('taskviewer',)" id="79055120:1295381527.84" plannedstartdate="2011-01-18 21:05:32.978000" status="1" subject="Analyse">
+<task id="80872912:1295381610.57" plannedstartdate="2011-01-18 21:13:00" status="1" subject="Brochage 22 pins" />
+</task>
+<task expandedContexts="('taskviewer',)" id="79765584:1295381527.84" plannedstartdate="2011-01-18 21:06:32.980000" status="1" subject="A faire">
+<task id="75787824:1296290251.96" plannedstartdate="2011-01-29 09:37:00" status="1" subject="Faire l'adaptateur" />
+</task>
+</task>
+<task id="79941168:1302611016.67" plannedstartdate="2011-04-12 14:14:00" status="1" subject="Slot MVS - SNK">
+<task id="79937680:1302611016.67" plannedstartdate="2011-04-12 14:17:00" status="1" subject="Analyse">
+<task id="79964368:1302611044.61" plannedstartdate="2011-04-12 14:24:00" status="1" subject="Backup RAM Error">
+<description>
+ADDR 0
+WRITE 0
+READ 0100
+</description>
+</task>
+</task>
+<task id="79938864:1302611016.67" plannedstartdate="2011-04-12 14:18:01.807000" status="1" subject="A faire" />
+</task>
+<task id="79953776:1302617422.85" plannedstartdate="2011-04-12 16:01:00" status="1" subject="Vulgus - Capcom">
+<task expandedContexts="('taskviewer',)" id="79952112:1302617422.84" plannedstartdate="2011-04-12 16:04:47.984000" status="1" subject="A faire">
+<task id="78558320:1302617446.47" plannedstartdate="2011-04-12 16:10:00" status="1" subject="Trouver le pinout">
+<description>
+                 SOLDER  |  PARTS 
+    ---------------------+----------------------
+               GND   | 1 | A |   GND
+               +5V   | 2 | B |   +5V
+              +12V   | 3 | C |   +12V
+         GND(+12V)   | 4 | D |   GND(+12V)
+         Speaker -   | 5 | E |   Speaker -
+         Speaker +   | 6 | F |   Speaker +
+         Counter -   | 7 | G |   Counter +
+         ---KEY---   | 8 | H |   ---KEY---
+          1P.Shoot   | 9 | I |   1P.Up
+           1P.Down   |10 | J |   1P.Left
+          1P.Right   |11 | K |   GND
+          2P.Shoot   |12 | L |   2P.Up
+           2P.Down   |13 | M |   2P.Left
+          2P.Right   |14 | N |   GND
+          2P.Start   |15 | O |   GND
+          1P.Start   |16 | P |   GND
+            Coin 1   |17 | Q |   GND
+            Coin 2   |18 | R |   GND
+                     |19 | S |   1P.Cannon
+                     |20 | T |   2P.Cannon
+                     |21 | U |   Video GND
+              Sync   |22 | V |   Red
+             Green   |23 | W |   Blue
+                     |24 | X |   
+                     |25 | Y |   
+                     |26 | Z |   
+               +5V   |27 | a |   +5V
+               GND   |28 | b |   GND
+</description>
+</task>
+<task id="78670128:1302617474.36" plannedstartdate="2011-04-12 16:11:00" status="1" subject="Faire l'adaptateur (2*28)" />
+</task>
+<task id="79953008:1302617422.84" plannedstartdate="2011-04-12 16:03:47.983000" status="1" subject="Analyse" />
+</task>
+<task id="7e7adfc0-03a3-11e1-a52c-001d92ae0bf5" plannedstartdate="2011-10-31 10:23:00" status="1" subject="Sky Shark - Romstar">
+<description>
+"Le Flying Shark fonctionne à 90%, le souci est que les sprites clignotent..."
+
+Je n'ai rien vu de tel, à tester plus en profondeur.
+</description>
+<task id="2c6b81b0-128c-11e1-97de-001d92ae0bf5" plannedstartdate="2011-11-19 09:55:00" status="1" subject="#016" />
+<task icon="cogwheel_icon" id="7e7ab8b0-03a3-11e1-be78-001d92ae0bf5" plannedstartdate="2011-10-31 10:25:13.431000" selectedIcon="cogwheel_icon" status="1" subject="Analyse" />
+<task icon="wrench_icon" id="7e7ab8b1-03a3-11e1-aee0-001d92ae0bf5" plannedstartdate="2011-10-31 10:26:13.434000" selectedIcon="wrench_icon" status="1" subject="A faire" />
+<attachment id="f3a7b461-0404-11e1-8020-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#016.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#016.JPG" type="file" />
+</task>
+<task id="80047696:1302608746.49" plannedstartdate="2011-04-12 13:36:00" status="1" subject="Toki - TAD Corporation">
+<task expandedContexts="('taskviewer',)" id="78978832:1302608746.49" plannedstartdate="2011-04-12 13:39:11.631000" status="1" subject="Analyse">
+<task id="78784944:1302609143.51" plannedstartdate="2011-04-12 13:52:00" status="1" subject="Court circuit avec la masse" />
+</task>
+<task id="80047728:1302608746.49" plannedstartdate="2011-04-12 13:40:11.633000" status="1" subject="A faire" />
+</task>
+<task id="80096400:1302611696.14" plannedstartdate="2011-04-12 14:26:00" status="1" subject="Inconnu 1 - ?">
+<task expandedContexts="('taskviewer',)" id="80094128:1302611696.14" plannedstartdate="2011-04-12 14:28:21.279000" status="1" subject="Analyse">
+<task id="77731632:1302611735.46" plannedstartdate="2011-04-12 14:35:00" status="1" subject="Introuvable dans RomIdent" />
+<task id="78558832:1302611720.65" plannedstartdate="2011-04-12 14:35:00" status="1" subject="Brochage 2*18" />
+</task>
+<task id="80094576:1302611696.14" plannedstartdate="2011-04-12 14:29:21.280000" status="1" subject="A faire" />
+</task>
+<task completiondate="2011-01-08 12:25:01.390000" id="80716944:1292706752.21" percentageComplete="100" plannedstartdate="2010-12-18 22:12:00" status="1" subject="Twin Hawk - Taito (PCB)">
+<description>
+Pas de boot. Fait sauter le fusible de l'alim
+</description>
+<task completiondate="2011-01-08 12:25:01.390000" expandedContexts="('taskviewer',)" id="134638992:1292752148.68" percentageComplete="100" plannedstartdate="2010-12-19 10:49:00" status="1" subject="Achats">
+<task completiondate="2011-01-08 12:25:01.390000" id="129796752:1292752165.63" percentageComplete="100" plannedstartdate="2010-12-19 10:49:00" status="1" subject="Diode zener Z9Z (BZX55C10V ?)" />
+</task>
+<task completiondate="2011-01-08 12:25:01.390000" expandedContexts="('taskviewer',)" id="80547920:1292706790.98" percentageComplete="100" plannedstartdate="2010-12-18 22:13:00" status="1" subject="Analyse">
+<task completiondate="2011-01-08 12:25:01.390000" id="85328848:1292707172.14" percentageComplete="100" plannedstartdate="2010-12-18 22:19:00" status="1" subject="Court circuit entre le +5V et le GND">
+<description>
+Il est possible que la diode Zener ZD1 soit en cause car la continuité existe des 2 côtés + test diode à 0
+</description>
+</task>
+</task>
+<task completiondate="2011-01-08 12:25:01.390000" expandedContexts="('taskviewer',)" id="83006032:1292706896.21" percentageComplete="100" plannedstartdate="2010-12-18 22:14:00" status="1" subject="A faire">
+<task completiondate="2011-01-08 12:24:39.374000" id="85795824:1292707407.6" percentageComplete="100" plannedstartdate="2010-12-18 22:23:00" status="1" subject="Remplacement ZD1 (Z9Z ?) (BZX55C10V ?)" />
+</task>
+</task>
+<task id="80995408:1295381876.46" plannedstartdate="2011-01-18 21:09:00" status="1" subject="Exerion - Jaleco">
+<task expandedContexts="('taskviewer',)" id="77873616:1295381876.46" plannedstartdate="2011-01-18 21:11:21.602000" status="1" subject="Analyse">
+<task id="76911472:1295381903.64" plannedstartdate="2011-01-18 21:18:00" status="1" subject="Brochage 18 pins" />
+</task>
+<task expandedContexts="('taskviewer',)" id="80996496:1295381876.46" plannedstartdate="2011-01-18 21:12:21.604000" status="1" subject="A faire">
+<task id="146844208:1296290173.57" plannedstartdate="2011-01-29 09:36:00" status="1" subject="Nettoyer le connecteur" />
+<task id="78307984:1296290185.8" plannedstartdate="2011-01-29 09:36:00" status="1" subject="Faire l'adaptateur" />
+</task>
+</task>
+<task id="81009584:1295387461.82" plannedstartdate="2011-01-18 22:42:00" status="1" subject="1943 - Capcom">
+<description>
+Ecran noir
+</description>
+<task id="81007216:1295387461.82" plannedstartdate="2011-01-18 22:45:26.964000" status="1" subject="A faire" />
+<task expandedContexts="('taskviewer',)" id="81008080:1295387461.82" plannedstartdate="2011-01-18 22:44:26.963000" status="1" subject="Analyse" />
+<task expandedContexts="('taskviewer',)" id="87239056:1295387504.52" plannedstartdate="2011-01-18 22:51:00" status="1" subject="Achats" />
+<task id="94455a40-128c-11e1-ab0f-001d92ae0bf5" plannedstartdate="2011-11-19 09:57:00" status="1" subject="#021" />
+<attachment id="2e8c2c4f-085b-11e1-a20f-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#021-2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#021-2.JPG" type="file" />
+<attachment id="2e8c2c50-085b-11e1-a839-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#021-1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#021-1.JPG" type="file" />
+</task>
+<task id="82323856:1302612423.73" plannedstartdate="2011-04-12 14:38:00" status="1" subject="Insector X - Taito">
+<task id="82324048:1302612423.73" plannedstartdate="2011-04-12 14:41:28.872000" status="1" subject="A faire" />
+<task expandedContexts="('taskviewer',)" id="82325392:1302612423.73" plannedstartdate="2011-04-12 14:40:28.870000" status="1" subject="Analyse">
+<task id="79968176:1302612453.49" plannedstartdate="2011-04-12 14:47:00" status="1" subject="Problème d'affichage de l'écran de titre" />
+</task>
+</task>
+<task id="82346896:1302623462.27" plannedstartdate="2011-04-12 17:42:00" status="1" subject="Hyper Olympic - Konami">
+<task id="77693936:1302623462.27" plannedstartdate="2011-04-12 17:44:27.407000" status="1" subject="Analyse" />
+<task expandedContexts="('taskviewer',)" id="82346736:1302623462.27" plannedstartdate="2011-04-12 17:45:27.409000" status="1" subject="A faire">
+<task id="79920720:1302623507.1" plannedstartdate="2011-04-12 17:51:00" status="1" subject="Adaptateur 2*18 (Konami class ?)" />
+</task>
+</task>
+<task id="82412816:1292749280.94" plannedstartdate="2010-12-19 09:53:00" status="1" subject="Mortal Kombat - Midway">
+<description>
+Corruption graphique des backgrounds, son qui crachouille
+</description>
+<task expandedContexts="('taskviewer',)" id="82412976:1292749280.94" plannedstartdate="2010-12-19 09:56:01.479000" status="1" subject="A faire">
+<task id="79394960:1292749363.62" plannedstartdate="2010-12-19 10:02:00" status="1" subject="Vérifier le son du bootleg dans Mame" />
+<task completiondate="2010-12-19 10:02:36.565000" id="88442992:1292749326.77" percentageComplete="100" plannedstartdate="2010-12-19 10:02:00" status="1" subject="Remettre la rom sonore d'aplomb ">
+<description>
+Fixe le souci du son. Les pbs restants sont probablement dûs au bootleg (vérifier dans Mame)
+</description>
+</task>
+</task>
+<task expandedContexts="('taskviewer',)" id="85076976:1292749280.94" plannedstartdate="2010-12-19 09:55:01.478000" status="1" subject="Analyse">
+<task id="87539376:1292749314.21" plannedstartdate="2010-12-19 10:01:00" status="1" subject="ROM sonore forcée dans son support" />
+</task>
+</task>
+<task id="82776144:1292749471.44" plannedstartdate="2010-12-19 09:56:00" status="1" subject="Carte mère ST-V - Sega">
+<description>
+IC37 bad au rom test
+</description>
+<task expandedContexts="('taskviewer',)" id="82779632:1292749471.44" plannedstartdate="2010-12-19 09:59:11.975000" status="1" subject="A faire">
+<task id="128959440:1292749776.38" plannedstartdate="2010-12-19 10:09:00" status="1" subject="Remplacer IC37" />
+</task>
+<task id="83850096:1292749471.44" plannedstartdate="2010-12-19 09:58:11.975000" status="1" subject="Analyse" />
+</task>
+<task completiondate="2011-01-07 21:28:31.709000" id="83852240:1292748772.56" percentageComplete="100" plannedstartdate="2010-12-19 09:45:00" status="1" subject="Snow Bros  Nick &amp; Tom - Toaplan (Bootleg)">
+<description>
+Pas de son. Bruit si appui sur condensateur. Bug graphique sur le continue
+</description>
+<task completiondate="2010-12-19 09:58:52.689000" expandedContexts="('taskviewer',)" id="81854832:1292748772.56" percentageComplete="100" plannedstartdate="2010-12-19 09:47:33.095000" status="1" subject="A faire">
+<task completiondate="2010-12-19 09:58:11.465000" id="80029680:1292749075.63" percentageComplete="100" plannedstartdate="2010-12-19 09:57:00" status="1" subject="Vérifier &quot;continue&quot;dans Mame">
+<description>
+Ok
+</description>
+</task>
+<task completiondate="2010-12-19 09:58:09.063000" id="83850832:1292749039.14" percentageComplete="100" plannedstartdate="2010-12-19 09:57:00" status="1" subject="Régler le potentiomètre son" />
+</task>
+<task completiondate="2010-12-19 09:58:59.207000" expandedContexts="('taskviewer',)" id="81856048:1292748772.56" percentageComplete="100" plannedstartdate="2010-12-19 09:46:33.094000" status="1" subject="Analyse">
+<task completiondate="2010-12-19 09:58:59.207000" id="84316304:1292749011.02" percentageComplete="100" plannedstartdate="2010-12-19 09:56:00" status="1" subject="Potentiomètre son au mini" />
+</task>
+</task>
+<task id="84393360:1302621721.9" plannedstartdate="2011-04-12 17:13:00" status="1" subject="Amidar - Konami">
+<task id="84392752:1302621721.9" plannedstartdate="2011-04-12 17:15:27.039000" status="1" subject="Analyse" />
+<task expandedContexts="('taskviewer',)" id="84393584:1302621721.9" plannedstartdate="2011-04-12 17:16:27.041000" status="1" subject="A faire">
+<task id="86869488:1302621742.96" plannedstartdate="2011-04-12 17:22:00" status="1" subject="Adaptateur 2*22 pins (Jeutel ?)" />
+</task>
+</task>
+<task id="84892944:1292749410.22" plannedstartdate="2010-12-19 09:55:00" status="1" subject="Football Champ - Taito">
+<description>
+Ecran bleu au boot
+</description>
+<task expandedContexts="('taskviewer',)" id="80029008:1292749410.22" plannedstartdate="2010-12-19 09:58:10.760000" status="1" subject="A faire">
+<task id="87409968:1292749949.46" plannedstartdate="2010-12-19 10:12:00" status="1" subject="Remplacer piste brulée au niveau d'IC67" />
+</task>
+<task expandedContexts="('taskviewer',)" id="82365328:1292749410.22" plannedstartdate="2010-12-19 09:57:10.759000" status="1" subject="Analyse">
+<task id="80159472:1292749942.57" plannedstartdate="2010-12-19 10:12:00" status="1" subject="Piste brulée au niveau d'IC67" />
+</task>
+</task>
+<task id="85393648:1295386145.54" plannedstartdate="2011-01-18 22:20:00" status="1" subject="Inconnu 7 - ?">
+<description>
+Ecran brouillé puis court circuit au niveau de la partie son
+</description>
+<task expandedContexts="('taskviewer',)" id="85396560:1295386145.54" plannedstartdate="2011-01-18 22:22:30.683000" status="1" subject="Analyse">
+<task id="79808720:1295386175.56" plannedstartdate="2011-01-18 22:29:00" status="1" subject="Court circuit entre le +5V et la masse après avoir bougé la carte en fonctionnement" />
+</task>
+<task id="85396688:1295386145.54" plannedstartdate="2011-01-18 22:23:30.685000" status="1" subject="A faire" />
+</task>
+<task id="85396720:1295387681.55" plannedstartdate="2011-01-18 22:45:00" status="1" subject="ZigZag - LAX">
+<task id="85397424:1295387681.55" plannedstartdate="2011-01-18 22:49:06.685000" status="1" subject="A faire" />
+<task expandedContexts="('taskviewer',)" id="89022160:1295387681.54" plannedstartdate="2011-01-18 22:48:06.683000" status="1" subject="Analyse">
+<task id="81794672:1295387708.58" plannedstartdate="2011-01-18 22:55:00" status="1" subject="Brochage 2*22 pins" />
+</task>
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor19',)" id="85397104:1295386706.51" plannedstartdate="2011-01-18 22:29:00" status="1" subject="Swimmer- Tehkan">
+<task expandedContexts="('taskviewer',)" id="80943088:1295386706.51" plannedstartdate="2011-01-18 22:31:51.651000" status="1" subject="Analyse">
+<task id="80932496:1295386800.44" plannedstartdate="2011-01-18 22:40:00" status="1" subject="Adaptateur soudé à la pcb" />
+<task id="81010000:1295386783.72" plannedstartdate="2011-01-18 22:39:00" status="1" subject="Brochage 2*18 pins" />
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor19', 'taskviewer')" id="80943920:1295386706.51" plannedstartdate="2011-01-18 22:32:51.652000" status="1" subject="A faire">
+<task id="76604816:1296290066.05" plannedstartdate="2011-01-29 09:34:00" status="1" subject="Dessouder l'adaptateur existant" />
+<task id="79625904:1296290080.82" plannedstartdate="2011-01-29 09:34:00" prerequisites="76604816:1296290066.05" status="1" subject="Refaire l'adaptateur" />
+</task>
+</task>
+<task id="86176592:1292708639.22" plannedstartdate="2010-12-18 22:36:00" status="1" subject="Power Instinct - Atlus">
+<description>
+Ecran bleu au boot
+</description>
+<task id="84552700-128c-11e1-ace1-001d92ae0bf5" plannedstartdate="2011-11-19 09:57:00" status="1" subject="#020" />
+<task expandedContexts="('taskviewer',)" id="86175824:1292708639.22" plannedstartdate="2010-12-18 22:38:39.762000" status="1" subject="A faire">
+<task id="178146512:1292708798.06" plannedstartdate="2010-12-18 22:46:00" status="1" subject="Démonter les plaques additionnelles" />
+<task id="178293744:1292708806.87" plannedstartdate="2010-12-18 22:46:00" status="1" subject="Nettoyage carte" />
+<task completiondate="2010-12-18 22:46:18.040000" id="86176368:1292708767.41" percentageComplete="100" plannedstartdate="2010-12-18 22:46:00" status="1" subject="Remplacer le condensateur manquant (220µF 16V)" />
+</task>
+<task expandedContexts="('taskviewer',)" id="86179056:1292708639.22" plannedstartdate="2010-12-18 22:37:39.761000" status="1" subject="Analyse">
+<task id="176128368:1292708744.99" plannedstartdate="2010-12-18 22:45:00" status="1" subject="Court circuit qui fait sauter l'alim, n'est pas entre le 5V et la masse">
+<description>
+- Suppression des 2 plaques -&gt; court circuit toujours présent
+- Suppression du FPGA -&gt; plus de court circuit
+- Remise en place du FPGA après nettoyage : plus de court circuit
+- Remise en place des 2 plaques -&gt; court circuit
+- Le court circuit est situé au niveau de la grosse plaque additionnelle
+</description>
+</task>
+<task id="178292304:1292708717.08" plannedstartdate="2010-12-18 22:45:00" status="1" subject="Condensateur 220µF manquant près du connecteur jamma" />
+</task>
+<attachment id="3683d0c0-085b-11e1-9ce4-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#020.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#020.JPG" type="file" />
+</task>
+<task id="86231408:1292708265.15" plannedstartdate="2010-12-18 22:31:00" status="1" subject="Gals Panic - Kaneko">
+<description>
+Ecran noir
+</description>
+<task id="137545712:1292751870.0" plannedstartdate="2010-12-19 10:44:00" status="1" subject="Achats">
+<task id="130719120:1292751882.95" plannedstartdate="2010-12-19 10:44:00" status="1" subject="1 diode 1N4003" />
+</task>
+<task expandedContexts="('taskviewer',)" icon="wrench_icon" id="86231472:1292708265.15" plannedstartdate="2010-12-18 22:33:00" selectedIcon="wrench_icon" status="1" subject="A faire">
+<task completiondate="2011-01-16 12:36:04.519000" id="77257456:1294694310.12" percentageComplete="100" plannedstartdate="2011-01-10 22:18:00" status="1" subject="Remplacer les 2 condensateurs 470 µF" />
+<task completiondate="2011-01-16 19:24:32.545000" id="78136272:1295202263.26" percentageComplete="100" plannedstartdate="2011-01-16 19:24:00" status="1" subject="Nettoyer carte" />
+<task completiondate="2011-01-10 22:18:00" id="78854128:1294433541.41" percentageComplete="100" plannedstartdate="2011-01-07 21:52:00" status="1" subject="Trouver le court circuit">
+<description>
+N'est pas au niveau des eproms
+Transistor T518B en court circuit (reset) -&gt; remplacer par un MCP120
+</description>
+</task>
+<task completiondate="2011-01-16 12:36:12.541000" id="79126608:1294694331.02" percentageComplete="100" plannedstartdate="2011-01-10 22:18:00" status="1" subject="Remplacer le transistor T518B">
+<description>
+Utiliser un MCP120
+</description>
+</task>
+<task icon="wrench_icon" id="87088336:1292708455.77" plannedstartdate="2010-12-18 22:40:00" selectedIcon="wrench_icon" status="1" subject="Remplacer diode D5 (1N4003)" />
+<task icon="wrench_icon" id="c9d04a61-026c-11e1-ab69-001d92ae0bf5" plannedstartdate="2011-10-29 22:30:00" selectedIcon="wrench_icon" status="1" subject="Remplacer C3" />
+</task>
+<task expandedContexts="('taskviewer',)" id="86232048:1292708265.15" plannedstartdate="2010-12-18 22:32:10.849000" status="1" subject="Analyse">
+<task id="6f4a7661-026c-11e1-b1f3-001d92ae0bf5" plannedstartdate="2011-10-29 22:27:00" status="1" subject="Condensateur C3 &quot;leaky&quot;" />
+<task id="83230960:1292708404.19" plannedstartdate="2010-12-18 22:40:00" status="1" subject="Court circuit entre le +5V et la masse">
+<description>
+Le court circuit existe encore entre le +5 el la masse du 27/28 (pas celle du 1/2).
+</description>
+</task>
+<task id="87087792:1292708432.96" plannedstartdate="2010-12-18 22:40:00" status="1" subject="Diode D5 en court circuit" />
+</task>
+<task id="993f6b8f-128b-11e1-a151-001d92ae0bf5" plannedstartdate="2011-11-19 09:50:00" status="1" subject="#010" />
+<attachment id="eaedaa4f-0404-11e1-9e3b-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#010.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#010.JPG" type="file" />
+</task>
+<task id="86242128:1292708175.6" plannedstartdate="2010-12-18 22:29:00" status="1" subject="Fighting Hawk - Taito">
+<description>
+A démarré pendant 2 secondes, puis plus de vidéo. A redémarré une fois avec son pendant 2 minutes, avant de repartir sur un écran bleu.
+</description>
+<task expandedContexts="('taskviewer',)" id="86241392:1292708175.6" plannedstartdate="2010-12-18 22:30:00" status="1" subject="Analyse">
+<task id="80871536:1292708234.51" plannedstartdate="2010-12-18 22:37:00" status="1" subject="Pas de signal video" />
+<task id="83673616:1294437378.73" plannedstartdate="2011-01-07 22:56:00" status="1" subject="Z80A Halted" />
+</task>
+<task expandedContexts="('taskviewer',)" icon="wrench_icon" id="86244464:1292708175.6" plannedstartdate="2010-12-18 22:31:00" selectedIcon="wrench_icon" status="1" subject="A faire">
+<task completiondate="2011-01-16 19:24:32.545000" id="78271984:1295202298.18" percentageComplete="100" plannedstartdate="2011-01-16 19:24:00" status="1" subject="Nettoyer carte" />
+</task>
+<task id="8b35365e-128b-11e1-8483-001d92ae0bf5" plannedstartdate="2011-11-19 09:50:00" status="1" subject="#009" />
+<attachment id="e8b630de-0404-11e1-b858-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#009.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#009.JPG" type="file" />
+</task>
+<task id="86524976:1292708978.85" plannedstartdate="2010-12-18 22:41:00" status="1" subject="Joinem - Global Corporation">
+<description>
+Adaptateur 18 vers 28 soudé sur la pcb. Pistes en très mauvais état. Boote avec gros bugs graphiques. Pas de son
+</description>
+<task expandedContexts="('taskviewer',)" id="174688784:1292708978.85" plannedstartdate="2010-12-18 22:43:00" status="1" subject="Analyse">
+<task id="179164976:1292709072.64" plannedstartdate="2010-12-18 22:51:00" status="1" subject="Avatars du joueur en bleu alors qu'ils sont en rouge sur la video" />
+<task id="179832848:1292709047.47" plannedstartdate="2010-12-18 22:50:00" status="1" subject="Adaptateur pas complètement fonctionnel (gauche non fonctionnel)" />
+<task id="179985392:1292709032.22" plannedstartdate="2010-12-18 22:50:00" status="1" subject="Problème contacteurs ?" />
+<task id="181265232:1292709060.07" plannedstartdate="2010-12-18 22:51:00" status="1" subject="Pas de son." />
+</task>
+<task expandedContexts="('taskviewer',)" id="177733104:1292708978.85" plannedstartdate="2010-12-18 22:44:19.387000" status="1" subject="A faire">
+<task completiondate="2010-12-18 22:52:41.364000" id="178469264:1292709091.65" percentageComplete="100" plannedstartdate="2010-12-18 22:51:00" status="1" subject="Nettoyer les roms">
+<description>
+Corrige les soucis graphiques
+</description>
+</task>
+<task completiondate="2010-12-18 22:52:00" id="179912624:1292709124.8" percentageComplete="100" plannedstartdate="2010-12-18 22:52:00" status="1" subject="Refaire l'adaptateur">
+<description>
+Corrige l'inversion bleu/rouge et les soucis de direction
+</description>
+</task>
+<task completiondate="2010-12-18 22:52:29.843000" id="181265424:1292709109.56" percentageComplete="100" plannedstartdate="2010-12-18 22:51:00" status="1" subject="Trouver le pinout" />
+<task completiondate="2011-02-02 22:15:00" id="78133136:1295177800.21" percentageComplete="100" plannedstartdate="2011-01-16 12:36:00" status="1" subject="Vérifier si le son est ok avec du -5V">
+<description>
+Non, il n'est pas ok
+</description>
+</task>
+</task>
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor5',)" id="87547216:1295386568.78" plannedstartdate="2011-01-18 22:27:00" status="1" subject="'99 The Last War - Proma">
+<description>
+Inconnu 8
+</description>
+<task expandedContexts="('taskviewer',)" id="87546000:1295386568.78" plannedstartdate="2011-01-18 22:29:33.923000" status="1" subject="Analyse">
+<task id="80908240:1295386597.49" plannedstartdate="2011-01-18 22:36:00" status="1" subject="Brochage 2*18 pins" />
+<task id="82811600:1295386608.89" plannedstartdate="2011-01-18 22:36:00" status="1" subject="Fils d'adaptateur soudés à la pcb" />
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor5', 'taskviewer')" id="87547152:1295386568.78" plannedstartdate="2011-01-18 22:30:33.924000" status="1" subject="A faire">
+<task id="75007024:1296288761.84" plannedstartdate="2011-01-29 09:12:00" status="1" subject="Dessouder l'adaptateur actuel" />
+<task id="75007824:1296288788.64" plannedstartdate="2011-01-29 09:13:00" prerequisites="75007024:1296288761.84" status="1" subject="Créer le nouvel adaptateur" />
+</task>
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor10',)" id="88124720:1295387009.03" plannedstartdate="2011-01-18 22:34:00" status="1" subject="Tiger Heli - Taito">
+<task expandedContexts="('taskviewer',)" id="81080976:1295387009.03" plannedstartdate="2011-01-18 22:36:54.171000" status="1" subject="Analyse">
+<task id="77861584:1295387029.63" plannedstartdate="2011-01-18 22:43:00" status="1" subject="Brochage 2*22 pins" />
+<task id="89021584:1295387053.77" plannedstartdate="2011-01-18 22:44:00" status="1" subject="Adaptateur soudé à la pcb" />
+</task>
+<task expandedContexts="('prerequisiteviewerintaskeditor10',)" id="88124688:1295387009.03" plannedstartdate="2011-01-18 22:37:54.172000" status="1" subject="A faire">
+<task id="76497392:1296288942.6" plannedstartdate="2011-01-29 09:15:00" prerequisites="76550640:1296288930.3" status="1" subject="Refaire l'adaptateur" />
+<task id="76550640:1296288930.3" plannedstartdate="2011-01-29 09:15:00" status="1" subject="Dessouder l'adaptateur actuel" />
+</task>
+</task>
+<task id="9c78d070-033c-11e1-8ce5-001d92ae0bf5" plannedstartdate="2011-10-30 22:06:00" status="1" subject="Rainbow Island - Taito">
+<task expandedContexts="('taskviewer',)" icon="cogwheels_icon" id="9c78a95e-033c-11e1-8c69-001d92ae0bf5" plannedstartdate="2011-10-30 22:08:00" selectedIcon="cogwheels_icon" status="1" subject="Analyse">
+<task id="b62f2691-033c-11e1-99f8-001d92ae0bf5" plannedstartdate="2011-10-30 22:18:00" status="1" subject="Composant RGB avec des connexions non fonctionnelles" />
+</task>
+<task expandedContexts="('taskviewer',)" icon="wrench_icon" id="9c78a95f-033c-11e1-8a3b-001d92ae0bf5" plannedstartdate="2011-10-30 22:09:45.589000" selectedIcon="wrench_icon" status="1" subject="A faire">
+<task icon="wrench_icon" id="d9e6378f-033c-11e1-8105-001d92ae0bf5" plannedstartdate="2011-10-30 22:19:00" selectedIcon="wrench_icon" status="1" subject="Refaire les connexions du composant RGB" />
+</task>
+<task id="f0375dde-128b-11e1-8bbf-001d92ae0bf5" plannedstartdate="2011-11-19 09:53:00" status="1" subject="#014" />
+<attachment id="f15efce1-0404-11e1-ad75-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#014-2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#014-2.JPG" type="file" />
+<attachment id="f15efce2-0404-11e1-861d-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#014.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#014.JPG" type="file" />
+</task>
+<task id="b3ae0bf2-fd94-11e0-b89a-001d92ae0bf5" plannedstartdate="2011-10-23 18:25:00" status="1" subject="Carrier Air Wing - Capcom">
+<description>
+- Ecran bleu
+</description>
+<task id="b1aeb82e-128a-11e1-b9e9-001d92ae0bf5" plannedstartdate="2011-11-19 09:44:00" status="1" subject="#004" />
+<task expandedContexts="('taskviewer',)" id="b3ae0bf0-fd94-11e0-9a5f-001d92ae0bf5" plannedstartdate="2011-10-23 18:27:13.260000" status="1" subject="Analyse">
+<task id="d9e54d40-fd96-11e0-b260-001d92ae0bf5" plannedstartdate="2011-10-23 18:48:00" status="1" subject="LS245 + support arraché" />
+</task>
+<task expandedContexts="('taskviewer',)" id="b3ae0bf1-fd94-11e0-8116-001d92ae0bf5" plannedstartdate="2011-10-23 18:28:13.262000" status="1" subject="A faire">
+<task id="ed638940-fd96-11e0-b49c-001d92ae0bf5" plannedstartdate="2011-10-23 18:49:00" status="1" subject="Remplacer le LS245 manquant" />
+</task>
+</task>
+<task id="c0815391-fa7a-11e0-86bc-001d92ae0bf5" plannedstartdate="2011-10-19 19:41:00" status="1" subject="Super Star II - ?">
+<description>
+- Bouillie de pixel au démarrage
+- Pas de son
+</description>
+<task id="9e6bd780-128a-11e1-9cc2-001d92ae0bf5" plannedstartdate="2011-11-19 09:43:00" status="1" subject="#003" />
+<task id="c0812c80-fa7a-11e0-afd9-001d92ae0bf5" plannedstartdate="2011-10-19 19:43:54.372000" status="1" subject="Analyse" />
+<task id="c0812c81-fa7a-11e0-a936-001d92ae0bf5" plannedstartdate="2011-10-19 19:44:54.375000" status="1" subject="A faire" />
+<attachment id="b57d75ee-fdae-11e0-ae68-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#003 - 1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#003 - 1.JPG" type="file" />
+<attachment id="b57d75ef-fdae-11e0-8709-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#003 - 2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#003 - 2.JPG" type="file" />
+</task>
+<task id="c4b70df2-fdaf-11e0-8068-001d92ae0bf5" plannedstartdate="2011-10-23 21:37:00" status="1" subject="Aero Fighters - Visco System">
+<description>
+- Ecran brouillé au démarrage
+</description>
+<task id="6418b340-128b-11e1-9b2f-001d92ae0bf5" plannedstartdate="2011-11-19 09:49:00" status="1" subject="#007" />
+<task id="c4b70df0-fdaf-11e0-9579-001d92ae0bf5" plannedstartdate="2011-10-23 21:39:58.251000" status="1" subject="Analyse" />
+<task id="c4b70df1-fdaf-11e0-8968-001d92ae0bf5" plannedstartdate="2011-10-23 21:40:58.253000" status="1" subject="A faire" />
+<attachment id="feb8c15e-fdaf-11e0-9d9c-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#007 - 1.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#007 - 1.JPG" type="file" />
+<attachment id="feb8c15f-fdaf-11e0-adf7-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Images\#007 - 2.JPG" status="1" subject="C:\Users\Runik\Documents\Arcade\Images\#007 - 2.JPG" type="file" />
+</task>
+<task id="c896d601-02da-11e1-94f0-001d92ae0bf5" plannedstartdate="2011-10-30 10:26:00" status="1" subject="Carte mère Seibu SPI - Seibu Kaihatsu Inc.">
+<task expandedContexts="('taskviewer',)" id="5c5858e1-02dc-11e1-9c9e-001d92ae0bf5" plannedstartdate="2011-10-30 10:48:00" status="1" subject="Achats">
+<task id="6682e2e1-02dc-11e1-a244-001d92ae0bf5" plannedstartdate="2011-10-30 10:49:00" status="1" subject="Adaptateur TSOP40" />
+</task>
+<task expandedContexts="('taskviewer',)" icon="cogwheels_icon" id="c896aef0-02da-11e1-8f53-001d92ae0bf5" plannedstartdate="2011-10-30 10:28:28.924000" selectedIcon="cogwheels_icon" status="1" subject="Analyse">
+<task id="e0b99e5e-02db-11e1-9216-001d92ae0bf5" plannedstartdate="2011-10-30 10:45:00" status="1" subject="Mauvais changement de jumper" />
+</task>
+<task expandedContexts="('taskviewer',)" icon="wrench_icon" id="c896d600-02da-11e1-bf91-001d92ae0bf5" plannedstartdate="2011-10-30 10:29:28.926000" selectedIcon="wrench_icon" status="1" subject="A faire">
+<task icon="wrench_icon" id="0f2ddc70-02dc-11e1-b92a-001d92ae0bf5" plannedstartdate="2011-10-30 10:46:00" selectedIcon="wrench_icon" status="1" subject="Dessoudage U1053 (SMD)" />
+<task icon="wrench_icon" id="2df09df0-02dc-11e1-a94c-001d92ae0bf5" plannedstartdate="2011-10-30 10:47:00" selectedIcon="wrench_icon" status="1" subject="Modification premier octet de U1053 par le dernier de ROM1 de la cartouche">
+<description>
+Nécessite un adaptateur TSOP40
+</description>
+</task>
+</task>
+<task id="e2177dcf-128b-11e1-88c7-001d92ae0bf5" plannedstartdate="2011-11-19 09:53:00" status="1" subject="#013" />
+</task>
+<category exclusiveSubcategories="True" id="2ab68b30-0224-11e1-b6ca-001d92ae0bf5" status="1" subject="Achats">
+<category bgColor="(176, 176, 176, 255)" categorizables="129796752:1292752165.63 130719120:1292751882.95 133313328:1292751981.01 137040656:1292751658.77 137103440:1294519408.88 141704400:1292752049.2 141802288:1292879064.32 142690608:1292879588.8 159577328:1292791465.89 76635888:1292868700.42 76994864:1295383146.46 79125520:1293734042.35 79831152:1292868762.75 83841328:1293733951.32 84872688:1292868632.51 85377200:1292876723.86 85381104:1292879055.32" icon="checkmark_green_icon" id="78920080:1293648632.7" selectedIcon="checkmark_green_icon" status="1" subject="Acheté" />
+<category bgColor="(176, 176, 176, 255)" categorizables="130528752:1292779687.99 143394896:1292774731.8 5c5858e1-02dc-11e1-9c9e-001d92ae0bf5 76947280:1294579625.15 82238288:1292877195.35" expandedContexts="('categoryviewer',)" icon="symbol_plus_icon" id="86134928:1292751715.9" selectedIcon="symbol_plus_icon" status="1" subject="A acheter" />
+</category>
+<category categorizables="16026450-1298-11e1-a1e4-001d92ae0bf5 2c6b81b0-128c-11e1-97de-001d92ae0bf5 34ee6ed1-128f-11e1-a2f4-001d92ae0bf5 431b4632-129a-11e1-b8f9-001d92ae0bf5 50975f70-128a-11e1-92ed-001d92ae0bf5 5bdd0b80-128c-11e1-b94f-001d92ae0bf5 6418b340-128b-11e1-9b2f-001d92ae0bf5 68ec3ee1-128c-11e1-b3b1-001d92ae0bf5 717d328f-128b-11e1-b2da-001d92ae0bf5 793bf740-128c-11e1-98c4-001d92ae0bf5 84552700-128c-11e1-ace1-001d92ae0bf5 88f6fb9e-128a-11e1-99f0-001d92ae0bf5 8b35365e-128b-11e1-8483-001d92ae0bf5 94455a40-128c-11e1-ab0f-001d92ae0bf5 993f6b8f-128b-11e1-a151-001d92ae0bf5 9e6bd780-128a-11e1-9cc2-001d92ae0bf5 a5195dcf-128c-11e1-a591-001d92ae0bf5 a61e190f-128b-11e1-ac0a-001d92ae0bf5 b1aeb82e-128a-11e1-b9e9-001d92ae0bf5 b43b448f-128c-11e1-bd49-001d92ae0bf5 b49d090f-128b-11e1-a9ac-001d92ae0bf5 be6459e1-128a-11e1-87b1-001d92ae0bf5 e2177dcf-128b-11e1-88c7-001d92ae0bf5 ea311ea1-128a-11e1-8596-001d92ae0bf5 f0375dde-128b-11e1-8bbf-001d92ae0bf5 fdd367f0-128b-11e1-a837-001d92ae0bf5" icon="person_id_icon" id="3fccaab0-128a-11e1-8a36-001d92ae0bf5" selectedIcon="person_id_icon" status="1" subject="Tag" />
+<category exclusiveSubcategories="True" expandedContexts="('categoryviewerintaskeditor', 'categoryviewerintaskeditor1', 'categoryviewerintaskeditor11', 'categoryviewerintaskeditor4', 'categoryviewerintaskeditor5', 'categoryviewerintaskeditor8')" id="4e9c5da1-0011-11e1-a09e-001d92ae0bf5" status="1" subject="Type">
+<category categorizables="134020304:1292750122.11 137413552:1293058045.27 137544592:1292770197.21 139572208:1292768977.38 144047024:1292774517.14 144421424:1292779547.85 156538096:1292780854.01 16028b5e-1298-11e1-83ef-001d92ae0bf5 178532112:1292708861.32 385be170-fdad-11e0-a064-001d92ae0bf5 3e4ca770-fdaf-11e0-8b55-001d92ae0bf5 431b6d40-129a-11e1-a5b4-001d92ae0bf5 627190df-fd6c-11e0-b9bc-001d92ae0bf5 6aa8f2e1-fd6b-11e0-887f-001d92ae0bf5 76993776:1295383693.65 76995248:1295383036.82 77785136:1295382476.66 77808880:1295385093.86 77811312:1295384337.59 77895696:1302619355.47 78510192:1302620203.47 78554096:1302622552.72 78661744:1295384862.87 78991792:1292748617.61 79056208:1295382321.8 79170512:1295384549.34 79323440:1292749160.66 79765776:1295381527.84 79953776:1302617422.85 80047696:1302608746.49 80096400:1302611696.14 80995408:1295381876.46 81009584:1295387461.82 82323856:1302612423.73 82346896:1302623462.27 82412816:1292749280.94 84393360:1302621721.9 85393648:1295386145.54 85396720:1295387681.55 86176592:1292708639.22 87547216:1295386568.78 88124720:1295387009.03 b3ae0bf2-fd94-11e0-b89a-001d92ae0bf5 c0815391-fa7a-11e0-86bc-001d92ae0bf5 c4b70df2-fdaf-11e0-8068-001d92ae0bf5" exclusiveSubcategories="True" id="6354c751-0011-11e1-b0ce-001d92ae0bf5" status="1" subject="Bootleg" />
+<category categorizables="008ebcae-fd6a-11e0-ab33-001d92ae0bf5 128885296:1292749507.6 34ee95de-128f-11e1-a6b9-001d92ae0bf5 3fdd0600-0342-11e1-a816-001d92ae0bf5 79184240:1292693278.11 79941168:1302611016.67 82776144:1292749471.44 84892944:1292749410.22 85397104:1295386706.51 86231408:1292708265.15 86242128:1292708175.6 86524976:1292708978.85 9c78d070-033c-11e1-8ce5-001d92ae0bf5 c896d601-02da-11e1-94f0-001d92ae0bf5" exclusiveSubcategories="True" id="6c936ab0-0011-11e1-963e-001d92ae0bf5" status="1" subject="Original" />
+</category>
+<category bgColor="(0, 183, 0, 255)" categorizables="80716944:1292706752.21 83852240:1292748772.56" id="78822128:1292693088.51" status="1" subject="Complètement fonctionnel" />
+<category bgColor="(149, 255, 149, 255)" categorizables="83006032:1292706896.21" exclusiveSubcategories="True" id="78822320:1292693045.93" status="1" subject="Fonctionnel avec reste à faire" />
+<category bgColor="(0, 0, 0, 255)" exclusiveSubcategories="True" fgColor="(255, 255, 255, 255)" id="79121200:1292692978.18" status="1" subject="Mort" />
+<category bgColor="(255, 255, 0, 255)" categorizables="128885296:1292749507.6 134020304:1292750122.11 137413552:1293058045.27 139572208:1292768977.38 76995248:1295383036.82 79184240:1292693278.11 82412816:1292749280.94 85308016:1292708861.32 85393648:1295386145.54 86176592:1292708639.22 86231408:1292708265.15 86231472:1292708265.15 86242128:1292708175.6 86524976:1292708978.85 87088336:1292708455.77 9c78a95f-033c-11e1-8a3b-001d92ae0bf5 c896d601-02da-11e1-94f0-001d92ae0bf5 d9e6378f-033c-11e1-8105-001d92ae0bf5" exclusiveSubcategories="True" id="79187504:1292692956.41" status="1" subject="Travail en cours" />
+<category bgColor="(255, 0, 0, 255)" categorizables="137544592:1292770197.21 178532112:1292708861.32 78991792:1292748617.61 82776144:1292749471.44 84892944:1292749410.22" exclusiveSubcategories="True" id="79645136:1292693160.66" status="1" subject="Difficultés" />
+<category bgColor="(18, 183, 237, 255)" categorizables="129101936:1292749598.27 129696464:1292770293.47 133313136:1292750873.71 135484784:1292774517.14 136282224:1292770197.21 136929008:1292768977.38 137547664:1292750967.14 139414192:1292770246.41 140297488:1292774602.94 142434832:1292879549.27 143301488:1292770271.18 143980368:1292774587.39 146158480:1292779659.99 150745360:1292779547.85 153017168:1292779641.87 156539888:1292780854.01 174688784:1292708978.85 175240368:1292708861.32 176128368:1292708744.99 176174640:1292708935.54 178292304:1292708717.08 179164976:1292709072.64 179832848:1292709047.47 179985392:1292709032.22 181265232:1292709060.07 34ee6ecf-128f-11e1-83a5-001d92ae0bf5 532622cf-1299-11e1-bf37-001d92ae0bf5 6f4a7661-026c-11e1-b1f3-001d92ae0bf5 743cf100-129a-11e1-a054-001d92ae0bf5 76635376:1292876341.88 76791792:1295384357.74 76911472:1295381903.64 76992560:1295383036.82 76994000:1295383693.65 77783920:1295382476.66 77810448:1295384337.59 77873616:1295381876.46 77874480:1295382358.52 77896944:1302619355.47 78978832:1302608746.49 78994672:1292748617.61 79053584:1295382321.8 79055120:1295381527.84 79170640:1295384549.34 79232016:1292693401.88 79233232:1292748691.26 79284176:1292749160.65 79325904:1292748670.53 79384624:1294694249.45 79816464:1295385093.86 79937680:1302611016.67 79963632:1302620203.47 80094128:1302611696.14 80159472:1292749942.57 80498896:1292693411.56 80500240:1292693478.77 80547920:1292706790.98 80550864:1292693449.26 80657648:1292693646.29 80684688:1292749206.44 80871536:1292708234.51 80872912:1295381610.57 80943088:1295386706.51 81008080:1295387461.82 81020272:1295382503.94 81057872:1295383866.61 81059248:1295384862.87 81080976:1295387009.03 81334096:1292749192.74 81856048:1292748772.56 82325392:1302612423.73 82365328:1292749410.22 82778896:1292749577.41 82863728:1292750122.11 83230960:1292708404.19 83392272:1292878987.28 83673616:1294437378.73 83850096:1292749471.44 84316304:1292749011.02 85076976:1292749280.94 85197168:1293058087.13 85328848:1292707172.14 85396560:1295386145.54 86179056:1292708639.22 86232048:1292708265.15 86241392:1292708175.6 86527824:1292708949.16 87087792:1292708432.96 87534736:1295383834.15 87535536:1295384579.27 87539376:1292749314.21 87546000:1295386568.78 88604336:1292749507.6 89022160:1295387681.54 89495376:1293058045.27 9c78a95e-033c-11e1-8c69-001d92ae0bf5 b3ae0bf0-fd94-11e0-9a5f-001d92ae0bf5 c0812c80-fa7a-11e0-afd9-001d92ae0bf5 c896aef0-02da-11e1-8f53-001d92ae0bf5 e0b99e5e-02db-11e1-9216-001d92ae0bf5" icon="cogwheel_icon" id="80716880:1292693713.05" selectedIcon="cogwheel_icon" status="1" subject="Analyse" />
+<category bgColor="(255, 255, 255, 255)" categorizables="76993776:1295383693.65 77808880:1295385093.86 85396720:1295387681.55" exclusiveSubcategories="True" id="82490576:1292706929.77" status="1" subject="Pas encore analysé" />
+<category exclusiveSubcategories="True" expandedContexts="('categoryviewer', 'categoryviewerintaskeditor', 'categoryviewerintaskeditor11', 'categoryviewerintaskeditor33', 'categoryviewerintaskeditor4', 'categoryviewerintaskeditor5')" id="f0e0b39e-022c-11e1-b796-001d92ae0bf5" status="1" subject="Origine">
+<category categorizables="008ebcae-fd6a-11e0-ab33-001d92ae0bf5 385be170-fdad-11e0-a064-001d92ae0bf5 3e4ca770-fdaf-11e0-8b55-001d92ae0bf5 627190df-fd6c-11e0-b9bc-001d92ae0bf5 6aa8f2e1-fd6b-11e0-887f-001d92ae0bf5 b3ae0bf2-fd94-11e0-b89a-001d92ae0bf5 c0815391-fa7a-11e0-86bc-001d92ae0bf5 c4b70df2-fdaf-11e0-8068-001d92ae0bf5" id="0cf3704f-022d-11e1-94dc-001d92ae0bf5" status="1" subject="Laurent Van Luyten (LBC)" />
+<category categorizables="128885296:1292749507.6 134020304:1292750122.11 137413552:1293058045.27 137544592:1292770197.21 139572208:1292768977.38 144047024:1292774517.14 144421424:1292779547.85 156538096:1292780854.01 178532112:1292708861.32 76993776:1295383693.65 76995248:1295383036.82 77785136:1295382476.66 77808880:1295385093.86 77811312:1295384337.59 77895696:1302619355.47 78510192:1302620203.47 78554096:1302622552.72 78661744:1295384862.87 78991792:1292748617.61 79056208:1295382321.8 79170512:1295384549.34 79184240:1292693278.11 79323440:1292749160.66 79765776:1295381527.84 79941168:1302611016.67 79953776:1302617422.85 80047696:1302608746.49 80096400:1302611696.14 80995408:1295381876.46 81009584:1295387461.82 82323856:1302612423.73 82346896:1302623462.27 82412816:1292749280.94 82776144:1292749471.44 84393360:1302621721.9 84892944:1292749410.22 85393648:1295386145.54 85396720:1295387681.55 85397104:1295386706.51 86176592:1292708639.22 86231408:1292708265.15 86242128:1292708175.6 86524976:1292708978.85 87547216:1295386568.78 88124720:1295387009.03" id="19a25b40-022d-11e1-a061-001d92ae0bf5" status="1" subject="Gilles (A-S)">
+<description>
+Gilles heyrendt
+8 bis rte fayel
+55600 ecouviez
+
+Gilles heyrendt
+56 rue du buau
+6750 mussy-la-ville
+BELGIQUE
+</description>
+</category>
+<category categorizables="3fdd0600-0342-11e1-a816-001d92ae0bf5 9c78d070-033c-11e1-8ce5-001d92ae0bf5 c896d601-02da-11e1-94f0-001d92ae0bf5" id="37bb6f40-022d-11e1-8a94-001d92ae0bf5" status="1" subject="snkpowa (A-S)">
+<description>
+dedioulamarie@lavache.com
+
+Lot comprenant Rainbow Island original, Fixeight original, Flying Shark original et une CM Seibu SPI jap.
+Le Rainbow fonctionnait il y a encore peu de temps, il a déjà été réparé (par Metal Chimiste)
+En fait, il faudrait refaire les soudures du composant qui avait été réparé pour le faire revivre.
+Le Fixeight n'a jamais fonctionné à 100% et il a aussi déjà été réparé.
+Au mieux il y a un bug quand on arrive au 4ème stage, et les contrôles ne répondent plus.
+Le Flying Shark fonctionne à 90%, le souci est que les sprites clignotent...
+La carte mère SPI a subit un mauvais changement de jumper.
+
+</description>
+</category>
+<category id="7b77accf-022d-11e1-9e04-001d92ae0bf5" status="1" subject="sebhades (A-S)">
+<description>
+sebihler@yahoo.com
+
+- Pocket Gal Deluxe (Data East - Original) - 5€ FDP out
+- Slot MVS-1B (SNK / NEO GEO) - 20€ FDP out
+- Commando (CAPCOM - original? boot?) - 8€ FDP out
+- Pocket Gal (Data East - Original) - 5€ FDP out
+- Secret Agent (Data East - Original) - 8€ FDP out
+- Double Dragon (TECHNOS - original) - 5€ FDP out
+</description>
+</category>
+<category categorizables="16028b5e-1298-11e1-83ef-001d92ae0bf5 34ee95de-128f-11e1-a6b9-001d92ae0bf5 431b6d40-129a-11e1-a5b4-001d92ae0bf5" id="f00cf36e-022d-11e1-bda2-001d92ae0bf5" status="1" subject="spawnone (A-S)">
+<description>
+spawnone@hotmail.fr
+
+GASSELIN Simon
+15, Allée du Comandant Charcot
+44000 Nantes
+
+J'ai fait 10 le slot + 10 le gal's panic 4 + 5 le pengo boot + 10 les fdp.
+Rajoute 7 € si tu veux aussi le boot de Twin Cobra avec. Il marchait quand je l'ai récupéré, il manquait juste des petits sprites de temps en temps mais je l'ai nettoyé et il ne s'allume plus depuis... 
+</description>
+</category>
+</category>
+<note id="71002512:1305224188.2" status="1" subject="EPROMS">
+<note id="73237360:1305224437.32" status="1" subject="M27C800">
+<description>
+Quantité : 5
+Taille : 512Kb * 16 = 8Mb
+Fabricant : ST
+</description>
+</note>
+<note id="74107760:1305578207.46" status="1" subject="M27C4001">
+<description>
+Quantité : 13
+Taille : 512Kb * 8 = 4Mb
+Fabricant : ST
+</description>
+</note>
+<note id="74706864:1305224200.08" status="1" subject="M27C256B">
+<description>
+Quantité : 4
+Taille : 32Kb * 8 = 256Kb
+Fabricant : ST
+</description>
+</note>
+<note id="76849456:1305361461.26" status="1" subject="M27C2001">
+<description>
+Quantité : 4
+Taille : 256Kb * 8 = 2Mb
+Fabricant : ST
+</description>
+</note>
+<note id="78199856:1305360114.62" status="1" subject="HN27c4096G">
+<description>
+Quantité : 2
+Taille : 256Kb * 16 = 4Mb
+Fabricant : Hitachi
+</description>
+</note>
+<note id="78283920:1305361184.0" status="1" subject="HN27C301AG">
+<description>
+Quantité : 1
+Taille : 128Kb * 8 = 1Mb
+Fabricant : Hitachi
+</description>
+</note>
+<note expandedContexts="('noteviewer',)" id="78285200:1305360376.98" status="1" subject="AT27C080">
+<description>
+Quantité : 4
+Taille : 1Mb * 8 = 8Mb
+Fabricant : Atmel
+</description>
+</note>
+<note id="79947952:1307556183.77" status="1" subject="M27C512">
+<description>
+Quantité : 6
+Taille : 64Kb * 8 = 512Kb
+Fabricant : ST
+</description>
+</note>
+<note id="80109424:1305312892.0" status="1" subject="M27C322">
+<description>
+Quantité : 1
+Taille : 2Mb * 8 = 16Mb
+Fabricant : ST
+</description>
+</note>
+</note>
+<note expandedContexts="('noteviewer',)" id="72975696:1306269812.67" status="1" subject="EEPROMS">
+<note id="72975408:1306269825.21" status="1" subject="P27256">
+<description>
+Quantité : 8
+Taille : 32Kb * 8 = 256Kb
+Fabricant : Intel
+</description>
+</note>
+</note>
+<note id="75028752:1295086030.96" status="1" subject="Remplacement T518B">
+<description>
+Ce composant n'est plus fabriqué, mais il peut être remplacé par un MCP120, à condition d'inverser le composant et d'inverser les pattes Vdd et Vss
+</description>
+<attachment id="77376336:1295086070.74" location="C:\Users\Runik\Documents\Arcade\Datasheets\MCP120.pdf" status="1" subject="MCP120.pdf" type="file" />
+<attachment id="77464880:1295086108.52" location="C:\Users\Runik\Documents\Arcade\Datasheets\pst518b.pdf" status="1" subject="pst518b.pdf" type="file" />
+</note>
+<note id="75807504:1298141929.79" status="1" subject="Processeurs">
+<note id="76270448:1307789084.43" status="1" subject="YM2149F">
+<description>
+Software controlled sound generator (Yamaha)
+</description>
+</note>
+<note id="77442128:1298141767.18" status="1" subject="YM3012">
+<description>
+2-Channel Serial Input Floating D/A Converter (DAC-MS) (Yamaha)
+</description>
+</note>
+<note id="78085424:1298140374.62" status="1" subject="UM6502">
+<description>
+8bit microprocessor
+</description>
+</note>
+<note expandedContexts="('noteviewer',)" id="78877936:1298140313.86" status="1" subject="YM2151">
+<description>
+FM Operator Type-M(OPM) (Yamaha)
+</description>
+</note>
+<note id="78894064:1298140271.66" status="1" subject="M6295">
+<description>
+4-CHANNEL MIXING ADPCM VOICE SYNTHESIS LSI (OKI)
+</description>
+</note>
+<note id="81954960:1307555669.74" status="1" subject="AY-3-8910A">
+<description>
+Programmable Sound Generator (Microchip)
+</description>
+</note>
+</note>
+<note id="76085776:1299864852.47" status="1" subject="Lot PCB HS">
+<description>
+Lot comprenant Rainbow Island original, Fixeight original, Flying Shark original et une CM Seibu SPI jap.
+Le Rainbow fonctionnait il y a encore peu de temps, il a déjà été réparé (par Metal Chimiste)
+En fait, il faudrait refaire les soudures du composant qui avait été réparé pour le faire revivre.
+Le Fixeight n'a jamais fonctionné à 100% et il a aussi déjà été réparé.
+Au mieux il y a un bug quand on arrive au 4ème stage, et les contrôles ne répondent plus.
+Le Flying Shark fonctionne à 90%, le souci est que les sprites clignotent...
+La carte mère SPI a subit un mauvais changement de jumper.
+</description>
+</note>
+<note expandedContexts="('noteviewer',)" id="76526448:1298141914.57" status="1" subject="Amplis">
+<note id="75807248:1298140178.86" status="1" subject="TDA2003">
+<description>
+Amplificateur audio 10W
+</description>
+<attachment id="488de1c0-07f7-11e1-b4d9-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Datasheets\TDA2003.pdf" status="1" subject="C:\Users\Runik\Documents\Arcade\Datasheets\TDA2003.pdf" type="file" />
+</note>
+<note id="82d8e95e-072a-11e1-901d-001d92ae0bf5" status="1" subject="TDA2002">
+<description>
+Amplificateur audio 8W
+</description>
+<attachment id="3faa088f-07f7-11e1-8c29-001d92ae0bf5" location="C:\Users\Runik\Documents\Arcade\Datasheets\TDA2002.pdf" status="1" subject="C:\Users\Runik\Documents\Arcade\Datasheets\TDA2002.pdf" type="file" />
+</note>
+</note>
+<note expandedContexts="('noteviewer',)" id="77441776:1298141882.87" status="1" subject="Mémoires">
+<note id="78877552:1298141844.67" status="1" subject="GM76C88L-15">
+<description>
+8,192 x 8 Bit Static RAM
+</description>
+</note>
+<note id="81906096:1307555401.42" status="1" subject="HY6265ALP-70">
+<description>
+8,192 x 8 Bit Static RAM
+</description>
+</note>
+</note>
+<syncmlconfig>
+<TaskCoach-0000012cfa7f642ebf693a93000af560ffea6d22>
+<spds>
+<sources>
+<TaskCoach-0000012cfa7f642ebf693a93000af560ffea6d22.Tasks />
+<TaskCoach-0000012cfa7f642ebf693a93000af560ffea6d22.Notes />
+</sources>
+<syncml>
+<Auth />
+<Conn />
+</syncml>
+</spds>
+</TaskCoach-0000012cfa7f642ebf693a93000af560ffea6d22>
+</syncmlconfig>
+<guid>
+0000012cfa7f642ebf693a93000af560ffea6d22
+</guid>
+</tasks>

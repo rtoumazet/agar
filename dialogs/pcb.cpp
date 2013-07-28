@@ -85,6 +85,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 	TabPictures.BTN_Select.WhenPush = THISBACK(SelectImage);
 	TabPictures.BTN_Add.WhenPush = THISBACK(AddImageToDatabase);
 	TabPictures.TAB_Pictures.WhenLeftDouble = THISBACK(DisplayPicture);
+	TabPictures.TAB_Pictures.WhenLeftClick = THISBACK(DisplayPicturePreview);
 	
 	// Tab action
 	TC_Tab.WhenSet = THISBACK(TabChanged);
@@ -581,6 +582,19 @@ void PcbDlg::DisplayPicture() {
 	p.CenterScreen();
 	p.RunAppModal();
 
+}
+
+void PcbDlg::DisplayPicturePreview() {
+	/*Draw d;
+	Image img;
+	
+	SQL * Select(DATA).From(PICTURE).Where(ID == TabPictures.TAB_Pictures.GetKey());
+	if (SQL.Fetch()) {
+	    PNGRaster pngr;
+	    img = pngr.LoadString(SQL[DATA]);
+	}
+	d.DrawImage(0,0,200,200,img);*/
+	Painter 
 }
 
 void PcbDlg::SelectImage() {
