@@ -61,6 +61,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 			SetupDisplay(currentCtrl_);
 			currentCtrl_ = 0;
 		}
+		
 		PcbDlg(const int& openingType);	
 	
 	private:
@@ -86,6 +87,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void AddImageToDatabase();
 		void PopulatePicturesArray();
 		void DisplayPicture();
+		void DisplayPicturePreview();
 };
 
 class Popup : public TopWindow {
