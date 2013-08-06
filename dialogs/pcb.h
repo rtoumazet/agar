@@ -1,4 +1,33 @@
 #include "agar/agar.h"
+#include <plugin/jpg/jpg.h>
+
+class PreviewCtrl : public StaticText {
+	
+	typedef PreviewCtrl CLASSNAME;
+	
+	private:
+		Image 	img_;
+		int		previewHeight_;
+		int		previewWidth_;
+	
+	public:
+		virtual void Paint(Draw& draw);
+	
+		PreviewCtrl() {
+			previewHeight_ = 200;
+			previewWidth_ = 250;
+		};
+		
+		void SetImage(const int& id) {
+			
+		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
+		    if (SQL.Fetch()) {
+		        //PNGRaster pngr;
+		        //img_ = pngr.LoadString(SQL[DATA]);
+		        img_ = JPGRaster().LoadString(SQL[DATA]);
+		    }
+    	}
+};
 
 class PcbDlg : public WithPcbLayout<TopWindow> {
 
@@ -9,6 +38,8 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 
 		WithTabPicturesLayout<ParentCtrl> TabPictures;
 		WithTabMiscLayout<ParentCtrl> TabMisc;
+		
+		PreviewCtrl			preview_;
 		
 		// fault data functions
 		void GenerateFaultData();
@@ -22,6 +53,9 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void SetAddActionMenuEntryVisible(const bool& val);
 		void SetEditMenuEntryVisible(const bool& val);
 		void SetRemoveMenuEntryVisible(const bool& val);
+		
+		void PictureTabMenu(Bar& bar);
+		void RemovePicture();
 		
 		// analysis & actions related functions
 		void AddAnalysis(const int& pcbId);
@@ -63,6 +97,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		}
 		
 		PcbDlg(const int& openingType);	
+		~PcbDlg();
 	
 	private:
 		Array<Label> 			label;
@@ -88,6 +123,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void PopulatePicturesArray();
 		void DisplayPicture();
 		void DisplayPicturePreview();
+		
 };
 
 class Popup : public TopWindow {
@@ -105,8 +141,10 @@ class Popup : public TopWindow {
 			
 		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
 		    if (SQL.Fetch()) {
-		        PNGRaster pngr;
-		        img_ = pngr.LoadString(SQL[DATA]);
+		        //PNGRaster pngr;
+		        //img_ = pngr.LoadString(SQL[DATA]);
+		        JPGRaster jpgr;
+		        img_ = jpgr.LoadString(SQL[DATA]);
 		    }
     	}
 };

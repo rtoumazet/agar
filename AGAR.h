@@ -57,6 +57,7 @@ public:
 	bool Key(dword key,int);
 
 	AGAR();
+	~AGAR() {};
 	
 private:
 	// Main menu

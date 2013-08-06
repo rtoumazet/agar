@@ -22,6 +22,8 @@ PcbDlg::PcbDlg(const int& openingType) {
 	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx).TopPos(0, sz.cy), t_("Analysis & Action"));
 	CtrlLayout(TabPictures);
 	TC_Tab.Add(TabPictures, t_("Pictures"));
+	TabPictures.Add(preview_.RightPosZ(0, 250).BottomPosZ(0, 200));
+	TabPictures.TAB_Pictures.WhenBar = THISBACK(PictureTabMenu);
 	CtrlLayout(TabMisc);
 	TC_Tab.Add(TabMisc, t_("Miscellaneous"));
 	
@@ -107,6 +109,10 @@ PcbDlg::PcbDlg(const int& openingType) {
 		(FLUKE_SIG, TabMisc.ES_FlukeSig)
 	;
 	
+}
+
+PcbDlg::~PcbDlg() {
+
 }
 
 void PcbDlg::GenerateFaultData() {
@@ -594,7 +600,8 @@ void PcbDlg::DisplayPicturePreview() {
 	    img = pngr.LoadString(SQL[DATA]);
 	}
 	d.DrawImage(0,0,200,200,img);*/
-	Painter 
+	preview_.SetImage(TabPictures.TAB_Pictures.GetKey());
+	preview_.Refresh();
 }
 
 void PcbDlg::SelectImage() {
@@ -608,7 +615,8 @@ void PcbDlg::SelectImage() {
 
 void PcbDlg::AddImageToDatabase() {
 	Image img = StreamRaster::LoadFileAny(AsString(~TabPictures.ES_PicturePath));
-	PNGEncoder png;
+	//PNGEncoder png;
+	JPGEncoder jpg;
 	
 	if ((img.GetWidth() > pictureWidth_) || (img.GetHeight() > pictureHeight_)) {
 		// picture needs to be resized
@@ -619,7 +627,8 @@ void PcbDlg::AddImageToDatabase() {
 		img = newImg;
 	}
 
-	SQL * Insert(PICTURE)(LABEL, ~TabPictures.ES_PictureLabel)(DATA, SqlBinary(png.SaveString(img)))(PCB_ID, ~E_PcbId);
+	//SQL * Insert(PICTURE)(LABEL, ~TabPictures.ES_PictureLabel)(DATA, SqlBinary(png.SaveString(img)))(PCB_ID, ~E_PcbId);
+	SQL * Insert(PICTURE)(LABEL, ~TabPictures.ES_PictureLabel)(DATA, SqlBinary(jpg.SaveString(img)))(PCB_ID, ~E_PcbId);
 
 	PopulatePicturesArray(); 
 }
@@ -634,6 +643,21 @@ void PcbDlg::PopulatePicturesArray() {
     }
 }
 
+void PcbDlg::PictureTabMenu(Bar& bar) {
+	//bar.Add(t_("Create"),THISBACK(Create));
+	//bar.Add(t_("Edit"),THISBACK1(Edit,0));
+	bar.Add(t_("Remove"),THISBACK(RemovePicture));
+}
+
+void PcbDlg::RemovePicture() {
+	// Picture removal from database
+	SQL * Delete(PICTURE).Where(ID == TabPictures.TAB_Pictures.GetKey());
+	
+	// Table is relaoded
+	PopulatePicturesArray();
+	//PromptOK( TabPictures.TAB_Pictures.GetKey().ToString());
+}
+
 void Popup::Paint(Draw& w)
 {
     w.DrawRect(GetSize(), White);
@@ -641,4 +665,22 @@ void Popup::Paint(Draw& w)
         w.DrawImage(0, 0, img_);
     else
        w.DrawText(0, 0, "No image loaded!", Arial(30).Italic());
+}
+
+void PreviewCtrl::Paint(Draw& w) {
+	w.DrawRect(GetSize(),White);
+	if (img_) {
+		//w.DrawImage(0, 0, this->img_);
+		if ((img_.GetWidth() > previewWidth_) || (img_.GetHeight() > previewHeight_)) {
+			// picture needs to be resized
+			Size sz;
+			sz.cx = previewWidth_;
+			sz.cy = previewHeight_;
+			Image newImg = Rescale(img_, GetFitSize(img_.GetSize(),sz));
+			img_ = newImg;
+		}
+		w.DrawImage(0, 0, img_);
+	}
+	else
+		w.DrawText(0, 0, "Preview not available!", Arial(12).Italic());
 }
