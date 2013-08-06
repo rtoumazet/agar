@@ -1,5 +1,5 @@
-#ifndef _AGAR_icpp_init_stub
-#define _AGAR_icpp_init_stub
+#ifndef _agar_icpp_init_stub
+#define _agar_icpp_init_stub
 #include "CtrlLib/init"
 #include "plugin\sqlite3/init"
 #include "SqlCtrl/init"

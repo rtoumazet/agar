@@ -113,8 +113,9 @@ void AGAR::DatabaseInit() {
 
 void AGAR::Exit() {
 
-    if(PromptOKCancel(t_("Exit AGAR ?")))
-    Break();
+    if(PromptOKCancel(t_("Exit AGAR ?"))) {
+    	Break();
+    }
 }
 
 void AGAR::MainMenu(Bar& bar) {
@@ -249,6 +250,8 @@ GUI_APP_MAIN
 		userVersion = sql[0].ToString();
 	}
 
+	//sql.Execute("VACUUM");
+	
 	// strings initializations
 	String databaseDirectory = GetFileDirectory(databaseFullPath);
 
@@ -284,6 +287,8 @@ GUI_APP_MAIN
 	
 	// Entering the main window modal loop
 	AGAR().Run();
+	
+	sql.Execute("VACUUM"); // Deleted data is freed
 }
 
 bool AGAR::Key(dword key, int count) {
