@@ -102,8 +102,10 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 	private:
 		Array<Label> 			label;
 		ArrayMap<int, Option>  	option;
+		Array<Label> 			labelOrigin_;
+		ArrayMap<int, Option>  	optionOrigin_;
 	
-		bool GetFaultValue(const int& i); // returns the option value for the id selected
+		bool GetFaultValue(const int& i, const String& faults); // returns the option value for the id selected
 		
 		bool addActionMenuEntryVisible_;
 		bool editMenuEntryVisible_;
