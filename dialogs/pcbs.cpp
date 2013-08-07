@@ -60,6 +60,8 @@ void PcbsDlg::Create() {
 	if(dlg.Execute() != IDOK)
 		return;
 	dlg.GenerateFaultData();
+	
+	dlg.ES_FaultsOrigin.SetData(~dlg.ES_Faults);
 		
 	SQL * dlg.ctrls.Insert(PCB); // record is inserted in the database
 	int id = SQL.GetInsertedId();

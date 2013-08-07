@@ -56,6 +56,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 	// Hiding controls not to be displayed
 	E_PcbId.Hide();
 	ES_Faults.Hide();
+	ES_FaultsOrigin.Hide();
 	
 	// displaying images on controls
 	BTN_NewOrigin.SetImage(MyImages::add);
@@ -103,6 +104,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 		(LAST_TEST_DATE, D_LastTestDate)
 		(TAG, ES_Tag)
 		(PCB_FAULT_OPTION, ES_Faults)
+		(PCB_ORIGIN_FAULT_OPTION, ES_FaultsOrigin)
 		(ROM_NAME, TabMisc.ES_FlukeRomName)
 		(SECTION, TabMisc.ES_FlukeSection)
 		(CRC_32, TabMisc.ES_FlukeCrc32)
@@ -119,6 +121,7 @@ void PcbDlg::GenerateFaultData() {
 	// builds the string containing checked values
 	String faults = "";
 	Value key, data;
+	// Current faults
 	for (int i=0; i<option.GetCount(); i++) {
 		key = option.GetKey(i);
 		data = option[i].GetData();
@@ -126,16 +129,28 @@ void PcbDlg::GenerateFaultData() {
 		faults += data.ToString() +";";
 	}
 	ES_Faults = faults;
+	
+	// Original faults
+	faults = "";
+	for (int i=0; i<optionOrigin_.GetCount(); i++) {
+		key = optionOrigin_.GetKey(i);
+		data = optionOrigin_[i].GetData();
+		faults += key.ToString() +":";
+		faults += data.ToString() +";";
+	}
+	ES_FaultsOrigin = faults;
+
 }
 
-bool PcbDlg::GetFaultValue(const int& id) {
+bool PcbDlg::GetFaultValue(const int& id, const String& faults) {
 	// returns the option state for the fault id parameter
 
 	Sql sql;
 	int startPos = 0;
 	int endPos = 0;
 	bool ret = false;
-	String str = ES_Faults;
+	//String str = ES_Faults;
+	String str = faults;
 	String subStr = "";
 	endPos = str.Find(";",startPos);
 	while (endPos != -1) {
@@ -160,16 +175,21 @@ void PcbDlg::LoadFaultData() {
 	// fault option list
 	Sql sql;
 	Rect r = L_Faults.GetRect();
+	Rect rOrigin = TabMisc.L_Faults.GetRect();
+	
 	int y = r.top + 20;
+	int yOrigin = rOrigin.top + 20;
 	int linecy = Draw::GetStdFontCy() + 4;
 	int current = 0; 
 	sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
 	while(sql.Fetch()) {
-		//Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).RightPos(10, 150));
 		Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).LeftPos(r.left+10, 150));
+		TabMisc.Add(optionOrigin_.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(yOrigin, linecy).LeftPos(rOrigin.left+10, 150));
 		int id = StdConvertInt().Scan(sql[0].ToString());
-		option[current].SetData(GetFaultValue(id));
+		option[current].SetData(GetFaultValue(id, ES_Faults));
+		optionOrigin_[current].SetData(GetFaultValue(id, ES_FaultsOrigin));
 		y += linecy;
+		yOrigin += linecy;
 		current++;
 	}	
 }
