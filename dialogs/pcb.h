@@ -95,6 +95,8 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 			SetupDisplay(currentCtrl_);
 			currentCtrl_ = 0;
 		}
+
+		static bool GetFaultValue(const int& i, const String& faults); // returns the option value for the id selected
 		
 		PcbDlg(const int& openingType);	
 		~PcbDlg();
@@ -105,8 +107,6 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		Array<Label> 			labelOrigin_;
 		ArrayMap<int, Option>  	optionOrigin_;
 	
-		bool GetFaultValue(const int& i, const String& faults); // returns the option value for the id selected
-		
 		bool addActionMenuEntryVisible_;
 		bool editMenuEntryVisible_;
 		bool removeMenuEntryVisible_;

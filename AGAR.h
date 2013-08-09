@@ -50,6 +50,7 @@ public:
 	void PcbFault();
 	void PcbState();
 	void PcbType();
+	void ResetInitialFault();
 	void About();
 	
 	String GetVersion();

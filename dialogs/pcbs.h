@@ -8,6 +8,7 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		void Create();
 		void Edit(int pcbId=0);
 		void Remove();
+		void GenerateReport();
 
 		void OwnMenu(Bar& bar);
 
