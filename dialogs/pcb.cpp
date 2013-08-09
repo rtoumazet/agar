@@ -149,7 +149,6 @@ bool PcbDlg::GetFaultValue(const int& id, const String& faults) {
 	int startPos = 0;
 	int endPos = 0;
 	bool ret = false;
-	//String str = ES_Faults;
 	String str = faults;
 	String subStr = "";
 	endPos = str.Find(";",startPos);
@@ -611,15 +610,6 @@ void PcbDlg::DisplayPicture() {
 }
 
 void PcbDlg::DisplayPicturePreview() {
-	/*Draw d;
-	Image img;
-	
-	SQL * Select(DATA).From(PICTURE).Where(ID == TabPictures.TAB_Pictures.GetKey());
-	if (SQL.Fetch()) {
-	    PNGRaster pngr;
-	    img = pngr.LoadString(SQL[DATA]);
-	}
-	d.DrawImage(0,0,200,200,img);*/
 	preview_.SetImage(TabPictures.TAB_Pictures.GetKey());
 	preview_.Refresh();
 }
@@ -635,7 +625,6 @@ void PcbDlg::SelectImage() {
 
 void PcbDlg::AddImageToDatabase() {
 	Image img = StreamRaster::LoadFileAny(AsString(~TabPictures.ES_PicturePath));
-	//PNGEncoder png;
 	JPGEncoder jpg;
 	
 	if ((img.GetWidth() > pictureWidth_) || (img.GetHeight() > pictureHeight_)) {
@@ -647,7 +636,6 @@ void PcbDlg::AddImageToDatabase() {
 		img = newImg;
 	}
 
-	//SQL * Insert(PICTURE)(LABEL, ~TabPictures.ES_PictureLabel)(DATA, SqlBinary(png.SaveString(img)))(PCB_ID, ~E_PcbId);
 	SQL * Insert(PICTURE)(LABEL, ~TabPictures.ES_PictureLabel)(DATA, SqlBinary(jpg.SaveString(img)))(PCB_ID, ~E_PcbId);
 
 	PopulatePicturesArray(); 

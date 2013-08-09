@@ -141,6 +141,7 @@ void AGAR::SubMenuPcb(Bar& bar) {
 
 void AGAR::SubMenuOptions(Bar& bar) {
 	bar.Add(t_("Default values"), THISBACK(SubMenuOptionsDefaultvalues));
+	bar.Add(t_("Reset initial faults"), THISBACK(ResetInitialFault));
 }
 
 void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
@@ -223,6 +224,17 @@ void AGAR::PcbType() {
 	PcbTypeDlg dlg;
 	
 	dlg.Run();
+}
+
+void AGAR::ResetInitialFault() {
+	// For every PCB record, origin fault data is replaced by current fault data
+	if (PromptYesNo(t_("Do you want to replace initial fault data for each pcb by its current fault value ?"))) {
+		Sql sql;
+		sql.Execute("update PCB set PCB_ORIGIN_FAULT_OPTION = PCB_FAULT_OPTION");
+		PromptOK(t_("Done."));
+	} else {
+		PromptOK(t_("Operation cancelled"));	
+	}
 }
 
 GUI_APP_MAIN

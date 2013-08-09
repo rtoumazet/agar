@@ -50,6 +50,8 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 	bar.Add(t_("Create"),THISBACK(Create));
 	bar.Add(t_("Edit"),THISBACK1(Edit,0));
 	bar.Add(t_("Remove"),THISBACK(Remove));
+	bar.Separator();
+	bar.Add(t_("Generate report"),THISBACK(GenerateReport));
 }
 
 void PcbsDlg::Create() {
@@ -115,11 +117,47 @@ void PcbsDlg::Remove() {
 	ReloadTable(true);
 }
 
+void PcbsDlg::GenerateReport() {
+	// Generates a text report extracted from the pcb data
+	String report;
+	String filename;
+	String nl = "&";
+	
+	int id = TAB_pcbs.GetKey(); //getting the pcb id
+	
+	String statement = "select MAKER.MAKER_NAME, GAME.GAME_NAME, PCB.PCB_ORIGIN_FAULT_OPTION ";
+	statement += "from PCB, GAME, MAKER ";
+	statement += "where PCB.GAME_ID = GAME.ID ";
+	statement += "and GAME.MAKER_ID = MAKER.ID ";
+	statement += Format("and PCB.ID = %i",id);
+	
+	Sql sql;
+	sql.Execute(statement);
+	if (sql.Fetch()) {
+		report = AsString(sql[0]) + " " + AsString(sql[1]) + nl;	
+		filename = report;
+	}
+	
+	// Original faults listing
+	report += "Original fault(s): ";
+	String faults = AsString(sql[2]);
+	sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
+	while (sql.Fetch()) {
+		int id = StdConvertInt().Scan(sql[ID].ToString());
+		// faults at 1 will be added to the report
+		if (PcbDlg::GetFaultValue(id, faults)) {
+			report += AsString(sql[LABEL]) + " ";
+		}
+	}
+
+	PromptOK(report);
+}
+
 void PcbsDlg::SortTable(const int& i) {
 	TAB_pcbs.ToggleSortColumn(i);
 	TAB_pcbs.DoColumnSort();	
 	if (!i) {
-		// Sorting is manualle done through table reload for the first column as it's not possible to sort directly
+		// Sorting is manually done through table reload for the first column as it's not possible to sort directly
 		// AttrText data from a column directly.
 		if (isSortedAsc_) isSortedAsc_ = false;
 		else isSortedAsc_ = true;
