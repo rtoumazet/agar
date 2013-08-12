@@ -121,7 +121,7 @@ void PcbsDlg::GenerateReport() {
 	// Generates a text report extracted from the pcb data
 	String report;
 	String filename;
-	String nl = "&";
+	String nl = "\r\n";
 	
 	int id = TAB_pcbs.GetKey(); //getting the pcb id
 	
@@ -134,9 +134,11 @@ void PcbsDlg::GenerateReport() {
 	Sql sql;
 	sql.Execute(statement);
 	if (sql.Fetch()) {
-		report = AsString(sql[0]) + " " + AsString(sql[1]) + nl;	
-		filename = report;
+		report = AsString(sql[0]) + " " + AsString(sql[1]);
+		filename = report + ".txt";
+		
 	}
+	report += nl;
 	
 	// Original faults listing
 	report += "Original fault(s): ";
@@ -149,8 +151,24 @@ void PcbsDlg::GenerateReport() {
 			report += AsString(sql[LABEL]) + " ";
 		}
 	}
+	report += nl;
+	
+	// Analysis & actions listing
+	report += "Analysis `& actions :";
+	report += nl;
+	sql.Execute(Format("select ID,PARENT_ID,COMMENTARY,FINISHED from PCB_ACTION where PCB_ID = %i order by ACTION_DATE",id));
+	while (sql.Fetch()) {
+		if (sql[PARENT_ID] == 0) report += "- Analysis : ";
+		else report += "     - Action : ";
+		
+		report += sql[COMMENTARY];
+		report += nl;
+	}
+	
 
-	PromptOK(report);
+	//PromptOK(report);
+	if (SaveFile(filename, report)) PromptOK("'" + filename + "' was generated.");
+	else PromptOK("File '" + filename + "' couldn't be generated !");
 }
 
 void PcbsDlg::SortTable(const int& i) {
