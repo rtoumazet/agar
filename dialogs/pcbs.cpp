@@ -161,7 +161,7 @@ void PcbsDlg::GenerateReport() {
 		if (sql[PARENT_ID] == 0) report += "- Analysis : ";
 		else report += "     - Action : ";
 		
-		report += sql[COMMENTARY];
+		report += sql[COMMENTARY].ToString();
 		report += nl;
 	}
 	
