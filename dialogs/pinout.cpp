@@ -1,4 +1,4 @@
-#include "Pinout.h"
+#include "pinout.h"
 
 PinoutDlg::PinoutDlg(const int& openingType) {
 	
