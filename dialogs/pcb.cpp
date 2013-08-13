@@ -421,7 +421,7 @@ void PcbDlg::LoadDropList(const int& tableType) {
 		case TABLE_PINOUT:
 			DL_Pinout.Clear();
 			DL_Pinout.Add(0,t_("Not selected"));
-			sql.Execute("select ID,LABEL,PIN_SIZE from PINOUT");
+			sql.Execute("select ID,LABEL,PIN_SIZE from PINOUT order by LABEL");
 			while(sql.Fetch()) {
 				String temp = Format("%s (%s)",sql[LABEL].ToString(),sql[PIN_SIZE].ToString());
 				DL_Pinout.Add(
@@ -436,7 +436,7 @@ void PcbDlg::LoadDropList(const int& tableType) {
 		case TABLE_ORIGIN:
 			DL_Origin.Clear();
 			DL_Origin.Add(0,t_("Not selected"));
-			sql.Execute("select ID,ORIGIN from ORIGIN");
+			sql.Execute("select ID,ORIGIN from ORIGIN order by ORIGIN");
 			while(sql.Fetch()) {
 				DL_Origin.Add(
 					sql[ID],
@@ -450,7 +450,7 @@ void PcbDlg::LoadDropList(const int& tableType) {
 		case TABLE_LOCATION:
 			DL_Location.Clear();
 			DL_Location.Add(0,t_("Not selected"));
-			sql.Execute("select ID,LABEL from LOCATION");
+			sql.Execute("select ID,LABEL from LOCATION order by LABEL");
 			while(sql.Fetch()) {
 				DL_Location.Add(
 					sql[ID],
