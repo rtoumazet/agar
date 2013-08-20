@@ -103,7 +103,12 @@ void PcbsDlg::Edit(int pcbId) {
 	
 	SQL * dlg.ctrls.Update(PCB).Where(ID == id);
 
+	int index = TAB_pcbs.GetCursor();
 	ReloadTable(true);
+	
+	// edited pcb is selected in the table
+	TAB_pcbs.SetCursor(index);
+	TAB_pcbs.CenterCursor();
 }
 
 void PcbsDlg::Remove() {
@@ -112,6 +117,7 @@ void PcbsDlg::Remove() {
 	if(IsNull(id) || !PromptYesNo(t_("Delete PCB ?")))
 	   return;
 	SQL * SqlDelete(PCB_ACTION).Where(PCB_ID == id);
+	SQL * SqlDelete(PICTURE).Where(PCB_ID == id);
 	SQL * SqlDelete(PCB).Where(ID == id);
 
 	ReloadTable(true);
