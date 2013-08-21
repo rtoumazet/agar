@@ -15,8 +15,10 @@ PcbsDlg::PcbsDlg() {
 	TAB_pcbs.AddColumn(PCB_TYPE,t_("Type")).HeaderTab().WhenAction = THISBACK1(SortTable, 1);
 	TAB_pcbs.AddColumn(TAG,t_("Tag")).HeaderTab().WhenAction = THISBACK1(SortTable, 2);
 	TAB_pcbs.AddColumn(LOCATION,t_("Location")).HeaderTab().WhenAction = THISBACK1(SortTable, 3);
+	TAB_pcbs.AddColumn(PINOUT,t_("Pinout")).HeaderTab().WhenAction = THISBACK1(SortTable, 4);
+	TAB_pcbs.AddColumn(ORIGIN,t_("Origin")).HeaderTab().WhenAction = THISBACK1(SortTable, 5);
 	TAB_pcbs.WhenLeftDouble = THISBACK1(Edit,0);
-	TAB_pcbs.ColumnWidths("346 82 81 82");
+	TAB_pcbs.ColumnWidths("346 82 81 82 82 82");
 	
 	// Filters
 	// state droplist
@@ -58,6 +60,7 @@ void PcbsDlg::Create() {
 	PcbDlg dlg(OPENING_NEW);
 	
 	dlg.LoadFaultData();
+	dlg.SizePos();
 	
 	if(dlg.Execute() != IDOK)
 		return;
@@ -97,6 +100,7 @@ void PcbsDlg::Edit(int pcbId) {
 		dlg.SetAddActionMenuEntryVisible(false);
 		dlg.SetEditMenuEntryVisible(false);
 	}
+	dlg.SizePos();
 	if(dlg.Execute() != IDOK)
 		return;
 	dlg.GenerateFaultData();
@@ -195,15 +199,16 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 	TAB_pcbs.Clear();
 	
 	Sql sql;
-	String statement = "select PCB.ID, MAKER.MAKER_NAME, GAME.GAME_NAME, PCB_STATE.INK, PCB_STATE.PAPER, PCB_TYPE.LABEL, TAG, LOCATION.LABEL ";
+	String statement = "select PCB.ID, MAKER.MAKER_NAME, GAME.GAME_NAME, PCB_STATE.INK, PCB_STATE.PAPER, PCB_TYPE.LABEL, TAG, LOCATION.LABEL, ";
+	statement += "PINOUT.LABEL, ORIGIN.ORIGIN ";
 	statement += "from PCB,	GAME, MAKER, PCB_TYPE, PCB_STATE ";
-	statement += "left outer join LOCATION ";
-	statement += "on pcb.location_id = location.id ";
+	statement += "left outer join LOCATION on pcb.location_id = location.id ";
+	statement += "left outer join PINOUT on pcb.pinout_id = pinout.id ";
+	statement += "left outer join ORIGIN on pcb.origin_id = origin.id ";
 	statement += "where pcb.game_id = game.id ";
 	statement += "and game.maker_id = maker.id ";
 	statement += "and pcb.pcb_type_id = pcb_type.id ";
 	statement += "and pcb.pcb_state_id = pcb_state.id ";
-	//statement += "and pcb.location_id = location.id ";
 	// State filter
 	if (filterState_) statement += Format("and pcb.pcb_state_id = %1 ",filterState_);
 	// Faults filter
@@ -236,7 +241,9 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 			atGame, // maker + game formatted
 			sql[5], // type
 			sql[6], // tag
-			sql[7]  // location
+			sql[7], // location
+			sql[8], // pinout
+			sql[9]  // origin
 		);
 	}	
 }
