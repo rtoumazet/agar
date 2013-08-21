@@ -198,6 +198,7 @@ void AGAR::PcbList() {
 	// Displays pcbs records
 	
 	PcbsDlg dlg;
+	dlg.Sizeable();
 		
 	dlg.Run();
 }
