@@ -60,7 +60,7 @@ void PcbsDlg::Create() {
 	PcbDlg dlg(OPENING_NEW);
 	
 	dlg.LoadFaultData();
-	dlg.SizePos();
+	//dlg.SizePos();
 	
 	if(dlg.Execute() != IDOK)
 		return;
@@ -100,7 +100,7 @@ void PcbsDlg::Edit(int pcbId) {
 		dlg.SetAddActionMenuEntryVisible(false);
 		dlg.SetEditMenuEntryVisible(false);
 	}
-	dlg.SizePos();
+	//dlg.SizePos();
 	if(dlg.Execute() != IDOK)
 		return;
 	dlg.GenerateFaultData();
@@ -263,16 +263,23 @@ void PcbsDlg::LoadFaultData() {
 	// fault option list
 	Sql sql;
 	Rect r = L_Faults.GetRect();
-	int y = r.top + 20;
-	int linecy = Draw::GetStdFontCy() + 4;
+	//int y = r.top + 20;
+	int y = 116;
+	int linecy = Draw::GetStdFontCy() + 2;
 	int current = 0; 
 	sql * Select(ID,LABEL).From(PCB_FAULT).OrderBy(LABEL);
 	while(sql.Fetch()) {
 		
 		//Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).RightPos(10, 200));
-		Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).LeftPos(r.left+10,200));
+		//Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).LeftPos(r.left+10,200));
+		Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPosZ(y, linecy).RightPosZ(10,200));
 		int id = StdConvertInt().Scan(sql[ID].ToString());
 		y += linecy;
 		current++;
 	}	
+	
+	// Labels position override
+	L_Faults.RightPosZ(80, 136).TopPosZ(96, y - 96);
+	//LeftPosZ(584, 228).VSizePosZ(44, 140)
+	L_Filters.RightPosZ(8, 228).TopPosZ(44, y - 44 +2);
 }
