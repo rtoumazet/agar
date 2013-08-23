@@ -27,11 +27,11 @@ LAYOUT(PcbFaultsLayout, 244, 200)
 END_LAYOUT
 
 LAYOUT(PcbsLayout, 816, 368)
-	ITEM(Button, BTN_Close, SetLabel(t_("Close")).LeftPosZ(752, 56).VSizePosZ(8, 345))
-	ITEM(ArrayCtrl, TAB_pcbs, LeftPosZ(4, 572).VSizePosZ(8, 4))
+	ITEM(Button, BTN_Close, SetLabel(t_("Close")).RightPosZ(10, 56).TopPosZ(8, 19))
+	ITEM(ArrayCtrl, TAB_pcbs, HSizePosZ(4, 250).VSizePosZ(8, 4))
 	ITEM(LabelBox, L_Filters, SetLabel(t_("Filters")).LeftPosZ(584, 228).VSizePosZ(44, 140))
-	ITEM(Label, L_State, SetLabel(t_("State")).LeftPosZ(592, 216).VSizePosZ(60, 280))
-	ITEM(DropList, DL_State, LeftPosZ(632, 172).TopPosZ(64, 19))
+	ITEM(Label, L_State, SetLabel(t_("State")).RightPosZ(8, 216).TopPosZ(60, 24))
+	ITEM(DropList, DL_State, RightPosZ(8, 172).TopPosZ(64, 19))
 	ITEM(LabelBox, L_Faults, SetLabel(t_("Fault(s)")).LeftPosZ(588, 136).VSizePosZ(96, 144))
 END_LAYOUT
 
