@@ -122,6 +122,7 @@ void PcbsDlg::Remove() {
 	   return;
 	SQL * SqlDelete(PCB_ACTION).Where(PCB_ID == id);
 	SQL * SqlDelete(PICTURE).Where(PCB_ID == id);
+	SQL * SqlDelete(FLUKE).Where(PCB_ID == id);
 	SQL * SqlDelete(PCB).Where(ID == id);
 
 	ReloadTable(true);
@@ -270,8 +271,6 @@ void PcbsDlg::LoadFaultData() {
 	sql * Select(ID,LABEL).From(PCB_FAULT).OrderBy(LABEL);
 	while(sql.Fetch()) {
 		
-		//Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).RightPos(10, 200));
-		//Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(y, linecy).LeftPos(r.left+10,200));
 		Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPosZ(y, linecy).RightPosZ(10,200));
 		int id = StdConvertInt().Scan(sql[ID].ToString());
 		y += linecy;
@@ -280,6 +279,5 @@ void PcbsDlg::LoadFaultData() {
 	
 	// Labels position override
 	L_Faults.RightPosZ(80, 136).TopPosZ(96, y - 96);
-	//LeftPosZ(584, 228).VSizePosZ(44, 140)
 	L_Filters.RightPosZ(8, 228).TopPosZ(44, y - 44 +2);
 }

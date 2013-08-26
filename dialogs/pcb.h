@@ -38,6 +38,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 
 		WithTabPicturesLayout<ParentCtrl> TabPictures;
 		WithTabMiscLayout<ParentCtrl> TabMisc;
+		WithTabFlukeLayout<ParentCtrl> TabFluke;
 		
 		PreviewCtrl			preview_;
 		
@@ -53,9 +54,6 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void SetAddActionMenuEntryVisible(const bool& val);
 		void SetEditMenuEntryVisible(const bool& val);
 		void SetRemoveMenuEntryVisible(const bool& val);
-		
-		void PictureTabMenu(Bar& bar);
-		void RemovePicture();
 		
 		// analysis & actions related functions
 		void AddAnalysis(const int& pcbId);
@@ -120,11 +118,18 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		
 		int	pictureWidth_; // max width of saved pictures in the db
 		int pictureHeight_; // max heigth of saved picture in the database
+		void PictureTabMenu(Bar& bar);
+		void RemovePicture();
 		void SelectImage();
 		void AddImageToDatabase();
 		void PopulatePicturesArray();
 		void DisplayPicture();
 		void DisplayPicturePreview();
+		
+		void FlukeTabMenu(Bar& bar);
+		void AddFlukeRecord();
+		void RemoveFlukeRecord();
+		void PopulateFlukeArray();
 		
 };
 
