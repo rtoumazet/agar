@@ -4,6 +4,7 @@
 #include "pinout.h"
 #include "location.h"
 #include "pcbstate.h"
+#include "game.h"
 
 #include "agar/utilities/converts.h"
 #include "agar/utilities/lookups.h"
@@ -17,15 +18,48 @@ PcbDlg::PcbDlg(const int& openingType) {
 	editStyle_ = EditString::StyleDefault();
 	editStyle_.text = SGray();
 
-	// tab
+	// Tabs setup
 	Size sz = TC_Tab.GetSize();
+	
+	// Analysis & action tab
 	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx).TopPos(0, sz.cy), t_("Analysis & Action"));
 	CtrlLayout(TabPictures);
+	
+	// Pictures tab
 	TC_Tab.Add(TabPictures, t_("Pictures"));
+	TabPictures.TAB_Pictures.AddIndex(ID);
+	TabPictures.TAB_Pictures.AddColumn(LABEL,t_("Label"));
 	TabPictures.Add(preview_.RightPosZ(0, 250).BottomPosZ(0, 200));
 	TabPictures.TAB_Pictures.WhenBar = THISBACK(PictureTabMenu);
+
+	TabPictures.BTN_Select.WhenPush = THISBACK(SelectImage);
+	TabPictures.BTN_Add.WhenPush = THISBACK(AddImageToDatabase);
+	TabPictures.TAB_Pictures.WhenLeftDouble = THISBACK(DisplayPicture);
+	TabPictures.TAB_Pictures.WhenLeftClick = THISBACK(DisplayPicturePreview);
+	
+	// Fluke tab
+	CtrlLayout(TabFluke);
+	TC_Tab.Add(TabFluke, t_("Fluke"));
+	TabFluke.TAB_Fluke.WhenBar = THISBACK(FlukeTabMenu);
+	TabFluke.TAB_Fluke.AddIndex(ID);
+	TabFluke.TAB_Fluke.AddColumn(ROM_NAME, t_("Rom name"));
+	TabFluke.TAB_Fluke.AddColumn(SECTION, t_("Section"));
+	TabFluke.TAB_Fluke.AddColumn(CRC_32, t_("CRC32"));
+	TabFluke.TAB_Fluke.AddColumn(FLUKE_SIG, t_("Sig"));	
+	TabFluke.TAB_Fluke.ColumnWidths("137 137 108 108");
+	
+	TabFluke.BTN_Add.WhenPush = THISBACK(AddFlukeRecord);
+		
+	TabFluke.ES_FlukeRomName.MaxChars(20);
+	TabFluke.ES_FlukeSection.MaxChars(20);
+	TabFluke.ES_FlukeCrc32.MaxChars(8);
+	TabFluke.ES_FlukeSig.MaxChars(4); 
+	
+	// Miscellaneous tab
 	CtrlLayout(TabMisc);
 	TC_Tab.Add(TabMisc, t_("Miscellaneous"));
+	
+	
 	
 	pictureWidth_ = 1024;
 	pictureHeight_ = 768;
@@ -37,11 +71,6 @@ PcbDlg::PcbDlg(const int& openingType) {
 			TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's no entry in creation
 			TC_AnalysisAction.Disable(); // no action allowed on the TC during creation
 			
-			child = TabMisc.GetFirstChild();
-			while (child) {
-				SetupDisplay(child);
-				child = child->GetNext();	
-			}
 			child = TabPictures.GetFirstChild();
 			while (child) {
 				SetupDisplay(child);
@@ -52,6 +81,13 @@ PcbDlg::PcbDlg(const int& openingType) {
 			Title(t_("Edit PCB"));
 			break;
 	}		
+
+	child = TabFluke.GetFirstChild();
+	while (child) {
+		SetupDisplay(child);
+		child = child->GetNext();	
+	}
+
 	
 	// Hiding controls not to be displayed
 	E_PcbId.Hide();
@@ -59,9 +95,11 @@ PcbDlg::PcbDlg(const int& openingType) {
 	ES_FaultsOrigin.Hide();
 	
 	// displaying images on controls
+	BTN_NewGame.SetImage(MyImages::add);
 	BTN_NewOrigin.SetImage(MyImages::add);
 	BTN_NewLocation.SetImage(MyImages::add);
 	BTN_NewPinout.SetImage(MyImages::add);
+	TabFluke.BTN_Add.SetImage(MyImages::add);
 	
 	ActiveFocus(DL_Game); // sets the focus to the first droplist
 	
@@ -73,22 +111,15 @@ PcbDlg::PcbDlg(const int& openingType) {
 	LoadDropList(TABLE_ORIGIN);
 	LoadDropList(TABLE_PINOUT);
 	
-	TabPictures.TAB_Pictures.AddIndex(ID);
-	TabPictures.TAB_Pictures.AddColumn(LABEL,t_("Label"));
 
 	// Tree control
 	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
 	
 	// buttons actions
+	BTN_NewGame.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_GAME);
 	BTN_NewOrigin.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_ORIGIN);
 	BTN_NewLocation.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_LOCATION);
 	BTN_NewPinout.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_PINOUT);
-	
-	//TabPictures.BTN_Popup.WhenPush = THISBACK(DisplayPicture);
-	TabPictures.BTN_Select.WhenPush = THISBACK(SelectImage);
-	TabPictures.BTN_Add.WhenPush = THISBACK(AddImageToDatabase);
-	TabPictures.TAB_Pictures.WhenLeftDouble = THISBACK(DisplayPicture);
-	TabPictures.TAB_Pictures.WhenLeftClick = THISBACK(DisplayPicturePreview);
 	
 	// Tab action
 	TC_Tab.WhenSet = THISBACK(TabChanged);
@@ -105,10 +136,6 @@ PcbDlg::PcbDlg(const int& openingType) {
 		(TAG, ES_Tag)
 		(PCB_FAULT_OPTION, ES_Faults)
 		(PCB_ORIGIN_FAULT_OPTION, ES_FaultsOrigin)
-		(ROM_NAME, TabMisc.ES_FlukeRomName)
-		(SECTION, TabMisc.ES_FlukeSection)
-		(CRC_32, TabMisc.ES_FlukeCrc32)
-		(FLUKE_SIG, TabMisc.ES_FlukeSig)
 	;
 	
 }
@@ -184,7 +211,7 @@ void PcbDlg::LoadFaultData() {
 	sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
 	while(sql.Fetch()) {
 		//Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).LeftPos(r.left+10, 150));
-		Add(option.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPosZ(y, linecy).RightPosZ(10, 180));
+		Add(option.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPosZ(y, linecy).RightPosZ(10, 150));
 		TabMisc.Add(optionOrigin_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(yOrigin, linecy).LeftPos(rOrigin.left+10, 150));
 		int id = StdConvertInt().Scan(sql[0].ToString());
 		option[current].SetData(GetFaultValue(id, ES_Faults));
@@ -195,8 +222,9 @@ void PcbDlg::LoadFaultData() {
 	}	
 	
 	// Labels position override
-	L_Faults.RightPosZ(70, 136).TopPosZ(80, y - 80);
-	TabMisc.L_Faults.TopPosZ(rOrigin.top, y - rOrigin.top);
+	//L_Faults.RightPosZ(70, 136).TopPosZ(r.top, y - 100);
+	L_Faults.TopPosZ(r.top, y - 80);
+	TabMisc.L_Faults.TopPosZ(rOrigin.top, y - 100);
 }
 
 void PcbDlg::TreeControlMenu(Bar& bar) {
@@ -404,6 +432,26 @@ void PcbDlg::CreateLinkedRecord(const int& tableType) {
 			DL_Location.SetIndex(DL_Location.FindKey(id));
 			break;
 		}
+
+		case TABLE_GAME:
+		{
+			int idBeforeInsert = SQL.GetInsertedId();
+			GameDlg dlg;
+
+			dlg.Run();
+
+			
+			//SQL * dlg.ctrls.Insert(GAME);
+			id = SQL.GetInsertedId();
+			
+			// Droplist refresh
+			if (idBeforeInsert != id) {
+				LoadDropList(tableType);
+				DL_Game.SetIndex(DL_Game.FindKey(id));
+			}
+			break;
+		}
+
 /*		case TABLE_STATE:
 		{
 			PcbStateDlg dlg(OPENING_NEW);
@@ -504,28 +552,28 @@ void PcbDlg::LoadDropList(const int& tableType) {
 }
 
 void PcbDlg::SetupDisplay(Ctrl* ctrl) {
-	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeRomName.GetLayoutId()) {
-		if (TabMisc.ES_FlukeRomName.GetData() == "") {
-			TabMisc.ES_FlukeRomName <<= "Rom name";
-			TabMisc.ES_FlukeRomName.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeRomName.GetLayoutId()) {
+		if (TabFluke.ES_FlukeRomName.GetData() == "") {
+			TabFluke.ES_FlukeRomName <<= "Rom name";
+			TabFluke.ES_FlukeRomName.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeSection.GetLayoutId()) {
-		if (TabMisc.ES_FlukeSection.GetData() == "") {
-			TabMisc.ES_FlukeSection <<= "Section";
-			TabMisc.ES_FlukeSection.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeSection.GetLayoutId()) {
+		if (TabFluke.ES_FlukeSection.GetData() == "") {
+			TabFluke.ES_FlukeSection <<= "Section";
+			TabFluke.ES_FlukeSection.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeCrc32.GetLayoutId()) {
-		if (TabMisc.ES_FlukeCrc32.GetData() == "") {
-			TabMisc.ES_FlukeCrc32 <<= "CRC32";
-			TabMisc.ES_FlukeCrc32.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeCrc32.GetLayoutId()) {
+		if (TabFluke.ES_FlukeCrc32.GetData() == "") {
+			TabFluke.ES_FlukeCrc32 <<= "CRC32";
+			TabFluke.ES_FlukeCrc32.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeSig.GetLayoutId()) {
-		if (TabMisc.ES_FlukeSig.GetData() == "") {
-			TabMisc.ES_FlukeSig <<= "Sig";
-			TabMisc.ES_FlukeSig.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeSig.GetLayoutId()) {
+		if (TabFluke.ES_FlukeSig.GetData() == "") {
+			TabFluke.ES_FlukeSig <<= "Sig";
+			TabFluke.ES_FlukeSig.SetStyle(editStyle_);
 		}
 	}
 	if (ctrl->GetLayoutId() == TabPictures.ES_PictureLabel.GetLayoutId()) {
@@ -543,28 +591,28 @@ void PcbDlg::SetupDisplay(Ctrl* ctrl) {
 }
 
 void PcbDlg::ResetDisplay(Ctrl* ctrl) {
-	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeRomName.GetLayoutId()) {
-		TabMisc.ES_FlukeRomName.SetStyle(EditString::StyleDefault());
-		if (TabMisc.ES_FlukeRomName.GetData() == "Rom name") {
-			TabMisc.ES_FlukeRomName.Erase();
+	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeRomName.GetLayoutId()) {
+		TabFluke.ES_FlukeRomName.SetStyle(EditString::StyleDefault());
+		if (TabFluke.ES_FlukeRomName.GetData() == "Rom name") {
+			TabFluke.ES_FlukeRomName.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeSection.GetLayoutId()) {
-		TabMisc.ES_FlukeSection.SetStyle(EditString::StyleDefault());
-		if (TabMisc.ES_FlukeSection.GetData() == "Section") {
-			TabMisc.ES_FlukeSection.Erase();
+	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeSection.GetLayoutId()) {
+		TabFluke.ES_FlukeSection.SetStyle(EditString::StyleDefault());
+		if (TabFluke.ES_FlukeSection.GetData() == "Section") {
+			TabFluke.ES_FlukeSection.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeCrc32.GetLayoutId()) {
-		TabMisc.ES_FlukeCrc32.SetStyle(EditString::StyleDefault());
-		if (TabMisc.ES_FlukeCrc32.GetData() == "CRC32") {
-			TabMisc.ES_FlukeCrc32.Erase();
+	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeCrc32.GetLayoutId()) {
+		TabFluke.ES_FlukeCrc32.SetStyle(EditString::StyleDefault());
+		if (TabFluke.ES_FlukeCrc32.GetData() == "CRC32") {
+			TabFluke.ES_FlukeCrc32.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabMisc.ES_FlukeSig.GetLayoutId()) {
-		TabMisc.ES_FlukeSig.SetStyle(EditString::StyleDefault());
-		if (TabMisc.ES_FlukeSig.GetData() == "Sig") {
-			TabMisc.ES_FlukeSig.Erase();
+	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeSig.GetLayoutId()) {
+		TabFluke.ES_FlukeSig.SetStyle(EditString::StyleDefault());
+		if (TabFluke.ES_FlukeSig.GetData() == "Sig") {
+			TabFluke.ES_FlukeSig.Erase();
 		}
 	}	
 	if (ctrl->GetLayoutId() == TabPictures.ES_PictureLabel.GetLayoutId()) {
@@ -595,13 +643,15 @@ void PcbDlg::TabChanged() {
 			
 			PopulatePicturesArray();
 			break;
-		case 2: // Misc tab
-			child = TabMisc.GetFirstChild();
+		case 2: // Fluke tab
+			child = TabFluke.GetFirstChild();
 			while (child) {
 				ResetDisplay(child);
 				SetupDisplay(child);
 				child = child->GetNext();	
 			}
+			
+			PopulateFlukeArray();
 			break;
 	}
 
@@ -668,9 +718,56 @@ void PcbDlg::RemovePicture() {
 	// Picture removal from database
 	SQL * Delete(PICTURE).Where(ID == TabPictures.TAB_Pictures.GetKey());
 	
-	// Table is relaoded
+	// Table is reloaded
 	PopulatePicturesArray();
-	//PromptOK( TabPictures.TAB_Pictures.GetKey().ToString());
+}
+
+void PcbDlg::FlukeTabMenu(Bar& bar) {
+	//bar.Add(t_("Create"),THISBACK(Create));
+	//bar.Add(t_("Edit"),THISBACK1(Edit,0));
+	bar.Add(t_("Remove"),THISBACK(RemoveFlukeRecord));
+}
+
+void PcbDlg::RemoveFlukeRecord() {
+	// Fluke record removal from database
+	SQL * Delete(FLUKE).Where(ID == TabFluke.TAB_Fluke.GetKey());
+	
+	// Table is reloaded
+	PopulateFlukeArray();
+}
+
+void PcbDlg::AddFlukeRecord() {
+
+	bool bInsert = true;
+	if ( (~TabFluke.ES_FlukeRomName == "Rom name") ||
+		(~TabFluke.ES_FlukeSection == "Section") ||
+		(~TabFluke.ES_FlukeCrc32 == "CRC32") ||
+		(~TabFluke.ES_FlukeSig == "Sig") ) {
+		
+		if (!PromptYesNo(t_("At least one of the fields isn't filled. Do you want to add the record anyway ?")) ) {
+			bInsert = false;
+		}
+	}
+	
+	if (bInsert) {
+		SQL * Insert(FLUKE)(ROM_NAME, ~TabFluke.ES_FlukeRomName)
+				(SECTION, ~TabFluke.ES_FlukeSection)
+				(CRC_32, ~TabFluke.ES_FlukeCrc32)
+				(FLUKE_SIG, ~TabFluke.ES_FlukeSig)
+				(PCB_ID, ~E_PcbId);
+	
+		PopulateFlukeArray(); 
+	}
+}
+
+void PcbDlg::PopulateFlukeArray() {
+	// Fills Fluke array with data from database
+	
+	TabFluke.TAB_Fluke.Clear();
+    SQL * Select(ID,ROM_NAME,SECTION,CRC_32,FLUKE_SIG).From(FLUKE).Where(PCB_ID == ~E_PcbId).OrderBy(ROM_NAME);
+    while (SQL.Fetch()) {
+        TabFluke.TAB_Fluke.Add(SQL[ID],SQL[ROM_NAME],SQL[SECTION],SQL[CRC_32],SQL[FLUKE_SIG]);
+    }
 }
 
 void Popup::Paint(Draw& w)
