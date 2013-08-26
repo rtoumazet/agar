@@ -6,14 +6,15 @@ PinoutDlg::PinoutDlg(const int& openingType) {
 
 	ctrls // manual declaration
 		(LABEL, LE_Label)
-		(PIN_SIZE, LE_Size)
+		(PIN_SIZE, EF_Size)
 		(DETAIL, DE_Detail)
 	;	
 	
 	// remove tab character insertion to allow tab navigation in the control
 	LE_Label.NoProcessTab();
-	LE_Size.NoProcessTab();
+	//LE_Size.NoProcessTab();
 	DE_Detail.NoProcessTab();
+	EF_Size.MaxChars(5);
 	
 	switch (openingType) {
 		case OPENING_NEW:
