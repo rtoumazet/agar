@@ -176,14 +176,16 @@ void PcbDlg::LoadFaultData() {
 	Rect r = L_Faults.GetRect();
 	Rect rOrigin = TabMisc.L_Faults.GetRect();
 	
-	int y = r.top + 20;
+	//int y = r.top + 20;
+	int y = 80 + 20;
 	int yOrigin = rOrigin.top + 20;
-	int linecy = Draw::GetStdFontCy() + 4;
+	int linecy = Draw::GetStdFontCy() + 2;
 	int current = 0; 
 	sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
 	while(sql.Fetch()) {
-		Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).LeftPos(r.left+10, 150));
-		TabMisc.Add(optionOrigin_.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(yOrigin, linecy).LeftPos(rOrigin.left+10, 150));
+		//Add(option.Add(sql[0]).SetLabel(sql[1].ToString()).TopPos(y, linecy).LeftPos(r.left+10, 150));
+		Add(option.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPosZ(y, linecy).RightPosZ(10, 180));
+		TabMisc.Add(optionOrigin_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(yOrigin, linecy).LeftPos(rOrigin.left+10, 150));
 		int id = StdConvertInt().Scan(sql[0].ToString());
 		option[current].SetData(GetFaultValue(id, ES_Faults));
 		optionOrigin_[current].SetData(GetFaultValue(id, ES_FaultsOrigin));
@@ -191,6 +193,10 @@ void PcbDlg::LoadFaultData() {
 		yOrigin += linecy;
 		current++;
 	}	
+	
+	// Labels position override
+	L_Faults.RightPosZ(70, 136).TopPosZ(80, y - 80);
+	TabMisc.L_Faults.TopPosZ(rOrigin.top, y - rOrigin.top);
 }
 
 void PcbDlg::TreeControlMenu(Bar& bar) {
@@ -366,7 +372,8 @@ void PcbDlg::CreateLinkedRecord(const int& tableType) {
 			
 			// Droplist refresh
 			LoadDropList(tableType);
-			DL_Pinout.SetIndex(id);
+			//DL_Pinout.SetIndex(id);
+			DL_Pinout.SetIndex(DL_Pinout.FindKey(id));
 			break;
 		}
 		case TABLE_ORIGIN:
@@ -380,7 +387,7 @@ void PcbDlg::CreateLinkedRecord(const int& tableType) {
 			
 			// Droplist refresh
 			LoadDropList(tableType);
-			DL_Origin.SetIndex(id);
+			DL_Origin.SetIndex(DL_Origin.FindKey(id));
 			break;
 		}
 		case TABLE_LOCATION:
@@ -394,7 +401,7 @@ void PcbDlg::CreateLinkedRecord(const int& tableType) {
 			
 			// Droplist refresh
 			LoadDropList(tableType);
-			DL_Location.SetIndex(id);
+			DL_Location.SetIndex(DL_Location.FindKey(id));
 			break;
 		}
 /*		case TABLE_STATE:
