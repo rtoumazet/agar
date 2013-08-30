@@ -339,7 +339,8 @@ void PcbsDlg::ExtractListing() {
 		break;
 	case 2:  // XML
 		filename = "listing.xml";
-		StoreAsXMLFile(ParseJSON(ja.ToString()), NULL, filename);
+		Value xml = ParseJSON(ja.ToString());
+		StoreAsXMLFile(xml, NULL, filename);
 		break;
 	}
 	
