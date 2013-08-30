@@ -10,6 +10,7 @@ LocationsDlg::LocationsDlg() {
 	TAB_locations.SetTable(LOCATION);
 	TAB_locations.AddIndex(ID);
 	TAB_locations.AddColumn(LABEL, t_("Label"));
+	TAB_locations.SetOrderBy(LABEL);
 	TAB_locations.WhenLeftDouble = THISBACK(Edit);
 
 	TAB_locations.Query();

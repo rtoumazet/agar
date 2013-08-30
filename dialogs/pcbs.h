@@ -24,8 +24,22 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		
 		void 					LoadFaultData();
 		void 					ExecuteFilter();
+		
+		// listing extraction functions
+		void					ExtractListing();
 
 	public:
 		PcbsDlg();	
 	
+};
+
+struct Data {
+    String                    game;
+    String                    type;
+    String                    tag;
+    String                    location;
+    String                    state;
+
+    void Jsonize(JsonIO& json);
+    void Xmlize(XmlIO& xio)           { XmlizeByJsonize(xio, *this); }
 };
