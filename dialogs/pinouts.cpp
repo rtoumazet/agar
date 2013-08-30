@@ -12,6 +12,7 @@ PinoutsDlg::PinoutsDlg() {
 	TAB_pinouts.AddColumn(LABEL, t_("Label"));
 	TAB_pinouts.AddColumn(PIN_SIZE,t_("Pin size"));
 	TAB_pinouts.AddColumn(DETAIL,t_("Detail"));
+	TAB_pinouts.SetOrderBy(LABEL);
 	TAB_pinouts.WhenLeftDouble = THISBACK(Edit);
 
 	TAB_pinouts.Query();

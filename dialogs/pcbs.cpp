@@ -8,8 +8,10 @@ PcbsDlg::PcbsDlg() {
 
 	CtrlLayout(*this, t_("Pcbs list"));
 	BTN_Close <<= Breaker(999);
+	BTN_Extract.WhenPush = THISBACK(ExtractListing);
 	TAB_pcbs.WhenBar = THISBACK(OwnMenu); // own menu
 	
+	SqlId GAME_RAW("GAME_RAW");
 	TAB_pcbs.AddIndex(ID);
 	TAB_pcbs.AddColumn(GAME,t_("Game")).HeaderTab().WhenAction = THISBACK1(SortTable, 0);
 	TAB_pcbs.AddColumn(PCB_TYPE,t_("Type")).HeaderTab().WhenAction = THISBACK1(SortTable, 1);
@@ -17,6 +19,8 @@ PcbsDlg::PcbsDlg() {
 	TAB_pcbs.AddColumn(LOCATION,t_("Location")).HeaderTab().WhenAction = THISBACK1(SortTable, 3);
 	TAB_pcbs.AddColumn(PINOUT,t_("Pinout")).HeaderTab().WhenAction = THISBACK1(SortTable, 4);
 	TAB_pcbs.AddColumn(ORIGIN,t_("Origin")).HeaderTab().WhenAction = THISBACK1(SortTable, 5);
+	TAB_pcbs.AddIndex(LABEL);
+	TAB_pcbs.AddIndex(GAME_RAW);
 	TAB_pcbs.WhenLeftDouble = THISBACK1(Edit,0);
 	TAB_pcbs.ColumnWidths("346 82 81 82 82 82");
 	
@@ -46,6 +50,9 @@ PcbsDlg::PcbsDlg() {
 	// Table is filled and sorted
 	isSortedAsc_ = true;
 	ReloadTable(isSortedAsc_);
+	
+	// First switch option is selected
+	S_ExtractType = 0; // Text
 }
 
 void PcbsDlg::OwnMenu(Bar& bar) {
@@ -201,7 +208,7 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 	
 	Sql sql;
 	String statement = "select PCB.ID, MAKER.MAKER_NAME, GAME.GAME_NAME, PCB_STATE.INK, PCB_STATE.PAPER, PCB_TYPE.LABEL, TAG, LOCATION.LABEL, ";
-	statement += "PINOUT.LABEL, ORIGIN.ORIGIN ";
+	statement += "PINOUT.LABEL, ORIGIN.ORIGIN, PCB_STATE.LABEL ";
 	statement += "from PCB,	GAME, MAKER, PCB_TYPE, PCB_STATE ";
 	statement += "left outer join LOCATION on pcb.location_id = location.id ";
 	statement += "left outer join PINOUT on pcb.pinout_id = pinout.id ";
@@ -244,7 +251,9 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 			sql[6], // tag
 			sql[7], // location
 			sql[8], // pinout
-			sql[9]  // origin
+			sql[9], // origin
+			sql[10],// state
+			game
 		);
 	}	
 }
@@ -280,4 +289,71 @@ void PcbsDlg::LoadFaultData() {
 	// Labels position override
 	L_Faults.RightPosZ(80, 136).TopPosZ(96, y - 96);
 	L_Filters.RightPosZ(8, 228).TopPosZ(44, y - 44 +2);
+}
+
+void PcbsDlg::ExtractListing() {
+	String listing = "";
+	String nl = "\r\n";
+	//String nl = "&";
+	JsonArray ja;
+	
+	
+	for (int i=0; i<TAB_pcbs.GetCount(); i++) {
+		// data filling
+		Data x;
+		x.game 		= TAB_pcbs.Get(i,8).ToString().ToString(); // game name
+		x.type 		= TAB_pcbs.Get(i,2).ToString(); // type
+		x.tag 		= TAB_pcbs.Get(i,3).ToString(); // tag
+		x.location 	= TAB_pcbs.Get(i,4).ToString(); // location
+		x.state		= TAB_pcbs.Get(i,7).ToString(); // state
+		
+		switch(S_ExtractType) {
+		case 0 : // text
+			// text export
+			listing += x.game+"|"+ x.type+"|"+ x.tag+"|"+ x.location+"|"+ x.state+ nl;
+			break;	
+		case 1:
+		case 2:  // JSON & XML
+			ja << StoreAsJsonValue(x);
+			break;
+		}
+					
+		// JSON export
+		/*ja << Json("game", TAB_pcbs.Get(i,8).ToString().ToString()) 
+				("type", TAB_pcbs.Get(i,2).ToString())
+				("tag", TAB_pcbs.Get(i,3).ToString())
+				("location", TAB_pcbs.Get(i,4).ToString())
+				("state", TAB_pcbs.Get(i,7).ToString());*/
+			
+	}
+
+	String filename = "";
+	switch(S_ExtractType) {
+	case 0 : // text
+		filename = "listing.txt";
+		SaveFile(filename, listing);
+		break;	
+	case 1: // JSON
+		filename = "listing.json";
+		StoreAsJsonFile(ParseJSON(ja.ToString()), filename, false);
+		break;
+	case 2:  // XML
+		filename = "listing.xml";
+		StoreAsXMLFile(ParseJSON(ja.ToString()), NULL, filename);
+		break;
+	}
+	
+	PromptOK(t_("Data extraction done to '"+filename+"'"));
+}
+
+void Data::Jsonize(JsonIO& json) {
+
+    json
+        ("game", game)
+        ("type", type)
+        ("tag", tag)
+        ("location", location)
+        ("state", state)
+    ;
+
 }

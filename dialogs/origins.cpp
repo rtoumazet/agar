@@ -12,6 +12,7 @@ OriginsDlg::OriginsDlg() {
 	TAB_origins.AddColumn(NAME, t_("Name"));
 	TAB_origins.AddColumn(ORIGIN,t_("Origin"));
 	TAB_origins.AddColumn(COMMENTARY,t_("Comment"));
+	TAB_origins.SetOrderBy(ORIGIN);
 	TAB_origins.WhenLeftDouble = THISBACK(Edit);
 
 	//TAB_pcbs.SetOrderBy(LABEL);
