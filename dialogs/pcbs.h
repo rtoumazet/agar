@@ -27,9 +27,10 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		
 		// listing extraction functions
 		void					ExtractListing();
-
+		
 	public:
 		PcbsDlg();	
+		~PcbsDlg();
 	
 };
 

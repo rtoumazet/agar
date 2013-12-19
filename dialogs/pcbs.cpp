@@ -53,6 +53,36 @@ PcbsDlg::PcbsDlg() {
 	
 	// First switch option is selected
 	S_ExtractType = 0; // Text
+	
+	// Getting column widths from the ini file
+	VectorMap<String, String> cfg = LoadIniFile("agar.cfg");
+	String columnWidths = cfg.Get("PcbsListColumnWidths", Null);
+	if (!IsNull(columnWidths)) TAB_pcbs.ColumnWidths(columnWidths);
+	
+	int l = ScanInt(cfg.Get("PcbsListWindowPosLeft", Null));
+	if (!IsNull(l)) {
+		int t = ScanInt(cfg.Get("PcbsListWindowPosTop", Null));
+		int r = ScanInt(cfg.Get("PcbsListWindowPosRight", Null));
+		int b = ScanInt(cfg.Get("PcbsListWindowPosBottom", Null));
+		
+		Rect rect(l, t, r, b);
+		this->SetRect(rect);
+	}
+}
+
+PcbsDlg::~PcbsDlg() {
+	// Saving column data to the ini file
+	String cfg;
+	Rect r = this->GetRect();
+//	String windowSize = Format("%d %d %d %d", r.left, r.top, r.right, r.bottom);
+	cfg << "PcbsListColumnWidths=" << TAB_pcbs.GetColumnWidths() << "\n"
+		"PcbsListWindowPosLeft=" << r.left << "\n"
+		"PcbsListWindowPosTop=" << r.top << "\n"
+		"PcbsListWindowPosRight=" << r.right << "\n"
+		"PcbsListWindowPosBottom=" << r.bottom << "\n";
+	
+	if(!SaveFile("agar.cfg", cfg))
+	    Exclamation("Error saving configuration!");
 }
 
 void PcbsDlg::OwnMenu(Bar& bar) {
