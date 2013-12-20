@@ -48,8 +48,10 @@ PcbsDlg::PcbsDlg() {
 	}
 	
 	// Table is filled and sorted
-	isSortedAsc_ = true;
+	/*isSortedAsc_ = true;
 	ReloadTable(isSortedAsc_);
+	sortedColumnIndex_ = 0;
+	sortedColumnDirection_ = SORT_UP;*/
 	
 	// First switch option is selected
 	S_ExtractType = 0; // Text
@@ -68,6 +70,52 @@ PcbsDlg::PcbsDlg() {
 		Rect rect(l, t, r, b);
 		this->SetRect(rect);
 	}
+	
+	/*for(int i = 0; i < TAB_pcbs.HeaderObject().GetCount(); i++)
+		TAB_pcbs.HeaderObject().Tab(i).SetRightImage(TAB_pcbs.HeaderObject().GetTabIndex(i) == sortcolumn ?
+		                                 sortcolumndescending ? CtrlImg::SortUp()
+		                                                      : CtrlImg::SortDown()
+		                            : Image());*/
+
+	sortedColumnIndex_ = ScanInt(cfg.Get("PcbsListSortColumnIndex", Null));
+	if (IsNull(sortedColumnIndex_)) {
+		// value isn't available in the config file, default values are set
+		sortedColumnIndex_ = 0;
+		sortedColumnDirection_ = SORT_UP;
+		isSortedAsc_ = false;
+		ReloadTable(isSortedAsc_);		
+	} else {
+		// getting sort direction
+		sortedColumnDirection_ = ScanInt(cfg.Get("PcbsListSortColumnDirection", Null));
+		if (IsNull(sortedColumnDirection_)) sortedColumnDirection_ = SORT_NONE;
+		
+		if (sortedColumnIndex_ == 0) {
+			// first column is sorted through sql
+			if ((sortedColumnDirection_ == SORT_UP) || (sortedColumnDirection_ == SORT_NONE)) {
+				// arrow going up
+				isSortedAsc_ = true;
+				TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(CtrlImg::SortUp());
+			} else {
+				// arrow going down
+				isSortedAsc_ = false;
+				TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(CtrlImg::SortDown());
+			}
+			ReloadTable(isSortedAsc_);
+				
+		} else {
+			ReloadTable(isSortedAsc_);
+			if ((sortedColumnDirection_ == SORT_UP) || (sortedColumnDirection_ == SORT_NONE)) {
+				// arrow going up
+				TAB_pcbs.SetSortColumn(sortedColumnIndex_,false);
+				TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(CtrlImg::SortUp());
+			} else {
+				// arrow going down
+				TAB_pcbs.SetSortColumn(sortedColumnIndex_,true);
+				TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(CtrlImg::SortDown());
+			}
+		}
+	}		
+
 }
 
 PcbsDlg::~PcbsDlg() {
@@ -79,7 +127,9 @@ PcbsDlg::~PcbsDlg() {
 		"PcbsListWindowPosLeft=" << r.left << "\n"
 		"PcbsListWindowPosTop=" << r.top << "\n"
 		"PcbsListWindowPosRight=" << r.right << "\n"
-		"PcbsListWindowPosBottom=" << r.bottom << "\n";
+		"PcbsListWindowPosBottom=" << r.bottom << "\n"
+		"PcbsListSortColumnIndex=" << sortedColumnIndex_ << "\n"
+		"PcbsListSortColumnDirection=" << sortedColumnDirection_ << "\n";
 	
 	if(!SaveFile("agar.cfg", cfg))
 	    Exclamation("Error saving configuration!");
@@ -220,15 +270,50 @@ void PcbsDlg::GenerateReport() {
 }
 
 void PcbsDlg::SortTable(const int& i) {
-	TAB_pcbs.ToggleSortColumn(i);
-	TAB_pcbs.DoColumnSort();	
+	// checking if the clicked column is already sorted
+	if (i == sortedColumnIndex_) {
+		// column was previously sorted, checking sorting direction
+		switch (sortedColumnDirection_) {
+			case SORT_UP:
+				// previous sorting was up
+				sortedColumnDirection_ = SORT_DOWN;
+				TAB_pcbs.SetSortColumn(sortedColumnIndex_,true);
+				TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(CtrlImg::SortDown());
+				break;
+			case SORT_DOWN:
+				// previous sorting was down
+				sortedColumnDirection_ = SORT_UP;
+				TAB_pcbs.SetSortColumn(sortedColumnIndex_,false);
+				TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(CtrlImg::SortUp());
+				break;	
+		}
+	
+	} else {
+		// column wasn't sorted previously, sorting up
+		sortedColumnDirection_ = SORT_UP;
+		TAB_pcbs.SetSortColumn(i, false);
+		TAB_pcbs.HeaderObject().Tab(i).SetRightImage(CtrlImg::SortUp());
+		 
+		// reseting arrow for the previous column
+		TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(Image());
+	}
+	
+	sortedColumnIndex_ = i;
+
 	if (!i) {
 		// Sorting is manually done through table reload for the first column as it's not possible to sort directly
 		// AttrText data from a column directly.
-		if (isSortedAsc_) isSortedAsc_ = false;
-		else isSortedAsc_ = true;
-
+		if ((sortedColumnDirection_ == SORT_UP) || (sortedColumnDirection_ == SORT_NONE)) {
+			// arrow going up
+			isSortedAsc_ = true;
+			TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(CtrlImg::SortUp());
+		} else {
+			// arrow going down
+			isSortedAsc_ = false;
+			TAB_pcbs.HeaderObject().Tab(sortedColumnIndex_).SetRightImage(CtrlImg::SortDown());
+		}
 		ReloadTable(isSortedAsc_);
+
 	}
 }
 
@@ -386,5 +471,10 @@ void Data::Jsonize(JsonIO& json) {
         ("location", location)
         ("state", state)
     ;
+
+}
+
+void PcbsDlg::TableSort(const int& columnIndex, const int& direction) {
+
 
 }
