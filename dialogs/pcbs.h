@@ -1,5 +1,11 @@
 #include "agar/agar.h"
 
+enum SortDirection {
+	SORT_UP		= 1,
+	SORT_DOWN	= 2,
+	SORT_NONE	= 0
+};
+
 class PcbsDlg : public WithPcbsLayout<TopWindow> {
 
 	typedef PcbsDlg CLASSNAME;
@@ -27,6 +33,11 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		
 		// listing extraction functions
 		void					ExtractListing();
+		
+		// current sorted column
+		int 					sortedColumnIndex_;
+		int						sortedColumnDirection_; // based on SortDirection enum
+		void					TableSort(const int& index, const int& direction);
 		
 	public:
 		PcbsDlg();	
