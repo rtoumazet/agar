@@ -18,6 +18,12 @@ using namespace Upp;
 #define IMAGEFILE  "agar/images.iml"
 #include <Draw/iml_header.h>
 
+class MakerDlg;
+class GameDlg;
+class OriginsDlg;
+class LocationsDlg;
+class PinoutsDlg;
+
 enum OpeningType {
 	OPENING_NEW,
 	OPENING_EDIT
@@ -58,13 +64,20 @@ public:
 	bool Key(dword key,int);
 
 	AGAR();
-	~AGAR() {};
+	~AGAR();
 	
 private:
 	// Main menu
 	MenuBar MB_menu_;
 	
-	String version_; // software version	
+	String version_; // software version
+	
+	// non modal windows
+	MakerDlg* 		md_;
+	GameDlg*		gd_;
+	OriginsDlg*		od_;
+	LocationsDlg*	ld_;
+	PinoutsDlg*		pd_;
 };
 
 #endif

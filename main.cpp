@@ -34,7 +34,22 @@ AGAR::AGAR()
     MB_menu_.Set(THISBACK(MainMenu));
     
     DatabaseInit();
+
+	md_ = 0;
+	gd_ = 0;
+	ld_ = 0;
+	od_ = 0;
+	pd_ = 0;
     
+}
+
+AGAR::~AGAR()
+{
+	if (md_ != 0) delete md_;	
+	if (gd_ != 0) delete gd_;	
+	if (ld_ != 0) delete ld_;	
+	if (od_ != 0) delete od_;	
+	if (pd_ != 0) delete pd_;	
 }
 
 void AGAR::DatabaseInit() {
@@ -152,45 +167,69 @@ void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
 
 void AGAR::MakerList() {
 
-	MakerDlg dlg;
+	//MakerDlg dlg;
 	
-	dlg.Run();
+	//dlg.Run();
+	
+	if (md_ == 0) md_ = new MakerDlg();
+	
+	if (md_->IsOpen()) md_->Close();
+	else md_->Open(this);
 }
 
 void AGAR::GameList() {
 	
 	// Displays game table records
 	
-	GameDlg dlg;
-		
-	dlg.Run();
+	//GameDlg dlg;
+	//dlg.Run();
+	if (gd_ == 0) gd_ = new GameDlg();
+	
+	if (gd_->IsOpen()) gd_->Close();
+	else gd_->Open(this);
+	
 }
 
 void AGAR::OriginList() {
 	
 	// Displays origin table records
 	
-	OriginsDlg dlg;
-		
-	dlg.Run();
+	//OriginsDlg dlg;
+	//dlg.Run();
+	
+	if (od_ == 0) od_ = new OriginsDlg();
+	
+	if (od_->IsOpen()) od_->Close();
+	else od_->Open(this);
+	
 }
 
 void AGAR::LocationList() {
 	
 	// Displays location table records
 	
-	LocationsDlg dlg;
-		
-	dlg.Run();
+	//LocationsDlg dlg;
+	//dlg.Run();
+	
+	if (ld_ == 0) ld_ = new LocationsDlg();
+	
+	if (ld_->IsOpen()) ld_->Close();
+	else ld_->Open(this);
+	
 }
 
 void AGAR::PinoutList() {
 	
 	// Displays pinout table records
 	
-	PinoutsDlg dlg;
-		
-	dlg.Run();
+	//PinoutsDlg dlg;
+	//dlg.Run();
+	
+	if (pd_ == 0) pd_ = new PinoutsDlg();
+	
+	if (pd_->IsOpen()) pd_->Close();
+	else pd_->Open(this);
+	
 }
 
 void AGAR::PcbList() {
