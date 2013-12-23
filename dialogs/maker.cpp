@@ -4,7 +4,7 @@
 MakerDlg::MakerDlg() {
 	
 	CtrlLayout(*this, t_("Manufacturers list"));
-	BTN_Close <<= Breaker(999);
+	BTN_Close <<= THISBACK(DoClose);
 	TAB_maker.WhenBar = THISBACK(OwnMenu); // own menu
 	
 	TAB_maker.SetTable(MAKER);
@@ -64,4 +64,8 @@ void MakerDlg::InsertCheck() {
 		TAB_maker.Reject();
 	}	
 	TAB_maker.Query();
+}
+
+void MakerDlg::DoClose() {
+	Close();
 }

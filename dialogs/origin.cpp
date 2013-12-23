@@ -25,4 +25,5 @@ OriginDlg::OriginDlg(const int& openingType) {
 			Title(t_("Edit origin"));
 			break;
 	}
+	
 }

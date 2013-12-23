@@ -4,7 +4,8 @@
 PinoutsDlg::PinoutsDlg() {
 
 	CtrlLayout(*this, t_("Pinouts list"));
-	BTN_Close <<= Breaker(999);
+
+	BTN_Close <<= THISBACK(DoClose);
 	
 	TAB_pinouts.WhenBar = THISBACK(OwnMenu); // own menu
 	TAB_pinouts.SetTable(PINOUT);
@@ -55,4 +56,8 @@ void PinoutsDlg::Remove() {
 	   return;
 	 SQL * SqlDelete(PINOUT).Where(ID == id);
 	 TAB_pinouts.ReQuery();
+}
+
+void PinoutsDlg::DoClose() {
+	Close();
 }

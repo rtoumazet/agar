@@ -167,10 +167,6 @@ void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
 
 void AGAR::MakerList() {
 
-	//MakerDlg dlg;
-	
-	//dlg.Run();
-	
 	if (md_ == 0) md_ = new MakerDlg();
 	
 	if (md_->IsOpen()) md_->Close();
@@ -180,9 +176,6 @@ void AGAR::MakerList() {
 void AGAR::GameList() {
 	
 	// Displays game table records
-	
-	//GameDlg dlg;
-	//dlg.Run();
 	if (gd_ == 0) gd_ = new GameDlg();
 	
 	if (gd_->IsOpen()) gd_->Close();
@@ -193,10 +186,6 @@ void AGAR::GameList() {
 void AGAR::OriginList() {
 	
 	// Displays origin table records
-	
-	//OriginsDlg dlg;
-	//dlg.Run();
-	
 	if (od_ == 0) od_ = new OriginsDlg();
 	
 	if (od_->IsOpen()) od_->Close();
@@ -207,10 +196,6 @@ void AGAR::OriginList() {
 void AGAR::LocationList() {
 	
 	// Displays location table records
-	
-	//LocationsDlg dlg;
-	//dlg.Run();
-	
 	if (ld_ == 0) ld_ = new LocationsDlg();
 	
 	if (ld_->IsOpen()) ld_->Close();
@@ -221,10 +206,6 @@ void AGAR::LocationList() {
 void AGAR::PinoutList() {
 	
 	// Displays pinout table records
-	
-	//PinoutsDlg dlg;
-	//dlg.Run();
-	
 	if (pd_ == 0) pd_ = new PinoutsDlg();
 	
 	if (pd_->IsOpen()) pd_->Close();

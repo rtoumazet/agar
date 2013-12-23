@@ -14,6 +14,7 @@ PinoutDlg::PinoutDlg(const int& openingType) {
 	LE_Label.NoProcessTab();
 	//LE_Size.NoProcessTab();
 	DE_Detail.NoProcessTab();
+	DE_Detail.SetFont(Monospace());
 	EF_Size.MaxChars(5);
 	
 	switch (openingType) {
@@ -23,5 +24,7 @@ PinoutDlg::PinoutDlg(const int& openingType) {
 		case OPENING_EDIT:
 			Title(t_("Edit pinout"));
 			break;
-	}	
+	}
+	
+	this->Sizeable();	
 }

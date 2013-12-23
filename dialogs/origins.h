@@ -10,6 +10,8 @@ class OriginsDlg : public WithOriginsLayout<TopWindow> {
 		
 		void OwnMenu(Bar& bar);
 
+		void DoClose();
+		
 	public:
 		OriginsDlg();
 };
