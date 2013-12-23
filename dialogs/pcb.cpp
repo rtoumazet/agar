@@ -136,6 +136,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 		(TAG, ES_Tag)
 		(PCB_FAULT_OPTION, ES_Faults)
 		(PCB_ORIGIN_FAULT_OPTION, ES_FaultsOrigin)
+		(PCB_VERSION, ES_Version)
 	;
 	
 }
