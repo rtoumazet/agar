@@ -9,6 +9,8 @@ class PinoutsDlg : public WithPinoutsLayout<TopWindow> {
 		void Remove();
 		
 		void OwnMenu(Bar& bar);
+		
+		void DoClose();
 
 	public:
 		PinoutsDlg();

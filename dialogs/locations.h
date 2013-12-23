@@ -9,6 +9,8 @@ class LocationsDlg : public WithLocationsLayout<TopWindow> {
 		void Remove();
 		
 		void OwnMenu(Bar& bar);
+		
+		void DoClose();
 
 	public:
 		LocationsDlg();

@@ -4,7 +4,7 @@
 LocationsDlg::LocationsDlg() {
 
 	CtrlLayout(*this, t_("Locations list"));
-	BTN_Close <<= Breaker(999);
+	BTN_Close <<= THISBACK(DoClose);
 	
 	TAB_locations.WhenBar = THISBACK(OwnMenu); // own menu
 	TAB_locations.SetTable(LOCATION);
@@ -51,4 +51,8 @@ void LocationsDlg::Remove() {
 	   return;
 	 SQL * SqlDelete(LOCATION).Where(ID == id);
 	 TAB_locations.ReQuery();
+}
+
+void LocationsDlg::DoClose() {
+	Close();
 }

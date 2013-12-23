@@ -17,4 +17,5 @@ class MakerDlg : public WithMakersLayout<TopWindow> {
 		
 		void InsertCheck();
 	
+		void DoClose();
 };

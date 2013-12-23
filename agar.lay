@@ -117,12 +117,12 @@ END_LAYOUT
 LAYOUT(PinoutLayout, 400, 200)
 	ITEM(LineEdit, LE_Label, LeftPosZ(80, 316).TopPosZ(8, 19))
 	ITEM(EditField, EF_Size, Tip(t_("ex: \"2*28\" or \"56\". (5 chars max)")).LeftPosZ(80, 44).TopPosZ(36, 19))
-	ITEM(DocEdit, DE_Detail, LeftPosZ(80, 316).TopPosZ(64, 108))
-	ITEM(Button, ok, SetLabel(t_("OK")).LeftPosZ(276, 56).TopPosZ(180, 15))
-	ITEM(Button, cancel, SetLabel(t_("Cancel")).LeftPosZ(340, 56).TopPosZ(180, 15))
-	ITEM(Label, L_Detail, SetLabel(t_("Detail")).LeftPosZ(8, 392).VSizePosZ(60, 24))
-	ITEM(Label, L_Size, SetLabel(t_("Size")).LeftPosZ(8, 392).VSizePosZ(32, 140))
-	ITEM(Label, L_Label, SetLabel(t_("Label")).LeftPosZ(8, 392).VSizePosZ(4, 168))
+	ITEM(DocEdit, DE_Detail, HSizePosZ(80, 4).VSizePosZ(64, 24))
+	ITEM(Button, ok, SetLabel(t_("OK")).RightPosZ(81, 56).BottomPosZ(5, 15))
+	ITEM(Button, cancel, SetLabel(t_("Cancel")).RightPosZ(20, 56).BottomPosZ(5, 15))
+	ITEM(Label, L_Detail, SetLabel(t_("Detail")).LeftPosZ(8, 392).TopPosZ(64, 19))
+	ITEM(Label, L_Size, SetLabel(t_("Size")).LeftPosZ(8, 392).TopPosZ(36, 19))
+	ITEM(Label, L_Label, SetLabel(t_("Label")).LeftPosZ(8, 392).TopPosZ(8, 19))
 END_LAYOUT
 
 LAYOUT(PinoutsLayout, 512, 300)

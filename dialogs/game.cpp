@@ -6,7 +6,7 @@
 GameDlg::GameDlg() {
 
 	CtrlLayout(*this, t_("Games list"));
-	BTN_Close <<= Breaker(999);
+	BTN_Close <<= THISBACK(DoClose);
 	TAB_game.WhenBar = THISBACK(OwnMenu); // own menu
 	
 	Sql sql;
@@ -83,4 +83,8 @@ void GameDlg::InsertCheck() {
 void GameDlg::SortTable(const int& i) {
 	TAB_game.ToggleSortColumn(i);
 	TAB_game.DoColumnSort();	
+}
+
+void GameDlg::DoClose() {
+	Close();
 }

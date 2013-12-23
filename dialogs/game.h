@@ -19,5 +19,7 @@ class GameDlg : public WithGamesLayout<TopWindow> {
 		void InsertCheck();
 		
 		void SortTable(const int& i);
+		
+		void DoClose();
 	
 };

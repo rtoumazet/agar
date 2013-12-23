@@ -4,7 +4,7 @@
 OriginsDlg::OriginsDlg() {
 
 	CtrlLayout(*this, t_("Origins list"));
-	BTN_Close <<= Breaker(999);
+	BTN_Close <<= THISBACK(DoClose);
 	
 	TAB_origins.WhenBar = THISBACK(OwnMenu); // own menu
 	TAB_origins.SetTable(ORIGIN);
@@ -57,4 +57,8 @@ void OriginsDlg::Remove() {
 	   return;
 	 SQL * SqlDelete(ORIGIN).Where(ID == id);
 	 TAB_origins.ReQuery();
+}
+
+void OriginsDlg::DoClose() {
+	Close();
 }
