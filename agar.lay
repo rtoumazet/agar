@@ -145,13 +145,15 @@ LAYOUT(TabPicturesLayout, 500, 276)
 	ITEM(EditString, ES_PictureLabel, MaxChars(20).LeftPosZ(16, 196).TopPosZ(44, 20))
 END_LAYOUT
 
-LAYOUT(TabFlukeLayout, 500, 276)
-	ITEM(ArrayCtrl, TAB_Fluke, HSizePosZ(4, 24).TopPosZ(72, 200))
-	ITEM(Button, BTN_Add, LeftPosZ(452, 20).VSizePosZ(24, 232))
-	ITEM(LabelBox, LB_AddFlukeRecord, SetLabel(t_("Add Fluke record")).LeftPosZ(12, 464).TopPosZ(8, 40))
-	ITEM(EditString, ES_FlukeRomName, MaxChars(20).LeftPosZ(16, 160).TopPosZ(24, 19))
-	ITEM(EditString, ES_FlukeSection, MaxChars(20).LeftPosZ(176, 160).TopPosZ(24, 19))
-	ITEM(EditString, ES_FlukeCrc32, MaxChars(8).LeftPosZ(336, 72).TopPosZ(24, 19))
-	ITEM(EditString, ES_FlukeSig, MaxChars(4).LeftPosZ(408, 40).TopPosZ(24, 19))
+LAYOUT(TabSignatureLayout, 500, 276)
+	ITEM(ArrayCtrl, TAB_Signature, HSizePosZ(4, 24).TopPosZ(72, 200))
+	ITEM(Button, BTN_Add, LeftPosZ(432, 40).VSizePosZ(20, 212))
+	ITEM(LabelBox, LB_AddSigRecord, SetLabel(t_("Add signature record")).LeftPosZ(4, 472).TopPosZ(8, 60))
+	ITEM(EditString, ES_SigRomName, MaxChars(20).LeftPosZ(12, 136).TopPosZ(24, 19))
+	ITEM(EditString, ES_SigSection, MaxChars(20).LeftPosZ(148, 136).TopPosZ(24, 19))
+	ITEM(EditString, ES_SigRange, MaxChars(25).LeftPosZ(284, 144).TopPosZ(24, 19))
+	ITEM(EditString, ES_SigOrigin, MaxChars(25).LeftPosZ(12, 192).TopPosZ(44, 19))
+	ITEM(EditString, ES_SigCrc32, MaxChars(8).LeftPosZ(204, 72).TopPosZ(44, 19))
+	ITEM(EditString, ES_SigSig, MaxChars(4).LeftPosZ(276, 40).TopPosZ(44, 19))
 END_LAYOUT
 

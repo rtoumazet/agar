@@ -38,7 +38,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 
 		WithTabPicturesLayout<ParentCtrl> TabPictures;
 		WithTabMiscLayout<ParentCtrl> TabMisc;
-		WithTabFlukeLayout<ParentCtrl> TabFluke;
+		WithTabSignatureLayout<ParentCtrl> TabSignature;
 		
 		PreviewCtrl			preview_;
 		
@@ -126,10 +126,10 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void DisplayPicture();
 		void DisplayPicturePreview();
 		
-		void FlukeTabMenu(Bar& bar);
-		void AddFlukeRecord();
-		void RemoveFlukeRecord();
-		void PopulateFlukeArray();
+		void SignatureTabMenu(Bar& bar);
+		void AddSignatureRecord();
+		void RemoveSignatureRecord();
+		void PopulateSignatureArray();
 		
 };
 

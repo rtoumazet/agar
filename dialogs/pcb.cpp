@@ -37,23 +37,25 @@ PcbDlg::PcbDlg(const int& openingType) {
 	TabPictures.TAB_Pictures.WhenLeftDouble = THISBACK(DisplayPicture);
 	TabPictures.TAB_Pictures.WhenLeftClick = THISBACK(DisplayPicturePreview);
 	
-	// Fluke tab
-	CtrlLayout(TabFluke);
-	TC_Tab.Add(TabFluke, t_("Fluke"));
-	TabFluke.TAB_Fluke.WhenBar = THISBACK(FlukeTabMenu);
-	TabFluke.TAB_Fluke.AddIndex(ID);
-	TabFluke.TAB_Fluke.AddColumn(ROM_NAME, t_("Rom name"));
-	TabFluke.TAB_Fluke.AddColumn(SECTION, t_("Section"));
-	TabFluke.TAB_Fluke.AddColumn(CRC_32, t_("CRC32"));
-	TabFluke.TAB_Fluke.AddColumn(FLUKE_SIG, t_("Sig"));	
-	TabFluke.TAB_Fluke.ColumnWidths("137 137 108 108");
+	// Signature tab
+	CtrlLayout(TabSignature);
+	TC_Tab.Add(TabSignature, t_("Signatures"));
+	TabSignature.TAB_Signature.WhenBar = THISBACK(SignatureTabMenu);
+	TabSignature.TAB_Signature.AddIndex(ID);
+	TabSignature.TAB_Signature.AddColumn(ROM_NAME, t_("Rom name"));
+	TabSignature.TAB_Signature.AddColumn(SECTION, t_("Section"));
+	TabSignature.TAB_Signature.AddColumn(RANGE, t_("Range"));
+	TabSignature.TAB_Signature.AddColumn(ORIGIN, t_("Origin"));
+	TabSignature.TAB_Signature.AddColumn(FLUKE_SIG, t_("Sig"));	
+	TabSignature.TAB_Signature.AddColumn(CRC_32, t_("CRC32"));
+	TabSignature.TAB_Signature.ColumnWidths("137 137 108 108 60 30");
 	
-	TabFluke.BTN_Add.WhenPush = THISBACK(AddFlukeRecord);
+	TabSignature.BTN_Add.WhenPush = THISBACK(AddSignatureRecord);
 		
-	TabFluke.ES_FlukeRomName.MaxChars(20);
-	TabFluke.ES_FlukeSection.MaxChars(20);
-	TabFluke.ES_FlukeCrc32.MaxChars(8);
-	TabFluke.ES_FlukeSig.MaxChars(4); 
+	TabSignature.ES_SigRomName.MaxChars(20);
+	TabSignature.ES_SigSection.MaxChars(20);
+	TabSignature.ES_SigCrc32.MaxChars(8);
+	TabSignature.ES_SigSig.MaxChars(4); 
 	
 	// Miscellaneous tab
 	CtrlLayout(TabMisc);
@@ -82,7 +84,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 			break;
 	}		
 
-	child = TabFluke.GetFirstChild();
+	child = TabSignature.GetFirstChild();
 	while (child) {
 		SetupDisplay(child);
 		child = child->GetNext();	
@@ -99,7 +101,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 	BTN_NewOrigin.SetImage(MyImages::add);
 	BTN_NewLocation.SetImage(MyImages::add);
 	BTN_NewPinout.SetImage(MyImages::add);
-	TabFluke.BTN_Add.SetImage(MyImages::add);
+	TabSignature.BTN_Add.SetImage(MyImages::add);
 	
 	ActiveFocus(DL_Game); // sets the focus to the first droplist
 	
@@ -553,28 +555,41 @@ void PcbDlg::LoadDropList(const int& tableType) {
 }
 
 void PcbDlg::SetupDisplay(Ctrl* ctrl) {
-	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeRomName.GetLayoutId()) {
-		if (TabFluke.ES_FlukeRomName.GetData() == "") {
-			TabFluke.ES_FlukeRomName <<= "Rom name";
-			TabFluke.ES_FlukeRomName.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigOrigin.GetLayoutId()) {
+		if (TabSignature.ES_SigOrigin.GetData() == "") {
+			TabSignature.ES_SigOrigin <<= "Origin";
+			TabSignature.ES_SigOrigin.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeSection.GetLayoutId()) {
-		if (TabFluke.ES_FlukeSection.GetData() == "") {
-			TabFluke.ES_FlukeSection <<= "Section";
-			TabFluke.ES_FlukeSection.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigRange.GetLayoutId()) {
+		if (TabSignature.ES_SigRange.GetData() == "") {
+			TabSignature.ES_SigRange <<= "Range";
+			TabSignature.ES_SigRange.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeCrc32.GetLayoutId()) {
-		if (TabFluke.ES_FlukeCrc32.GetData() == "") {
-			TabFluke.ES_FlukeCrc32 <<= "CRC32";
-			TabFluke.ES_FlukeCrc32.SetStyle(editStyle_);
+
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigRomName.GetLayoutId()) {
+		if (TabSignature.ES_SigRomName.GetData() == "") {
+			TabSignature.ES_SigRomName <<= "Rom name";
+			TabSignature.ES_SigRomName.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeSig.GetLayoutId()) {
-		if (TabFluke.ES_FlukeSig.GetData() == "") {
-			TabFluke.ES_FlukeSig <<= "Sig";
-			TabFluke.ES_FlukeSig.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigSection.GetLayoutId()) {
+		if (TabSignature.ES_SigSection.GetData() == "") {
+			TabSignature.ES_SigSection <<= "Section";
+			TabSignature.ES_SigSection.SetStyle(editStyle_);
+		}
+	}
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigCrc32.GetLayoutId()) {
+		if (TabSignature.ES_SigCrc32.GetData() == "") {
+			TabSignature.ES_SigCrc32 <<= "CRC32";
+			TabSignature.ES_SigCrc32.SetStyle(editStyle_);
+		}
+	}
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigSig.GetLayoutId()) {
+		if (TabSignature.ES_SigSig.GetData() == "") {
+			TabSignature.ES_SigSig <<= "Sig";
+			TabSignature.ES_SigSig.SetStyle(editStyle_);
 		}
 	}
 	if (ctrl->GetLayoutId() == TabPictures.ES_PictureLabel.GetLayoutId()) {
@@ -592,28 +607,41 @@ void PcbDlg::SetupDisplay(Ctrl* ctrl) {
 }
 
 void PcbDlg::ResetDisplay(Ctrl* ctrl) {
-	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeRomName.GetLayoutId()) {
-		TabFluke.ES_FlukeRomName.SetStyle(EditString::StyleDefault());
-		if (TabFluke.ES_FlukeRomName.GetData() == "Rom name") {
-			TabFluke.ES_FlukeRomName.Erase();
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigOrigin.GetLayoutId()) {
+		TabSignature.ES_SigOrigin.SetStyle(EditString::StyleDefault());
+		if (TabSignature.ES_SigOrigin.GetData() == "Origin") {
+			TabSignature.ES_SigOrigin.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeSection.GetLayoutId()) {
-		TabFluke.ES_FlukeSection.SetStyle(EditString::StyleDefault());
-		if (TabFluke.ES_FlukeSection.GetData() == "Section") {
-			TabFluke.ES_FlukeSection.Erase();
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigRange.GetLayoutId()) {
+		TabSignature.ES_SigRange.SetStyle(EditString::StyleDefault());
+		if (TabSignature.ES_SigRange.GetData() == "Range") {
+			TabSignature.ES_SigRange.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeCrc32.GetLayoutId()) {
-		TabFluke.ES_FlukeCrc32.SetStyle(EditString::StyleDefault());
-		if (TabFluke.ES_FlukeCrc32.GetData() == "CRC32") {
-			TabFluke.ES_FlukeCrc32.Erase();
+
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigRomName.GetLayoutId()) {
+		TabSignature.ES_SigRomName.SetStyle(EditString::StyleDefault());
+		if (TabSignature.ES_SigRomName.GetData() == "Rom name") {
+			TabSignature.ES_SigRomName.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabFluke.ES_FlukeSig.GetLayoutId()) {
-		TabFluke.ES_FlukeSig.SetStyle(EditString::StyleDefault());
-		if (TabFluke.ES_FlukeSig.GetData() == "Sig") {
-			TabFluke.ES_FlukeSig.Erase();
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigSection.GetLayoutId()) {
+		TabSignature.ES_SigSection.SetStyle(EditString::StyleDefault());
+		if (TabSignature.ES_SigSection.GetData() == "Section") {
+			TabSignature.ES_SigSection.Erase();
+		}
+	}
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigCrc32.GetLayoutId()) {
+		TabSignature.ES_SigCrc32.SetStyle(EditString::StyleDefault());
+		if (TabSignature.ES_SigCrc32.GetData() == "CRC32") {
+			TabSignature.ES_SigCrc32.Erase();
+		}
+	}
+	if (ctrl->GetLayoutId() == TabSignature.ES_SigSig.GetLayoutId()) {
+		TabSignature.ES_SigSig.SetStyle(EditString::StyleDefault());
+		if (TabSignature.ES_SigSig.GetData() == "Sig") {
+			TabSignature.ES_SigSig.Erase();
 		}
 	}	
 	if (ctrl->GetLayoutId() == TabPictures.ES_PictureLabel.GetLayoutId()) {
@@ -644,15 +672,15 @@ void PcbDlg::TabChanged() {
 			
 			PopulatePicturesArray();
 			break;
-		case 2: // Fluke tab
-			child = TabFluke.GetFirstChild();
+		case 2: // Signature tab
+			child = TabSignature.GetFirstChild();
 			while (child) {
 				ResetDisplay(child);
 				SetupDisplay(child);
 				child = child->GetNext();	
 			}
 			
-			PopulateFlukeArray();
+			PopulateSignatureArray();
 			break;
 	}
 
@@ -723,27 +751,29 @@ void PcbDlg::RemovePicture() {
 	PopulatePicturesArray();
 }
 
-void PcbDlg::FlukeTabMenu(Bar& bar) {
+void PcbDlg::SignatureTabMenu(Bar& bar) {
 	//bar.Add(t_("Create"),THISBACK(Create));
 	//bar.Add(t_("Edit"),THISBACK1(Edit,0));
-	bar.Add(t_("Remove"),THISBACK(RemoveFlukeRecord));
+	bar.Add(t_("Remove"),THISBACK(RemoveSignatureRecord));
 }
 
-void PcbDlg::RemoveFlukeRecord() {
+void PcbDlg::RemoveSignatureRecord() {
 	// Fluke record removal from database
-	SQL * Delete(FLUKE).Where(ID == TabFluke.TAB_Fluke.GetKey());
+	SQL * Delete(FLUKE).Where(ID == TabSignature.TAB_Signature.GetKey());
 	
 	// Table is reloaded
-	PopulateFlukeArray();
+	PopulateSignatureArray();
 }
 
-void PcbDlg::AddFlukeRecord() {
+void PcbDlg::AddSignatureRecord() {
 
 	bool bInsert = true;
-	if ( (~TabFluke.ES_FlukeRomName == "Rom name") ||
-		(~TabFluke.ES_FlukeSection == "Section") ||
-		(~TabFluke.ES_FlukeCrc32 == "CRC32") ||
-		(~TabFluke.ES_FlukeSig == "Sig") ) {
+	if ( (~TabSignature.ES_SigRomName == "Rom name") ||
+		(~TabSignature.ES_SigSection == "Section") ||
+		(~TabSignature.ES_SigRange == "Range") ||
+		(~TabSignature.ES_SigOrigin == "Origin") ||
+		(~TabSignature.ES_SigCrc32 == "CRC32") ||
+		(~TabSignature.ES_SigSig == "Sig") ) {
 		
 		if (!PromptYesNo(t_("At least one of the fields isn't filled. Do you want to add the record anyway ?")) ) {
 			bInsert = false;
@@ -751,23 +781,25 @@ void PcbDlg::AddFlukeRecord() {
 	}
 	
 	if (bInsert) {
-		SQL * Insert(FLUKE)(ROM_NAME, ~TabFluke.ES_FlukeRomName)
-				(SECTION, ~TabFluke.ES_FlukeSection)
-				(CRC_32, ~TabFluke.ES_FlukeCrc32)
-				(FLUKE_SIG, ~TabFluke.ES_FlukeSig)
-				(PCB_ID, ~E_PcbId);
+		SQL * Insert(FLUKE)(ROM_NAME, ~TabSignature.ES_SigRomName)
+				(SECTION, ~TabSignature.ES_SigSection)
+				(CRC_32, ~TabSignature.ES_SigCrc32)
+				(FLUKE_SIG, ~TabSignature.ES_SigSig)
+				(PCB_ID, ~E_PcbId)
+				(RANGE, ~TabSignature.ES_SigRange)
+				(ORIGIN, ~TabSignature.ES_SigOrigin);
 	
-		PopulateFlukeArray(); 
+		PopulateSignatureArray(); 
 	}
 }
 
-void PcbDlg::PopulateFlukeArray() {
-	// Fills Fluke array with data from database
+void PcbDlg::PopulateSignatureArray() {
+	// Fills signature array with data from database
 	
-	TabFluke.TAB_Fluke.Clear();
-    SQL * Select(ID,ROM_NAME,SECTION,CRC_32,FLUKE_SIG).From(FLUKE).Where(PCB_ID == ~E_PcbId).OrderBy(ROM_NAME);
+	TabSignature.TAB_Signature.Clear();
+    SQL * Select(ID,ROM_NAME,SECTION,CRC_32,FLUKE_SIG,RANGE,ORIGIN).From(FLUKE).Where(PCB_ID == ~E_PcbId).OrderBy(ROM_NAME);
     while (SQL.Fetch()) {
-        TabFluke.TAB_Fluke.Add(SQL[ID],SQL[ROM_NAME],SQL[SECTION],SQL[CRC_32],SQL[FLUKE_SIG]);
+        TabSignature.TAB_Signature.Add(SQL[ID],SQL[ROM_NAME],SQL[SECTION],SQL[RANGE],SQL[ORIGIN],SQL[CRC_32],SQL[FLUKE_SIG]);
     }
 }
 
