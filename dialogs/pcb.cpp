@@ -22,7 +22,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 	Size sz = TC_Tab.GetSize();
 	
 	// Analysis & action tab
-	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx).TopPos(0, sz.cy), t_("Analysis & Action"));
+	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx-10).TopPos(0, sz.cy-15), t_("Analysis & Action"));
 	CtrlLayout(TabPictures);
 	
 	// Pictures tab
