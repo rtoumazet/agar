@@ -23,7 +23,7 @@ SqlId count("count(*)");
 
 AGAR::AGAR()
 {
-	version_ = "AGAR 1.1.7";
+	version_ = "AGAR 1.1.8";
 	
 	SetDateFormat("%3:02d/%2:02d/%1:4d"); // set dd/mm/yyyy format
 	SetDateScan("dmy"); // same but for input
