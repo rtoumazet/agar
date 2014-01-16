@@ -46,8 +46,8 @@ PcbDlg::PcbDlg(const int& openingType) {
 	TabSignature.TAB_Signature.AddColumn(SECTION, t_("Section"));
 	TabSignature.TAB_Signature.AddColumn(RANGE, t_("Range"));
 	TabSignature.TAB_Signature.AddColumn(ORIGIN, t_("Origin"));
-	TabSignature.TAB_Signature.AddColumn(FLUKE_SIG, t_("Sig"));	
 	TabSignature.TAB_Signature.AddColumn(CRC_32, t_("CRC32"));
+	TabSignature.TAB_Signature.AddColumn(FLUKE_SIG, t_("Sig"));	
 	TabSignature.TAB_Signature.ColumnWidths("137 137 108 108 60 30");
 	
 	TabSignature.BTN_Add.WhenPush = THISBACK(AddSignatureRecord);
