@@ -147,7 +147,6 @@ void PcbsDlg::Create() {
 	PcbDlg dlg(OPENING_NEW);
 	
 	dlg.LoadFaultData();
-	//dlg.SizePos();
 	
 	if(dlg.Execute() != IDOK)
 		return;
@@ -179,7 +178,7 @@ void PcbsDlg::Edit(int pcbId) {
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;
 	
-	dlg.LoadFaultData();
+	//dlg.LoadFaultData();
 	dlg.BuildActionTree(id);
 	if (!dlg.GetRecordNumber(id)) {
 		// no record for this pcb

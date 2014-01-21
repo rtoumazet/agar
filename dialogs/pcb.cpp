@@ -141,6 +141,7 @@ PcbDlg::PcbDlg(const int& openingType) {
 		(PCB_VERSION, ES_Version)
 	;
 	
+	LoadFaultData();
 }
 
 PcbDlg::~PcbDlg() {
@@ -279,6 +280,20 @@ void PcbDlg::Remove() {
 	int key = TC_AnalysisAction.Get();
 	if(IsNull(key) || !PromptYesNo(t_("Delete entry ?")))
 	   return;
+	
+	// every action parentid following the key to be removed
+	// must be decremented
+	Sql sql;
+	sql.Execute(Format("select ID,PARENT_ID from PCB_ACTION where PCB_ID = %i AND PARENT_ID <> 0 AND PARENT_ID > %i order by PARENT_ID,ACTION_DATE", ~E_PcbId, key));
+	LOG(Format("select ID,PARENT_ID from PCB_ACTION where PCB_ID = %i AND PARENT_ID <> 0 AND PARENT_ID > %i order by PARENT_ID,ACTION_DATE", ~E_PcbId, key));
+	while(sql.Fetch()) {
+		int newParentId = sql[PARENT_ID];
+		newParentId--;
+		
+		SQL * SqlUpdate(PCB_ACTION)(PARENT_ID, newParentId).Where(ID == sql[ID]);
+	}	
+	
+	// removing entry
 	SQL * SqlDelete(PCB_ACTION).Where(ID == key);	
 	
 	// Tree is rebuilt
@@ -364,11 +379,16 @@ void PcbDlg::BuildActionTree(const int& pcbId) {
 	TC_AnalysisAction.Clear();
 		
 	Sql sql;
-	sql.Execute(Format("select ID,PARENT_ID,COMMENTARY,FINISHED from PCB_ACTION where PCB_ID = %i order by ACTION_DATE",pcbId));
+	sql.Execute(Format("select ID,PARENT_ID,COMMENTARY,FINISHED from PCB_ACTION where PCB_ID = %i order by parent_id,ACTION_DATE",pcbId));
 	
 	TC_AnalysisAction.SetRoot(Null,0,t_("Analysis & Actions"));
 	TC_AnalysisAction.NoRoot(false);
 
+	// algorithm :
+	// first record of the query is an analysis
+	// while there's a record left
+	// get all the actions linked to the current analysis and add them to the tree control
+	// 
 	while(sql.Fetch()) {
 		Image img;
 		if (sql[PARENT_ID]==0) {
@@ -381,7 +401,9 @@ void PcbDlg::BuildActionTree(const int& pcbId) {
 				 img = MyImages::actionDone();
 			}
 		}
-		
+		DUMP(sql[PARENT_ID]);
+		DUMP(sql[ID]);
+		DUMP(sql[COMMENTARY]);
 		TC_AnalysisAction.Add(sql[PARENT_ID], img, sql[ID], sql[COMMENTARY]);
 	}	
 	
