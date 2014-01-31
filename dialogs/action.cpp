@@ -1,76 +1,67 @@
 #include "action.h"
 
 
-ActionDlg::ActionDlg(const int& pcbId, const int& actionType, const int& openingType, int parentId) {
-//ActionDlg::ActionDlg(const int& actionType) {
-
-	E_ActionType.Hide();
-	E_PcbId.Hide();
-	E_ParentId.Hide();
-
-	if (actionType == ActionDlg::ANALYSIS) {
-
-		CtrlLayoutOKCancel(*this, t_("Analysis"));
-		E_ParentId <<= 0; // analysis always at top level
-		O_Finished.Hide();
-
-	} else {
-		CtrlLayoutOKCancel(*this, t_("Action"));
-		O_Finished.Show(true);
-	}
+ActionDlg::ActionDlg(const int pcbId, const int actionType, int parentId) 
+{
+	InitializeFields(actionType);
+    
+	E_ParentId	<<= parentId; // 0 for analysis, param value for action
 	
-	if (openingType == ActionDlg::CREATION) {
-		E_Time <<= GetSysTime();
-		E_PcbId <<= pcbId;
-		E_ActionType <<= actionType;
-	}
-	
-	if (openingType == ActionDlg::CREATION && actionType == ActionDlg::ACTION) {
-		E_ParentId	<<= parentId;
-	}
-	
-	ctrls // manual declaration
-		
-		(PCB_ID, E_PcbId)
-		(PARENT_ID, E_ParentId)
-		(ACTION_DATE, E_Time)
-		(COMMENTARY, DE_Comment)
-		(FINISHED, O_Finished)
-		(ACTION_TYPE, E_ActionType)
-	;
+	// Setting up default values
+	E_Time <<= GetSysTime();
+	E_PcbId <<= pcbId;
+	E_ActionType <<= actionType;
 	
 	ActiveFocus(DE_Comment);
 }
 
-ActionDlg::ActionDlg(const int& pcbId, const int& actionId) {
+ActionDlg::ActionDlg(const ActionRecord& ar)
+{
+    InitializeFields(ar.type);
+	
+	// Fields are initialized from constructor parameter
+	E_PcbId.SetData(ar.pcbId);
+	E_ParentId.SetData(ar.parentId);
+	E_Time.SetData(ar.date);
+	DE_Comment.SetData(ar.commentary);
+	O_Finished.SetData(ar.finished);
+	E_ActionType.SetData(ar.type);
+	
+	Record(ar); // initializing internal record
 
+	ActiveFocus(DE_Comment); // focus is set to the comment field
+}
+
+void ActionDlg::DoOk()
+{
+    // Saves modified data to the current record
+	record_.pcbId       = E_PcbId.GetData();
+	record_.parentId    = E_ParentId.GetData();
+	record_.date        = E_Time.GetData();
+	record_.commentary  = DE_Comment.GetData();
+	record_.finished    = O_Finished.GetData();
+	record_.type        = E_ActionType.GetData();
+
+    Break(IDOK); // Breaking the modal loop
+}
+
+void ActionDlg::InitializeFields(const int type)
+{
+	// Fields not to be seen are hidden
 	E_ActionType.Hide();
 	E_PcbId.Hide();
-	E_ParentId.Hide();
-
-	ctrls // manual declaration
-		
-		(PCB_ID, E_PcbId)
-		(PARENT_ID, E_ParentId)
-		(ACTION_DATE, E_Time)
-		(COMMENTARY, DE_Comment)
-		(FINISHED, O_Finished)
-		(ACTION_TYPE, E_ActionType)
-	;
+	E_ParentId.Hide();    
 	
-	if(!ctrls.Load(PCB_ACTION, ID == actionId))
-		return;		
-
-	if (E_ActionType == ActionDlg::ANALYSIS) {
-
-		CtrlLayoutOKCancel(*this, t_("Analysis"));
-		E_ParentId <<= 0; // analysis always at top level
+	if (type == ActionDlg::ANALYSIS) 
+	{
+    	CtrlLayout(*this, t_("Analysis"));
 		O_Finished.Hide();
-
 	} else {
-		CtrlLayoutOKCancel(*this, t_("Action"));
+		CtrlLayout(*this, t_("Action"));
 		O_Finished.Show(true);
-	}
-
-	ActiveFocus(DE_Comment);
+	}	
+	
+    // Setting up buttons callbacks
+    ok <<= THISBACK(DoOk);
+    cancel <<= Rejector(IDCANCEL);
 }

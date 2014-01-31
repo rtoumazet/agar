@@ -1,9 +1,6 @@
 #include "pcbs.h"
 #include "pcb.h"
 
-//#include "../utilities/converts.h"
-//#include "../utilities/lookups.h"
-
 PcbsDlg::PcbsDlg() {
 
 	CtrlLayout(*this, t_("Pcbs list"));
@@ -173,13 +170,12 @@ void PcbsDlg::Edit(int pcbId) {
 	if (!id) id = TAB_pcbs.GetKey();
 	if(IsNull(id))
 		return;
-	PcbDlg dlg(OPENING_EDIT);
+	PcbDlg dlg(OPENING_EDIT, id);
 
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;
 	
-	//dlg.LoadFaultData();
-	dlg.BuildActionTree(id);
+	//dlg.BuildActionTree(id);
 	if (!dlg.GetRecordNumber(id)) {
 		// no record for this pcb
 		dlg.TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's nothing to display
