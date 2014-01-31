@@ -1,3 +1,8 @@
+// SYSTEM INCLUDES
+#include <map>
+#include <vector>
+
+// PROJECT INCLUDES
 #include "pcb.h"
 #include "action.h"
 #include "origin.h"
@@ -6,14 +11,14 @@
 #include "pcbstate.h"
 #include "game.h"
 
-#include "agar/utilities/converts.h"
-#include "agar/utilities/lookups.h"
+using namespace std;
 
-PcbDlg::PcbDlg(const int& openingType) {
+PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 
 	CtrlLayoutOKCancel(*this, t_("Pcb"));
 	
 	currentCtrl_ = 0;
+	pcbId_ = pcbId;
 	
 	editStyle_ = EditString::StyleDefault();
 	editStyle_.text = SGray();
@@ -116,6 +121,11 @@ PcbDlg::PcbDlg(const int& openingType) {
 
 	// Tree control
 	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
+	TC_AnalysisAction.WhenDrag = THISBACK(TreeDrag);
+	TC_AnalysisAction.WhenDropInsert = THISBACK(TreeDropInsert);
+	TC_AnalysisAction.WhenLeftDouble = THISBACK(Edit);
+    
+    LoadActionTreeFromDatabase();	
 	
 	// buttons actions
 	BTN_NewGame.WhenPush = THISBACK1(CreateLinkedRecord, TABLE_GAME);
@@ -173,7 +183,7 @@ void PcbDlg::GenerateFaultData() {
 
 }
 
-bool PcbDlg::GetFaultValue(const int& id, const String& faults) {
+bool PcbDlg::GetFaultValue(const int id, const String& faults) {
 	// returns the option state for the fault id parameter
 
 	Sql sql;
@@ -260,79 +270,65 @@ void PcbDlg::TreeControlMenu(Bar& bar) {
 void PcbDlg::Edit() {
 	// Edits currently selected analysis / action in the treecontrol
 
+	// Getting the key of the currently selected line
 	int key = TC_AnalysisAction.Get();
 	if(IsNull(key))
 		return;
 	
-	ActionDlg dlg(~E_PcbId, key);
+	// Getting the record corresponding to the selected line from the vector
+	// As it's a reference, data in the vector will be modified
+	ActionRecord& ar = GetActionFromVector(key);
 	
-	if(dlg.Execute() != IDOK)
+	ActionDlg dlg(ar); // Creating edition dialog
+
+	if(dlg.Execute() != IDOK) // Executing the dialog
 		return;
 	
-	SQL * dlg.ctrls.Update(PCB_ACTION).Where(ID == key);
+	ar = dlg.Record();	// OK button was pressed, updating record
 	
-	BuildActionTree(~E_PcbId);	
+	BuildActionTree(); // Treecontrol is reloaded
 };
 
 void PcbDlg::Remove() {
-	// Removes currectly selected analysis / action in the treecontrol
+	// Removes currectly selected analysis / action from the treecontrol
 	
 	int key = TC_AnalysisAction.Get();
 	if(IsNull(key) || !PromptYesNo(t_("Delete entry ?")))
 	   return;
 	
-	// every action parentid following the key to be removed
-	// must be decremented
-	Sql sql;
-	sql.Execute(Format("select ID,PARENT_ID from PCB_ACTION where PCB_ID = %i AND PARENT_ID <> 0 AND PARENT_ID > %i order by PARENT_ID,ACTION_DATE", ~E_PcbId, key));
-	LOG(Format("select ID,PARENT_ID from PCB_ACTION where PCB_ID = %i AND PARENT_ID <> 0 AND PARENT_ID > %i order by PARENT_ID,ACTION_DATE", ~E_PcbId, key));
-	while(sql.Fetch()) {
-		int newParentId = sql[PARENT_ID];
-		newParentId--;
-		
-		SQL * SqlUpdate(PCB_ACTION)(PARENT_ID, newParentId).Where(ID == sql[ID]);
-	}	
+	// Removal from treecontrol
+	TC_AnalysisAction.RemoveSelection();
 	
-	// removing entry
-	SQL * SqlDelete(PCB_ACTION).Where(ID == key);	
-	
-	// Tree is rebuilt
-	BuildActionTree(~E_PcbId);
+	// Removal from vector
+	RemoveActionFromVector(key);
 }
 
-void PcbDlg::AddAnalysis(const int& pcbId) {
+void PcbDlg::AddAnalysis(const int pcbId) {
 	// Adds a new analysis
-	ActionDlg dlg(pcbId, ActionDlg::ANALYSIS, ActionDlg::CREATION);
+	ActionDlg dlg(pcbId, ActionDlg::ANALYSIS);
 	if(dlg.Execute() != IDOK)
 		return;
+    
+    // Adding the new record to the vector
+    AddActionToVector(dlg.Record());
 
-	SQL * dlg.ctrls.Insert(PCB_ACTION);
-	if(SQL.WasError()){
-    	PromptOK(SQL.GetLastError());
-	}
-	int id = SQL.GetInsertedId();
-	
-	BuildActionTree(pcbId);
+	BuildActionTree();
 };
 
-void PcbDlg::AddAction(const int& pcbId) {
+void PcbDlg::AddAction(const int pcbId) {
 	// Adds a new action linked to an analysis
-	ActionDlg dlg(pcbId, ActionDlg::ACTION, ActionDlg::CREATION, TC_AnalysisAction.GetCursor());
+	ActionDlg dlg(pcbId, ActionDlg::ACTION, TC_AnalysisAction.GetCursor());
 	
 	if(dlg.Execute() != IDOK)
 		return;
-
-	SQL * dlg.ctrls.Insert(PCB_ACTION);
-	if(SQL.WasError()){
-    	PromptOK(SQL.GetLastError());
-    	//PromptOK(SQL.GetErrorStatement());
-	}
-	int id = SQL.GetInsertedId();
 	
-	BuildActionTree(pcbId);	
+    // Adding the new record to the vector
+    AddActionToVector(dlg.Record());
+
+	BuildActionTree();	
 };
 
-int PcbDlg::GetRecordNumber(int const& pcbId) {
+int PcbDlg::GetRecordNumber(int const pcbId) {
 	// returns number of record from action table for the pcb id in parameter
 	
 	int count = 0;
@@ -361,11 +357,11 @@ bool PcbDlg::DisplayRemoveMenuEntry() {
 	return removeMenuEntryVisible_;	
 }
 
-void PcbDlg::SetAddActionMenuEntryVisible(const bool& val) {
+void PcbDlg::SetAddActionMenuEntryVisible(const bool val) {
 	addActionMenuEntryVisible_ = val;
 }
 
-void PcbDlg::SetEditMenuEntryVisible(const bool& val) {
+void PcbDlg::SetEditMenuEntryVisible(const bool val) {
 	editMenuEntryVisible_ = val;
 }
 
@@ -373,45 +369,73 @@ void PcbDlg::SetRemoveMenuEntryVisible(const bool& val) {
 	removeMenuEntryVisible_ = val;
 }
 
-void PcbDlg::BuildActionTree(const int& pcbId) {
+void PcbDlg::BuildActionTree() {
 	// Fills the tree control with data from action file
 
 	TC_AnalysisAction.Clear();
 		
-	Sql sql;
-	sql.Execute(Format("select ID,PARENT_ID,COMMENTARY,FINISHED from PCB_ACTION where PCB_ID = %i order by parent_id,ACTION_DATE",pcbId));
+	// vector is full, it's time to add records to the treecontrol.
+	// if PARENT_ID is 0, record's an analysis
+	// otherwise record's an action, and PARENT_ID refers to the index position in the treecontrol
+	// Root of the tree control has index 0, first analysis has index 1
+	vector<ActionRecord> actions; // will hold actions
+	vector<ActionRecord> analysis; // will hold analysis
 	
-	TC_AnalysisAction.SetRoot(Null,0,t_("Analysis & Actions"));
+	// looping through records to fill actions & analysis vectors
+    for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); ++it)
+    {
+	    if( it->parentId == 0) analysis.push_back(*it);
+	    else actions.push_back(*it);
+    }
+	
+	TC_AnalysisAction.Clear(); // treecontrol is emptied
+	TC_AnalysisAction.SetRoot(Null,0,t_("Analysis & Actions")); // setting up root
 	TC_AnalysisAction.NoRoot(false);
 
-	// algorithm :
-	// first record of the query is an analysis
-	// while there's a record left
-	// get all the actions linked to the current analysis and add them to the tree control
-	// 
-	while(sql.Fetch()) {
-		Image img;
-		if (sql[PARENT_ID]==0) {
-			// Analysis
-			img = MyImages::analysis();
-		} else {
-			if (sql[FINISHED]=="0") {
-				img = MyImages::action();
-			} else {
-				 img = MyImages::actionDone();
-			}
+	// actions & analysis vectors are set, time to build treecontrol
+	int iParent = 1; // current parent index in the treecontrol. Initialized to 1 as 0 is root
+
+	for (vector<ActionRecord>::iterator it = analysis.begin(); it != analysis.end(); ++it) // analysis loop
+	{
+		// current analysis is added to the treecontrol
+		TC_AnalysisAction.Add(0, MyImages::analysis(), it->id, it->commentary);
+		int displacement = 1; // number of actions added to the treecontrol for current parent
+		for (vector<ActionRecord>::iterator it = actions.begin(); it != actions.end(); ++it) // actions loop
+		{
+			if (it->parentId != iParent) break; // loop is exited when current record isn't linked to current parent (vector is sorted)
+			
+			// adding action to the treecontrol
+			TC_AnalysisAction.Add(iParent, !it->finished ? MyImages::action() : MyImages::actionDone(), it->id, it->commentary);
+			displacement++;
 		}
-		DUMP(sql[PARENT_ID]);
-		DUMP(sql[ID]);
-		DUMP(sql[COMMENTARY]);
-		TC_AnalysisAction.Add(sql[PARENT_ID], img, sql[ID], sql[COMMENTARY]);
-	}	
+
+        // removing actions linked to current parent_id from vector
+        actions.erase(std::remove_if(actions.begin(), actions.end(), [&iParent](const ActionRecord& ar)
+        {
+            return ar.parentId == iParent;
+        }), actions.end());
+        
+        // updating parent index position
+        iParent += displacement;
+	}
 	
-	TC_AnalysisAction.OpenDeep(0,true);
+	TC_AnalysisAction.OpenDeep(0,true); // opening all nodes
 	
+    // Handling orphan actions
+	if (!actions.empty()) 
+	{
+	    PromptOK(t_("Orphan actions exist for current pcb ! Use drag & drop to link them to an analysis"));
+
+        // orphans actions are added to the treecontrol as analysis with a special icon
+		for (vector<ActionRecord>::iterator it = actions.begin(); it != actions.end(); ++it) // actions loop
+		{
+			// adding action to the treecontrol
+			TC_AnalysisAction.Add(0, MyImages::warning(), it->id, it->commentary);
+		}
+	}
 }
 
-void PcbDlg::CreateLinkedRecord(const int& tableType) {
+void PcbDlg::CreateLinkedRecord(const int tableType) {
 	int id = 0;
 	switch (tableType) {
 		case TABLE_PINOUT:
@@ -494,7 +518,7 @@ void PcbDlg::CreateLinkedRecord(const int& tableType) {
 	}
 }
 
-void PcbDlg::LoadDropList(const int& tableType) {
+void PcbDlg::LoadDropList(const int tableType) {
 	Sql sql;
 	
 	switch (tableType) {
@@ -823,6 +847,128 @@ void PcbDlg::PopulateSignatureArray() {
     while (SQL.Fetch()) {
         TabSignature.TAB_Signature.Add(SQL[ID],SQL[ROM_NAME],SQL[SECTION],SQL[RANGE],SQL[ORIGIN],SQL[CRC_32],SQL[FLUKE_SIG]);
     }
+}
+
+void PcbDlg::LoadActionTreeFromDatabase()
+{
+	// query is done to fill action vector with current PCB_ACTION data
+	Sql sql;
+	sql.Execute(Format("SELECT * FROM PCB_ACTION WHERE PCB_ID = %i ORDER BY PARENT_ID,ACTION_DATE", pcbId_));
+	while(sql.Fetch())
+	{
+		ActionRecord ar;
+		ar.id 		    = sql[ID];
+		ar.pcbId        = sql[PCB_ID];
+		ar.parentId 	= sql[PARENT_ID];
+		ar.date 		= sql[ACTION_DATE];
+		ar.commentary 	= sql[COMMENTARY];
+		ar.finished 	= static_cast<bool>(StrInt(AsString(sql[FINISHED]))); // defined as text in the database
+		ar.type 		= sql[ACTION_TYPE];
+
+		actionRecords_.push_back(ar);
+	}
+	
+	BuildActionTree(); // Treecontrol is reloaded
+}
+
+void PcbDlg::SaveActionTreeToDatabase() const
+{
+    // Current records for the pcb are deleted from the database prior adding the new ones
+    Sql sql;
+    sql.Execute(Format("DELETE FROM PCB_ACTION WHERE PCB_ID = %i",PcbId()));
+    
+    /*// Going through the vector to add the records
+    for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it!=actionRecords_.end(); it++)
+    {
+        
+    }*/
+}
+
+void PcbDlg::TreeDrag()
+{
+    // Drag & drop is initiated
+    if (TC_AnalysisAction.DoDragAndDrop(InternalClip(TC_AnalysisAction, "mytreedrag"), TC_AnalysisAction.GetDragSample()) == DND_MOVE)
+    {
+        TC_AnalysisAction.RemoveSelection();
+        
+    }
+}
+
+void PcbDlg::TreeDropInsert(const int parent, const int ii, PasteClip& d)
+{
+    // Check type of drag data, and restrict to analysis level
+    if (IsAvailableInternal<TreeCtrl>(d, "mytreedrag") && TreeGetLevel(parent) == 1) {
+        
+        if (parent == TC_AnalysisAction.GetCursor()) // preventing drop to self
+        {
+            d.Reject();
+            return;
+        }
+        // Data can be accepted
+        d.Accept();
+        // If we haven't dropped the data yet (we are still dragging) don't do anything
+        if (!d.IsPaste()) return;
+
+        // User has dropped it! Do the insert
+        TC_AnalysisAction.InsertDrop(parent, ii, d);
+        TC_AnalysisAction.SetFocus();
+
+        // Getting the record corresponding to the selected node
+        int id = TC_AnalysisAction.Get();
+        vector<ActionRecord>::iterator it = std::find_if(actionRecords_.begin(), actionRecords_.end(), [&id](const ActionRecord& ar)
+        {
+            return ar.id == id;
+        });
+        
+        // Setting up the right image
+        Image img;
+        if (it != actionRecords_.end())
+        {
+            if (!it->finished) img = MyImages::action();
+            else img = MyImages::actionDone();
+        } else img = MyImages::action();
+        
+        // Node image is updated
+        int i = TC_AnalysisAction.GetCursor();
+        TreeCtrl::Node n = TC_AnalysisAction.GetNode(i);
+        n.SetImage(img);
+        TC_AnalysisAction.SetNode(i, n);
+
+        return;
+    }
+}
+
+int PcbDlg::TreeGetLevel(int id) const
+{
+    int i=0;
+    while (id != 0){
+        id = TC_AnalysisAction.GetParent(id);
+        i++;
+    }
+    return i;   
+}
+
+void PcbDlg::RemoveActionFromVector(const int id)
+{
+    actionRecords_.erase(std::remove_if(actionRecords_.begin(), actionRecords_.end(), [&id](const ActionRecord& ar)
+    {
+        return ar.id == id;
+    }), actionRecords_.end());    
+}
+
+ActionRecord& PcbDlg::GetActionFromVector(const int id)
+{
+    vector<ActionRecord>::iterator it = std::find_if(actionRecords_.begin(), actionRecords_.end(), [&id](const ActionRecord& ar)
+    {
+        return ar.id == id;
+    });  
+    
+    return *it;
+}
+
+void PcbDlg::AddActionToVector(const ActionRecord& ar)
+{
+    actionRecords_.push_back(ar);
 }
 
 void Popup::Paint(Draw& w)
