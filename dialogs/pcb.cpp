@@ -15,8 +15,12 @@ using namespace std;
 
 PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 
-	CtrlLayoutOKCancel(*this, t_("Pcb"));
+	CtrlLayout(*this, t_("Pcb"));
 	
+    // Setting up buttons callbacks
+    ok <<= THISBACK(DoOk);
+    cancel <<= Rejector(IDCANCEL);
+    	
 	currentCtrl_ = 0;
 	pcbId_ = pcbId;
 	
@@ -155,7 +159,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 }
 
 PcbDlg::~PcbDlg() {
-
+	
 }
 
 void PcbDlg::GenerateFaultData() {
@@ -877,11 +881,24 @@ void PcbDlg::SaveActionTreeToDatabase() const
     Sql sql;
     sql.Execute(Format("DELETE FROM PCB_ACTION WHERE PCB_ID = %i",PcbId()));
     
-    /*// Going through the vector to add the records
-    for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it!=actionRecords_.end(); it++)
+    // Going through the vector to add the records
+    for ( vector<ActionRecord>::const_iterator it = actionRecords_.begin(); it!=actionRecords_.end(); it++)
     {
+        //sql.Execute(s);
+        sql * Insert(PCB_ACTION)
+        		(PCB_ID, it->pcbId)
+        		(PARENT_ID, it->parentId)
+        		(ACTION_DATE, Time(it->date))
+        		(COMMENTARY, it->commentary)
+        		(FINISHED, it->finished)
+        		(ACTION_TYPE, it->type);
+
         
-    }*/
+        if (sql.WasError()){
+			//Cout() << m_session.GetErrorCodeString() << "\n";
+			PromptOK(sql.GetErrorCodeString());
+		}
+    }
 }
 
 void PcbDlg::TreeDrag()
@@ -969,6 +986,13 @@ ActionRecord& PcbDlg::GetActionFromVector(const int id)
 void PcbDlg::AddActionToVector(const ActionRecord& ar)
 {
     actionRecords_.push_back(ar);
+}
+
+void PcbDlg::DoOk()
+{
+    SaveActionTreeToDatabase();
+    
+    Break(IDOK);
 }
 
 void Popup::Paint(Draw& w)
