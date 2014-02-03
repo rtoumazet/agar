@@ -402,14 +402,14 @@ void PcbDlg::BuildActionTree() {
 	for (vector<ActionRecord>::iterator it = analysis.begin(); it != analysis.end(); ++it) // analysis loop
 	{
 		// current analysis is added to the treecontrol
-		TC_AnalysisAction.Add(0, MyImages::analysis(), it->id, it->commentary);
+		TC_AnalysisAction.Add(0, MyImages::analysis(), it->id, it->commentary, false);
 		int displacement = 1; // number of actions added to the treecontrol for current parent
 		for (vector<ActionRecord>::iterator it = actions.begin(); it != actions.end(); ++it) // actions loop
 		{
 			if (it->parentId != iParent) break; // loop is exited when current record isn't linked to current parent (vector is sorted)
 			
 			// adding action to the treecontrol
-			TC_AnalysisAction.Add(iParent, !it->finished ? MyImages::action() : MyImages::actionDone(), it->id, it->commentary);
+			TC_AnalysisAction.Add(iParent, !it->finished ? MyImages::action() : MyImages::actionDone(), it->id, it->commentary, false);
 			displacement++;
 		}
 
@@ -434,7 +434,7 @@ void PcbDlg::BuildActionTree() {
 		for (vector<ActionRecord>::iterator it = actions.begin(); it != actions.end(); ++it) // actions loop
 		{
 			// adding action to the treecontrol
-			TC_AnalysisAction.Add(0, MyImages::warning(), it->id, it->commentary);
+			TC_AnalysisAction.Add(0, MyImages::warning(), it->id, it->commentary, false);
 		}
 	}
 }
