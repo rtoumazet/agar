@@ -6,6 +6,9 @@ uses
 	SqlCtrl,
 	plugin/jpg;
 
+options
+	-std=c++0x;
+
 file
 	agar.rc,
 	Images readonly separator,
