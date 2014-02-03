@@ -301,10 +301,17 @@ void PcbDlg::Remove() {
 	   return;
 	
 	// Removal from treecontrol
-	TC_AnalysisAction.RemoveSelection();
+	int parent = TC_AnalysisAction.GetParent(TC_AnalysisAction.GetCursor());
+	TC_AnalysisAction.Remove(TC_AnalysisAction.GetCursor());
+	TC_AnalysisAction.RefreshItem(parent);
 	
 	// Removal from vector
 	RemoveActionFromVector(key);
+
+    // Parent id of each record in the vector is updated regarding treecontrol data
+    UpdateParentIdInVector();
+	
+	BuildActionTree();
 }
 
 void PcbDlg::AddAnalysis(const int pcbId) {
@@ -315,6 +322,9 @@ void PcbDlg::AddAnalysis(const int pcbId) {
     
     // Adding the new record to the vector
     AddActionToVector(dlg.Record());
+
+    // Parent id of each record in the vector is updated regarding treecontrol data
+    UpdateParentIdInVector();
 
 	BuildActionTree();
 };
@@ -328,6 +338,9 @@ void PcbDlg::AddAction(const int pcbId) {
 	
     // Adding the new record to the vector
     AddActionToVector(dlg.Record());
+    
+    // Parent id of each record in the vector is updated regarding treecontrol data
+    UpdateParentIdInVector();
 
 	BuildActionTree();	
 };
@@ -875,12 +888,18 @@ void PcbDlg::LoadActionTreeFromDatabase()
 	BuildActionTree(); // Treecontrol is reloaded
 }
 
-void PcbDlg::SaveActionTreeToDatabase() const
+void PcbDlg::SaveActionTreeToDatabase()
 {
+    // Going through the treecontrol lines to update each parentId in the vector
+    UpdateParentIdInVector();
+
     // Current records for the pcb are deleted from the database prior adding the new ones
     Sql sql;
     sql.Execute(Format("DELETE FROM PCB_ACTION WHERE PCB_ID = %i",PcbId()));
-    
+    if (sql.WasError()){
+		PromptOK(sql.GetErrorCodeString());
+	}
+
     // Going through the vector to add the records
     for ( vector<ActionRecord>::const_iterator it = actionRecords_.begin(); it!=actionRecords_.end(); it++)
     {
@@ -899,6 +918,8 @@ void PcbDlg::SaveActionTreeToDatabase() const
 			PromptOK(sql.GetErrorCodeString());
 		}
     }
+    
+    
 }
 
 void PcbDlg::TreeDrag()
@@ -945,7 +966,10 @@ void PcbDlg::TreeDropInsert(const int parent, const int ii, PasteClip& d)
             else img = MyImages::actionDone();
         } else img = MyImages::action();
         
-        // Node image is updated
+        // Setting up the new parent
+        it->parentId = parent;
+        
+        // Node is updated
         int i = TC_AnalysisAction.GetCursor();
         TreeCtrl::Node n = TC_AnalysisAction.GetNode(i);
         n.SetImage(img);
@@ -975,12 +999,23 @@ void PcbDlg::RemoveActionFromVector(const int id)
 
 ActionRecord& PcbDlg::GetActionFromVector(const int id)
 {
-    vector<ActionRecord>::iterator it = std::find_if(actionRecords_.begin(), actionRecords_.end(), [&id](const ActionRecord& ar)
+    try
     {
-        return ar.id == id;
-    });  
+        vector<ActionRecord>::iterator it = std::find_if(actionRecords_.begin(), actionRecords_.end(), [&id](const ActionRecord& ar)
+        {
+            return ar.id == id;
+        });  
     
-    return *it;
+        if (it == actionRecords_.end()) throw 0;
+        
+        return *it;
+    }
+    catch (int i)
+    {
+          PromptOK("Exception : record not found in vector !");
+    }
+    
+        
 }
 
 void PcbDlg::AddActionToVector(const ActionRecord& ar)
@@ -993,6 +1028,42 @@ void PcbDlg::DoOk()
     SaveActionTreeToDatabase();
     
     Break(IDOK);
+}
+
+void PcbDlg::UpdateParentIdInVector()
+{
+    // Going through the treecontrol lines to update each parentId in the vector
+    TC_AnalysisAction.OpenDeep(0,true); // opening all nodes
+    
+    TC_AnalysisAction.SortDeep(0);
+    
+    for ( vector<ActionRecord>::iterator it = actionRecords_.begin(); it!=actionRecords_.end(); it++)
+    {
+        // getting the node id in the treecontrol based on the key of the record
+        int treeId = TC_AnalysisAction.Find(it->id);
+        if (treeId<0) PromptOK(t_("Key not found"));
+        else
+        {
+            it->parentId = TC_AnalysisAction.GetParent(treeId);
+        }
+    }
+   
+    /*for (int i=1; i<TC_AnalysisAction.GetLineCount(); i++) // looping through treecontrol elements, leaving root out
+    {
+        // getting the key (ie id) corresponding to the current line
+        int key = TC_AnalysisAction[i];
+        
+        PromptOK(AsString(TC_AnalysisAction.GetValue(i)));
+        
+        if (key>=0)
+        {
+            // let's grab a reference to the corresponding record in the vector
+            ActionRecord& ar = GetActionFromVector(key);
+            
+            // updating the parent id of the record
+            ar.parentId = TC_AnalysisAction.GetParent(i);
+        }
+    } */
 }
 
 void Popup::Paint(Draw& w)

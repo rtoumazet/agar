@@ -6,8 +6,7 @@ uses
 	SqlCtrl,
 	plugin/jpg;
 
-options
-	-std=c++0x;
+options(GCC) -std=c++0x;
 
 file
 	agar.rc,
