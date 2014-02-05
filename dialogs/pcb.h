@@ -25,13 +25,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 struct ActionRecord 
 {
-	int 	id;
-	int     pcbId;
-	int 	parentId;
-	Time 	date;
-	String 	commentary;	
-	int		finished;
-	int		type;
+	int 	id; //< PCB_ACTION id
+	int     pcbId; //< PCB id
+    int     nodeIndex; //< Treecontrol node index
+	int 	parentIndex; //< Treecontrol parent index
+	int     parentKey; //< PCB_ACTION id of the parent
+	Time 	date; //< PCB_ACTION date
+	String 	commentary;	//< PCB_ACTION commentary
+	int		finished; //< PCB_ACTION finished
+	int		type; //< PCB_ACTION type
 };
 
 class PreviewCtrl : public StaticText {
@@ -263,7 +265,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void BuildActionTree();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void AddActionToVector(const ActionRecord& ar)
+		/// \fn	void AddActionToVector(ActionRecord& ar)
 		///
 		/// \brief	Add record to vector.
 		///
@@ -272,7 +274,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \param  ar   record to add
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void AddActionToVector(const ActionRecord& ar);
+		void AddActionToVector(ActionRecord& ar);
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void DoOk()
@@ -285,16 +287,16 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void DoOk();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void UpdateParentIdInVector()
+		/// \fn	void SortActionVector()
 		///
-		/// \brief	Updates all parentId in the vector based on treecontrol data
+		/// \brief	Sorts the vector using nodeIndex member
 		///
 		/// \author	Runik
-		/// \date	03/02/2014
+		/// \date	05/02/2014
 		///
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void UpdateParentIdInVector();
-		
+		void SortActionVector();
+
 		/// ACCESSORS
 		void    PcbId(const int id) {pcbId_ = id;}
 		int     PcbId() const { return pcbId_;}
