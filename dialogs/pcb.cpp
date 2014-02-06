@@ -946,6 +946,9 @@ void PcbDlg::TreeDropInsert(const int parent, const int ii, PasteClip& d)
         // If we haven't dropped the data yet (we are still dragging) don't do anything
         if (!d.IsPaste()) return;
 
+        LOG("Before drop");
+        LogActionVector();
+
         // User has dropped it! Do the insert
         TC_AnalysisAction.InsertDrop(parent, ii, d);
         TC_AnalysisAction.SetFocus();
@@ -959,15 +962,10 @@ void PcbDlg::TreeDropInsert(const int parent, const int ii, PasteClip& d)
         
         // Setting up the right image
         Image img;
-        if (it != actionRecords_.end())
-        {
+        if (it != actionRecords_.end()) {
             if (!it->finished) img = MyImages::action();
             else img = MyImages::actionDone();
         } else img = MyImages::action();
-        
-        // Setting up treecontrol indexes
-        it->parentIndex = parent;
-        it->nodeIndex = TC_AnalysisAction.GetCursor();
         
         // Node is updated
         int i = TC_AnalysisAction.GetCursor();
@@ -975,6 +973,74 @@ void PcbDlg::TreeDropInsert(const int parent, const int ii, PasteClip& d)
         n.SetImage(img);
         TC_AnalysisAction.SetNode(i, n);
 
+        // Setting up treecontrol indexes in the vector
+        it->parentIndex = parent;
+        int previousNodeIndex = it->nodeIndex;
+        it->nodeIndex = i;
+
+        // Checking where the drop was made
+        // If the new node index is greater than the start node index, indexes must be decremented between the 2 positions
+        // Otherwise, if the new node index is above the start node index, indexes must be incremented between the 2 positions
+        LOG(Format("Old index : %i, new index : %i", previousNodeIndex, it->nodeIndex));
+        if (it->nodeIndex > previousNodeIndex){
+            // new index greater than previous index (paste done below), range indexes are decremented
+            LOG("Paste done below original position");
+            ActionRecord ar;
+            ar.nodeIndex = previousNodeIndex;
+            vector<ActionRecord>::iterator itl = lower_bound(actionRecords_.begin(), actionRecords_.end(), ar,
+                                                    [](const ActionRecord& left, const ActionRecord& right)
+                                                    {
+                                                        return left.nodeIndex < right.nodeIndex;
+                                                    });
+            
+            ar.nodeIndex = it->nodeIndex;
+            vector<ActionRecord>::iterator itu = upper_bound(actionRecords_.begin(), actionRecords_.end(), ar,
+                                                    [](const ActionRecord& left, const ActionRecord& right)
+                                                    {
+                                                        return left.nodeIndex < right.nodeIndex;
+                                                    });
+            
+            for (vector<ActionRecord>::iterator it = itl; it < itu; it++)
+            {
+                if (it->nodeIndex > parent) it->nodeIndex--; // nodeIndex with a greater value than the one inserted are incremented
+                if (it->parentIndex > parent) it->parentIndex--; // parentId with a greater value than the one inserted are incremented
+            }
+            
+            
+            
+        } else {
+            // new index lower than previous index (paste done above), range indexes are incremented
+            LOG("Paste done above original position");
+            ActionRecord ar;
+            ar.nodeIndex = it->nodeIndex;
+            vector<ActionRecord>::iterator itl = lower_bound(actionRecords_.begin(), actionRecords_.end(), ar,
+                                                    [](const ActionRecord& left, const ActionRecord& right)
+                                                    {
+                                                        return left.nodeIndex < right.nodeIndex;
+                                                    });
+            
+            ar.nodeIndex = previousNodeIndex;
+            vector<ActionRecord>::iterator itu = upper_bound(actionRecords_.begin(), actionRecords_.end(), ar,
+                                                    [](const ActionRecord& left, const ActionRecord& right)
+                                                    {
+                                                        return left.nodeIndex < right.nodeIndex;
+                                                    });
+            for (vector<ActionRecord>::iterator it = itl; it < itu; it++)
+            {
+                if (it->nodeIndex > parent) it->nodeIndex++; // nodeIndex with a lower value than the one inserted are decremented
+                if (it->parentIndex > parent) it->parentIndex++; // parentId with a lower value than the one inserted are decremented
+            }
+            
+        }
+        LOG("After drop");
+        LogActionVector();        
+        // Parent ids and node indexes must be recalculated after the drop
+/*        for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); it++)
+        {
+            if (it->nodeIndex > parent) it->nodeIndex++; // nodeIndex with a greater value than the one inserted are incremented
+            if (it->parentIndex > parent) it->parentIndex++; // parentId with a greater value than the one inserted are incremented
+        }*/
+        
         SortActionVector();
         
         return;
@@ -1053,6 +1119,14 @@ void PcbDlg::AddActionToVector(ActionRecord& ar)
     
 }
 
+void PcbDlg::LogActionVector()
+{
+    for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); ++it)
+    {
+	    LOG(Format("ID=%i,PARENT_ID=%i,PARENT_KEY=%i, NODE_INDEX=%i",it->id, it->parentIndex, it->parentKey, it->nodeIndex)); 
+    }   
+}
+
 void PcbDlg::DoOk()
 {
     SaveActionTreeToDatabase();
@@ -1066,10 +1140,7 @@ void PcbDlg::SortActionVector()
      std::sort(actionRecords_.begin(), actionRecords_.end(), 
         [](ActionRecord const & a, ActionRecord const &b){return a.nodeIndex < b.nodeIndex;});  
 
-    for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); ++it)
-    {
-	    LOG(Format("ID=%i,PARENT_ID=%i,PARENT_KEY=%i, NODE_INDEX=%i",it->id, it->parentIndex, it->parentKey, it->nodeIndex)); 
-    }     
+    LogActionVector();  
 }
 
 void Popup::Paint(Draw& w)
