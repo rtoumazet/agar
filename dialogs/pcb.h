@@ -265,7 +265,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void BuildActionTree();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void AddActionToVector(ActionRecord& ar)
+		/// \fn	void AddActionToVector(ActionRecord ar)
 		///
 		/// \brief	Add record to vector.
 		///
@@ -274,7 +274,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \param  ar   record to add
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void AddActionToVector(ActionRecord& ar);
+		void AddActionToVector(ActionRecord ar);
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void LogActionVector()
