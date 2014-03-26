@@ -1076,7 +1076,7 @@ ActionRecord& PcbDlg::GetActionFromVector(const int id)
         
 }
 
-void PcbDlg::AddActionToVector(ActionRecord& ar)
+void PcbDlg::AddActionToVector(ActionRecord ar)
 {
     if (ar.parentIndex == 0)
     { 
