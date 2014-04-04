@@ -69,6 +69,7 @@ LAYOUT(PcbLayout, 528, 548)
 	ITEM(Button, BTN_NewLocation, LeftPosZ(296, 20).VSizePosZ(112, 417))
 	ITEM(Button, BTN_NewGame, LeftPosZ(408, 20).VSizePosZ(12, 517))
 	ITEM(Button, BTN_NewPinout, LeftPosZ(296, 20).VSizePosZ(80, 449))
+	ITEM(Option, O_ActionsFixed, SetLabel(t_("Fixed")).LeftPosZ(148, 68).TopPosZ(236, 20))
 END_LAYOUT
 
 LAYOUT(OriginLayout, 400, 200)

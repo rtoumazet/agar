@@ -454,7 +454,7 @@ void PcbsDlg::ExtractListing() {
 		break;
 	}
 	
-	PromptOK(t_("Data extraction done to '"+filename+"'"));
+	PromptOK("Data extraction done to '"+filename+"'");
 }
 
 void Data::Jsonize(JsonIO& json) {
