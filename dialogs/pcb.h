@@ -149,6 +149,8 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		std::vector<ActionRecord> 	actionRecords_;
 		int 						pcbId_;
 		
+		bool                        actionsFixed_; //< true when actions are fixed (ie using keys instead of indexes), false otherwise
+		
 		void ResetDisplay(Ctrl* ctrl);
 		void SetupDisplay(Ctrl* ctrl);
 		void TabChanged();
@@ -311,6 +313,8 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// ACCESSORS
 		void    PcbId(const int id) {pcbId_ = id;}
 		int     PcbId() const { return pcbId_;}
+		void    ActionsFixed(const bool status) {actionsFixed_ = status;}
+		bool    ActionsFixed() const { return actionsFixed_;}
 };
 
 class Popup : public TopWindow {

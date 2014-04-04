@@ -104,6 +104,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 	E_PcbId.Hide();
 	ES_Faults.Hide();
 	ES_FaultsOrigin.Hide();
+	O_ActionsFixed.Hide();
 	
 	// displaying images on controls
 	BTN_NewGame.SetImage(MyImages::add);
@@ -153,6 +154,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 		(PCB_FAULT_OPTION, ES_Faults)
 		(PCB_ORIGIN_FAULT_OPTION, ES_FaultsOrigin)
 		(PCB_VERSION, ES_Version)
+		(ACTIONS_FIXED, O_ActionsFixed)
 	;
 	
 	LoadFaultData();
@@ -870,8 +872,20 @@ void PcbDlg::PopulateSignatureArray() {
 
 void PcbDlg::LoadActionTreeFromDatabase()
 {
-	// query is done to fill action vector with current PCB_ACTION data
 	Sql sql;
+	
+	// First we need to check if actions have been fixed
+	sql.Execute(Format("select ACTIONS_FIXED from PCB where ID =%i",pcbId_));
+	if (sql.Fetch()) {
+		//ActionsFixed(sql[0].To<bool>());
+		ActionsFixed(static_cast<bool>(StrInt(AsString(sql[ACTIONS_FIXED]))));
+	}
+	
+	if (ActionsFixed()) PromptOK("Actions have been fixed");
+	else PromptOK("Actions haevn't been fixed");
+	
+	// query is done to fill action vector with current PCB_ACTION data
+
 	sql.Execute(Format("SELECT * FROM PCB_ACTION WHERE PCB_ID = %i ORDER BY PARENT_ID,ACTION_DATE", pcbId_));
 	while(sql.Fetch())
 	{
