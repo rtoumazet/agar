@@ -143,8 +143,6 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 void PcbsDlg::Create() {
 	PcbDlg dlg(OPENING_NEW);
 	
-	dlg.LoadFaultData();
-	
 	if(dlg.Execute() != IDOK)
 		return;
 	dlg.GenerateFaultData();
