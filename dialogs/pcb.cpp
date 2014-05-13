@@ -385,8 +385,8 @@ void PcbDlg::BuildActionTree() {
 	TC_AnalysisAction.Clear();
 		
 	// vector is full, it's time to add records to the treecontrol.
-	// if PARENT_ID is 0, record's an analysis
-	// otherwise record's an action, and PARENT_ID refers to the index position in the treecontrol
+	// if PARENT_ID is 0, record is an analysis
+	// otherwise record is an action, and PARENT_ID refers to the index position in the treecontrol
 	// Root of the tree control has index 0, first analysis has index 1
 	vector<ActionRecord> actions; // will hold actions
 	vector<ActionRecord> analysis; // will hold analysis
@@ -877,12 +877,13 @@ void PcbDlg::LoadActionTreeFromDatabase()
 	// First we need to check if actions have been fixed
 	sql.Execute(Format("select ACTIONS_FIXED from PCB where ID =%i",pcbId_));
 	if (sql.Fetch()) {
-		//ActionsFixed(sql[0].To<bool>());
-		ActionsFixed(static_cast<bool>(StrInt(AsString(sql[ACTIONS_FIXED]))));
+		String tmp = sql[ACTIONS_FIXED];
+		if (IsNull(tmp)) ActionsFixed(false);
+		else ActionsFixed(true);
 	}
 	
 	if (ActionsFixed()) PromptOK("Actions have been fixed");
-	else PromptOK("Actions haevn't been fixed");
+	else PromptOK("Actions haven't been fixed");
 	
 	// query is done to fill action vector with current PCB_ACTION data
 
@@ -1084,6 +1085,7 @@ ActionRecord& PcbDlg::GetActionFromVector(const int id)
     }
     catch (int i)
     {
+          i;
           PromptOK("Exception : record not found in vector !");
     }
     
