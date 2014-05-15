@@ -283,8 +283,9 @@ GUI_APP_MAIN
 		userVersion = sql[0].ToString();
 	}
 
-	//sql.Execute("VACUUM");
-	
+	// Following PRAGMA tells the database to use memory for temp files. (used by VACUUM)
+	sql.Execute("PRAGMA temp_store = 2;");
+
 	// strings initializations
 	String databaseDirectory = GetFileDirectory(databaseFullPath);
 
@@ -321,7 +322,7 @@ GUI_APP_MAIN
 	// Entering the main window modal loop
 	AGAR().Run();
 	
-	sql.Execute("VACUUM"); // Deleted data is freed
+	SQL.Execute("VACUUM;"); // Deleted data is freed
 }
 
 bool AGAR::Key(dword key, int count) {

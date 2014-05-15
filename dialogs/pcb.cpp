@@ -403,31 +403,62 @@ void PcbDlg::BuildActionTree() {
 	TC_AnalysisAction.NoRoot(false);
 
 	// actions & analysis vectors are set, time to build treecontrol
-	int iParent = 1; // current parent index in the treecontrol. Initialized to 1 as 0 is root
+   	int parentIndex = 1; // current parent index in the treecontrol. (0 is root)
+    int parentKey = 0; // PCB_ACTION key of the record
 
-	for (vector<ActionRecord>::iterator it = analysis.begin(); it != analysis.end(); ++it) // analysis loop
-	{
-		// current analysis is added to the treecontrol
-		TC_AnalysisAction.Add(0, MyImages::analysis(), it->id, it->commentary, false);
-		int displacement = 1; // number of actions added to the treecontrol for current parent
-		for (vector<ActionRecord>::iterator it = actions.begin(); it != actions.end(); ++it) // actions loop
-		{
-			if (it->parentIndex != iParent) break; // loop is exited when current record isn't linked to current parent (vector is sorted)
-			
-			// adding action to the treecontrol
-			TC_AnalysisAction.Add(iParent, !it->finished ? MyImages::action() : MyImages::actionDone(), it->id, it->commentary, false);
-			displacement++;
-		}
+    if (ActionsFixed())
+    {
+        // Actions are fixed, PCB_ACTION ids are in parent_id 
+    	for (vector<ActionRecord>::iterator it = analysis.begin(); it != analysis.end(); ++it) // analysis loop
+    	{
+    		// current analysis is added to the treecontrol
+    		parentIndex = TC_AnalysisAction.Add(0, MyImages::analysis(), it->id, it->commentary, false);
+            parentKey = it->id;
 
-        // removing actions linked to current parent_id from vector
-        actions.erase(std::remove_if(actions.begin(), actions.end(), [&iParent](const ActionRecord& ar)
-        {
-            return ar.parentIndex == iParent;
-        }), actions.end());
-        
-        // updating parent index position
-        iParent += displacement;
-	}
+            // actions vector is 
+    		for (vector<ActionRecord>::iterator it = actions.begin(); it != actions.end(); ++it) // actions loop
+    		{
+    			if (it->parentKey != parentKey) break; // loop is exited when current record isn't linked to current parent (vector is sorted)
+    			
+    			// adding action to the treecontrol
+    			it->nodeIndex = TC_AnalysisAction.Add(parentIndex, !it->finished ? MyImages::action() : MyImages::actionDone(), it->id, it->commentary, false);
+    			it->parentIndex = parentIndex;
+    		}
+
+            // removing actions linked to current parent_id from vector
+            actions.erase(std::remove_if(actions.begin(), actions.end(), [&parentKey](const ActionRecord& ar)
+            {
+                return ar.parentKey == parentKey;
+            }), actions.end());            
+    	}
+    } else {
+        // Actions aren't fixed, treecontrol ids are in parent_id
+
+    	for (vector<ActionRecord>::iterator it = analysis.begin(); it != analysis.end(); ++it) // analysis loop
+    	{
+    		// current analysis is added to the treecontrol
+    		TC_AnalysisAction.Add(0, MyImages::analysis(), it->id, it->commentary, false);
+    		int displacement = 1; // number of actions added to the treecontrol for current parent
+    		for (vector<ActionRecord>::iterator it = actions.begin(); it != actions.end(); ++it) // actions loop
+    		{
+    			if (it->parentIndex != parentIndex) break; // loop is exited when current record isn't linked to current parent (vector is sorted)
+    			
+    			// adding action to the treecontrol
+    			TC_AnalysisAction.Add(parentIndex, !it->finished ? MyImages::action() : MyImages::actionDone(), it->id, it->commentary, false);
+    			displacement++;
+    		}
+    
+            // removing actions linked to current parent_id from vector
+            actions.erase(std::remove_if(actions.begin(), actions.end(), [&parentIndex](const ActionRecord& ar)
+            {
+                return ar.parentIndex == parentIndex;
+            }), actions.end());
+            
+            // updating parent index position
+            parentIndex += displacement;
+    	}           
+    }
+	
 	
 	TC_AnalysisAction.OpenDeep(0,true); // opening all nodes
 	
@@ -445,13 +476,16 @@ void PcbDlg::BuildActionTree() {
 	}
 	
     // parent keys and node indexes are added to the vector
-    for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); ++it)
+    if (!ActionsFixed())
     {
-	    if( it->parentIndex == 0) it->parentKey = 0;
-	    else it->parentKey = TC_AnalysisAction[it->parentIndex];
-	    
-	    it->nodeIndex = TC_AnalysisAction.Find(it->id);
-    } 
+        for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); ++it)
+        {
+    	    if( it->parentIndex == 0) it->parentKey = 0;
+    	    else it->parentKey = TC_AnalysisAction[it->parentIndex];
+    	    
+    	    it->nodeIndex = TC_AnalysisAction.Find(it->id);
+        }
+    }
     
     SortActionVector();       
 }
@@ -882,18 +916,23 @@ void PcbDlg::LoadActionTreeFromDatabase()
 		else ActionsFixed(true);
 	}
 	
-	if (ActionsFixed()) PromptOK("Actions have been fixed");
-	else PromptOK("Actions haven't been fixed");
+	// IF actions are fixed THEN
+	//      PARENT_ID contains PCB_ACTION id of the parent
+	//      
+	// ELSE
+	//      PARENT_ID contains treecontrol index of the parent
+	// END
+	
 	
 	// query is done to fill action vector with current PCB_ACTION data
-
 	sql.Execute(Format("SELECT * FROM PCB_ACTION WHERE PCB_ID = %i ORDER BY PARENT_ID,ACTION_DATE", pcbId_));
 	while(sql.Fetch())
 	{
 		ActionRecord ar;
 		ar.id 		    = sql[ID];
 		ar.pcbId        = sql[PCB_ID];
-		ar.parentIndex 	= sql[PARENT_ID];
+	    ar.parentIndex  = sql[PARENT_ID];
+	    ar.parentKey 	= sql[PARENT_ID];
 		ar.date 		= sql[ACTION_DATE];
 		ar.commentary 	= sql[COMMENTARY];
 		ar.finished 	= static_cast<bool>(StrInt(AsString(sql[FINISHED]))); // defined as text in the database
@@ -914,26 +953,52 @@ void PcbDlg::SaveActionTreeToDatabase()
 		PromptOK(sql.GetErrorCodeString());
 	}
 
-    // Going through the vector to add the records
-    for ( vector<ActionRecord>::const_iterator it = actionRecords_.begin(); it!=actionRecords_.end(); it++)
+	vector<ActionRecord> actions; // will hold actions
+	vector<ActionRecord> analysis; // will hold analysis
+	
+	// looping through records vector to fill actions & analysis vectors
+    for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); ++it)
     {
-        //sql.Execute(s);
-        sql * Insert(PCB_ACTION)
+	    if( it->parentIndex == 0) analysis.push_back(*it);
+	    else actions.push_back(*it);
+    }
+
+    // adding analysis to the database
+    map <int, int> parentKeys; // used to keep track of parent keys (before deletion and after insertion)
+    for ( vector<ActionRecord>::const_iterator it = analysis.begin(); it!=analysis.end(); it++)
+    {
+       sql * Insert(PCB_ACTION)
         		(PCB_ID, it->pcbId)
-        		(PARENT_ID, it->parentIndex)
+        		(PARENT_ID, 0)
         		(ACTION_DATE, Time(it->date))
         		(COMMENTARY, it->commentary)
         		(FINISHED, it->finished)
         		(ACTION_TYPE, it->type);
-
         
         if (sql.WasError()){
-			//Cout() << m_session.GetErrorCodeString() << "\n";
+			PromptOK(sql.GetErrorCodeString());
+		}
+		
+	    // we're positioned on a parent, its key is added to the map
+	    parentKeys[it->id] = sql.GetInsertedId();		
+    }
+    
+
+    // adding actions to the database
+    for ( vector<ActionRecord>::const_iterator it = actions.begin(); it!=actions.end(); it++)
+    {
+        sql * Insert(PCB_ACTION)
+        		(PCB_ID, it->pcbId)
+        		(PARENT_ID, parentKeys[it->parentKey]) // map correspondance
+        		(ACTION_DATE, Time(it->date))
+        		(COMMENTARY, it->commentary)
+        		(FINISHED, it->finished)
+        		(ACTION_TYPE, it->type);
+        
+        if (sql.WasError()){
 			PromptOK(sql.GetErrorCodeString());
 		}
     }
-    
-    
 }
 
 void PcbDlg::TreeDrag()
@@ -1106,7 +1171,7 @@ void PcbDlg::AddActionToVector(ActionRecord ar)
         
         SortActionVector();
 
-        // It's an action, after it's insertion parent ids and node indexes must be recalculated
+        // It's an action, after its insertion parent ids and node indexes must be recalculated
         for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); it++)
         {
             if (it->nodeIndex > ar.parentIndex) it->nodeIndex++; // nodeIndex with a greater value than the one inserted are incremented
