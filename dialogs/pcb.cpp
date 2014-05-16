@@ -949,9 +949,6 @@ void PcbDlg::SaveActionTreeToDatabase()
     // Current records for the pcb are deleted from the database prior adding the new ones
     Sql sql;
     sql.Execute(Format("DELETE FROM PCB_ACTION WHERE PCB_ID = %i",PcbId()));
-    if (sql.WasError()){
-		PromptOK(sql.GetErrorCodeString());
-	}
 
 	vector<ActionRecord> actions; // will hold actions
 	vector<ActionRecord> analysis; // will hold analysis
@@ -975,11 +972,8 @@ void PcbDlg::SaveActionTreeToDatabase()
         		(FINISHED, it->finished)
         		(ACTION_TYPE, it->type);
         
-        if (sql.WasError()){
-			PromptOK(sql.GetErrorCodeString());
-		}
 		
-	    // we're positioned on a parent, its key is added to the map
+	    // we're positioned on a parent, its key is added to the correspondance map
 	    parentKeys[it->id] = sql.GetInsertedId();		
     }
     
@@ -995,10 +989,9 @@ void PcbDlg::SaveActionTreeToDatabase()
         		(FINISHED, it->finished)
         		(ACTION_TYPE, it->type);
         
-        if (sql.WasError()){
-			PromptOK(sql.GetErrorCodeString());
-		}
     }
+    
+    O_ActionsFixed = true;
 }
 
 void PcbDlg::TreeDrag()
