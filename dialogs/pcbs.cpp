@@ -156,6 +156,7 @@ void PcbsDlg::Create() {
 		// Creation of the initial analysis
 		// TODO
 		dlg.AddAnalysis(id);
+		dlg.DoOk();
 		Edit(id);
 	}
 	
