@@ -405,6 +405,7 @@ void PcbDlg::BuildActionTree() {
 	// actions & analysis vectors are set, time to build treecontrol
    	int parentIndex = 1; // current parent index in the treecontrol. (0 is root)
     int parentKey = 0; // PCB_ACTION key of the record
+    int tcIndex = 0; // TreeControl index
 
     if (ActionsFixed())
     {
