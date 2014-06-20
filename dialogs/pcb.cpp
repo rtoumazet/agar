@@ -309,8 +309,9 @@ void PcbDlg::Remove() {
 	// Removal from vector
 	RemoveActionFromVector(id);
     
+    LogActionVector();
 	// Treecontrol is rebuilt
-	BuildActionTree();
+	//BuildActionTree();
 }
 
 void PcbDlg::AddAnalysis(const int pcbId) {
@@ -961,9 +962,12 @@ void PcbDlg::SaveActionTreeToDatabase()
 	    else actions.push_back(*it);
     }
 
+    // Used to keep track of parent keys (before deletion and after insertion)
+    // First member is treecontrol id, second is corresponding database key
+    map <int, int> parentKeys;
+
     // adding analysis to the database
-    map <int, int> parentKeys; // used to keep track of parent keys (before deletion and after insertion)
-    for ( vector<ActionRecord>::const_iterator it = analysis.begin(); it!=analysis.end(); it++)
+    for ( vector<ActionRecord>::const_iterator it = analysis.begin(); it!=analysis.end(); ++it)
     {
        sql * Insert(PCB_ACTION)
         		(PCB_ID, it->pcbId)
@@ -991,7 +995,7 @@ void PcbDlg::SaveActionTreeToDatabase()
         		(ACTION_TYPE, it->type);
         
     }
-    
+
     O_ActionsFixed = true;
 }
 
@@ -1177,6 +1181,7 @@ void PcbDlg::AddActionToVector(ActionRecord ar)
 
 void PcbDlg::LogActionVector()
 {
+    LOG("actionRecord_ content : ");
     for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); ++it)
     {
 	    LOG(Format("ID=%i,PARENT_ID=%i,PARENT_KEY=%i, NODE_INDEX=%i",it->id, it->parentIndex, it->parentKey, it->nodeIndex)); 
