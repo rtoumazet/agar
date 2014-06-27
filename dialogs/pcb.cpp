@@ -408,7 +408,7 @@ void PcbDlg::BuildActionTree() {
     int parentKey = 0; // PCB_ACTION key of the record
     int tcIndex = 0; // TreeControl index
 
-    if (ActionsFixed())
+/*    if (ActionsFixed())
     {
         // Actions are fixed, PCB_ACTION ids are in parent_id 
     	for (vector<ActionRecord>::iterator it = analysis.begin(); it != analysis.end(); ++it) // analysis loop
@@ -433,7 +433,7 @@ void PcbDlg::BuildActionTree() {
                 return ar.parentKey == parentKey;
             }), actions.end());            
     	}
-    } else {
+    } else {*/
         // Actions aren't fixed, treecontrol ids are in parent_id
 
     	for (vector<ActionRecord>::iterator it = analysis.begin(); it != analysis.end(); ++it) // analysis loop
@@ -459,7 +459,7 @@ void PcbDlg::BuildActionTree() {
             // updating parent index position
             parentIndex += displacement;
     	}           
-    }
+//   }
 	
 	
 	TC_AnalysisAction.OpenDeep(0,true); // opening all nodes
@@ -948,6 +948,10 @@ void PcbDlg::LoadActionTreeFromDatabase()
 
 void PcbDlg::SaveActionTreeToDatabase()
 {
+    TreeCtrl tc; // temporary treecontrol used to get correct ids if deletions occured in the main treecontrol
+    
+    
+    
     // Current records for the pcb are deleted from the database prior adding the new ones
     Sql sql;
     sql.Execute(Format("DELETE FROM PCB_ACTION WHERE PCB_ID = %i",PcbId()));
