@@ -1,5 +1,6 @@
 #include "pcbs.h"
 #include "pcb.h"
+#include "action.h"
 
 PcbsDlg::PcbsDlg() {
 
@@ -155,7 +156,7 @@ void PcbsDlg::Create() {
 	if (PromptYesNo(t_("Do you want to create an initial analysis ?"))) {
 		// Creation of the initial analysis
 		// TODO
-		dlg.AddAnalysis(id);
+		dlg.Add(id, ActionDlg::ANALYSIS);
 		dlg.DoOk();
 		Edit(id);
 	}

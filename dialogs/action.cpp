@@ -58,7 +58,7 @@ void ActionDlg::InitializeFields(const int type)
 		O_Finished.Hide();
 		// no parent defined for an analysis
 		record_.parentIndex = 0;
-		record_.parentKey   = 0;
+		//record_.parentKey   = 0;
 	} else {
 		CtrlLayout(*this, t_("Action"));
 		O_Finished.Show(true);
