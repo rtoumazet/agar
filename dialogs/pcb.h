@@ -29,7 +29,8 @@ struct ActionRecord
 	int     pcbId; //< PCB id
     int     nodeIndex; //< Treecontrol node index
 	int 	parentIndex; //< Treecontrol parent index
-	int     parentKey; //< PCB_ACTION id of the parent
+	//int     parentKey; //< PCB_ACTION id of the parent
+	int		key; //< internal key of the record, will be added to the key of the treecontrol record
 	Time 	date; //< PCB_ACTION date
 	String 	commentary;	//< PCB_ACTION commentary
 	int		finished; //< PCB_ACTION finished
@@ -91,8 +92,19 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void SetRemoveMenuEntryVisible(const bool& val);
 		
 		// analysis & actions related functions
-		void AddAnalysis(const int pcbId);
-		void AddAction(const int pcbId);
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// \fn	void Add(const int pcbId, const int type)
+		///
+		/// \brief	Adds a record to the treecontrol, depending on the type parameter. 
+		///
+		/// \author	Runik
+		/// \date	14/07/2014
+		///
+		/// \param  pcbId	 PCB id
+		/// \param  type     ANALYSIS or ACTION (enum defined in action.h)
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		void Add(const int pcbId, const int type);
 		void Edit();
 		void Remove();
 		
@@ -158,8 +170,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 
 		std::vector<ActionRecord> 	actionRecords_;
 		int 						pcbId_;
-		
-		bool                        actionsFixed_; //< true when actions are fixed (ie using keys instead of indexes), false otherwise
+		int							actionRecordsKey_; //< unique key of action records. Incremented as records are added
 		
 		void ResetDisplay(Ctrl* ctrl);
 		void SetupDisplay(Ctrl* ctrl);
@@ -313,8 +324,8 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// ACCESSORS
 		void    PcbId(const int id) {pcbId_ = id;}
 		int     PcbId() const { return pcbId_;}
-		void    ActionsFixed(const bool status) {actionsFixed_ = status;}
-		bool    ActionsFixed() const { return actionsFixed_;}
+		void	ActionRecordsKey(const int k) {actionRecordsKey_ = k;}
+		int		ActionRecordsKey() const { return actionRecordsKey_;}
 };
 
 class Popup : public TopWindow {
