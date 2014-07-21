@@ -346,23 +346,9 @@ void PcbDlg::Add(const int pcbId, const int type) {
     // Adding the new record to the vector
     AddActionToVector(dlg->Record());	
 	
-	// new entry is added to the treecontrol
-	switch (type) {
-	case ActionDlg::ANALYSIS:
-		TC_AnalysisAction.Add(0, 
-			MyImages::analysis(), dlg->Record().key, dlg->Record().commentary, false);
-		break;
-	case ActionDlg::ACTION:
-		TC_AnalysisAction.Add(TC_AnalysisAction.GetCursor(), 
-			!dlg->Record().finished ? MyImages::action() : MyImages::actionDone(), 
-			dlg->Record().key, dlg->Record().commentary, false);		
-		break;
-	}
-		
 	delete dlg;
 	
-	// making visible the added record
-	TC_AnalysisAction.Open(TC_AnalysisAction.GetCursor());	
+	BuildActionTree(); // Treecontrol is rebuilt
 }
 
 int PcbDlg::GetRecordNumber(int const pcbId) {
