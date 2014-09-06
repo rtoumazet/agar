@@ -1093,13 +1093,12 @@ void PcbDlg::AddActionToVector(ActionRecord ar)
     if (ar.parentIndex == 0)
     { 
         // It's an analysis, added to the end of the treecontrol
-        ar.nodeIndex = TC_AnalysisAction.GetLineCount()+1;
+        ar.nodeIndex = TC_AnalysisAction.GetLineCount();
         actionRecords_.push_back(ar);
     } else 
     {
         ar.nodeIndex = ar.parentIndex+1;
         actionRecords_.push_back(ar);
-        
         SortActionVector();
     }
     
