@@ -144,6 +144,8 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 void PcbsDlg::Create() {
 	PcbDlg dlg(OPENING_NEW);
 	
+	dlg.LoadFaultData();
+	
 	if(dlg.Execute() != IDOK)
 		return;
 	dlg.GenerateFaultData();
@@ -162,6 +164,8 @@ void PcbsDlg::Create() {
 	}
 	
 	ReloadTable(true);
+	TAB_pcbs.DoColumnSort();
+
 	TAB_pcbs.FindSetCursor(id);
 }
 
@@ -174,6 +178,8 @@ void PcbsDlg::Edit(int pcbId) {
 
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;
+	
+	dlg.LoadFaultData();
 	
 	//dlg.BuildActionTree(id);
 	if (!dlg.GetRecordNumber(id)) {
@@ -191,6 +197,7 @@ void PcbsDlg::Edit(int pcbId) {
 
 	int index = TAB_pcbs.GetCursor();
 	ReloadTable(true);
+	TAB_pcbs.DoColumnSort();
 	
 	// edited pcb is selected in the table
 	TAB_pcbs.SetCursor(index);
@@ -348,6 +355,7 @@ void PcbsDlg::ReloadTable(const bool& ascSort) {
 	if (ascSort) statement += " order by MAKER_NAME asc,GAME_NAME asc";
 	else statement += " order by MAKER_NAME desc,GAME_NAME desc";
 	sql.Execute(statement);
+	LOG(statement);
 	while (sql.Fetch()) {
 		String game = sql[1].ToString()+" - "+sql[2].ToString();
 		Color ink = Color::FromRaw(static_cast<dword>(sql[3].To<int64>()));
