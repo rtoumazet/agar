@@ -157,8 +157,6 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 		(PCB_VERSION, ES_Version)
 		(ACTIONS_FIXED, O_ActionsFixed)
 	;
-	
-	LoadFaultData();
 }
 
 PcbDlg::~PcbDlg() {
