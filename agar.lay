@@ -133,6 +133,15 @@ LAYOUT(PinoutsLayout, 512, 300)
 	ITEM(SqlArray, TAB_pinouts, LeftPosZ(4, 436).VSizePosZ(8, 4))
 END_LAYOUT
 
+LAYOUT(SettingsLayout, 268, 88)
+	ITEM(EditInt, E_ImageWidth, LeftPosZ(68, 64).TopPosZ(24, 19))
+	ITEM(EditInt, E_ImageHeight, LeftPosZ(180, 64).VSizePosZ(24, 45))
+	ITEM(StaticText, S_ImageHeight, SetText(t_("Height")).LeftPosZ(136, 108).TopPosZ(24, 20))
+	ITEM(StaticText, S_ImageWidth, SetText(t_("Width")).LeftPosZ(24, 108).TopPosZ(24, 20))
+	ITEM(LabelBox, L_ImageSize, SetLabel(t_("Maximum size of images saved in database")).LeftPosZ(12, 244).TopPosZ(8, 44))
+	ITEM(Button, B_ResetInitialFault, SetLabel(t_("Reset initial fault")).LeftPosZ(12, 104).TopPosZ(64, 15))
+END_LAYOUT
+
 LAYOUT(TabMiscLayout, 452, 216)
 	ITEM(LabelBox, L_Faults, SetLabel(t_("Original Fault(s)")).HSizePosZ(4, 248).VSizePosZ(4, 80))
 END_LAYOUT

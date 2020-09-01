@@ -50,6 +50,8 @@ file
 	dialogs\game.cpp,
 	dialogs\maker.h,
 	dialogs\maker.cpp,
+	dialogs\settings.cpp,
+	dialogs\settings.h,
 	Layouts readonly separator,
 	agar.lay,
 	Database readonly separator,

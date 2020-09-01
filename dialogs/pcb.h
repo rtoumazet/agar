@@ -5,8 +5,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#ifndef _PCB_H
-#define _PCB_H
 
 // SYSTEM INCLUDES
 #include <plugin/jpg/jpg.h> // JPGRaster
@@ -350,5 +348,3 @@ class Popup : public TopWindow {
 		    }
     	}
 };
-
-#endif _PCB_H

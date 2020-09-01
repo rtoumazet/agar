@@ -58,6 +58,8 @@ public:
 	void PcbType();
 	void ResetInitialFault();
 	void About();
+	void openSettingsWindow();
+	void initializeConfigurationFile();
 	
 	String GetVersion();
 	

@@ -17,7 +17,10 @@
 #include "dialogs/pcbfault.h"
 #include "dialogs/pcbs.h"
 #include "dialogs/about.h"
+#include "dialogs/settings.h"
 
+constexpr int default_image_width = 1024;
+constexpr int default_image_height = 768;
 
 SqlId count("count(*)");
 
@@ -40,6 +43,9 @@ AGAR::AGAR()
 	ld_ = 0;
 	od_ = 0;
 	pd_ = 0;
+    
+	initializeConfigurationFile();
+
     
 }
 
@@ -155,8 +161,10 @@ void AGAR::SubMenuPcb(Bar& bar) {
 }
 
 void AGAR::SubMenuOptions(Bar& bar) {
+	bar.Add(t_("Settings"), THISBACK(openSettingsWindow));
 	bar.Add(t_("Default values"), THISBACK(SubMenuOptionsDefaultvalues));
-	bar.Add(t_("Reset initial faults"), THISBACK(ResetInitialFault));
+	//bar.Add(t_("Reset initial faults"), THISBACK(ResetInitialFault));
+
 }
 
 void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
@@ -336,10 +344,46 @@ void AGAR::About() {
 	
 	AboutDlg dlg(GetVersion());
 	
-	dlg.Run();	
+	dlg.Run();
 }
 
 String AGAR::GetVersion() {
 	
 	return version_;
+}
+
+void AGAR::openSettingsWindow() {
+	
+	SettingsDlg dlg;
+	dlg.Run();
+}
+
+void AGAR::initializeConfigurationFile(){
+	
+	VectorMap<String, String> cfg = LoadIniFile("agar.cfg");
+	int image_width = ScanInt(cfg.Get("IMAGE_WIDTH", Null));
+	if(image_width = 0){
+		image_width = default_image_width;
+		cfg.Add("IMAGE_WIDTH", image_width);
+	}
+	
+			
+	int image_height = ScanInt(cfg.Get("IMAGE_HEIGHT", Null));
+	if(image_height = 0) {
+		image_height = default_image_height;
+		cfg.Add("IMAGE_HEIGHT", image_height);
+	}
+	
+	SaveFile("agar.cfg", cfg);
+	
+	/*String cfg;
+
+	cfg << "RECENTDIR=" << appobj.recentdir << "\n"
+	
+	    "ID=" << appobj.id << "\n";
+	
+	if(!SaveFile("myapp.cfg", cfg))
+	
+	    Exclamation("Error saving configuration!");*/
+
 }

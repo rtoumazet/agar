@@ -232,8 +232,8 @@ void PcbDlg::LoadFaultData() {
 		Ctrl::Add(option.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPosZ(y, linecy).RightPosZ(10, 150));
 		TabMisc.Add(optionOrigin_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(yOrigin, linecy).LeftPos(rOrigin.left+10, 150));
 		int id = StdConvertInt().Scan(sql[0].ToString());
-		option[current].SetData(GetFaultValue(id, ES_Faults));
-		optionOrigin_[current].SetData(GetFaultValue(id, ES_FaultsOrigin));
+		option[current].SetData(GetFaultValue(id, ~ES_Faults));
+		optionOrigin_[current].SetData(GetFaultValue(id, ~ES_FaultsOrigin));
 		y += linecy;
 		yOrigin += linecy;
 		current++;
@@ -1051,7 +1051,7 @@ int PcbDlg::TreeGetLevel(int id) const
         id = TC_AnalysisAction.GetParent(id);
         ++i;
     }
-    return i;   
+    return i;
 }
 
 void PcbDlg::RemoveActionFromVector(const int key)
@@ -1070,7 +1070,7 @@ ActionRecord& PcbDlg::GetActionFromVector(const int key)
         vector<ActionRecord>::iterator it = std::find_if(actionRecords_.begin(), actionRecords_.end(), [&key](const ActionRecord& ar)
         {
             return ar.key == key;
-        });  
+        });
     
         if (it == actionRecords_.end()) throw 0;
         
@@ -1108,7 +1108,7 @@ void PcbDlg::LogActionVector()
     for (vector<ActionRecord>::iterator it = actionRecords_.begin(); it != actionRecords_.end(); ++it)
     {
 	    LOG(Format("ID=%i,PARENT_ID=%i,KEY=%i, NODE_INDEX=%i",it->id, it->parentIndex, it->key, it->nodeIndex)); 
-    }   
+    }
 }
 
 void PcbDlg::DoOk()
