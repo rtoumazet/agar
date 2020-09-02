@@ -361,29 +361,24 @@ void AGAR::openSettingsWindow() {
 void AGAR::initializeConfigurationFile(){
 	
 	VectorMap<String, String> cfg = LoadIniFile("agar.cfg");
-	int image_width = ScanInt(cfg.Get("IMAGE_WIDTH", Null));
-	if(image_width = 0){
-		image_width = default_image_width;
-		cfg.Add("IMAGE_WIDTH", image_width);
+	//int image_width = ScanInt(cfg.Get("IMAGE_WIDTH", Null));
+
+	if(cfg.Find("ImageWidth") == -1)	cfg.Add("ImageWidth", IntStr(default_image_width));
+	if(cfg.Find("ImageHeight") == -1)	cfg.Add("ImageHeight", IntStr(default_image_height));
+	
+	saveConfiguration("agar.cfg", cfg);
+}
+
+void saveConfiguration(const String& filename, const VectorMap<String, String>& data){
+	String dataToSave;
+	for(int i = 0; i < data.GetCount(); i++){
+		dataToSave << data.GetKey(i) << "=" << data[i] << "\n";
 	}
 	
-			
-	int image_height = ScanInt(cfg.Get("IMAGE_HEIGHT", Null));
-	if(image_height = 0) {
-		image_height = default_image_height;
-		cfg.Add("IMAGE_HEIGHT", image_height);
-	}
-	
-	SaveFile("agar.cfg", cfg);
-	
-	/*String cfg;
+	if(!SaveFile("agar.cfg", dataToSave)) Exclamation("Error saving configuration!");
+};
 
-	cfg << "RECENTDIR=" << appobj.recentdir << "\n"
-	
-	    "ID=" << appobj.id << "\n";
-	
-	if(!SaveFile("myapp.cfg", cfg))
-	
-	    Exclamation("Error saving configuration!");*/
-
+void addConfigurationValue(const VectorMap<String, String>& data, const String& key, const String& value){
+	if(data.Find(key) == -1) data.Add(key, value));
+	else data[key] = value;
 }

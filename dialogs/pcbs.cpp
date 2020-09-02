@@ -118,19 +118,28 @@ PcbsDlg::PcbsDlg() {
 
 PcbsDlg::~PcbsDlg() {
 	// Saving column data to the ini file
-	String cfg;
-	Rect r = this->GetRect();
-//	String windowSize = Format("%d %d %d %d", r.left, r.top, r.right, r.bottom);
-	cfg << "PcbsListColumnWidths=" << TAB_pcbs.GetColumnWidths() << "\n"
-		"PcbsListWindowPosLeft=" << r.left << "\n"
-		"PcbsListWindowPosTop=" << r.top << "\n"
-		"PcbsListWindowPosRight=" << r.right << "\n"
-		"PcbsListWindowPosBottom=" << r.bottom << "\n"
-		"PcbsListSortColumnIndex=" << sortedColumnIndex_ << "\n"
-		"PcbsListSortColumnDirection=" << sortedColumnDirection_ << "\n";
+//	String cfg;
+//	Rect r = this->GetRect();
+//	cfg << "PcbsListColumnWidths=" << TAB_pcbs.GetColumnWidths() << "\n"
+//		"PcbsListWindowPosLeft=" << r.left << "\n"
+//		"PcbsListWindowPosTop=" << r.top << "\n"
+//		"PcbsListWindowPosRight=" << r.right << "\n"
+//		"PcbsListWindowPosBottom=" << r.bottom << "\n"
+//		"PcbsListSortColumnIndex=" << sortedColumnIndex_ << "\n"
+//		"PcbsListSortColumnDirection=" << sortedColumnDirection_ << "\n";
+
 	
-	if(!SaveFile("agar.cfg", cfg))
-	    Exclamation("Error saving configuration!");
+	Rect r = this->GetRect();
+	VectorMap<String, String> cfg = LoadIniFile("agar.cfg");
+	addConfigurationValue(cfg, "PcbsListColumnWidths", TAB_pcbs.GetColumnWidths());
+	addConfigurationValue(cfg, "PcbsListWindowPosLeft", IntStr(r.left));
+	addConfigurationValue(cfg, "PcbsListWindowPosTop", IntStr(r.top));
+	addConfigurationValue(cfg, "PcbsListWindowPosRight", IntStr(r.right));
+	addConfigurationValue(cfg, "PcbsListWindowPosBottom", IntStr(r.bottom));
+	addConfigurationValue(cfg, "PcbsListSortColumnIndex", IntStr(sortedColumnIndex_));
+	addConfigurationValue(cfg, "PcbsListSortColumnDirection", IntStr(sortedColumnDirection_));
+	
+	saveConfiguration("agar.cfg", cfg);
 }
 
 void PcbsDlg::OwnMenu(Bar& bar) {
