@@ -83,6 +83,6 @@ private:
 };
 
 void saveConfiguration(const String& filename, const VectorMap<String, String>& data);
-void addConfigurationValue(const VectorMap<String, String>& data, const String& key, const String& value);
+void addConfigurationValue(VectorMap<String, String>& data, const String& key, const String& value);
 
 #endif

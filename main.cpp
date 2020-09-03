@@ -26,7 +26,7 @@ SqlId count("count(*)");
 
 AGAR::AGAR()
 {
-	version_ = "AGAR 1.1.10";
+	version_ = "AGAR 1.1.11";
 	
 	SetDateFormat("%3:02d/%2:02d/%1:4d"); // set dd/mm/yyyy format
 	SetDateScan("dmy"); // same but for input
@@ -51,11 +51,11 @@ AGAR::AGAR()
 
 AGAR::~AGAR()
 {
-	if (md_ != 0) delete md_;	
-	if (gd_ != 0) delete gd_;	
-	if (ld_ != 0) delete ld_;	
-	if (od_ != 0) delete od_;	
-	if (pd_ != 0) delete pd_;	
+	if (md_ != 0) delete md_;
+	if (gd_ != 0) delete gd_;
+	if (ld_ != 0) delete ld_;
+	if (od_ != 0) delete od_;
+	if (pd_ != 0) delete pd_;
 }
 
 void AGAR::DatabaseInit() {
@@ -361,7 +361,6 @@ void AGAR::openSettingsWindow() {
 void AGAR::initializeConfigurationFile(){
 	
 	VectorMap<String, String> cfg = LoadIniFile("agar.cfg");
-	//int image_width = ScanInt(cfg.Get("IMAGE_WIDTH", Null));
 
 	if(cfg.Find("ImageWidth") == -1)	cfg.Add("ImageWidth", IntStr(default_image_width));
 	if(cfg.Find("ImageHeight") == -1)	cfg.Add("ImageHeight", IntStr(default_image_height));
@@ -378,7 +377,7 @@ void saveConfiguration(const String& filename, const VectorMap<String, String>& 
 	if(!SaveFile("agar.cfg", dataToSave)) Exclamation("Error saving configuration!");
 };
 
-void addConfigurationValue(const VectorMap<String, String>& data, const String& key, const String& value){
-	if(data.Find(key) == -1) data.Add(key, value));
-	else data[key] = value;
+void addConfigurationValue(VectorMap<String, String>& data, const String& key, const String& value){
+	int ndx = data.FindAdd(key, value);
+	data[ndx] = value;
 }

@@ -6,5 +6,8 @@ class SettingsDlg : public WithSettingsLayout<TopWindow> {
 
 	public:
 		SettingsDlg();
+		~SettingsDlg();
+		
+		void clickOption();
 	
 };
