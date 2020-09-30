@@ -156,7 +156,7 @@ void PcbsDlg::Create() {
 	if (PromptYesNo(t_("Do you want to create an initial analysis ?"))) {
 		// Creation of the initial analysis
 		// TODO
-		dlg.Add(id, ActionDlg::ANALYSIS);
+		dlg.AddRecord(id, ActionDlg::ANALYSIS);
 		dlg.DoOk();
 		Edit(id);
 	}

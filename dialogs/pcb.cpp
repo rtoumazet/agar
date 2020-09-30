@@ -157,6 +157,15 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 		(PCB_VERSION, ES_Version)
 		(ACTIONS_FIXED, O_ActionsFixed)
 	;
+
+
+    //Title("I need files!");
+    Add(array.LeftPos(10, 200).TopPos(20, 200));
+    array.AddColumn("You can paste the text here too");
+    array.MultiSelect();
+    //array.WhenDropInsert = [=](int line, PasteClip& d) { DnDInsert(line, d); };
+    array.WhenDrop = [=] (PasteClip& d) { DnD(d); };
+	
 }
 
 PcbDlg::~PcbDlg() {
@@ -265,8 +274,8 @@ void PcbDlg::TreeControlMenu(Bar& bar) {
 		SetRemoveMenuEntryVisible(false);
 	}
 
-	bar.Add(t_("Add analysis"),THISBACK2(Add, ~E_PcbId, ActionDlg::ANALYSIS));
-	bar.Add(DisplayAddActionMenuEntry(), t_("Link an action"), THISBACK2(Add, ~E_PcbId, ActionDlg::ACTION));
+	bar.Add(t_("Add analysis"),THISBACK2(AddRecord, ~E_PcbId, ActionDlg::ANALYSIS));
+	bar.Add(DisplayAddActionMenuEntry(), t_("Link an action"), THISBACK2(AddRecord, ~E_PcbId, ActionDlg::ACTION));
 	bar.Add(DisplayEditMenuEntry(), t_("Edit"), THISBACK(Edit));
 	bar.Add(DisplayRemoveMenuEntry(), t_("Remove"), THISBACK(Remove));
 }
@@ -318,7 +327,7 @@ void PcbDlg::Remove() {
     LogActionVector();
 }
 
-void PcbDlg::Add(const int pcbId, const int type) {
+void PcbDlg::AddRecord(const int pcbId, const int type) {
 	// adds a new record to the treecontrol
 	
 	ActionDlg *dlg = NULL;
@@ -1137,9 +1146,10 @@ void Popup::Paint(Draw& w)
 }
 
 void PreviewCtrl::Paint(Draw& w) {
+  
 	w.DrawRect(GetSize(),White);
 	if (img_) {
-		//w.DrawImage(0, 0, this->img_);
+		w.DrawImage(0, 0, this->img_);
 		if ((img_.GetWidth() > previewWidth_) || (img_.GetHeight() > previewHeight_)) {
 			// picture needs to be resized
 			Size sz;
@@ -1152,4 +1162,5 @@ void PreviewCtrl::Paint(Draw& w) {
 	}
 	else
 		w.DrawText(0, 0, "Preview not available!", Arial(12).Italic());
+
 }

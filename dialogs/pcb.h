@@ -47,6 +47,10 @@ class PreviewCtrl : public StaticText {
 	public:
 		virtual void Paint(Draw& draw);
 	
+		//virtual void DragAndDrop(Point p, PasteClip& d);
+		//virtual void LeftDrag(Point p, dword keyflags);
+		Vector<String> files;
+		
 		PreviewCtrl() {
 			previewHeight_ = 200;
 			previewWidth_ = 250;
@@ -102,7 +106,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \param  pcbId	 PCB id
 		/// \param  type     ANALYSIS or ACTION (enum defined in action.h)
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void Add(const int pcbId, const int type);
+		void AddRecord(const int pcbId, const int type);
 		void Edit();
 		void Remove();
 		
@@ -150,9 +154,30 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
 		void DoOk();
 
+
+		ArrayCtrl array;
+	
+	    void DnD(PasteClip& d)
+	    {
+           if(AcceptFiles(d)) {
+               files = GetFiles(d);
+               if(files.GetCount()){
+                   for(int i = 0; i < files.GetCount(); i++)
+                       array.Add(files[i]);
+               }
+               Refresh();
+           }
+	    }
+	
+          Vector<String> files;
+
+
+
+
 		PcbDlg(const int openingType, const int pcbId=0);	
 		~PcbDlg();
 	
+
 	private:
 		Array<Label> 				label;
 		ArrayMap<int, Option>  		option;
