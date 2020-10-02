@@ -159,8 +159,12 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 	;
 
 
-    //Title("I need files!");
-    Add(array.LeftPos(10, 200).TopPos(20, 200));
+    
+    Size s = TabPictures.TAB_Pictures.GetSize();
+    //TabPictures.TAB_Pictures.GetPos().x.GetA();
+    
+    //TabPictures.Add(array.LeftPos(10, 200).TopPos(20, 200));
+    TabPictures.Add(array.LeftPos(s.cx + 20, 200).TopPos(20, 200));
     array.AddColumn("You can paste the text here too");
     array.MultiSelect();
     //array.WhenDropInsert = [=](int line, PasteClip& d) { DnDInsert(line, d); };
