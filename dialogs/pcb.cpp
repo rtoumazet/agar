@@ -161,10 +161,9 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 
     
     Size s = TabPictures.TAB_Pictures.GetStdSize();
-        LogPos lp = TabPictures.TAB_Pictures.GetPos();
-    
+	auto p =array.GetPos();
     //TabPictures.Add(array.LeftPos(10, 200).TopPos(20, 200));
-    TabPictures.Add(array.LeftPos(s.cx, 200).TopPos(20, 200));
+    TabPictures.Add(array.RightPos(10, 200).TopPos(20, 200));
     array.AddColumn("You can paste the text here too");
     array.MultiSelect();
     //array.WhenDropInsert = [=](int line, PasteClip& d) { DnDInsert(line, d); };
