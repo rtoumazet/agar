@@ -161,7 +161,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 
     
     Size s = TabPictures.TAB_Pictures.GetStdSize();
-	auto p =array.GetPos();
+	//auto p =array.GetPos();
     //TabPictures.Add(array.LeftPos(10, 200).TopPos(20, 200));
     TabPictures.Add(array.RightPos(10, 200).TopPos(20, 200));
     array.AddColumn("You can paste the text here too");
