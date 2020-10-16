@@ -156,8 +156,8 @@ void PcbsDlg::Create() {
 	if (PromptYesNo(t_("Do you want to create an initial analysis ?"))) {
 		// Creation of the initial analysis
 		// TODO
-		dlg.AddRecord(id, ActionDlg::ANALYSIS);
-		dlg.DoOk();
+		dlg.addRecord(id, ActionDlg::ANALYSIS);
+		dlg.doOk();
 		Edit(id);
 	}
 	
@@ -180,7 +180,7 @@ void PcbsDlg::Edit(int pcbId) {
 	dlg.loadFaultData();
 	
 	//dlg.BuildActionTree(id);
-	if (!dlg.GetRecordNumber(id)) {
+	if (!dlg.getRecordNumber(id)) {
 		// no record for this pcb
 		dlg.TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's nothing to display
 	}
@@ -243,7 +243,7 @@ void PcbsDlg::GenerateReport() {
 	while (sql.Fetch()) {
 		int id = StdConvertInt().Scan(sql[ID].ToString());
 		// faults at 1 will be added to the report
-		if (PcbDlg::GetFaultValue(id, faults)) {
+		if (PcbDlg::getFaultValue(id, faults)) {
 			report += AsString(sql[LABEL]) + " ";
 		}
 	}

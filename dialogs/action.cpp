@@ -20,8 +20,8 @@ ActionDlg::ActionDlg(const ActionRecord& ar)
     InitializeFields(ar.type);
 	
 	// Fields are initialized from constructor parameter
-	E_PcbId.SetData(ar.pcbId);
-	E_ParentId.SetData(ar.parentIndex);
+	E_PcbId.SetData(ar.pcb_id);
+	E_ParentId.SetData(ar.parent_index);
 	E_Time.SetData(ar.date);
 	DE_Comment.SetData(ar.commentary);
 	O_Finished.SetData(ar.finished);
@@ -35,8 +35,8 @@ ActionDlg::ActionDlg(const ActionRecord& ar)
 void ActionDlg::DoOk()
 {
     // Saves modified data to the current record
-	record_.pcbId       = E_PcbId.GetData();
-	record_.parentIndex = E_ParentId.GetData();
+	record_.pcb_id       = E_PcbId.GetData();
+	record_.parent_index = E_ParentId.GetData();
 	record_.date        = E_Time.GetData();
 	record_.commentary  = DE_Comment.GetData();
 	record_.finished    = O_Finished.GetData();
@@ -57,7 +57,7 @@ void ActionDlg::InitializeFields(const int type)
     	CtrlLayout(*this, t_("Analysis"));
 		O_Finished.Hide();
 		// no parent defined for an analysis
-		record_.parentIndex = 0;
+		record_.parent_index = 0;
 		//record_.parentKey   = 0;
 	} else {
 		CtrlLayout(*this, t_("Action"));

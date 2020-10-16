@@ -24,9 +24,9 @@
 struct ActionRecord 
 {
 	int 	id; //< PCB_ACTION id
-	int     pcbId; //< PCB id
-    int     nodeIndex; //< Treecontrol node index
-	int 	parentIndex; //< Treecontrol parent index
+	int     pcb_id; //< PCB id
+    int     node_index; //< Treecontrol node index
+	int 	parent_index; //< Treecontrol parent index
 	//int     parentKey; //< PCB_ACTION id of the parent
 	int		key; //< internal key of the record, will be added to the key of the treecontrol record
 	Time 	date; //< PCB_ACTION date
@@ -41,8 +41,8 @@ class PreviewCtrl : public StaticText {
 	
 	private:
 		Image 	img_;
-		int		previewHeight_;
-		int		previewWidth_;
+		int		preview_height_;
+		int		preview_width_;
 	
 	public:
 		virtual void Paint(Draw& draw);
@@ -52,8 +52,8 @@ class PreviewCtrl : public StaticText {
 		Vector<String> files;
 		
 		PreviewCtrl() {
-			previewHeight_ = 200;
-			previewWidth_ = 250;
+			preview_height_ = 200;
+			preview_width_ = 250;
 		};
 		
 		void SetImage(const int& id) {
@@ -90,7 +90,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		// analysis & actions related functions
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void Add(const int pcbId, const int type)
+		/// \fn	void addRecord(const int pcbId, const int type)
 		///
 		/// \brief	Adds a record to the treecontrol, depending on the type parameter. 
 		///
@@ -100,43 +100,27 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \param  pcbId	 PCB id
 		/// \param  type     ANALYSIS or ACTION (enum defined in action.h)
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void AddRecord(const int pcbId, const int type);
-		void Edit();
-		void Remove();
+		void addRecord(const int pcb_id, const int type);
+		void editRecord();
+		void removeRecord();
 		
 		
-		int	GetRecordNumber(const int pcbId);
+		int	getRecordNumber(const int pcb_id);
 		
-		enum TableType {
-			TABLE_GAME,
-			TABLE_TYPE,
-			TABLE_STATE,
-			TABLE_PINOUT,
-			TABLE_LOCATION,
-			TABLE_ORIGIN
+		enum class TableType {
+			game,
+			type,
+			state,
+			pinout,
+			location,
+			origin
 		};
 		
 		// droplists related functions
-		void CreateLinkedRecord(const int tableType);
-		void LoadDropList(const int tableType);
+		void createLinkedRecord(const TableType tableType);
+		void loadDropList(const TableType tableType);
 		
-		virtual void ChildGotFocus() {
-			//Ctrl *c = GetFocusChild();
-			currentCtrl_ = GetFocusChildDeep();
-			if (!currentCtrl_ || !currentCtrl_->IsEditable()) return;
-			 
-			ResetDisplay(currentCtrl_);
-
-		}
-		
-		virtual void ChildLostFocus() {
-			if (!currentCtrl_) return;
-
-			SetupDisplay(currentCtrl_);
-			currentCtrl_ = 0;
-		}
-
-		static bool GetFaultValue(const int i, const String& faults); // returns the option value for the id selected
+		static bool getFaultValue(const int i, const String& faults); // returns the option value for the id selected
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void DoOk()
@@ -146,10 +130,10 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \author	Runik
 		/// \date	01/02/2014
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void DoOk();
+		void doOk();
 
 
-		ArrayCtrl array;
+		ArrayCtrl array_;
 	
 	    void DnD(PasteClip& d, ArrayCtrl& a)
 	    {
@@ -174,40 +158,22 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 	
 
 	private:
-		Array<Label> 				label;
-		ArrayMap<int, Option>  		option;
-		Array<Label> 				labelOrigin_;
-		ArrayMap<int, Option>  		optionOrigin_;
-	
-		bool 						addActionMenuEntryVisible_;
-		bool 						editMenuEntryVisible_;
-		bool 						removeMenuEntryVisible_;
+		void resetDisplay(Ctrl* ctrl);
+		void setupDisplay(Ctrl* ctrl);
+		void tabChanged();
 		
-		EditString::Style 			editStyle_;
-		Ctrl*						currentCtrl_;
-
-		std::vector<ActionRecord> 	actionRecords_;
-		int 						pcbId_;
-		int							actionRecordsKey_; //< unique key of action records. Incremented as records are added
+		void pictureTabMenu(Bar& bar);
+		void removePicture();
+		void selectImage();
+		void addImageToDatabase();
+		void populatePicturesArray();
+		void displayPicture();
+		void displayPicturePreview();
 		
-		void ResetDisplay(Ctrl* ctrl);
-		void SetupDisplay(Ctrl* ctrl);
-		void TabChanged();
-		
-		int	pictureWidth_; // max width of saved pictures in the db
-		int pictureHeight_; // max heigth of saved picture in the database
-		void PictureTabMenu(Bar& bar);
-		void RemovePicture();
-		void SelectImage();
-		void AddImageToDatabase();
-		void PopulatePicturesArray();
-		void DisplayPicture();
-		void DisplayPicturePreview();
-		
-		void SignatureTabMenu(Bar& bar);
-		void AddSignatureRecord();
-		void RemoveSignatureRecord();
-		void PopulateSignatureArray();
+		void signatureTabMenu(Bar& bar);
+		void addSignatureRecord();
+		void removeSignatureRecord();
+		void populateSignatureArray();
 		
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -218,7 +184,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \author	Runik
 		/// \date	28/01/2014
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void LoadActionTreeFromDatabase();
+		void loadActionTreeFromDatabase();
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void SaveActionTreeToDatabase()
@@ -228,7 +194,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \author	Runik
 		/// \date	29/01/2014
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void SaveActionTreeToDatabase();
+		void saveActionTreeToDatabase();
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void TreeDrag()
@@ -238,7 +204,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \author	Runik
 		/// \date	29/01/2014
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void TreeDrag();
+		void treeDrag();
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void TreeDropInsert()
@@ -252,7 +218,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \param  ii       Record id
 		/// \param  d        PasteClip value
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void TreeDropInsert(const int parent, const int ii, PasteClip& d);
+		void treeDropInsert(const int parent, const int ii, PasteClip& d);
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	int TreeGetLevel(int i) const
@@ -266,7 +232,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \return level in the tree hierarchy (0=root, 1=analysis, 2=action)
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		int TreeGetLevel(int id) const;
+		int treeGetLevel(int id) const;
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void RemoveActionFromVector(const int id)
@@ -278,7 +244,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \param  id   id of record to be removed
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void RemoveActionFromVector(const int id);
+		void removeActionFromVector(const int id);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	ActionRecord& GetActionFromVector(const int id) const
@@ -292,7 +258,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \return ActionRecord reference to record corresponding to the id
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		ActionRecord& GetActionFromVector(const int id);
+		ActionRecord& getActionFromVector(const int id);
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void BuildActionTree()
@@ -303,7 +269,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \date	30/01/2014
 		///
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void BuildActionTree();
+		void buildActionTree();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void AddActionToVector(ActionRecord ar)
@@ -315,7 +281,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \param  ar   record to add
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void AddActionToVector(ActionRecord ar);
+		void addActionToVector(ActionRecord ar);
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void LogActionVector()
@@ -326,7 +292,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \date	06/02/2014
 		///
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void LogActionVector();
+		void logActionVector();
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void SortActionVector()
@@ -337,13 +303,25 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \date	05/02/2014
 		///
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void SortActionVector();
+		void sortActionVector();
 
 		/// ACCESSORS
-		void    PcbId(const int id) {pcbId_ = id;}
-		int     PcbId() const { return pcbId_;}
-		void	ActionRecordsKey(const int k) {actionRecordsKey_ = k;}
-		int		ActionRecordsKey() const { return actionRecordsKey_;}
+		void    pcbId(const int id) {pcb_id_ = id;}
+		int     pcbId() const { return pcb_id_;}
+		void	actionRecordsKey(const int k) {action_records_key_ = k;}
+		int		actionRecordsKey() const { return action_records_key_;}
+		
+		ArrayMap<int, Option> option_;
+		ArrayMap<int, Option> option_origin_;
+	
+		EditString::Style edit_style_;
+
+		int	max_picture_width_;
+		int max_picture_height_;
+
+		std::vector<ActionRecord> 	action_records_;
+		int 						pcb_id_;
+		int							action_records_key_; //< unique key of action records. Incremented as records are added	
 };
 
 class Popup : public TopWindow {
