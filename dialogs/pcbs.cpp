@@ -142,11 +142,11 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 void PcbsDlg::Create() {
 	PcbDlg dlg(OPENING_NEW);
 	
-	dlg.LoadFaultData();
+	dlg.loadFaultData();
 	
 	if(dlg.Execute() != IDOK)
 		return;
-	dlg.GenerateFaultData();
+	dlg.generateFaultData();
 	
 	dlg.ES_FaultsOrigin.SetData(~dlg.ES_Faults);
 		
@@ -177,19 +177,17 @@ void PcbsDlg::Edit(int pcbId) {
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;
 	
-	dlg.LoadFaultData();
+	dlg.loadFaultData();
 	
 	//dlg.BuildActionTree(id);
 	if (!dlg.GetRecordNumber(id)) {
 		// no record for this pcb
 		dlg.TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's nothing to display
-		dlg.SetAddActionMenuEntryVisible(false);
-		dlg.SetEditMenuEntryVisible(false);
 	}
 	//dlg.SizePos();
 	if(dlg.Execute() != IDOK)
 		return;
-	dlg.GenerateFaultData();
+	dlg.generateFaultData();
 	
 	SQL * dlg.ctrls.Update(PCB).Where(ID == id);
 

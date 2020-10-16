@@ -74,24 +74,18 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 
-		WithTabPicturesLayout<ParentCtrl> TabPictures;
-		WithTabMiscLayout<ParentCtrl> TabMisc;
-		WithTabSignatureLayout<ParentCtrl> TabSignature;
+		WithTabPicturesLayout<ParentCtrl>  pictures_tab_;
+		WithTabMiscLayout<ParentCtrl>      misc_tab_;
+		WithTabSignatureLayout<ParentCtrl> signature_tab_;
 		
-		PreviewCtrl			preview_;
+		PreviewCtrl preview_;
 		
 		// fault data functions
-		void GenerateFaultData();
-		void LoadFaultData();
+		void generateFaultData();
+		void loadFaultData();
 		
 		// Menu related functions
-		void TreeControlMenu(Bar& bar);
-		bool DisplayAddActionMenuEntry();
-		bool DisplayEditMenuEntry();
-		bool DisplayRemoveMenuEntry();
-		void SetAddActionMenuEntryVisible(const bool val);
-		void SetEditMenuEntryVisible(const bool val);
-		void SetRemoveMenuEntryVisible(const bool& val);
+		void createAnalysisAndActionsMenu(Bar& bar);
 		
 		// analysis & actions related functions
 		

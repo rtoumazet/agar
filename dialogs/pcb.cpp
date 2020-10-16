@@ -32,43 +32,43 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 	
 	// Analysis & action tab
 	TC_Tab.Add(TC_AnalysisAction.LeftPos(0, sz.cx-10).TopPos(0, sz.cy-15), t_("Analysis & Action"));
-	CtrlLayout(TabPictures);
+	CtrlLayout(pictures_tab_);
 	
 	// Pictures tab
-	TC_Tab.Add(TabPictures, t_("Pictures"));
-	TabPictures.TAB_Pictures.AddIndex(ID);
-	TabPictures.TAB_Pictures.AddColumn(LABEL,t_("Label"));
-	TabPictures.Add(preview_.RightPosZ(0, 250).BottomPosZ(0, 200));
-	TabPictures.TAB_Pictures.WhenBar = THISBACK(PictureTabMenu);
+	TC_Tab.Add(pictures_tab_, t_("Pictures"));
+	pictures_tab_.TAB_Pictures.AddIndex(ID);
+	pictures_tab_.TAB_Pictures.AddColumn(LABEL,t_("Label"));
+	pictures_tab_.Add(preview_.RightPosZ(0, 250).BottomPosZ(0, 200));
+	pictures_tab_.TAB_Pictures.WhenBar = THISBACK(PictureTabMenu);
 
-	TabPictures.BTN_Select.WhenPush = THISBACK(SelectImage);
-	TabPictures.BTN_Add.WhenPush = THISBACK(AddImageToDatabase);
-	TabPictures.TAB_Pictures.WhenLeftDouble = THISBACK(DisplayPicture);
-	TabPictures.TAB_Pictures.WhenLeftClick = THISBACK(DisplayPicturePreview);
+	pictures_tab_.BTN_Select.WhenPush = THISBACK(SelectImage);
+	pictures_tab_.BTN_Add.WhenPush = THISBACK(AddImageToDatabase);
+	pictures_tab_.TAB_Pictures.WhenLeftDouble = THISBACK(DisplayPicture);
+	pictures_tab_.TAB_Pictures.WhenLeftClick = THISBACK(DisplayPicturePreview);
 	
 	// Signature tab
-	CtrlLayout(TabSignature);
-	TC_Tab.Add(TabSignature, t_("Signatures"));
-	TabSignature.TAB_Signature.WhenBar = THISBACK(SignatureTabMenu);
-	TabSignature.TAB_Signature.AddIndex(ID);
-	TabSignature.TAB_Signature.AddColumn(ROM_NAME, t_("Rom name"));
-	TabSignature.TAB_Signature.AddColumn(SECTION, t_("Section"));
-	TabSignature.TAB_Signature.AddColumn(RANGE, t_("Range"));
-	TabSignature.TAB_Signature.AddColumn(ORIGIN, t_("Origin"));
-	TabSignature.TAB_Signature.AddColumn(CRC_32, t_("CRC32"));
-	TabSignature.TAB_Signature.AddColumn(FLUKE_SIG, t_("Sig"));	
-	TabSignature.TAB_Signature.ColumnWidths("137 137 108 108 60 30");
+	CtrlLayout(signature_tab_);
+	TC_Tab.Add(signature_tab_, t_("Signatures"));
+	signature_tab_.TAB_Signature.WhenBar = THISBACK(SignatureTabMenu);
+	signature_tab_.TAB_Signature.AddIndex(ID);
+	signature_tab_.TAB_Signature.AddColumn(ROM_NAME, t_("Rom name"));
+	signature_tab_.TAB_Signature.AddColumn(SECTION, t_("Section"));
+	signature_tab_.TAB_Signature.AddColumn(RANGE, t_("Range"));
+	signature_tab_.TAB_Signature.AddColumn(ORIGIN, t_("Origin"));
+	signature_tab_.TAB_Signature.AddColumn(CRC_32, t_("CRC32"));
+	signature_tab_.TAB_Signature.AddColumn(FLUKE_SIG, t_("Sig"));	
+	signature_tab_.TAB_Signature.ColumnWidths("137 137 108 108 60 30");
 	
-	TabSignature.BTN_Add.WhenPush = THISBACK(AddSignatureRecord);
+	signature_tab_.BTN_Add.WhenPush = THISBACK(AddSignatureRecord);
 		
-	TabSignature.ES_SigRomName.MaxChars(20);
-	TabSignature.ES_SigSection.MaxChars(20);
-	TabSignature.ES_SigCrc32.MaxChars(8);
-	TabSignature.ES_SigSig.MaxChars(4); 
+	signature_tab_.ES_SigRomName.MaxChars(20);
+	signature_tab_.ES_SigSection.MaxChars(20);
+	signature_tab_.ES_SigCrc32.MaxChars(8);
+	signature_tab_.ES_SigSig.MaxChars(4); 
 	
 	// Miscellaneous tab
-	CtrlLayout(TabMisc);
-	TC_Tab.Add(TabMisc, t_("Miscellaneous"));
+	CtrlLayout(misc_tab_);
+	TC_Tab.Add(misc_tab_, t_("Miscellaneous"));
 	
 	
 	
@@ -82,7 +82,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 			TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's no entry in creation
 			TC_AnalysisAction.Disable(); // no action allowed on the TC during creation
 			
-			child = TabPictures.GetFirstChild();
+			child = pictures_tab_.GetFirstChild();
 			while (child) {
 				SetupDisplay(child);
 				child = child->GetNext();	
@@ -93,7 +93,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 			break;
 	}		
 
-	child = TabSignature.GetFirstChild();
+	child = signature_tab_.GetFirstChild();
 	while (child) {
 		SetupDisplay(child);
 		child = child->GetNext();	
@@ -111,7 +111,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 	BTN_NewOrigin.SetImage(MyImages::add);
 	BTN_NewLocation.SetImage(MyImages::add);
 	BTN_NewPinout.SetImage(MyImages::add);
-	TabSignature.BTN_Add.SetImage(MyImages::add);
+	signature_tab_.BTN_Add.SetImage(MyImages::add);
 	
 	ActiveFocus(DL_Game); // sets the focus to the first droplist
 	
@@ -125,7 +125,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 	
 
 	// Tree control
-	TC_AnalysisAction.WhenBar = THISBACK(TreeControlMenu);
+	TC_AnalysisAction.WhenBar = THISBACK(createAnalysisAndActionsMenu);
 	TC_AnalysisAction.WhenDrag = THISBACK(TreeDrag);
 	TC_AnalysisAction.WhenDropInsert = THISBACK(TreeDropInsert);
 	TC_AnalysisAction.WhenLeftDouble = THISBACK(Edit);
@@ -160,10 +160,10 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 
 
     
-    Size s = TabPictures.TAB_Pictures.GetStdSize();
+    Size s = pictures_tab_.TAB_Pictures.GetStdSize();
 	//auto p =array.GetPos();
     //TabPictures.Add(array.LeftPos(10, 200).TopPos(20, 200));
-    TabPictures.Add(array.RightPos(10, 200).TopPos(20, 200));
+    pictures_tab_.Add(array.RightPos(10, 200).TopPos(20, 200));
     array.AddColumn("You can paste the text here too");
     array.MultiSelect();
 
@@ -177,7 +177,7 @@ PcbDlg::~PcbDlg() {
 	
 }
 
-void PcbDlg::GenerateFaultData() {
+void PcbDlg::generateFaultData() {
 	// builds the string containing checked values
 	String faults = "";
 	Value key, data;
@@ -229,11 +229,11 @@ bool PcbDlg::GetFaultValue(const int id, const String& faults) {
 	return ret;
 }
 
-void PcbDlg::LoadFaultData() {
+void PcbDlg::loadFaultData() {
 	// fault option list
 	Sql sql;
 	Rect r = L_Faults.GetRect();
-	Rect rOrigin = TabMisc.L_Faults.GetRect();
+	Rect rOrigin = misc_tab_.L_Faults.GetRect();
 	
 	//int y = r.top + 20;
 	int y = 80 + 20;
@@ -243,7 +243,7 @@ void PcbDlg::LoadFaultData() {
 	sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
 	while(sql.Fetch()) {
 		Ctrl::Add(option.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPosZ(y, linecy).RightPosZ(10, 150));
-		TabMisc.Add(optionOrigin_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(yOrigin, linecy).LeftPos(rOrigin.left+10, 150));
+		misc_tab_.Add(optionOrigin_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPos(yOrigin, linecy).LeftPos(rOrigin.left+10, 150));
 		int id = StdConvertInt().Scan(sql[0].ToString());
 		option[current].SetData(GetFaultValue(id, ~ES_Faults));
 		optionOrigin_[current].SetData(GetFaultValue(id, ~ES_FaultsOrigin));
@@ -255,33 +255,28 @@ void PcbDlg::LoadFaultData() {
 	// Labels position override
 	//L_Faults.RightPosZ(70, 136).TopPosZ(r.top, y - 100);
 	L_Faults.TopPosZ(r.top, y - 80);
-	TabMisc.L_Faults.TopPosZ(rOrigin.top, y - 100);
+	misc_tab_.L_Faults.TopPosZ(rOrigin.top, y - 100);
 }
 
-void PcbDlg::TreeControlMenu(Bar& bar) {
+void PcbDlg::createAnalysisAndActionsMenu(Bar& bar) {
+	bool isAddActionEntryVisible = false;
+	bool isEditEntryVisible      = false;
+	bool isRemoveEntryVisible    = false;
+
 	// Setting options to display
 	int id = TC_AnalysisAction.GetCursor();
 	if (id != -1 && id != 0) {
-		SetAddActionMenuEntryVisible(true);
-		SetEditMenuEntryVisible(true);
-		if (TC_AnalysisAction.GetChildCount(id) || TC_AnalysisAction.GetCursor() == 0) {
-			// At least one child exists for the selected node, removal isn't allowed
-			// Root removal isn't allowed either
-			SetRemoveMenuEntryVisible(false);
-		} else {
-			SetRemoveMenuEntryVisible(true);
-		}
-	} else {
-		// Nothing's selected, menu options are greyed
-		SetAddActionMenuEntryVisible(false);
-		SetEditMenuEntryVisible(false);
-		SetRemoveMenuEntryVisible(false);
+		isAddActionEntryVisible = true;
+		isEditEntryVisible = true;
+		bool isRootSelected = (TC_AnalysisAction.GetCursor() == 0);
+		bool doesChildExist = (TC_AnalysisAction.GetChildCount(id) > 0);
+		if(!doesChildExist && !isRootSelected) isRemoveEntryVisible = true;
 	}
 
 	bar.Add(t_("Add analysis"),THISBACK2(AddRecord, ~E_PcbId, ActionDlg::ANALYSIS));
-	bar.Add(DisplayAddActionMenuEntry(), t_("Link an action"), THISBACK2(AddRecord, ~E_PcbId, ActionDlg::ACTION));
-	bar.Add(DisplayEditMenuEntry(), t_("Edit"), THISBACK(Edit));
-	bar.Add(DisplayRemoveMenuEntry(), t_("Remove"), THISBACK(Remove));
+	bar.Add(isAddActionEntryVisible, t_("Link an action"), THISBACK2(AddRecord, ~E_PcbId, ActionDlg::ACTION));
+	bar.Add(isEditEntryVisible, t_("Edit"), THISBACK(Edit));
+	bar.Add(isRemoveEntryVisible, t_("Remove"), THISBACK(Remove));
 }
 
 void PcbDlg::Edit() {
@@ -374,33 +369,6 @@ int PcbDlg::GetRecordNumber(int const pcbId) {
 	}
 	
 	return count;
-}
-
-bool PcbDlg::DisplayAddActionMenuEntry() {
-	
-	return addActionMenuEntryVisible_;
-}
-
-bool PcbDlg::DisplayEditMenuEntry() {
-	
-	return editMenuEntryVisible_;	
-}
-
-bool PcbDlg::DisplayRemoveMenuEntry() {
-	
-	return removeMenuEntryVisible_;	
-}
-
-void PcbDlg::SetAddActionMenuEntryVisible(const bool val) {
-	addActionMenuEntryVisible_ = val;
-}
-
-void PcbDlg::SetEditMenuEntryVisible(const bool val) {
-	editMenuEntryVisible_ = val;
-}
-
-void PcbDlg::SetRemoveMenuEntryVisible(const bool& val) {
-	removeMenuEntryVisible_ = val;
 }
 
 void PcbDlg::BuildActionTree() {
@@ -643,105 +611,105 @@ void PcbDlg::LoadDropList(const int tableType) {
 }
 
 void PcbDlg::SetupDisplay(Ctrl* ctrl) {
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigOrigin.GetLayoutId()) {
-		if (TabSignature.ES_SigOrigin.GetData() == "") {
-			TabSignature.ES_SigOrigin <<= "Origin";
-			TabSignature.ES_SigOrigin.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigOrigin.GetLayoutId()) {
+		if (signature_tab_.ES_SigOrigin.GetData() == "") {
+			signature_tab_.ES_SigOrigin <<= "Origin";
+			signature_tab_.ES_SigOrigin.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigRange.GetLayoutId()) {
-		if (TabSignature.ES_SigRange.GetData() == "") {
-			TabSignature.ES_SigRange <<= "Range";
-			TabSignature.ES_SigRange.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigRange.GetLayoutId()) {
+		if (signature_tab_.ES_SigRange.GetData() == "") {
+			signature_tab_.ES_SigRange <<= "Range";
+			signature_tab_.ES_SigRange.SetStyle(editStyle_);
 		}
 	}
 
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigRomName.GetLayoutId()) {
-		if (TabSignature.ES_SigRomName.GetData() == "") {
-			TabSignature.ES_SigRomName <<= "Rom name";
-			TabSignature.ES_SigRomName.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigRomName.GetLayoutId()) {
+		if (signature_tab_.ES_SigRomName.GetData() == "") {
+			signature_tab_.ES_SigRomName <<= "Rom name";
+			signature_tab_.ES_SigRomName.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigSection.GetLayoutId()) {
-		if (TabSignature.ES_SigSection.GetData() == "") {
-			TabSignature.ES_SigSection <<= "Section";
-			TabSignature.ES_SigSection.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigSection.GetLayoutId()) {
+		if (signature_tab_.ES_SigSection.GetData() == "") {
+			signature_tab_.ES_SigSection <<= "Section";
+			signature_tab_.ES_SigSection.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigCrc32.GetLayoutId()) {
-		if (TabSignature.ES_SigCrc32.GetData() == "") {
-			TabSignature.ES_SigCrc32 <<= "CRC32";
-			TabSignature.ES_SigCrc32.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigCrc32.GetLayoutId()) {
+		if (signature_tab_.ES_SigCrc32.GetData() == "") {
+			signature_tab_.ES_SigCrc32 <<= "CRC32";
+			signature_tab_.ES_SigCrc32.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigSig.GetLayoutId()) {
-		if (TabSignature.ES_SigSig.GetData() == "") {
-			TabSignature.ES_SigSig <<= "Sig";
-			TabSignature.ES_SigSig.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigSig.GetLayoutId()) {
+		if (signature_tab_.ES_SigSig.GetData() == "") {
+			signature_tab_.ES_SigSig <<= "Sig";
+			signature_tab_.ES_SigSig.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabPictures.ES_PictureLabel.GetLayoutId()) {
-		if (TabPictures.ES_PictureLabel.GetData() == "") {
-			TabPictures.ES_PictureLabel <<= "Label";
-			TabPictures.ES_PictureLabel.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == pictures_tab_.ES_PictureLabel.GetLayoutId()) {
+		if (pictures_tab_.ES_PictureLabel.GetData() == "") {
+			pictures_tab_.ES_PictureLabel <<= "Label";
+			pictures_tab_.ES_PictureLabel.SetStyle(editStyle_);
 		}
 	}
-	if (ctrl->GetLayoutId() == TabPictures.ES_PicturePath.GetLayoutId()) {
-		if (TabPictures.ES_PicturePath.GetData() == "") {
-			TabPictures.ES_PicturePath <<= "Path";
-			TabPictures.ES_PicturePath.SetStyle(editStyle_);
+	if (ctrl->GetLayoutId() == pictures_tab_.ES_PicturePath.GetLayoutId()) {
+		if (pictures_tab_.ES_PicturePath.GetData() == "") {
+			pictures_tab_.ES_PicturePath <<= "Path";
+			pictures_tab_.ES_PicturePath.SetStyle(editStyle_);
 		}
 	}
 }
 
 void PcbDlg::ResetDisplay(Ctrl* ctrl) {
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigOrigin.GetLayoutId()) {
-		TabSignature.ES_SigOrigin.SetStyle(EditString::StyleDefault());
-		if (TabSignature.ES_SigOrigin.GetData() == "Origin") {
-			TabSignature.ES_SigOrigin.Erase();
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigOrigin.GetLayoutId()) {
+		signature_tab_.ES_SigOrigin.SetStyle(EditString::StyleDefault());
+		if (signature_tab_.ES_SigOrigin.GetData() == "Origin") {
+			signature_tab_.ES_SigOrigin.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigRange.GetLayoutId()) {
-		TabSignature.ES_SigRange.SetStyle(EditString::StyleDefault());
-		if (TabSignature.ES_SigRange.GetData() == "Range") {
-			TabSignature.ES_SigRange.Erase();
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigRange.GetLayoutId()) {
+		signature_tab_.ES_SigRange.SetStyle(EditString::StyleDefault());
+		if (signature_tab_.ES_SigRange.GetData() == "Range") {
+			signature_tab_.ES_SigRange.Erase();
 		}
 	}
 
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigRomName.GetLayoutId()) {
-		TabSignature.ES_SigRomName.SetStyle(EditString::StyleDefault());
-		if (TabSignature.ES_SigRomName.GetData() == "Rom name") {
-			TabSignature.ES_SigRomName.Erase();
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigRomName.GetLayoutId()) {
+		signature_tab_.ES_SigRomName.SetStyle(EditString::StyleDefault());
+		if (signature_tab_.ES_SigRomName.GetData() == "Rom name") {
+			signature_tab_.ES_SigRomName.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigSection.GetLayoutId()) {
-		TabSignature.ES_SigSection.SetStyle(EditString::StyleDefault());
-		if (TabSignature.ES_SigSection.GetData() == "Section") {
-			TabSignature.ES_SigSection.Erase();
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigSection.GetLayoutId()) {
+		signature_tab_.ES_SigSection.SetStyle(EditString::StyleDefault());
+		if (signature_tab_.ES_SigSection.GetData() == "Section") {
+			signature_tab_.ES_SigSection.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigCrc32.GetLayoutId()) {
-		TabSignature.ES_SigCrc32.SetStyle(EditString::StyleDefault());
-		if (TabSignature.ES_SigCrc32.GetData() == "CRC32") {
-			TabSignature.ES_SigCrc32.Erase();
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigCrc32.GetLayoutId()) {
+		signature_tab_.ES_SigCrc32.SetStyle(EditString::StyleDefault());
+		if (signature_tab_.ES_SigCrc32.GetData() == "CRC32") {
+			signature_tab_.ES_SigCrc32.Erase();
 		}
 	}
-	if (ctrl->GetLayoutId() == TabSignature.ES_SigSig.GetLayoutId()) {
-		TabSignature.ES_SigSig.SetStyle(EditString::StyleDefault());
-		if (TabSignature.ES_SigSig.GetData() == "Sig") {
-			TabSignature.ES_SigSig.Erase();
+	if (ctrl->GetLayoutId() == signature_tab_.ES_SigSig.GetLayoutId()) {
+		signature_tab_.ES_SigSig.SetStyle(EditString::StyleDefault());
+		if (signature_tab_.ES_SigSig.GetData() == "Sig") {
+			signature_tab_.ES_SigSig.Erase();
 		}
 	}	
-	if (ctrl->GetLayoutId() == TabPictures.ES_PictureLabel.GetLayoutId()) {
-		 TabPictures.ES_PictureLabel.SetStyle(EditString::StyleDefault());
-		if ( TabPictures.ES_PictureLabel.GetData() == "Label") {
-			 TabPictures.ES_PictureLabel.Erase();
+	if (ctrl->GetLayoutId() == pictures_tab_.ES_PictureLabel.GetLayoutId()) {
+		 pictures_tab_.ES_PictureLabel.SetStyle(EditString::StyleDefault());
+		if ( pictures_tab_.ES_PictureLabel.GetData() == "Label") {
+			 pictures_tab_.ES_PictureLabel.Erase();
 		}
 	}	
-	if (ctrl->GetLayoutId() == TabPictures.ES_PicturePath.GetLayoutId()) {
-		 TabPictures.ES_PicturePath.SetStyle(EditString::StyleDefault());
-		if ( TabPictures.ES_PicturePath.GetData() == "Path") {
-			 TabPictures.ES_PicturePath.Erase();
+	if (ctrl->GetLayoutId() == pictures_tab_.ES_PicturePath.GetLayoutId()) {
+		 pictures_tab_.ES_PicturePath.SetStyle(EditString::StyleDefault());
+		if ( pictures_tab_.ES_PicturePath.GetData() == "Path") {
+			 pictures_tab_.ES_PicturePath.Erase();
 		}
 	}	
 }
@@ -751,7 +719,7 @@ void PcbDlg::TabChanged() {
 	int i = ~TC_Tab;
 	switch (i) {
 		case 1: // pictures tab
-			child = TabPictures.GetFirstChild();
+			child = pictures_tab_.GetFirstChild();
 			while (child) {
 				ResetDisplay(child);
 				SetupDisplay(child);
@@ -761,7 +729,7 @@ void PcbDlg::TabChanged() {
 			PopulatePicturesArray();
 			break;
 		case 2: // Signature tab
-			child = TabSignature.GetFirstChild();
+			child = signature_tab_.GetFirstChild();
 			while (child) {
 				ResetDisplay(child);
 				SetupDisplay(child);
@@ -776,7 +744,7 @@ void PcbDlg::TabChanged() {
 
 void PcbDlg::DisplayPicture() {
 
-	Popup p(TabPictures.TAB_Pictures.GetKey());
+	Popup p(pictures_tab_.TAB_Pictures.GetKey());
 	p.SetRect(0,0,p.img_.GetWidth(),p.img_.GetHeight());
 	p.CenterScreen();
 	p.RunAppModal();
@@ -784,7 +752,7 @@ void PcbDlg::DisplayPicture() {
 }
 
 void PcbDlg::DisplayPicturePreview() {
-	preview_.SetImage(TabPictures.TAB_Pictures.GetKey());
+	preview_.SetImage(pictures_tab_.TAB_Pictures.GetKey());
 	preview_.Refresh();
 }
 
@@ -793,12 +761,12 @@ void PcbDlg::SelectImage() {
     String s = "";
     fs.Type("Image file", "*.bmp;*.png;*.jpg;*.jpeg");
     if(fs.ExecuteOpen("Choose the image file to open")) {
-        TabPictures.ES_PicturePath = ~fs;
+        pictures_tab_.ES_PicturePath = ~fs;
     }
 }
 
 void PcbDlg::AddImageToDatabase() {
-	Image img = StreamRaster::LoadFileAny(AsString(~TabPictures.ES_PicturePath));
+	Image img = StreamRaster::LoadFileAny(AsString(~pictures_tab_.ES_PicturePath));
 	JPGEncoder jpg;
 	
 	if ((img.GetWidth() > pictureWidth_) || (img.GetHeight() > pictureHeight_)) {
@@ -810,7 +778,7 @@ void PcbDlg::AddImageToDatabase() {
 		img = newImg;
 	}
 
-	SQL * Insert(PICTURE)(LABEL, ~TabPictures.ES_PictureLabel)(DATA, SqlBinary(jpg.SaveString(img)))(PCB_ID, ~E_PcbId);
+	SQL * Insert(PICTURE)(LABEL, ~pictures_tab_.ES_PictureLabel)(DATA, SqlBinary(jpg.SaveString(img)))(PCB_ID, ~E_PcbId);
 
 	PopulatePicturesArray(); 
 }
@@ -818,10 +786,10 @@ void PcbDlg::AddImageToDatabase() {
 void PcbDlg::PopulatePicturesArray() {
 	// Fills pictures array with data from database
 	
-	TabPictures.TAB_Pictures.Clear();
+	pictures_tab_.TAB_Pictures.Clear();
     SQL * Select(ID,LABEL).From(PICTURE).Where(PCB_ID == ~E_PcbId);
     while (SQL.Fetch()) {
-        TabPictures.TAB_Pictures.Add(SQL[ID],SQL[LABEL]);
+        pictures_tab_.TAB_Pictures.Add(SQL[ID],SQL[LABEL]);
     }
 }
 
@@ -833,7 +801,7 @@ void PcbDlg::PictureTabMenu(Bar& bar) {
 
 void PcbDlg::RemovePicture() {
 	// Picture removal from database
-	SQL * Delete(PICTURE).Where(ID == TabPictures.TAB_Pictures.GetKey());
+	SQL * Delete(PICTURE).Where(ID == pictures_tab_.TAB_Pictures.GetKey());
 	
 	// Table is reloaded
 	PopulatePicturesArray();
@@ -847,7 +815,7 @@ void PcbDlg::SignatureTabMenu(Bar& bar) {
 
 void PcbDlg::RemoveSignatureRecord() {
 	// Fluke record removal from database
-	SQL * Delete(FLUKE).Where(ID == TabSignature.TAB_Signature.GetKey());
+	SQL * Delete(FLUKE).Where(ID == signature_tab_.TAB_Signature.GetKey());
 	
 	// Table is reloaded
 	PopulateSignatureArray();
@@ -856,12 +824,12 @@ void PcbDlg::RemoveSignatureRecord() {
 void PcbDlg::AddSignatureRecord() {
 
 	bool bInsert = true;
-	if ( (~TabSignature.ES_SigRomName == "Rom name") ||
-		(~TabSignature.ES_SigSection == "Section") ||
-		(~TabSignature.ES_SigRange == "Range") ||
-		(~TabSignature.ES_SigOrigin == "Origin") ||
-		(~TabSignature.ES_SigCrc32 == "CRC32") ||
-		(~TabSignature.ES_SigSig == "Sig") ) {
+	if ( (~signature_tab_.ES_SigRomName == "Rom name") ||
+		(~signature_tab_.ES_SigSection == "Section") ||
+		(~signature_tab_.ES_SigRange == "Range") ||
+		(~signature_tab_.ES_SigOrigin == "Origin") ||
+		(~signature_tab_.ES_SigCrc32 == "CRC32") ||
+		(~signature_tab_.ES_SigSig == "Sig") ) {
 		
 		if (!PromptYesNo(t_("At least one of the fields isn't filled. Do you want to add the record anyway ?")) ) {
 			bInsert = false;
@@ -869,13 +837,13 @@ void PcbDlg::AddSignatureRecord() {
 	}
 	
 	if (bInsert) {
-		SQL * Insert(FLUKE)(ROM_NAME, ~TabSignature.ES_SigRomName)
-				(SECTION, ~TabSignature.ES_SigSection)
-				(CRC_32, ~TabSignature.ES_SigCrc32)
-				(FLUKE_SIG, ~TabSignature.ES_SigSig)
+		SQL * Insert(FLUKE)(ROM_NAME, ~signature_tab_.ES_SigRomName)
+				(SECTION, ~signature_tab_.ES_SigSection)
+				(CRC_32, ~signature_tab_.ES_SigCrc32)
+				(FLUKE_SIG, ~signature_tab_.ES_SigSig)
 				(PCB_ID, ~E_PcbId)
-				(RANGE, ~TabSignature.ES_SigRange)
-				(ORIGIN, ~TabSignature.ES_SigOrigin);
+				(RANGE, ~signature_tab_.ES_SigRange)
+				(ORIGIN, ~signature_tab_.ES_SigOrigin);
 	
 		PopulateSignatureArray(); 
 	}
@@ -884,10 +852,10 @@ void PcbDlg::AddSignatureRecord() {
 void PcbDlg::PopulateSignatureArray() {
 	// Fills signature array with data from database
 	
-	TabSignature.TAB_Signature.Clear();
+	signature_tab_.TAB_Signature.Clear();
     SQL * Select(ID,ROM_NAME,SECTION,CRC_32,FLUKE_SIG,RANGE,ORIGIN).From(FLUKE).Where(PCB_ID == ~E_PcbId).OrderBy(ROM_NAME);
     while (SQL.Fetch()) {
-        TabSignature.TAB_Signature.Add(SQL[ID],SQL[ROM_NAME],SQL[SECTION],SQL[RANGE],SQL[ORIGIN],SQL[CRC_32],SQL[FLUKE_SIG]);
+        signature_tab_.TAB_Signature.Add(SQL[ID],SQL[ROM_NAME],SQL[SECTION],SQL[RANGE],SQL[ORIGIN],SQL[CRC_32],SQL[FLUKE_SIG]);
     }
 }
 
