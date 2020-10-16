@@ -157,18 +157,19 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 
 		ArrayCtrl array;
 	
-	    void DnD(PasteClip& d)
+	    void DnD(PasteClip& d, ArrayCtrl& a)
 	    {
            if(AcceptFiles(d)) {
                files = GetFiles(d);
                if(files.GetCount()){
                    for(int i = 0; i < files.GetCount(); i++)
-                       array.Add(files[i]);
+                       a.Add(files[i]);
                }
                Refresh();
            }
 	    }
 	
+          
           Vector<String> files;
 
 
