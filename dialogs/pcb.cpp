@@ -199,7 +199,6 @@ void PcbDlg::GenerateFaultData() {
 		faults += data.ToString() +";";
 	}
 	ES_FaultsOrigin = faults;
-
 }
 
 bool PcbDlg::GetFaultValue(const int id, const String& faults) {
