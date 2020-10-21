@@ -148,16 +148,11 @@ LAYOUT(TabMiscLayout, 452, 216)
 END_LAYOUT
 
 LAYOUT(TabPicturesLayout, 500, 276)
-	ITEM(ArrayCtrl, TAB_Pictures, HSizePosZ(4, 260).TopPosZ(80, 192))
-	ITEM(Button, BTN_Add, SetLabel(t_("Add")).LeftPosZ(216, 92).VSizePosZ(44, 212))
-	ITEM(Button, BTN_Select, SetLabel(t_("...")).LeftPosZ(424, 20).VSizePosZ(20, 236))
-	ITEM(LabelBox, LB_AddPicture, SetLabel(t_("Add picture")).LeftPosZ(12, 436).TopPosZ(8, 60))
-	ITEM(EditString, ES_PicturePath, MaxChars(20).LeftPosZ(16, 404).TopPosZ(20, 20))
-	ITEM(EditString, ES_PictureLabel, MaxChars(20).LeftPosZ(16, 196).TopPosZ(44, 20))
+	ITEM(ArrayCtrl, pictures, HSizePosZ(4, 248).TopPosZ(4, 196))
 END_LAYOUT
 
 LAYOUT(TabSignatureLayout, 500, 276)
-	ITEM(ArrayCtrl, TAB_Signature, HSizePosZ(4, 24).TopPosZ(72, 200))
+	ITEM(ArrayCtrl, signatures, HSizePosZ(4, 24).TopPosZ(72, 200))
 	ITEM(Button, BTN_Add, LeftPosZ(432, 40).VSizePosZ(20, 212))
 	ITEM(LabelBox, LB_AddSigRecord, SetLabel(t_("Add signature record")).LeftPosZ(4, 472).TopPosZ(8, 60))
 	ITEM(EditString, ES_SigRomName, MaxChars(20).LeftPosZ(12, 136).TopPosZ(24, 19))

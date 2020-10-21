@@ -13,6 +13,11 @@
 
 using namespace std;
 
+enum class ResizePicture{
+	do_resize = 0,
+	do_not_resize = 1
+};
+
 PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 
 	CtrlLayout(*this, t_("Pcb"));
@@ -35,45 +40,41 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 	
 	// Pictures tab
 	TC_Tab.Add(pictures_tab_, t_("Pictures"));
-	pictures_tab_.TAB_Pictures.AddIndex(ID);
-	pictures_tab_.TAB_Pictures.AddColumn(LABEL,t_("Label"));
-	pictures_tab_.Add(preview_.RightPosZ(0, 250).BottomPosZ(0, 200));
-	pictures_tab_.TAB_Pictures.WhenBar = THISBACK(pictureTabMenu);
-
-	pictures_tab_.BTN_Select.WhenPush = THISBACK(selectImage);
-	pictures_tab_.BTN_Add.WhenPush = THISBACK(addImageToDatabase);
-	pictures_tab_.TAB_Pictures.WhenLeftDouble = THISBACK(displayPicture);
-	pictures_tab_.TAB_Pictures.WhenLeftClick = THISBACK(displayPicturePreview);
-	
+	pictures_tab_.pictures.NoVertGrid();
+	pictures_tab_.pictures.AddIndex(ID);
+	pictures_tab_.pictures.AddColumn(LABEL,t_("Label")).Edit(picture_label_);
+	pictures_tab_.pictures.AddColumn("").Margin(0);
+	pictures_tab_.pictures.AddColumn("").Margin(0);
+	pictures_tab_.pictures.WhenLeftDouble = THISBACK(displayPicture);
+	pictures_tab_.pictures.WhenLeftClick = THISBACK(displayPicturePreview);
+	pictures_tab_.pictures.WhenAcceptEdit = THISBACK(updatePictureLabel);
+    pictures_tab_.pictures.ColumnWidths("195 16 16");
+	pictures_tab_.Add(preview_.RightPosZ(-15, 250).TopPosZ(20, 200));
+    
 	// Signature tab
 	CtrlLayout(signature_tab_);
 	TC_Tab.Add(signature_tab_, t_("Signatures"));
-	signature_tab_.TAB_Signature.WhenBar = THISBACK(signatureTabMenu);
-	signature_tab_.TAB_Signature.AddIndex(ID);
-	signature_tab_.TAB_Signature.AddColumn(ROM_NAME, t_("Rom name"));
-	signature_tab_.TAB_Signature.AddColumn(SECTION, t_("Section"));
-	signature_tab_.TAB_Signature.AddColumn(RANGE, t_("Range"));
-	signature_tab_.TAB_Signature.AddColumn(ORIGIN, t_("Origin"));
-	signature_tab_.TAB_Signature.AddColumn(CRC_32, t_("CRC32"));
-	signature_tab_.TAB_Signature.AddColumn(FLUKE_SIG, t_("Sig"));	
-	signature_tab_.TAB_Signature.ColumnWidths("137 137 108 108 60 30");
+	signature_tab_.signatures.WhenBar = THISBACK(signatureTabMenu);
+	signature_tab_.signatures.AddIndex(ID);
+	signature_tab_.signatures.AddColumn(ROM_NAME, t_("Rom name"));
+	signature_tab_.signatures.AddColumn(SECTION, t_("Section"));
+	signature_tab_.signatures.AddColumn(RANGE, t_("Range"));
+	signature_tab_.signatures.AddColumn(ORIGIN, t_("Origin"));
+	signature_tab_.signatures.AddColumn(CRC_32, t_("CRC32"));
+	signature_tab_.signatures.AddColumn(FLUKE_SIG, t_("Sig"));
+	signature_tab_.signatures.ColumnWidths("137 137 108 108 60 30");
 	
 	signature_tab_.BTN_Add.WhenPush = THISBACK(addSignatureRecord);
 		
 	signature_tab_.ES_SigRomName.MaxChars(20);
 	signature_tab_.ES_SigSection.MaxChars(20);
 	signature_tab_.ES_SigCrc32.MaxChars(8);
-	signature_tab_.ES_SigSig.MaxChars(4); 
+	signature_tab_.ES_SigSig.MaxChars(4);
 	
 	// Miscellaneous tab
 	CtrlLayout(misc_tab_);
 	TC_Tab.Add(misc_tab_, t_("Miscellaneous"));
 	
-	
-	
-	max_picture_width_ = 1024;
-	max_picture_height_ = 768;
-
 	Ctrl* child = NULL;
 	switch (openingType) {
 		case OPENING_NEW:
@@ -84,18 +85,18 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 			child = pictures_tab_.GetFirstChild();
 			while (child) {
 				setupDisplay(child);
-				child = child->GetNext();	
+				child = child->GetNext();
 			}
-			break;	
+			break;
 		case OPENING_EDIT:
 			Title(t_("Edit PCB"));
 			break;
-	}		
+	}
 
 	child = signature_tab_.GetFirstChild();
 	while (child) {
 		setupDisplay(child);
-		child = child->GetNext();	
+		child = child->GetNext();
 	}
 
 	
@@ -130,7 +131,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 	TC_AnalysisAction.WhenLeftDouble = THISBACK(editRecord);
     
     actionRecordsKey(0); // action records key is initialized
-    loadActionTreeFromDatabase();	
+    loadActionTreeFromDatabase();
 	
 	// buttons actions
 	BTN_NewGame.WhenPush = THISBACK1(createLinkedRecord, TableType::game);
@@ -157,19 +158,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 		(ACTIONS_FIXED, O_ActionsFixed)
 	;
 
-
-    
-    Size s = pictures_tab_.TAB_Pictures.GetStdSize();
-	//auto p =array.GetPos();
-    //TabPictures.Add(array.LeftPos(10, 200).TopPos(20, 200));
-    pictures_tab_.Add(array_.RightPos(10, 200).TopPos(20, 200));
-    array_.AddColumn("You can paste the text here too");
-    array_.MultiSelect();
-
-    //array.WhenDrop = [=] (PasteClip& d) { DnD(d); };
-    array_.WhenDrop = [=] (PasteClip& d) { DnD(d, array_); };
-	
-	//TabPictures.TAB_Pictures.WhenDrop = [=] (PasteClip& d) { DnD(d, TabPictures.TAB_Pictures); };
+	pictures_tab_.pictures.WhenDrop = [=] (PasteClip& d) { dragAndDrop(d, pictures_tab_.pictures); };
 }
 
 PcbDlg::~PcbDlg() {
@@ -217,13 +206,13 @@ bool PcbDlg::getFaultValue(const int id, const String& faults) {
 		if (val == id) {
 			// id was found, getting the option value
 			ret = StdConvertInt().Scan(subStr.Mid(end+1));
-			break;	
+			break;
 		}
 
 		// moving to the next chunk
 		startPos = endPos + 1;
 		endPos = str.Find(";",startPos);
-	}	
+	}
 	
 	return ret;
 }
@@ -238,7 +227,7 @@ void PcbDlg::loadFaultData() {
 	int y = 80 + 20;
 	int yOrigin = rOrigin.top + 20;
 	int linecy = Draw::GetStdFontCy() + 2;
-	int current = 0; 
+	int current = 0;
 	sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
 	while(sql.Fetch()) {
 		Ctrl::Add(option_.Add(sql[ID]).SetLabel(sql[LABEL].ToString()).TopPosZ(y, linecy).RightPosZ(10, 150));
@@ -249,7 +238,7 @@ void PcbDlg::loadFaultData() {
 		y += linecy;
 		yOrigin += linecy;
 		current++;
-	}	
+	}
 	
 	// Labels position override
 	//L_Faults.RightPosZ(70, 136).TopPosZ(r.top, y - 100);
@@ -283,21 +272,20 @@ void PcbDlg::editRecord() {
 
 	// Getting the key of the currently selected line
 	int key = TC_AnalysisAction.Get();
-	if(IsNull(key))
-		return;
+	if(IsNull(key)) return;
 	
-	// Getting the record corresponding to the selected line from the vector
-	// As it's a reference, data in the vector will be modified
-	ActionRecord& ar = getActionFromVector(key);
+	auto it = std::find_if(action_records_.begin(), action_records_.end(), [&key](const ActionRecord& ar){
+        return ar.key == key;
+    });
 	
-	ActionDlg dlg(ar); // Creating edition dialog
+	if(it != action_records_.end()){
+        ActionDlg dlg(*it);
+        if(dlg.Execute() != IDOK) return;
 
-	if(dlg.Execute() != IDOK) // Executing the dialog
-		return;
-	
-	ar = dlg.Record();	// OK button was pressed, updating record
-	
-	buildActionTree(); // Treecontrol is reloaded
+        *it = dlg.Record();
+
+        buildActionTree();
+	}
 };
 
 void PcbDlg::removeRecord() {
@@ -310,13 +298,10 @@ void PcbDlg::removeRecord() {
 	
 	// Removal from treecontrol
 	int id = TC_AnalysisAction.Find(key);
-	if (id != -1)
-	{
+	if (id != -1){
 		TC_AnalysisAction.Remove(id);
 
-		// Removal from vector
 		removeActionFromVector(key);
-
 	} else {
 		PromptOK(t_("Could not remove record"));
 	}
@@ -344,12 +329,9 @@ void PcbDlg::addRecord(const int pcbId, const int type) {
 		}
 	}
 	
-	// opening the dialog
-	if(dlg->Execute() != IDOK)
-		return;
+	if(dlg->Execute() != IDOK) return;
     
-    // Adding the new record to the vector
-    addActionToVector(dlg->Record());	
+    addActionToVector(dlg->Record());
 	
 	delete dlg;
 	
@@ -379,9 +361,9 @@ void PcbDlg::buildActionTree() {
 	// if PARENT_ID is 0, record is an analysis
 	// otherwise record is an action, and PARENT_ID refers to the index position in the treecontrol
 	// Root of the tree control has index 0, first analysis has index 1
-	vector<ActionRecord> actions; // will hold actions
-	vector<ActionRecord> analysis; // will hold analysis
-	vector<ActionRecord> orphans; // will hold orphans
+	vector<ActionRecord> actions;
+	vector<ActionRecord> analysis;
+	vector<ActionRecord> orphans;
 	
 	// looping through records to fill actions & analysis vectors
     for (vector<ActionRecord>::iterator it = action_records_.begin(); it != action_records_.end(); ++it)
@@ -400,7 +382,7 @@ void PcbDlg::buildActionTree() {
 		if (it->parent_index == 0) {
 			// It's an analysis, record can be added directly
 			TC_AnalysisAction.Add(0, MyImages::analysis(), it->key, it->commentary, false);
-		} 
+		}
 		else {
 			// It's an action, we must check if the parent exists before adding it
 			// Parent id is checked against analysis vector content
@@ -408,7 +390,7 @@ void PcbDlg::buildActionTree() {
 	        vector<ActionRecord>::iterator ite = std::find_if(analysis.begin(), analysis.end(), [&id](const ActionRecord& ar)
 	        {
 	            return ar.node_index == id;
-	        });					
+	        });
 			
 			// If parent doesn't exist, record is added to the orphans vector
 	        if (ite == analysis.end()) {
@@ -420,7 +402,7 @@ void PcbDlg::buildActionTree() {
 	        else {
 	            // Parent was found in the vector, record can be added to the treecontrol
 	            TC_AnalysisAction.Add(it->parent_index,
-	            	!it->finished ? MyImages::action() : MyImages::actionDone(), it->key, 
+	            	!it->finished ? MyImages::action() : MyImages::actionDone(), it->key,
 	            	it->commentary, false);
 	        }
 
@@ -428,7 +410,7 @@ void PcbDlg::buildActionTree() {
 	}
 	
     // Handling orphan actions
-	if (!orphans.empty()) 
+	if (!orphans.empty())
 	{
 	    PromptOK(t_("Orphan actions exist for current pcb ! Use drag & drop to link them to an analysis"));
 
@@ -651,18 +633,6 @@ void PcbDlg::setupDisplay(Ctrl* ctrl) {
 			signature_tab_.ES_SigSig.SetStyle(edit_style_);
 		}
 	}
-	if (ctrl->GetLayoutId() == pictures_tab_.ES_PictureLabel.GetLayoutId()) {
-		if (pictures_tab_.ES_PictureLabel.GetData() == "") {
-			pictures_tab_.ES_PictureLabel <<= "Label";
-			pictures_tab_.ES_PictureLabel.SetStyle(edit_style_);
-		}
-	}
-	if (ctrl->GetLayoutId() == pictures_tab_.ES_PicturePath.GetLayoutId()) {
-		if (pictures_tab_.ES_PicturePath.GetData() == "") {
-			pictures_tab_.ES_PicturePath <<= "Path";
-			pictures_tab_.ES_PicturePath.SetStyle(edit_style_);
-		}
-	}
 }
 
 void PcbDlg::resetDisplay(Ctrl* ctrl) {
@@ -702,19 +672,7 @@ void PcbDlg::resetDisplay(Ctrl* ctrl) {
 		if (signature_tab_.ES_SigSig.GetData() == "Sig") {
 			signature_tab_.ES_SigSig.Erase();
 		}
-	}	
-	if (ctrl->GetLayoutId() == pictures_tab_.ES_PictureLabel.GetLayoutId()) {
-		 pictures_tab_.ES_PictureLabel.SetStyle(EditString::StyleDefault());
-		if ( pictures_tab_.ES_PictureLabel.GetData() == "Label") {
-			 pictures_tab_.ES_PictureLabel.Erase();
-		}
-	}	
-	if (ctrl->GetLayoutId() == pictures_tab_.ES_PicturePath.GetLayoutId()) {
-		 pictures_tab_.ES_PicturePath.SetStyle(EditString::StyleDefault());
-		if ( pictures_tab_.ES_PicturePath.GetData() == "Path") {
-			 pictures_tab_.ES_PicturePath.Erase();
-		}
-	}	
+	}
 }
 
 void PcbDlg::tabChanged() {
@@ -747,7 +705,7 @@ void PcbDlg::tabChanged() {
 
 void PcbDlg::displayPicture() {
 
-	Popup p(pictures_tab_.TAB_Pictures.GetKey());
+	Popup p(pictures_tab_.pictures.GetKey());
 	p.SetRect(0,0,p.img_.GetWidth(),p.img_.GetHeight());
 	p.CenterScreen();
 	p.RunAppModal();
@@ -755,70 +713,94 @@ void PcbDlg::displayPicture() {
 }
 
 void PcbDlg::displayPicturePreview() {
-	preview_.SetImage(pictures_tab_.TAB_Pictures.GetKey());
+	preview_.SetImage(pictures_tab_.pictures.GetKey());
 	preview_.Refresh();
 }
 
-void PcbDlg::selectImage() {
-    FileSel fs;
-    String s = "";
-    fs.Type("Image file", "*.bmp;*.png;*.jpg;*.jpeg");
-    if(fs.ExecuteOpen("Choose the image file to open")) {
-        pictures_tab_.ES_PicturePath = ~fs;
-    }
+void PcbDlg::updatePictureLabel(){
+    constexpr int label_id{1};
+    const int row_id = pictures_tab_.pictures.GetCursor();
+    if (row_id == -1) return;
+    auto label = pictures_tab_.pictures.Get(row_id, label_id);
+
+    const int key = pictures_tab_.pictures.GetKey();
+    SQL * ::Update(PICTURE)(LABEL, label).Where(ID == key);
+    
+    populatePicturesArray();
 }
 
-void PcbDlg::addImageToDatabase() {
-	Image img = StreamRaster::LoadFileAny(AsString(~pictures_tab_.ES_PicturePath));
-	JPGEncoder jpg;
+void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const Image& img) {
+	auto cfg            = LoadIniFile("agar.cfg");
+	auto resize_picture = static_cast<ResizePicture>(StrInt(cfg.Get("NoResize", Null)));
+	auto width          = StrInt(cfg.Get("ImageWidth", Null));
+	auto height         = StrInt(cfg.Get("ImageHeight", Null));
 	
-	if ((img.GetWidth() > max_picture_width_) || (img.GetHeight() > max_picture_height_)) {
-		// picture needs to be resized
-		Size sz;
-		sz.cx = max_picture_width_;
-		sz.cy = max_picture_height_;
-		Image newImg = Rescale(img, GetFitSize(img.GetSize(),sz));
-		img = newImg;
+	Image img_to_save = img;
+	if (resize_picture == ResizePicture::do_resize){
+		if ((img.GetWidth() > width) || (img.GetHeight() > height)) {
+			// picture needs to be resized
+			Size sz;
+			sz.cx = width;
+			sz.cy = height;
+			img_to_save = Rescale(img, GetFitSize(img.GetSize(),sz));
+		}
 	}
 
-	SQL * Insert(PICTURE)(LABEL, ~pictures_tab_.ES_PictureLabel)(DATA, SqlBinary(jpg.SaveString(img)))(PCB_ID, ~E_PcbId);
-
-	populatePicturesArray(); 
+	JPGEncoder jpg;
+	SQL * Insert(PICTURE)(LABEL, label)(DATA, SqlBinary(jpg.SaveString(img_to_save)))(PCB_ID, pcb_id);
 }
 
 void PcbDlg::populatePicturesArray() {
 	// Fills pictures array with data from database
 	
-	pictures_tab_.TAB_Pictures.Clear();
-    SQL * Select(ID,LABEL).From(PICTURE).Where(PCB_ID == ~E_PcbId);
+	pictures_tab_.pictures.Clear();
+    SQL * Select(ID,LABEL).From(PICTURE).Where(PCB_ID == ~E_PcbId).OrderBy(LABEL);
+    unsigned int i = 0;
     while (SQL.Fetch()) {
-        pictures_tab_.TAB_Pictures.Add(SQL[ID],SQL[LABEL]);
+        pictures_tab_.pictures.Add(SQL[ID],SQL[LABEL]);
+        pictures_tab_.pictures.CreateCtrl<Button>(i, 1).SetImage(MyImages::edit) <<= THISBACK2(editPictureLabel, &pictures_tab_.pictures, i);
+        pictures_tab_.pictures.CreateCtrl<Button>(i, 2).SetImage(MyImages::remove)<<= THISBACK2(removePicture, &pictures_tab_.pictures, i);;
+        ++i;
     }
 }
 
-void PcbDlg::pictureTabMenu(Bar& bar) {
-	//bar.Add(t_("Create"),THISBACK(Create));
-	//bar.Add(t_("Edit"),THISBACK1(Edit,0));
-	bar.Add(t_("Remove"),THISBACK(removePicture));
+void PcbDlg::editPictureLabel(ArrayCtrl* a, const int id) {
+    a->SetCursor(id);
+    a->DoEdit();
 }
 
-void PcbDlg::removePicture() {
-	// Picture removal from database
-	SQL * Delete(PICTURE).Where(ID == pictures_tab_.TAB_Pictures.GetKey());
-	
-	// Table is reloaded
-	populatePicturesArray();
+void PcbDlg::removePicture(ArrayCtrl* a, const int id) {
+	if(PromptOKCancel(t_("The picture will be permanently deleted. Continue ?")) == 1){
+        a->SetCursor(id);
+        SQL * Delete(PICTURE).Where(ID == a->GetKey());
+        populatePicturesArray();
+	}
+}
+
+void PcbDlg::dragAndDrop(PasteClip& d, ArrayCtrl& a)
+{
+   if(AcceptFiles(d)) {
+       Vector<String> files = GetFiles(d);
+       if(files.GetCount()){
+           for(int i = 0; i < files.GetCount(); i++){
+               Image img = StreamRaster::LoadFileAny(files[i]);
+               if(!img.IsNullInstance()){
+					savePictureToDatabase(~E_PcbId, GetFileName(files[i]), img);
+               }
+           }
+           populatePicturesArray();
+       }
+       Refresh();
+   }
 }
 
 void PcbDlg::signatureTabMenu(Bar& bar) {
-	//bar.Add(t_("Create"),THISBACK(Create));
-	//bar.Add(t_("Edit"),THISBACK1(Edit,0));
 	bar.Add(t_("Remove"),THISBACK(removeSignatureRecord));
 }
 
 void PcbDlg::removeSignatureRecord() {
 	// Fluke record removal from database
-	SQL * Delete(FLUKE).Where(ID == signature_tab_.TAB_Signature.GetKey());
+	SQL * Delete(FLUKE).Where(ID == signature_tab_.signatures.GetKey());
 	
 	// Table is reloaded
 	populateSignatureArray();
@@ -855,10 +837,10 @@ void PcbDlg::addSignatureRecord() {
 void PcbDlg::populateSignatureArray() {
 	// Fills signature array with data from database
 	
-	signature_tab_.TAB_Signature.Clear();
+	signature_tab_.signatures.Clear();
     SQL * Select(ID,ROM_NAME,SECTION,CRC_32,FLUKE_SIG,RANGE,ORIGIN).From(FLUKE).Where(PCB_ID == ~E_PcbId).OrderBy(ROM_NAME);
     while (SQL.Fetch()) {
-        signature_tab_.TAB_Signature.Add(SQL[ID],SQL[ROM_NAME],SQL[SECTION],SQL[RANGE],SQL[ORIGIN],SQL[CRC_32],SQL[FLUKE_SIG]);
+        signature_tab_.signatures.Add(SQL[ID],SQL[ROM_NAME],SQL[SECTION],SQL[RANGE],SQL[ORIGIN],SQL[CRC_32],SQL[FLUKE_SIG]);
     }
 }
 
@@ -973,7 +955,7 @@ void PcbDlg::saveActionTreeToDatabase()
 	        		(ACTION_DATE, Time(it->date))
 	        		(COMMENTARY, it->commentary)
 	        		(FINISHED, it->finished)
-	        		(ACTION_TYPE, it->type);        	
+	        		(ACTION_TYPE, it->type);
         }
     }
 }
@@ -1047,38 +1029,16 @@ void PcbDlg::removeActionFromVector(const int key)
     }), action_records_.end());    
 }
 
-ActionRecord& PcbDlg::getActionFromVector(const int key)
-{
-    try
-    {
-        vector<ActionRecord>::iterator it = std::find_if(action_records_.begin(), action_records_.end(), [&key](const ActionRecord& ar)
-        {
-            return ar.key == key;
-        });
-    
-        if (it == action_records_.end()) throw 0;
-        
-        return *it;
-    }
-    catch (int i)
-    {
-          i;
-          PromptOK("Exception : record not found in vector !");
-    }
-}
-
 void PcbDlg::addActionToVector(ActionRecord ar)
 {
     ar.key = actionRecordsKey() + 1; // internal key is updated
     actionRecordsKey(ar.key); // new value is written back
     
-    if (ar.parent_index == 0)
-    { 
+    if (ar.parent_index == 0){
         // It's an analysis, added to the end of the treecontrol
         ar.node_index = TC_AnalysisAction.GetLineCount();
         action_records_.push_back(ar);
-    } else 
-    {
+    } else {
         ar.node_index = ar.parent_index+1;
         action_records_.push_back(ar);
         sortActionVector();
@@ -1130,8 +1090,8 @@ void PreviewCtrl::Paint(Draw& w) {
 			Size sz;
 			sz.cx = preview_width_;
 			sz.cy = preview_height_;
-			Image newImg = Rescale(img_, GetFitSize(img_.GetSize(),sz));
-			img_ = newImg;
+			Image new_img = Rescale(img_, GetFitSize(img_.GetSize(),sz));
+			img_ = new_img;
 		}
 		w.DrawImage(0, 0, img_);
 	}

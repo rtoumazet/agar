@@ -8,7 +8,9 @@
 
 // SYSTEM INCLUDES
 #include <plugin/jpg/jpg.h> // JPGRaster
+#include <optional>
 #include <vector> // std::vector
+
 
 // PROJECT INCLUDES
 #include "agar/agar.h" 
@@ -40,15 +42,13 @@ class PreviewCtrl : public StaticText {
 	typedef PreviewCtrl CLASSNAME;
 	
 	private:
-		Image 	img_;
-		int		preview_height_;
-		int		preview_width_;
+        Image   img_;
+		int     preview_height_;
+		int     preview_width_;
 	
 	public:
 		virtual void Paint(Draw& draw);
 	
-		//virtual void DragAndDrop(Point p, PasteClip& d);
-		//virtual void LeftDrag(Point p, dword keyflags);
 		Vector<String> files;
 		
 		PreviewCtrl() {
@@ -60,9 +60,11 @@ class PreviewCtrl : public StaticText {
 			
 		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
 		    if (SQL.Fetch()) {
-		        //PNGRaster pngr;
-		        //img_ = pngr.LoadString(SQL[DATA]);
-		        img_ = JPGRaster().LoadString(SQL[DATA]);
+                Size sz;
+                sz.cx = preview_width_;
+                sz.cy = preview_height_;
+                auto img = JPGRaster().LoadString(SQL[DATA]);
+                img_ = Rescale(img, GetFitSize(img.GetSize(),sz));
 		    }
     	}
 };
@@ -129,31 +131,10 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \author	Runik
 		/// \date	01/02/2014
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void doOk();
 
-
-		ArrayCtrl array_;
-	
-	    void DnD(PasteClip& d, ArrayCtrl& a)
-	    {
-           if(AcceptFiles(d)) {
-               files = GetFiles(d);
-               if(files.GetCount()){
-                   for(int i = 0; i < files.GetCount(); i++)
-                       a.Add(files[i]);
-               }
-               Refresh();
-           }
-	    }
-	
-          
-          Vector<String> files;
-
-
-
-
-		PcbDlg(const int openingType, const int pcbId=0);	
+		PcbDlg(const int openingType, const int pcbId=0);
 		~PcbDlg();
 	
 
@@ -162,19 +143,21 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void setupDisplay(Ctrl* ctrl);
 		void tabChanged();
 		
-		void pictureTabMenu(Bar& bar);
-		void removePicture();
-		void selectImage();
-		void addImageToDatabase();
+		void editPictureLabel(ArrayCtrl* a, const int id);
+		void removePicture(ArrayCtrl* a, const int id);
+		void savePictureToDatabase(const int id, const String& label, const Image& img);
 		void populatePicturesArray();
 		void displayPicture();
 		void displayPicturePreview();
-		
+		void updatePictureLabel();
+		void dragAndDrop(PasteClip& d, ArrayCtrl& a);
+	
 		void signatureTabMenu(Bar& bar);
 		void addSignatureRecord();
 		void removeSignatureRecord();
 		void populateSignatureArray();
 		
+
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void LoadActionTreeFromDatabase()
@@ -247,20 +230,6 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void removeActionFromVector(const int id);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	ActionRecord& GetActionFromVector(const int id) const
-		///
-		/// \brief	Returns a reference to record from vector corresponding to the id.
-		///
-		/// \author	Runik
-		/// \date	30/01/2014
-		///
-		/// \param  id   id of record to be returned
-		///
-		/// \return ActionRecord reference to record corresponding to the id
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		ActionRecord& getActionFromVector(const int id);
-		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void BuildActionTree()
 		///
 		/// \brief	Builds the treecontrol using data from the actionRecords_ vector.
@@ -304,24 +273,22 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
 		void sortActionVector();
-
+		
 		/// ACCESSORS
-		void    pcbId(const int id) {pcb_id_ = id;}
-		int     pcbId() const { return pcb_id_;}
-		void	actionRecordsKey(const int k) {action_records_key_ = k;}
-		int		actionRecordsKey() const { return action_records_key_;}
+		void pcbId(const int id) {pcb_id_ = id;}
+		auto pcbId() const { return pcb_id_;}
+		void actionRecordsKey(const int k) {action_records_key_ = k;}
+		auto actionRecordsKey() const { return action_records_key_;}
 		
 		ArrayMap<int, Option> option_;
 		ArrayMap<int, Option> option_origin_;
 	
 		EditString::Style edit_style_;
-
-		int	max_picture_width_;
-		int max_picture_height_;
+		EditString picture_label_;
 
 		std::vector<ActionRecord> 	action_records_;
 		int 						pcb_id_;
-		int							action_records_key_; //< unique key of action records. Incremented as records are added	
+		int							action_records_key_; //< unique key of action records. Incremented as records are added
 };
 
 class Popup : public TopWindow {

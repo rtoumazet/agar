@@ -26,7 +26,7 @@ SqlId count("count(*)");
 
 AGAR::AGAR()
 {
-	version_ = "AGAR 1.1.11";
+	version_ = "AGAR 1.2";
 	
 	SetDateFormat("%3:02d/%2:02d/%1:4d"); // set dd/mm/yyyy format
 	SetDateScan("dmy"); // same but for input
@@ -322,7 +322,7 @@ GUI_APP_MAIN
     }
     sch.SaveNormal(schemaDirectory);
     
-	SQL.ClearError();	
+	SQL.ClearError();
 	
 	//Icon(MyImages::smallIcon());
 	AGAR().Icon(MyImages::smallIcon());
