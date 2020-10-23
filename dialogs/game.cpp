@@ -9,22 +9,26 @@ GameDlg::GameDlg() {
 	BTN_Close <<= THISBACK(DoClose);
 	TAB_game.WhenBar = THISBACK(OwnMenu); // own menu
 	
-	Sql sql;
-	sql * Select(SqlAll()).From(MAKER).OrderBy(MAKER_NAME);
-	while(sql.Fetch()) {
-		DL_maker_.Add(sql[0],sql[1]);
+	//Sql sql;
+	SQL * Select(SqlAll()).From(MAKER).OrderBy(MAKER_NAME);
+	while(SQL.Fetch()) {
+		DL_maker_.Add(SQL[0],SQL[1]);
 	}
+	
+
 	
 	TAB_game.SetTable(GAME);
 	TAB_game.AddIndex(ID);
 	TAB_game.AddColumn(MAKER_ID,"Manufacturer").SetConvert(Single<Lookup(MAKER,ID,MAKER_NAME)>()).Edit(DL_maker_).HeaderTab().WhenAction = THISBACK1(SortTable,0);
+	//TAB_game.AddColumn(0,"Manufacturer");
 	TAB_game.AddColumn(GAME_NAME,"Game name").Edit(ES_gameName_).HeaderTab().WhenAction = THISBACK1(SortTable,1);
 	TAB_game.Appending().Removing();
 	TAB_game.SetOrderBy(GAME_NAME);
 	ES_gameName_.WhenEnter = THISBACK(InsertCheck);
 	
-	TAB_game.Query();	
+	TAB_game.Query();
 	
+
 	TAB_game.SetSortColumn(1);
 }
 

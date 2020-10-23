@@ -262,7 +262,7 @@ void AGAR::ResetInitialFault() {
 		sql.Execute("update PCB set PCB_ORIGIN_FAULT_OPTION = PCB_FAULT_OPTION");
 		PromptOK(t_("Done."));
 	} else {
-		PromptOK(t_("Operation cancelled"));	
+		PromptOK(t_("Operation cancelled"));
 	}
 }
 
@@ -270,8 +270,30 @@ GUI_APP_MAIN
 {
 	// Connecting to the main database
 	Sqlite3Session sqlite3;
-	String databaseFullPath = ConfigFile("AGAR.db");
-	if(!sqlite3.Open(databaseFullPath)) {
+	
+	String path_config = ConfigFile("AGAR.db");
+	String path_current= AppendFileName(GetCurrentDirectory(), "AGAR.db");
+	if ( path_config != path_current){
+		if( GetFileLength(path_current)== 0 ){
+			if( !FileDelete(path_current)){
+				Exclamation("Could not delete empty AGAR.db");
+			}
+		}
+		
+		// On previous linux version the database was saved in the config directory.
+		// If that's the case, the file is copied to the current directory.
+		if( !FileExists(path_current)){
+			if( !FileCopy(path_config, path_current)){
+				String msg = Format("Can't copy AGAR.db from \001%s\001 &to %s", path_config, path_current);
+				msg += "&Reason could be you don't have the rights to copy the file.";
+				msg += "&Please do it manually to get your database back at the right place.";
+				Exclamation(msg);
+			}
+		}
+	}
+	//String databaseFullPath = ConfigFile("AGAR.db");
+	String database_full_path = AppendFileName(GetCurrentDirectory(), "AGAR.db");
+	if(!sqlite3.Open(database_full_path)) {
 		Cout() << t_("Can't create or open database file\n");
 		return;
 	}
@@ -295,32 +317,33 @@ GUI_APP_MAIN
 	sql.Execute("PRAGMA temp_store = 2;");
 
 	// strings initializations
-	String databaseDirectory = GetFileDirectory(databaseFullPath);
+	String database_directory = GetFileDirectory(database_full_path);
 
-	String backupDirectory = NativePath(databaseDirectory);
-	backupDirectory += "backup";
-	RealizeDirectory(backupDirectory);
+	String backup_directory = NativePath(database_directory);
+	backup_directory += "backup";
+	RealizeDirectory(backup_directory);
 
-	String schemaDirectory = NativePath(databaseDirectory);
-	schemaDirectory += "schema";
-	RealizeDirectory(schemaDirectory);	
+	String schema_directory = NativePath(database_directory);
+	schema_directory += "schema";
+	RealizeDirectory(schema_directory);
 
 	SqlSchema sch(SQLITE3);
 	All_Tables(sch);
-    if(sch.ScriptChanged(SqlSchema::UPGRADE, schemaDirectory)) {
+    if(sch.ScriptChanged(SqlSchema::UPGRADE, schema_directory)) {
 	   // schema was updated, database is saved
-	   String backupFilename = "backup/AGAR.db.bck";
-	   backupFilename += userVersion;
-	   FileCopy(databaseFullPath, ConfigFile(backupFilename));
+	   String backup_filename = "AGAR.db.bck";
+	   backup_filename += userVersion;
+	   FileCopy(database_full_path, AppendFileName(backup_directory, backup_filename));
 	   SqlPerformScript(sch.Upgrade());
 	   int val = ScanInt(userVersion);
 	   val++;
 	   sql.Execute(Format("PRAGMA user_version = %i",val));
     }
-    if(sch.ScriptChanged(SqlSchema::ATTRIBUTES, schemaDirectory)) {
+    if(sch.ScriptChanged(SqlSchema::ATTRIBUTES, schema_directory)) {
         SqlPerformScript(sch.Attributes());
     }
-    sch.SaveNormal(schemaDirectory);
+	
+    sch.SaveNormal(schema_directory);
     
 	SQL.ClearError();
 	
