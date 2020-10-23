@@ -1,5 +1,3 @@
-# AGAR
-
 AGAR stands for Arcade Games Analysis & Repair, an arcade game monitoring and repair software.
 
 - Manufacturers, games & pcbs management
@@ -9,7 +7,8 @@ AGAR stands for Arcade Games Analysis & Repair, an arcade game monitoring and re
 - Check the screenshots !
 
 **[Downloads](https://github.com/rtoumazet/agar/releases)** | 
-**[Screenshots](https://github.com/rtoumazet/agar/wiki/Screenshots)**
+**[Screenshots](https://github.com/rtoumazet/agar/wiki/Screenshots)** | 
+**[Code](https://github.com/rtoumazet/agar)**
 
 ## Inner workings
 
