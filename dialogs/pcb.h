@@ -43,12 +43,11 @@ class PreviewCtrl : public StaticText {
 	
 	private:
         Image   img_;
+        Image	preview_img_;
 		int     preview_height_;
 		int     preview_width_;
 	
 	public:
-		virtual void Paint(Draw& draw);
-	
 		Vector<String> files;
 		
 		PreviewCtrl() {
@@ -57,16 +56,37 @@ class PreviewCtrl : public StaticText {
 		};
 		
 		void SetImage(const int& id) {
-			
-		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
-		    if (SQL.Fetch()) {
-                Size sz;
-                sz.cx = preview_width_;
-                sz.cy = preview_height_;
-                auto img = JPGRaster().LoadString(SQL[DATA]);
-                img_ = Rescale(img, GetFitSize(img.GetSize(),sz));
-		    }
-    	}
+			Sql sql;
+			sql * Select(PREVIEW_DATA, DATA).From(PICTURE).Where(ID == id);
+			if (sql.Fetch()) {
+				if(sql[PREVIEW_DATA].IsNull()){
+	                Size sz(preview_width_, preview_height_);
+	                img_ = JPGRaster().LoadString(sql[DATA]);
+	                preview_img_ = Rescale(img_, GetFitSize(img_.GetSize(),sz));
+
+					JPGEncoder jpg;
+					Sql sql_update;
+					sql_update * ::Update(PICTURE)
+					(PREVIEW_DATA, SqlBinary(jpg.SaveString(preview_img_)))
+					.Where(ID == id);
+
+					if(sql_update.WasError()){
+					    PromptOK(sql_update.GetErrorCodeString());
+					}
+				} else {
+					JPGRaster jpgr;
+					preview_img_ = jpgr.LoadString(sql[PREVIEW_DATA]);
+				}
+			}
+		}
+
+    	auto GetImage() -> Image& { return img_; }
+    	
+		virtual void Paint(Draw& w) {
+			w.DrawRect(GetSize(),White);
+			if (preview_img_) { w.DrawImage(0, 0, this->preview_img_); }
+			else { w.DrawText(0, 0, "Preview not available!", Arial(12).Italic()); }
+		}
 };
 
 class PcbDlg : public WithPcbLayout<TopWindow> {
@@ -300,16 +320,41 @@ class Popup : public TopWindow {
 		
 	public:
 	    Image img_;
-	    virtual void Paint(Draw& draw);
-
+	    HScrollBar hsb_;
+	    VScrollBar vsb_;
+	    unsigned int h_scroll_pos_{0};
+	    unsigned int v_scroll_pos_{0};
+	    
     	Popup(const int& id) {
-			
+	        Sizeable().Zoomable().BackPaint();
+	        AddFrame(hsb_);
+	        AddFrame(vsb_);
+	        hsb_.WhenScroll = [=] { Refresh(); };
+	        vsb_.WhenScroll = [=] { Refresh(); };
+	        
 		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
 		    if (SQL.Fetch()) {
-		        //PNGRaster pngr;
-		        //img_ = pngr.LoadString(SQL[DATA]);
 		        JPGRaster jpgr;
 		        img_ = jpgr.LoadString(SQL[DATA]);
+		        
+		        auto sz = GetSize();
+		        
+		        hsb_.SetTotal(img_.GetWidth());
+		        vsb_.SetTotal(img_.GetHeight());
 		    }
-    	}
+		}
+
+    	virtual void Paint(Draw& w) {
+		    auto sz = GetSize();
+		    Rect src(hsb_.Get(), vsb_.Get(), sz.cx, sz.cy);
+		    w.DrawRect(GetSize(), White);
+		    if(img_){
+		        w.DrawImage(0, 0, img_, src);
+		        vsb_.Refresh();
+		        hsb_.Refresh();
+		        
+		    } else {
+		    	w.DrawText(0, 0, "No image loaded!", Arial(30).Italic());
+		    }
+		}
 };

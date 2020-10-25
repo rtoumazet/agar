@@ -706,6 +706,7 @@ void PcbDlg::tabChanged() {
 void PcbDlg::displayPicture() {
 
 	Popup p(pictures_tab_.pictures.GetKey());
+	//Popup p(preview_.GetImage());
 	p.SetRect(0,0,p.img_.GetWidth(),p.img_.GetHeight());
 	p.CenterScreen();
 	p.RunAppModal();
@@ -714,6 +715,7 @@ void PcbDlg::displayPicture() {
 
 void PcbDlg::displayPicturePreview() {
 	preview_.SetImage(pictures_tab_.pictures.GetKey());
+
 	preview_.Refresh();
 }
 
@@ -736,7 +738,7 @@ void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const 
 	auto height         = StrInt(cfg.Get("ImageHeight", Null));
 	
 	Image img_to_save = img;
-	if (resize_picture == ResizePicture::do_resize){
+	if (resize_picture != ResizePicture::do_not_resize){
 		if ((img.GetWidth() > width) || (img.GetHeight() > height)) {
 			// picture needs to be resized
 			Size sz;
@@ -830,7 +832,7 @@ void PcbDlg::addSignatureRecord() {
 				(RANGE, ~signature_tab_.ES_SigRange)
 				(ORIGIN, ~signature_tab_.ES_SigOrigin);
 	
-		populateSignatureArray(); 
+		populateSignatureArray();
 	}
 }
 
@@ -1069,33 +1071,4 @@ void PcbDlg::sortActionVector()
         [](ActionRecord const & a, ActionRecord const &b){return a.node_index < b.node_index;});
 
     logActionVector();
-}
-
-void Popup::Paint(Draw& w)
-{
-    w.DrawRect(GetSize(), White);
-    if(img_)
-        w.DrawImage(0, 0, img_);
-    else
-       w.DrawText(0, 0, "No image loaded!", Arial(30).Italic());
-}
-
-void PreviewCtrl::Paint(Draw& w) {
-  
-	w.DrawRect(GetSize(),White);
-	if (img_) {
-		w.DrawImage(0, 0, this->img_);
-		if ((img_.GetWidth() > preview_width_) || (img_.GetHeight() > preview_height_)) {
-			// picture needs to be resized
-			Size sz;
-			sz.cx = preview_width_;
-			sz.cy = preview_height_;
-			Image new_img = Rescale(img_, GetFitSize(img_.GetSize(),sz));
-			img_ = new_img;
-		}
-		w.DrawImage(0, 0, img_);
-	}
-	else
-		w.DrawText(0, 0, "Preview not available!", Arial(12).Italic());
-
 }
