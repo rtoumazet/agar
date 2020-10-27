@@ -4,7 +4,8 @@ uses
 	CtrlLib,
 	plugin\sqlite3,
 	SqlCtrl,
-	plugin/jpg;
+	plugin/jpg,
+	AutoScroller;
 
 options(GCC) -std=c++0x;
 

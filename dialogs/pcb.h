@@ -8,6 +8,7 @@
 
 // SYSTEM INCLUDES
 #include <plugin/jpg/jpg.h> // JPGRaster
+#include <AutoScroller/AutoScroller.h>
 #include <optional>
 #include <vector> // std::vector
 
@@ -320,39 +321,34 @@ class Popup : public TopWindow {
 		
 	public:
 	    Image img_;
-	    HScrollBar hsb_;
-	    VScrollBar vsb_;
-	    unsigned int h_scroll_pos_{0};
-	    unsigned int v_scroll_pos_{0};
+		ImageCtrl img_ctrl;
+		
+//	    HScrollBar hsb_;
+//	    VScrollBar vsb_;
+//	    unsigned int h_scroll_pos_{0};
+//	    unsigned int v_scroll_pos_{0};
+		AutoScroller<ParentCtrl> scroller_;
 	    
     	Popup(const int& id) {
 	        Sizeable().Zoomable().BackPaint();
-	        AddFrame(hsb_);
-	        AddFrame(vsb_);
-	        hsb_.WhenScroll = [=] { Refresh(); };
-	        vsb_.WhenScroll = [=] { Refresh(); };
+//	        AddFrame(hsb_);
+//	        AddFrame(vsb_);
+//	        hsb_.WhenScroll = [=] { Refresh(); };
+//	        vsb_.WhenScroll = [=] { Refresh(); };
 	        
 		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
 		    if (SQL.Fetch()) {
 		        JPGRaster jpgr;
-		        img_ = jpgr.LoadString(SQL[DATA]);
-		        
-		        auto sz = GetSize();
-		        
-		        hsb_.SetTotal(img_.GetWidth());
-		        vsb_.SetTotal(img_.GetHeight());
+		        //auto img = jpgr.LoadString(SQL[DATA]);
+		        img_ctrl.SetImage(jpgr.LoadString(SQL[DATA]));
+
 		    }
 		}
 
     	virtual void Paint(Draw& w) {
-		    auto sz = GetSize();
-		    Rect src(hsb_.Get(), vsb_.Get(), sz.cx, sz.cy);
 		    w.DrawRect(GetSize(), White);
 		    if(img_){
-		        w.DrawImage(0, 0, img_, src);
-		        vsb_.Refresh();
-		        hsb_.Refresh();
-		        
+		        w.DrawImage(0, 0, img_);
 		    } else {
 		    	w.DrawText(0, 0, "No image loaded!", Arial(30).Italic());
 		    }
