@@ -57,6 +57,7 @@ class PreviewCtrl : public StaticText {
 		};
 		
 		void SetImage(const int& id) {
+			if( id < 0) return;
 			Sql sql;
 			sql * Select(PREVIEW_DATA, DATA).From(PICTURE).Where(ID == id);
 			if (sql.Fetch()) {
@@ -312,6 +313,18 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		int							action_records_key_; //< unique key of action records. Incremented as records are added
 };
 
+class AView : public ParentCtrl 
+{
+	public:
+		ImageCtrl img_ctrl_;
+		
+		AView(){
+			SetRect(0, 0, 500, 600);
+	
+			Add(img_ctrl_.LeftPosZ(0,500).TopPosZ(0,600));
+		}
+};
+
 class Popup : public TopWindow {
 	
 	typedef Popup CLASSNAME;
@@ -321,7 +334,7 @@ class Popup : public TopWindow {
 		
 	public:
 	    Image img_;
-		ImageCtrl img_ctrl;
+	    AView view_;
 		
 //	    HScrollBar hsb_;
 //	    VScrollBar vsb_;
@@ -331,16 +344,18 @@ class Popup : public TopWindow {
 	    
     	Popup(const int& id) {
 	        Sizeable().Zoomable().BackPaint();
-//	        AddFrame(hsb_);
-//	        AddFrame(vsb_);
-//	        hsb_.WhenScroll = [=] { Refresh(); };
-//	        vsb_.WhenScroll = [=] { Refresh(); };
+			SetRect(0, 0, 200, 300);
+			scroller_.EnableScroll();
+			scroller_.AddPane(view_);
+			Add(scroller_.SizePos());
+
 	        
 		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
 		    if (SQL.Fetch()) {
 		        JPGRaster jpgr;
 		        //auto img = jpgr.LoadString(SQL[DATA]);
-		        img_ctrl.SetImage(jpgr.LoadString(SQL[DATA]));
+		        view_.img_ctrl_.SetImage(jpgr.LoadString(SQL[DATA]));
+		        //img_ctrl.SetImage(jpgr.LoadString(SQL[DATA]));
 
 		    }
 		}
