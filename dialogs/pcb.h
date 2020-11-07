@@ -8,7 +8,8 @@
 
 // SYSTEM INCLUDES
 #include <plugin/jpg/jpg.h> // JPGRaster
-#include <AutoScroller/AutoScroller.h>
+#include <RasterCtrl/RasterCtrl.h>
+//#include "RasterCtrlTest.h"
 #include <optional>
 #include <vector> // std::vector
 
@@ -313,59 +314,53 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		int							action_records_key_; //< unique key of action records. Incremented as records are added
 };
 
-class AView : public ParentCtrl 
-{
-	public:
-		ImageCtrl img_ctrl_;
-		
-		AView(){
-			SetRect(0, 0, 500, 600);
-	
-			Add(img_ctrl_.LeftPosZ(0,500).TopPosZ(0,600));
-		}
-};
-
 class Popup : public TopWindow {
 	
 	typedef Popup CLASSNAME;
 	
 	private:
-		//Image img_;
+		StatusBar status;
+		MenuBar menu;
+		RasterCtrl raster_;
 		
 	public:
-	    Image img_;
-	    AView view_;
-		
-//	    HScrollBar hsb_;
-//	    VScrollBar vsb_;
-//	    unsigned int h_scroll_pos_{0};
-//	    unsigned int v_scroll_pos_{0};
-		AutoScroller<ParentCtrl> scroller_;
-	    
+   
     	Popup(const int& id) {
-	        Sizeable().Zoomable().BackPaint();
-			SetRect(0, 0, 200, 300);
-			scroller_.EnableScroll();
-			scroller_.AddPane(view_);
-			Add(scroller_.SizePos());
 
-	        
-		    SQL * Select(DATA).From(PICTURE).Where(ID == id);
+			SQL * Select(DATA).From(PICTURE).Where(ID == id);
 		    if (SQL.Fetch()) {
 		        JPGRaster jpgr;
-		        //auto img = jpgr.LoadString(SQL[DATA]);
-		        view_.img_ctrl_.SetImage(jpgr.LoadString(SQL[DATA]));
-		        //img_ctrl.SetImage(jpgr.LoadString(SQL[DATA]));
+		        auto img = jpgr.LoadString(SQL[DATA]);
+		        auto sz = jpgr.GetSize();
+		        
+			    AddFrame( menu );
+			    AddFrame( TopSeparatorFrame() );
+			    AddFrame( status );
+			    AddFrame( InsetFrame() );
 
-		    }
-		}
+				/*StringStream ss(SQL[DATA]);
+				raster_.Open(ss);*/
+				raster_.Open("Y:\\repair_logs\\cyvern.jpg");
+				//SetS
 
-    	virtual void Paint(Draw& w) {
-		    w.DrawRect(GetSize(), White);
-		    if(img_){
-		        w.DrawImage(0, 0, img_);
-		    } else {
-		    	w.DrawText(0, 0, "No image loaded!", Arial(30).Italic());
+				// adds raster control
+				Add(raster_.HSizePos().VSizePos());
+				//Add(raster_.SetRect(0,0,img.GetWidth(),img.GetHeight()));
+				//Add(raster_.TopPosZ(0,img.GetWidth()).LeftPosZ(0,img.GetHeight()));
+			    Sizeable().Zoomable();
+				BackPaint();
+
+		
+				//raster_.SetPage(0);
+				//raster_.ShowThumbnails(false);
+				//raster_.Zoom(100);
+
+			
+				Refresh();
+
+        
 		    }
+		
+
 		}
 };

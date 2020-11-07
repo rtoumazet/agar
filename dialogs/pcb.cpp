@@ -10,6 +10,7 @@
 #include "location.h"
 #include "pcbstate.h"
 #include "game.h"
+#include "viewer.h"
 
 using namespace std;
 
@@ -705,11 +706,14 @@ void PcbDlg::tabChanged() {
 
 void PcbDlg::displayPicture() {
 
-	Popup p(pictures_tab_.pictures.GetKey());
-	//Popup p(preview_.GetImage());
-	p.SetRect(0,0,p.img_.GetWidth(),p.img_.GetHeight());
+	/*Popup p(pictures_tab_.pictures.GetKey());
 	p.CenterScreen();
-	p.RunAppModal();
+	p.RunAppModal();*/
+	
+	//ViewerDlg v;
+	//v.RunAppModal();
+	ViewerDlg v(pictures_tab_.pictures.GetKey());
+	v.RunAppModal();
 
 }
 

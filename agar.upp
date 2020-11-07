@@ -5,7 +5,7 @@ uses
 	plugin\sqlite3,
 	SqlCtrl,
 	plugin/jpg,
-	AutoScroller;
+	RasterCtrl;
 
 options(GCC) -std=c++0x;
 
@@ -53,6 +53,8 @@ file
 	dialogs\maker.cpp,
 	dialogs\settings.cpp,
 	dialogs\settings.h,
+	dialogs\viewer.h,
+	dialogs\viewer.cpp,
 	Layouts readonly separator,
 	agar.lay,
 	Database readonly separator,
