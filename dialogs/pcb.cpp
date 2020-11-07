@@ -751,9 +751,21 @@ void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const 
 			img_to_save = Rescale(img, GetFitSize(img.GetSize(),sz));
 		}
 	}
+	
+	Size preview_size(preview_width, preview_height);
+	Image preview_to_save = Rescale(img_to_save, GetFitSize(img_to_save.GetSize(), preview_size));
 
 	JPGEncoder jpg;
-	SQL * Insert(PICTURE)(LABEL, label)(DATA, SqlBinary(jpg.SaveString(img_to_save)))(PCB_ID, pcb_id);
+	SQL * Insert(PICTURE)
+	(LABEL, label)
+	(DATA, SqlBinary(jpg.SaveString(img_to_save)))
+	(PREVIEW_DATA, SqlBinary(jpg.SaveString(preview_to_save)))
+	(PCB_ID, pcb_id);
+	
+	if(SQL.WasError()){
+	    PromptOK(SQL.GetErrorCodeString());
+	}
+
 }
 
 void PcbDlg::populatePicturesArray() {
@@ -788,11 +800,16 @@ void PcbDlg::dragAndDrop(PasteClip& d, ArrayCtrl& a)
    if(AcceptFiles(d)) {
        Vector<String> files = GetFiles(d);
        if(files.GetCount()){
+           Progress pi("Loading files");
+           pi.SetTotal(files.GetCount());
            for(int i = 0; i < files.GetCount(); i++){
                Image img = StreamRaster::LoadFileAny(files[i]);
                if(!img.IsNullInstance()){
 					savePictureToDatabase(~E_PcbId, GetFileName(files[i]), img);
                }
+               ProcessEvents();
+               pi.Step();
+               
            }
            populatePicturesArray();
        }

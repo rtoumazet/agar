@@ -17,6 +17,9 @@
 // PROJECT INCLUDES
 #include "agar/agar.h" 
 
+constexpr unsigned int preview_height = 200;
+constexpr unsigned int preview_width = 250;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /// \struct	ActionRecord
 ///
@@ -46,15 +49,11 @@ class PreviewCtrl : public StaticText {
 	private:
         Image   img_;
         Image	preview_img_;
-		int     preview_height_;
-		int     preview_width_;
 	
 	public:
 		Vector<String> files;
 		
 		PreviewCtrl() {
-			preview_height_ = 200;
-			preview_width_ = 250;
 		};
 		
 		void SetImage(const int& id) {
@@ -63,7 +62,7 @@ class PreviewCtrl : public StaticText {
 			sql * Select(PREVIEW_DATA, DATA).From(PICTURE).Where(ID == id);
 			if (sql.Fetch()) {
 				if(sql[PREVIEW_DATA].IsNull()){
-	                Size sz(preview_width_, preview_height_);
+	                Size sz(preview_width, preview_height);
 	                img_ = JPGRaster().LoadString(sql[DATA]);
 	                preview_img_ = Rescale(img_, GetFitSize(img_.GetSize(),sz));
 
