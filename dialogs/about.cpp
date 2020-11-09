@@ -6,9 +6,9 @@ AboutDlg::AboutDlg(const String& version) {
 
 	String tmp = Format("[+200 [* %1",version);
 	tmp += "]]&Created by Runik&";
-	tmp += "[^https://github.com/rtoumazet/agar^ Homepage]";
+	tmp += "[^https://rtoumazet.github.io/agar/^ Homepage]";
 	tmp += "&Database file path : ";
 	//tmp += DeQtf(ConfigFile("AGAR.db"));
-	tmp += AppendFileName(GetCurrentDirectory(), "AGAR.db");
+	tmp += DeQtf(AppendFileName(GetCurrentDirectory(), "AGAR.db"));
 	RTC_About = tmp;
 }

@@ -741,19 +741,18 @@ void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const 
 	auto width          = StrInt(cfg.Get("ImageWidth", Null));
 	auto height         = StrInt(cfg.Get("ImageHeight", Null));
 	
-	Image img_to_save = img;
-	if (resize_picture != ResizePicture::do_not_resize){
+	Size img_size(img.GetSize());
+	if (resize_picture == ResizePicture::do_resize){
 		if ((img.GetWidth() > width) || (img.GetHeight() > height)) {
 			// picture needs to be resized
-			Size sz;
-			sz.cx = width;
-			sz.cy = height;
-			img_to_save = Rescale(img, GetFitSize(img.GetSize(),sz));
+			img_size = Size(width, height);
 		}
 	}
 	
-	Size preview_size(preview_width, preview_height);
-	Image preview_to_save = Rescale(img_to_save, GetFitSize(img_to_save.GetSize(), preview_size));
+	const Image img_to_save = Rescale(img, GetFitSize(img.GetSize(), img_size));
+	
+	const Size preview_size(preview_width, preview_height);
+	const Image preview_to_save = Rescale(img, GetFitSize(img.GetSize(), preview_size));
 
 	JPGEncoder jpg;
 	SQL * Insert(PICTURE)

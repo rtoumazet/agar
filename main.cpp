@@ -282,12 +282,14 @@ GUI_APP_MAIN
 		
 		// On previous linux version the database was saved in the config directory.
 		// If that's the case, the file is copied to the current directory.
-		if( !FileExists(path_current)){
-			if( !FileCopy(path_config, path_current)){
-				String msg = Format("Can't copy AGAR.db from \001%s\001 &to %s", path_config, path_current);
-				msg += "&Reason could be you don't have the rights to copy the file.";
-				msg += "&Please do it manually to get your database back at the right place.";
-				Exclamation(msg);
+		if( FileExists(path_config)){
+			if( !FileExists(path_current)){
+				if( !FileCopy(path_config, path_current)){
+					String msg = Format("Can't copy AGAR.db from \001%s\001 &to %s", path_config, path_current);
+					msg += "&Reason could be you don't have the rights to copy the file.";
+					msg += "&Please do it manually to get your database back at the right place.";
+					Exclamation(msg);
+				}
 			}
 		}
 	}
