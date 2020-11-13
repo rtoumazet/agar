@@ -2,19 +2,17 @@
 
 AGAR stands for Arcade Games Analysis & Repair, an arcade game monitoring and repair software.
 
-- Manufacturers, games & pcbs management
-- Each pcb can have multiple analysis, and multiple actions linked
-- State of each pcb is visible using customisable colours
-- Each pcb analysis / action can be exported as a report as a first step to repair log creation
-- Check the screenshots !
+With it you can manage a pcb collection, create analysis and actions to track repair progress and even generate a repair log stub from them ...
+check the [user guide](https://github.com/rtoumazet/agar/wiki/UserGuide) and the [screenshots](https://github.com/rtoumazet/agar/wiki/Screenshots) for more details !
 
-**[Downloads](https://github.com/rtoumazet/agar/releases)** | 
-**[Screenshots](https://github.com/rtoumazet/agar/wiki/Screenshots)**
+**[User Guide](https://github.com/rtoumazet/agar/wiki/UserGuide)** | 
+**[Screenshots](https://github.com/rtoumazet/agar/wiki/Screenshots)** |
+**[Downloads](https://github.com/rtoumazet/agar/releases)**
 
 ## Inner workings
 
 AGAR is developed using C++, and [Ultimate++](http://ultimatepp.org) framework.
 
 ## Supported platforms
-- Windows XP, Vista, 7
+- Windows XP, Vista, 7, 10
 - Linux
