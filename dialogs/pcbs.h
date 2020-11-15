@@ -28,30 +28,30 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		//Array<Label> 			label_;
 		ArrayMap<int, Option>  	option_;
 		
-		void 					LoadFaultData();
-		void 					ExecuteFilter();
+		void LoadFaultData();
+		void ExecuteFilter();
 		
 		// listing extraction functions
-		void					ExtractListing();
+		void ExtractListing();
 		
 		// current sorted column
-		int 					sortedColumnIndex_;
-		int						sortedColumnDirection_; // based on SortDirection enum
-		void					TableSort(const int& index, const int& direction);
+		int     sortedColumnIndex_;
+		int     sortedColumnDirection_; // based on SortDirection enum
+		void    TableSort(const int& index, const int& direction);
 		
 	public:
-		PcbsDlg();	
+		PcbsDlg();
 		~PcbsDlg();
 	
 };
 
 struct Data {
-    String                    game;
-    String                    type;
-    String                    tag;
-    String                    location;
-    String                    state;
+    String game;
+    String type;
+    String tag;
+    String location;
+    String state;
 
     void Jsonize(JsonIO& json);
-    void Xmlize(XmlIO& xio)           { XmlizeByJsonize(xio, *this); }
+    void Xmlize(XmlIO& xio) { XmlizeByJsonize(xio, *this); }
 };

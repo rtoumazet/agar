@@ -156,7 +156,7 @@ void PcbsDlg::Create() {
 	if (PromptYesNo(t_("Do you want to create an initial analysis ?"))) {
 		// Creation of the initial analysis
 		// TODO
-		dlg.addRecord(id, ActionDlg::ANALYSIS);
+		dlg.addRecord(id, ItemType::analysis);
 		dlg.doOk();
 		Edit(id);
 	}

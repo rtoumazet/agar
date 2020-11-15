@@ -8,13 +8,10 @@ class GameDlg : public WithGamesLayout<TopWindow> {
 		GameDlg();	
 	
 	private:
-		DropList DL_maker_;
-		EditString ES_gameName_;
-		
 		void OwnMenu(Bar& bar);
 		void MenuAdd();
 		void MenuEdit();
-		void MenuRemove();		
+		void MenuRemove();
 
 		void InsertCheck();
 		
@@ -22,4 +19,7 @@ class GameDlg : public WithGamesLayout<TopWindow> {
 		
 		void DoClose();
 	
+		DropList manufacturer_;
+		EditString game_name_;
+
 };

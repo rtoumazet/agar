@@ -9,13 +9,13 @@
 // SYSTEM INCLUDES
 #include <plugin/jpg/jpg.h> // JPGRaster
 #include <RasterCtrl/RasterCtrl.h>
-//#include "RasterCtrlTest.h"
 #include <optional>
 #include <vector> // std::vector
 
 
 // PROJECT INCLUDES
-#include "agar/agar.h" 
+#include "agar/agar.h"
+#include "../enums.h"
 
 constexpr unsigned int preview_height = 200;
 constexpr unsigned int preview_width = 250;
@@ -28,18 +28,17 @@ constexpr unsigned int preview_width = 250;
 /// \author	Runik
 /// \date	28/01/2014
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-struct ActionRecord 
-{
-	int 	id; //< PCB_ACTION id
-	int     pcb_id; //< PCB id
-    int     node_index; //< Treecontrol node index
-	int 	parent_index; //< Treecontrol parent index
+struct ActionRecord {
+	int 		id; //< PCB_ACTION id
+	int     	pcb_id; //< PCB id
+    int     	node_index; //< Treecontrol node index
+	int 		parent_index; //< Treecontrol parent index
 	//int     parentKey; //< PCB_ACTION id of the parent
-	int		key; //< internal key of the record, will be added to the key of the treecontrol record
-	Time 	date; //< PCB_ACTION date
-	String 	commentary;	//< PCB_ACTION commentary
-	int		finished; //< PCB_ACTION finished
-	int		type; //< PCB_ACTION type
+	int			key; //< internal key of the record, will be added to the key of the treecontrol record
+	Time 		date; //< PCB_ACTION date
+	String 		commentary;	//< PCB_ACTION commentary
+	int			finished; //< PCB_ACTION finished
+	ItemType	type; //< PCB_ACTION type
 };
 
 class PreviewCtrl : public StaticText {
@@ -124,7 +123,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \param  pcbId	 PCB id
 		/// \param  type     ANALYSIS or ACTION (enum defined in action.h)
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		void addRecord(const int pcb_id, const int type);
+		void addRecord(const int pcb_id, const ItemType type);
 		void editRecord();
 		void removeRecord();
 		
@@ -295,6 +294,8 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
 		void sortActionVector();
+		
+		auto getItemType(const int key) -> ItemType;
 		
 		/// ACCESSORS
 		void pcbId(const int id) {pcb_id_ = id;}

@@ -12,19 +12,18 @@ GameDlg::GameDlg() {
 	//Sql sql;
 	SQL * Select(SqlAll()).From(MAKER).OrderBy(MAKER_NAME);
 	while(SQL.Fetch()) {
-		DL_maker_.Add(SQL[0],SQL[1]);
+		manufacturer_.Add(SQL[0],SQL[1]);
 	}
 	
 
 	
 	TAB_game.SetTable(GAME);
 	TAB_game.AddIndex(ID);
-	TAB_game.AddColumn(MAKER_ID,"Manufacturer").SetConvert(Single<Lookup(MAKER,ID,MAKER_NAME)>()).Edit(DL_maker_).HeaderTab().WhenAction = THISBACK1(SortTable,0);
-	//TAB_game.AddColumn(0,"Manufacturer");
-	TAB_game.AddColumn(GAME_NAME,"Game name").Edit(ES_gameName_).HeaderTab().WhenAction = THISBACK1(SortTable,1);
+	TAB_game.AddColumn(MAKER_ID,"Manufacturer").SetConvert(Single<Lookup(MAKER,ID,MAKER_NAME)>()).Edit(manufacturer_).HeaderTab().WhenAction = THISBACK1(SortTable,0);
+	TAB_game.AddColumn(GAME_NAME,"Game name").Edit(game_name_).HeaderTab().WhenAction = THISBACK1(SortTable,1);
 	TAB_game.Appending().Removing();
 	TAB_game.SetOrderBy(GAME_NAME);
-	ES_gameName_.WhenEnter = THISBACK(InsertCheck);
+	game_name_.WhenEnter = THISBACK(InsertCheck);
 	
 	TAB_game.Query();
 	
@@ -67,13 +66,11 @@ void GameDlg::MenuRemove() {
 
 void GameDlg::InsertCheck() {
 	// checking if the entered value doesn't already exist in the database
-	//String str = ES_gameName_.GetData().ToString();
-	String gameName = ~ES_gameName_;
-	int makerId = ~DL_maker_;
+	String gameName = ~game_name_;
+	int makerId = ~manufacturer_;
 
 	Sql sql;
 	sql.Execute("select * from GAME where MAKER_ID = ? and GAME_NAME = ?",makerId,gameName);
-	//sql * Select(SqlAll()).From(GAME).Where(MAKER_ID == makerId && gameName == gameName);
 	if(!sql.Fetch()) {
 		// entry doesn't exist in the database, it can be added
 		TAB_game.Accept();

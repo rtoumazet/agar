@@ -6,52 +6,34 @@ OriginsDlg::OriginsDlg() {
 	CtrlLayout(*this, t_("Origins list"));
 	BTN_Close <<= THISBACK(DoClose);
 	
-	TAB_origins.WhenBar = THISBACK(OwnMenu); // own menu
 	TAB_origins.SetTable(ORIGIN);
 	TAB_origins.AddIndex(ID);
-	TAB_origins.AddColumn(NAME, t_("Name"));
-	TAB_origins.AddColumn(ORIGIN,t_("Origin"));
-	TAB_origins.AddColumn(COMMENTARY,t_("Comment"));
+	TAB_origins.AddColumn(NAME, t_("Name")).Edit(name_);
+	TAB_origins.AddColumn(ORIGIN,t_("Origin")).Edit(origin_);
+	TAB_origins.AddColumn(COMMENTARY,t_("Comment")).Edit(comment_);
 	TAB_origins.SetOrderBy(ORIGIN);
-	TAB_origins.WhenLeftDouble = THISBACK(Edit);
 
-	//TAB_pcbs.SetOrderBy(LABEL);
-	
+	TAB_origins.WhenLeftDouble = THISBACK(MenuEdit);
+	TAB_origins.WhenBar = THISBACK(OwnMenu);
+
 	TAB_origins.Query();
 }
                  
 void OriginsDlg::OwnMenu(Bar& bar) {
-	bar.Add(t_("Create"),THISBACK(Create));
-	bar.Add(t_("Edit"),THISBACK(Edit));
-	bar.Add(t_("Remove"),THISBACK(Remove));
+	bar.Add(t_("Add"),THISBACK(MenuAdd));
+	bar.Add(t_("Edit"),THISBACK(MenuEdit));
+	bar.Add(t_("Remove"),THISBACK(MenuRemove));
 }
 
-void OriginsDlg::Create() {
-	OriginDlg dlg(OPENING_NEW);
-
-	if(dlg.Execute() != IDOK)
-		return;
-	SQL * dlg.ctrls.Insert(ORIGIN);
-	int id = SQL.GetInsertedId();
-	TAB_origins.ReQuery();
-	TAB_origins.FindSetCursor(id);
+void OriginsDlg::MenuAdd() {
+	TAB_origins.StartInsert();
 }
 
-void OriginsDlg::Edit() {
-	int id = TAB_origins.GetKey();
-	if(IsNull(id))
-		return;
-	OriginDlg dlg(OPENING_EDIT);
-
-	if(!dlg.ctrls.Load(ORIGIN, ID == id))
-		return;
-	if(dlg.Execute() != IDOK)
-		return;
-	SQL * dlg.ctrls.Update(ORIGIN).Where(ID == id);
-	TAB_origins.ReQuery();
+void OriginsDlg::MenuEdit() {
+	TAB_origins.DoEdit();
 }
 
-void OriginsDlg::Remove() {
+void OriginsDlg::MenuRemove() {
 	int id = TAB_origins.GetKey();
 	if(IsNull(id) || !PromptYesNo(t_("Delete origin ?")))
 	   return;

@@ -3,15 +3,19 @@
 class LocationsDlg : public WithLocationsLayout<TopWindow> {
 	typedef LocationsDlg CLASSNAME;
 
+	public:
+		LocationsDlg();
+		
 	private:
-		void Create();
-		void Edit();
-		void Remove();
+		void MenuAdd();
+		void MenuEdit();
+		void MenuRemove();
 		
 		void OwnMenu(Bar& bar);
 		
 		void DoClose();
+		
+		EditString location_;
 
-	public:
-		LocationsDlg();
+
 };

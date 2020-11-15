@@ -11,6 +11,7 @@
 #include "pcbstate.h"
 #include "game.h"
 #include "viewer.h"
+#include "../utilities/converts.h"
 
 using namespace std;
 
@@ -262,10 +263,10 @@ void PcbDlg::createAnalysisAndActionsMenu(Bar& bar) {
 		if(!doesChildExist && !isRootSelected) isRemoveEntryVisible = true;
 	}
 
-	bar.Add(t_("Add analysis"),THISBACK2(addRecord, ~E_PcbId, ActionDlg::ANALYSIS));
-	bar.Add(isAddActionEntryVisible, t_("Link an action"), THISBACK2(addRecord, ~E_PcbId, ActionDlg::ACTION));
+	bar.Add(t_("Add analysis"),THISBACK2(addRecord, ~E_PcbId, ItemType::analysis));
+	bar.Add(isAddActionEntryVisible, t_("Link an action"), THISBACK2(addRecord, ~E_PcbId, ItemType::action));
 	bar.Add(isEditEntryVisible, t_("Edit"), THISBACK(editRecord));
-	bar.Add(isRemoveEntryVisible, t_("Remove"), THISBACK(Remove));
+	bar.Add(isRemoveEntryVisible, t_("Remove"), THISBACK(removeRecord));
 }
 
 void PcbDlg::editRecord() {
@@ -311,30 +312,27 @@ void PcbDlg::removeRecord() {
     logActionVector();
 }
 
-void PcbDlg::addRecord(const int pcbId, const int type) {
+void PcbDlg::addRecord(const int pcbId, const ItemType type) {
 	// adds a new record to the treecontrol
-	
-	ActionDlg *dlg = NULL;
+	std::unique_ptr<ActionDlg> dlg;
 	
 	// correct contructor is picked regarding the type
 	switch (type) {
-		case ActionDlg::ANALYSIS:
-		{
-			dlg = new ActionDlg (pcbId, ActionDlg::ANALYSIS);
+		case ItemType::analysis: {
+			dlg = std::make_unique<ActionDlg>(pcbId, ItemType::analysis);
 			break;
 		}
-		case ActionDlg::ACTION:
-		{
-			dlg = new ActionDlg (pcbId, ActionDlg::ACTION, TC_AnalysisAction.GetCursor());
+		case ItemType::action:{
+			dlg = std::make_unique<ActionDlg>(pcbId, ItemType::action, TC_AnalysisAction.GetCursor());
 			break;
 		}
+		default:
+		    return;
 	}
 	
 	if(dlg->Execute() != IDOK) return;
     
     addActionToVector(dlg->Record());
-	
-	delete dlg;
 	
 	buildActionTree(); // Treecontrol is rebuilt
 }
@@ -889,7 +887,8 @@ void PcbDlg::loadActionTreeFromDatabase()
 		ar.date 		= sql[ACTION_DATE];
 		ar.commentary 	= sql[COMMENTARY];
 		ar.finished 	= static_cast<bool>(StrInt(AsString(sql[FINISHED]))); // defined as text in the database
-		ar.type 		= sql[ACTION_TYPE];
+		//ar.type 		= sql[ACTION_TYPE];
+		ar.type 		= ItemType(static_cast<int>(sql[ACTION_TYPE]));
 
 		action_records_.push_back(ar);
 	}
@@ -977,18 +976,26 @@ void PcbDlg::saveActionTreeToDatabase()
 	        		(ACTION_DATE, Time(it->date))
 	        		(COMMENTARY, it->commentary)
 	        		(FINISHED, it->finished)
-	        		(ACTION_TYPE, it->type);
+	        		(ACTION_TYPE, toUnderlying(it->type));
         }
     }
 }
 
-void PcbDlg::treeDrag()
-{
+void PcbDlg::treeDrag() {
+    /*const int key = TC_AnalysisAction.Get();
+    auto it = std::find_if(action_records_.begin(), action_records_.end(), [&key](const ActionRecord& ar) {
+        return ar.key == key;
+    });
+    
+    if (it != action_records_.end()) {
+        // Corresponding record was found in the vector, we can update it
+        it->parent_index = TC_AnalysisAction.GetParent(TC_AnalysisAction.GetCursor());
+        if(it->type == ItemType::analysis) return;
+    }*/
+	
     // Drag & drop is initiated
-    if (TC_AnalysisAction.DoDragAndDrop(InternalClip(TC_AnalysisAction, "mytreedrag"), TC_AnalysisAction.GetDragSample()) == DND_MOVE)
-    {
+    if (TC_AnalysisAction.DoDragAndDrop(InternalClip(TC_AnalysisAction, "mytreedrag"), TC_AnalysisAction.GetDragSample()) == DND_MOVE) {
         TC_AnalysisAction.RemoveSelection();
-        
     }
 }
 
@@ -997,11 +1004,12 @@ void PcbDlg::treeDropInsert(const int parent, const int ii, PasteClip& d)
     // Check type of drag data, and restrict to analysis level
     if (IsAvailableInternal<TreeCtrl>(d, "mytreedrag") && treeGetLevel(parent) == 1) {
         
-        if (parent == TC_AnalysisAction.GetCursor()) // preventing drop to self
-        {
+        if (parent == TC_AnalysisAction.GetCursor()){ // preventing drop to self
             d.Reject();
             return;
         }
+        
+        
         // Data can be accepted
         d.Accept();
         // If we haven't dropped the data yet (we are still dragging) don't do anything
@@ -1040,6 +1048,18 @@ int PcbDlg::treeGetLevel(int id) const
         ++i;
     }
     return i;
+}
+
+auto PcbDlg::getItemType(const int key) -> ItemType {
+    auto it = std::find_if(action_records_.begin(), action_records_.end(), [&key](const ActionRecord& ar) {
+        return ar.key == key;
+    });
+    
+    if (it != action_records_.end()) {
+        return it->type;
+    }
+    
+    return ItemType::unknown;
 }
 
 void PcbDlg::removeActionFromVector(const int key)

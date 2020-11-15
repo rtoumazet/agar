@@ -17,6 +17,7 @@ file
 	utilities\converts.cpp,
 	utilities\lookups.h,
 	utilities\converts.h,
+	enums.h,
 	Main readonly separator,
 	agar.h,
 	main.cpp,

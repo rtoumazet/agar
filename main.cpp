@@ -24,8 +24,7 @@ constexpr int default_image_height = 768;
 
 SqlId count("count(*)");
 
-AGAR::AGAR()
-{
+AGAR::AGAR() {
 	version_ = "AGAR 1.2.1";
 	
 	SetDateFormat("%3:02d/%2:02d/%1:4d"); // set dd/mm/yyyy format
@@ -37,25 +36,12 @@ AGAR::AGAR()
     MB_menu_.Set(THISBACK(MainMenu));
     
     DatabaseInit();
-
-	md_ = 0;
-	gd_ = 0;
-	ld_ = 0;
-	od_ = 0;
-	pd_ = 0;
     
 	initializeConfigurationFile();
-
-    
 }
 
-AGAR::~AGAR()
-{
-	if (md_ != 0) delete md_;
-	if (gd_ != 0) delete gd_;
-	if (ld_ != 0) delete ld_;
-	if (od_ != 0) delete od_;
-	if (pd_ != 0) delete pd_;
+AGAR::~AGAR(){
+
 }
 
 void AGAR::DatabaseInit() {
@@ -168,91 +154,68 @@ void AGAR::SubMenuOptions(Bar& bar) {
 }
 
 void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
-    bar.Add(t_("PCB Faults"), THISBACK(PcbFault));
-    bar.Add(t_("PCB States"), THISBACK(PcbState));
-    bar.Add(t_("PCB Types"), THISBACK(PcbType));
+    bar.Add(t_("PCB Faults"), THISBACK(openPcbFaultDialog));
+    bar.Add(t_("PCB States"), THISBACK(openPcbStateDialog));
+    bar.Add(t_("PCB Types"), THISBACK(openPcbTypeDialog));
 }
 
 void AGAR::MakerList() {
-
-	if (md_ == 0) md_ = new MakerDlg();
-	
-	if (md_->IsOpen()) md_->Close();
-	else md_->Open(this);
+    if(!maker_dialog_){
+        maker_dialog_ = std::make_unique<MakerDlg>();
+    }
+	maker_dialog_->IsOpen() ? maker_dialog_->Close() : maker_dialog_->Open(this);
 }
 
 void AGAR::GameList() {
-	
-	// Displays game table records
-	if (gd_ == 0) gd_ = new GameDlg();
-	
-	if (gd_->IsOpen()) gd_->Close();
-	else gd_->Open(this);
-	
+	if(!game_dialog_){
+        game_dialog_ = std::make_unique<GameDlg>();
+    }
+	game_dialog_->IsOpen() ? game_dialog_->Close() : game_dialog_->Open(this);
 }
 
 void AGAR::OriginList() {
-	
-	// Displays origin table records
-	if (od_ == 0) od_ = new OriginsDlg();
-	
-	if (od_->IsOpen()) od_->Close();
-	else od_->Open(this);
-	
+	if(!origins_dialog_){
+        origins_dialog_ = std::make_unique<OriginsDlg>();
+    }
+	origins_dialog_->IsOpen() ? origins_dialog_->Close() : origins_dialog_->Open(this);
 }
 
 void AGAR::LocationList() {
-	
-	// Displays location table records
-	if (ld_ == 0) ld_ = new LocationsDlg();
-	
-	if (ld_->IsOpen()) ld_->Close();
-	else ld_->Open(this);
-	
+	if(!locations_dialog_){
+        locations_dialog_ = std::make_unique<LocationsDlg>();
+    }
+	locations_dialog_->IsOpen() ? locations_dialog_->Close() : locations_dialog_->Open(this);
 }
 
 void AGAR::PinoutList() {
-	
-	// Displays pinout table records
-	if (pd_ == 0) pd_ = new PinoutsDlg();
-	
-	if (pd_->IsOpen()) pd_->Close();
-	else pd_->Open(this);
-	
+	if(!pinouts_dialog_){
+        pinouts_dialog_ = std::make_unique<PinoutsDlg>();
+    }
+	pinouts_dialog_->IsOpen() ? pinouts_dialog_->Close() : pinouts_dialog_->Open(this);
 }
 
 void AGAR::PcbList() {
 	
 	// Displays pcbs records
 	
-	PcbsDlg dlg;
+	/*PcbsDlg dlg;
 	dlg.Sizeable();
 		
-	dlg.Run();
+	dlg.Run();*/
+	
+	PcbsDlg().Sizeable().Run();
 }
 
-void AGAR::PcbFault() {
-	
-	// Displays PCB faults
-	PcbFaultDlg dlg;
-	
-	dlg.Run();
+void AGAR::openPcbFaultDialog() {
+	PcbFaultDlg().Run();
 }
 
-void AGAR::PcbState() {
-	
-	// Displays PCB states
-	PcbStateDlg dlg;
-	
-	dlg.Run();
+void AGAR::openPcbStateDialog() {
+	PcbStateDlg().Run();
 }
 
-void AGAR::PcbType() {
-
-	// Displays PCB types
-	PcbTypeDlg dlg;
-	
-	dlg.Run();
+void AGAR::openPcbTypeDialog() {
+	PcbTypeDlg().Run();
 }
 
 void AGAR::ResetInitialFault() {
@@ -360,16 +323,13 @@ GUI_APP_MAIN
 
 bool AGAR::Key(dword key, int count) {
 	if (key == K_TAB) {
-		return false;	
+		return false;
 	}
 	return TopWindow::Key(key,count);
 }
 
 void AGAR::About() {
-	
-	AboutDlg dlg(GetVersion());
-	
-	dlg.Run();
+	AboutDlg(GetVersion()).Run();
 }
 
 String AGAR::GetVersion() {
@@ -378,9 +338,7 @@ String AGAR::GetVersion() {
 }
 
 void AGAR::openSettingsWindow() {
-	
-	SettingsDlg dlg;
-	dlg.Run();
+	SettingsDlg().Run();
 }
 
 void AGAR::initializeConfigurationFile(){

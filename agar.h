@@ -53,9 +53,9 @@ public:
 	void PinoutList();
 	void Exit();
 	void PcbList();
-	void PcbFault();
-	void PcbState();
-	void PcbType();
+	void openPcbFaultDialog();
+	void openPcbStateDialog();
+	void openPcbTypeDialog();
 	void ResetInitialFault();
 	void About();
 	void openSettingsWindow();
@@ -75,11 +75,11 @@ private:
 	String version_; // software version
 	
 	// non modal windows
-	MakerDlg* 		md_;
-	GameDlg*		gd_;
-	OriginsDlg*		od_;
-	LocationsDlg*	ld_;
-	PinoutsDlg*		pd_;
+	std::unique_ptr<MakerDlg>       maker_dialog_;
+	std::unique_ptr<GameDlg>        game_dialog_;
+	std::unique_ptr<OriginsDlg>		origins_dialog_;
+	std::unique_ptr<LocationsDlg>	locations_dialog_;
+	std::unique_ptr<PinoutsDlg>		pinouts_dialog_;
 };
 
 void saveConfiguration(const String& filename, const VectorMap<String, String>& data);
