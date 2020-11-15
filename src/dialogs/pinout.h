@@ -1,4 +1,5 @@
 #include "../agar.h"
+#include "../enums.h"
 
 class PinoutDlg : public WithPinoutLayout<TopWindow> {
 
@@ -7,5 +8,5 @@ class PinoutDlg : public WithPinoutLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 		
-		PinoutDlg(const int& openingType);	
+		PinoutDlg(const OpeningType type);
 };

@@ -34,7 +34,7 @@ void PinoutsDlg::MenuEdit() {
 	int id = TAB_pinouts.GetKey();
 	if(IsNull(id))
 		return;
-	PinoutDlg dlg(OPENING_EDIT);
+	PinoutDlg dlg(OpeningType::opening_edit);
 
 	if(!dlg.ctrls.Load(PINOUT, ID == id))
 		return;

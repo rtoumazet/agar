@@ -1,4 +1,5 @@
 #include "../agar.h"
+#include "../enums.h"
 
 class OriginDlg : public WithOriginLayout<TopWindow> {
 
@@ -7,5 +8,5 @@ class OriginDlg : public WithOriginLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 		
-		OriginDlg(const int& openingType);	
+		OriginDlg(const OpeningType type);
 };

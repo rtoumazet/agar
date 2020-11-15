@@ -24,11 +24,6 @@ class OriginsDlg;
 class LocationsDlg;
 class PinoutsDlg;
 
-enum OpeningType {
-	OPENING_NEW,
-	OPENING_EDIT
-};
-
 class AGAR : public WithAGARLayout<TopWindow> {
 
 	typedef AGAR CLASSNAME;
@@ -46,18 +41,18 @@ public:
 	void SubMenuOptionsDefaultvalues(Bar& bar);
 
 	// menu dispatch functions
-	void MakerList();
-	void GameList();
-	void LocationList();
-	void OriginList();
-	void PinoutList();
+	void openMakerList();
+	void openGameList();
+	void openLocationList();
+	void openOriginList();
+	void openPinoutList();
 	void Exit();
-	void PcbList();
+	void openPcbList();
 	void openPcbFaultDialog();
 	void openPcbStateDialog();
 	void openPcbTypeDialog();
 	void ResetInitialFault();
-	void About();
+	void openAboutDialog();
 	void openSettingsWindow();
 	void initializeConfigurationFile();
 	

@@ -1,23 +1,22 @@
 #include "location.h"
+#include "../enums.h"
 
-LocationDlg::LocationDlg(const int& openingType) {
+LocationDlg::LocationDlg(const OpeningType type) {
 	
 	CtrlLayoutOKCancel(*this, t_("Location"));
 
-	//ctrls(*this, LOCATION); //	matches widgets to columns based on Layout and schema introspection
-	
 	ctrls // manual declaration
 		(LABEL, LE_Label)
 	;	
 	
 	ActiveFocus(LE_Label); // setting focus
 	
-	switch (openingType) {
-		case OPENING_NEW:
+	switch (type) {
+		case OpeningType::opening_new:
 			Title(t_("New location"));
-			break;	
-		case OPENING_EDIT:
+			break;
+		case OpeningType::opening_edit:
 			Title(t_("Edit location"));
 			break;
-	}	
+	}
 }

@@ -155,7 +155,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void doOk();
 
-		PcbDlg(const int openingType, const int pcbId=0);
+		PcbDlg(const OpeningType type, const int pcbId=0);
 		~PcbDlg();
 	
 

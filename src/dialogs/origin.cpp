@@ -1,11 +1,9 @@
 #include "origin.h"
 
-OriginDlg::OriginDlg(const int& openingType) {
+OriginDlg::OriginDlg(const OpeningType type) {
 	
 	CtrlLayoutOKCancel(*this, t_("Origin"));
 
-	//ctrls(*this, ORIGIN); //	matches widgets to columns based on Layout and schema introspection
-	
 	ctrls // manual declaration
 		(NAME, LE_Name)
 		(ORIGIN, LE_Origin)
@@ -17,11 +15,11 @@ OriginDlg::OriginDlg(const int& openingType) {
 	LE_Origin.NoProcessTab();
 	DE_Comment.NoProcessTab();
 	
-	switch (openingType) {
-		case OPENING_NEW:
+	switch (type) {
+		case OpeningType::opening_new:
 			Title(t_("New origin"));
-			break;	
-		case OPENING_EDIT:
+			break;
+		case OpeningType::opening_edit:
 			Title(t_("Edit origin"));
 			break;
 	}

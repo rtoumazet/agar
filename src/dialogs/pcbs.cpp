@@ -140,7 +140,7 @@ void PcbsDlg::OwnMenu(Bar& bar) {
 }
 
 void PcbsDlg::Create() {
-	PcbDlg dlg(OPENING_NEW);
+	PcbDlg dlg(OpeningType::opening_new);
 	
 	dlg.loadFaultData();
 	
@@ -172,7 +172,7 @@ void PcbsDlg::Edit(int pcbId) {
 	if (!id) id = TAB_pcbs.GetKey();
 	if(IsNull(id))
 		return;
-	PcbDlg dlg(OPENING_EDIT, id);
+	PcbDlg dlg(OpeningType::opening_edit, id);
 
 	if(!dlg.ctrls.Load(PCB, ID == id))
 		return;

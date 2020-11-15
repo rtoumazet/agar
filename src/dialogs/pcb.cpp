@@ -11,7 +11,7 @@
 #include "pcbstate.h"
 #include "game.h"
 #include "viewer.h"
-#include "../utilities/converts.h"
+#include "../utilities/converts.h" // toUnderlying
 
 using namespace std;
 
@@ -20,7 +20,7 @@ enum class ResizePicture{
 	do_not_resize = 1
 };
 
-PcbDlg::PcbDlg(const int openingType, const int pcbId) {
+PcbDlg::PcbDlg(const OpeningType type, const int pcbId) {
 
 	CtrlLayout(*this, t_("Pcb"));
 	
@@ -78,8 +78,8 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 	TC_Tab.Add(misc_tab_, t_("Miscellaneous"));
 	
 	Ctrl* child = NULL;
-	switch (openingType) {
-		case OPENING_NEW:
+	switch (type) {
+		case OpeningType::opening_new:
 			Title(t_("New PCB"));
 			TC_AnalysisAction.NoRoot(true); // root of treecontrol is hidden as there's no entry in creation
 			TC_AnalysisAction.Disable(); // no action allowed on the TC during creation
@@ -90,7 +90,7 @@ PcbDlg::PcbDlg(const int openingType, const int pcbId) {
 				child = child->GetNext();
 			}
 			break;
-		case OPENING_EDIT:
+		case OpeningType::opening_edit:
 			Title(t_("Edit PCB"));
 			break;
 	}
@@ -430,7 +430,7 @@ void PcbDlg::createLinkedRecord(const TableType tableType) {
 	switch (tableType) {
 		case TableType::pinout:
 		{
-			PinoutDlg dlg(OPENING_NEW);
+			PinoutDlg dlg(OpeningType::opening_new);
 			if(dlg.Execute() != IDOK)
 				return;
 			
@@ -445,7 +445,7 @@ void PcbDlg::createLinkedRecord(const TableType tableType) {
 		}
 		case TableType::origin:
 		{
-			OriginDlg dlg(OPENING_NEW);
+			OriginDlg dlg(OpeningType::opening_new);
 			if(dlg.Execute() != IDOK)
 				return;
 			
@@ -459,7 +459,7 @@ void PcbDlg::createLinkedRecord(const TableType tableType) {
 		}
 		case TableType::location:
 		{
-			LocationDlg dlg(OPENING_NEW);
+			LocationDlg dlg(OpeningType::opening_new);
 			if(dlg.Execute() != IDOK)
 				return;
 			
@@ -479,8 +479,6 @@ void PcbDlg::createLinkedRecord(const TableType tableType) {
 
 			dlg.Run();
 
-			
-			//SQL * dlg.ctrls.Insert(GAME);
 			id = SQL.GetInsertedId();
 			
 			// Droplist refresh
@@ -703,16 +701,7 @@ void PcbDlg::tabChanged() {
 }
 
 void PcbDlg::displayPicture() {
-
-	/*Popup p(pictures_tab_.pictures.GetKey());
-	p.CenterScreen();
-	p.RunAppModal();*/
-	
-	//ViewerDlg v;
-	//v.RunAppModal();
-	ViewerDlg v(pictures_tab_.pictures.GetKey());
-	v.RunAppModal();
-
+    ViewerDlg(pictures_tab_.pictures.GetKey()).RunAppModal();
 }
 
 void PcbDlg::displayPicturePreview() {

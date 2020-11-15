@@ -129,21 +129,21 @@ void AGAR::MainMenu(Bar& bar) {
 	bar.Add(t_("File"), THISBACK(SubMenuFile));
 	bar.Add(t_("PCB"), THISBACK(SubMenuPcb));
 	bar.Add(t_("Options"), THISBACK(SubMenuOptions));
-	bar.Add(t_("?"), THISBACK(About));
+	bar.Add(t_("?"), THISBACK(openAboutDialog));
 }
 
 void AGAR::SubMenuFile(Bar& bar) {
-    bar.Add(t_("Manufacturers"), THISBACK(MakerList));
-    bar.Add(t_("Games"), THISBACK(GameList));
-    bar.Add(t_("Locations"), THISBACK(LocationList));
-    bar.Add(t_("Origins"), THISBACK(OriginList));
-    bar.Add(t_("Pinouts"), THISBACK(PinoutList));
+    bar.Add(t_("Manufacturers"), THISBACK(openMakerList));
+    bar.Add(t_("Games"), THISBACK(openGameList));
+    bar.Add(t_("Locations"), THISBACK(openLocationList));
+    bar.Add(t_("Origins"), THISBACK(openOriginList));
+    bar.Add(t_("Pinouts"), THISBACK(openPinoutList));
     bar.Separator();
     bar.Add(t_("Exit"), THISBACK(Exit));
 }
 
 void AGAR::SubMenuPcb(Bar& bar) {
-    bar.Add(t_("PCB list"), THISBACK(PcbList));
+    bar.Add(t_("PCB list"), THISBACK(openPcbList));
 }
 
 void AGAR::SubMenuOptions(Bar& bar) {
@@ -159,50 +159,42 @@ void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
     bar.Add(t_("PCB Types"), THISBACK(openPcbTypeDialog));
 }
 
-void AGAR::MakerList() {
+void AGAR::openMakerList() {
     if(!maker_dialog_){
         maker_dialog_ = std::make_unique<MakerDlg>();
     }
 	maker_dialog_->IsOpen() ? maker_dialog_->Close() : maker_dialog_->Open(this);
 }
 
-void AGAR::GameList() {
+void AGAR::openGameList() {
 	if(!game_dialog_){
         game_dialog_ = std::make_unique<GameDlg>();
     }
 	game_dialog_->IsOpen() ? game_dialog_->Close() : game_dialog_->Open(this);
 }
 
-void AGAR::OriginList() {
+void AGAR::openOriginList() {
 	if(!origins_dialog_){
         origins_dialog_ = std::make_unique<OriginsDlg>();
     }
 	origins_dialog_->IsOpen() ? origins_dialog_->Close() : origins_dialog_->Open(this);
 }
 
-void AGAR::LocationList() {
+void AGAR::openLocationList() {
 	if(!locations_dialog_){
         locations_dialog_ = std::make_unique<LocationsDlg>();
     }
 	locations_dialog_->IsOpen() ? locations_dialog_->Close() : locations_dialog_->Open(this);
 }
 
-void AGAR::PinoutList() {
+void AGAR::openPinoutList() {
 	if(!pinouts_dialog_){
         pinouts_dialog_ = std::make_unique<PinoutsDlg>();
     }
 	pinouts_dialog_->IsOpen() ? pinouts_dialog_->Close() : pinouts_dialog_->Open(this);
 }
 
-void AGAR::PcbList() {
-	
-	// Displays pcbs records
-	
-	/*PcbsDlg dlg;
-	dlg.Sizeable();
-		
-	dlg.Run();*/
-	
+void AGAR::openPcbList() {
 	PcbsDlg().Sizeable().Run();
 }
 
@@ -328,7 +320,7 @@ bool AGAR::Key(dword key, int count) {
 	return TopWindow::Key(key,count);
 }
 
-void AGAR::About() {
+void AGAR::openAboutDialog() {
 	AboutDlg(GetVersion()).Run();
 }
 

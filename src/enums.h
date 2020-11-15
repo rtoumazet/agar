@@ -6,3 +6,8 @@ enum class ItemType : int {
 	action		= 1,
 	unknown     = -1
 };
+
+enum class OpeningType {
+	opening_new,
+	opening_edit
+};

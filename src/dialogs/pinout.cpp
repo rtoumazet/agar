@@ -1,6 +1,6 @@
 #include "pinout.h"
 
-PinoutDlg::PinoutDlg(const int& openingType) {
+PinoutDlg::PinoutDlg(const OpeningType type) {
 	
 	CtrlLayoutOKCancel(*this, t_("Pinout"));
 
@@ -17,11 +17,11 @@ PinoutDlg::PinoutDlg(const int& openingType) {
 	DE_Detail.SetFont(Monospace());
 	EF_Size.MaxChars(5);
 	
-	switch (openingType) {
-		case OPENING_NEW:
+	switch (type) {
+		case OpeningType::opening_new:
 			Title(t_("New pinout"));
 			break;	
-		case OPENING_EDIT:
+		case OpeningType::opening_edit:
 			Title(t_("Edit pinout"));
 			break;
 	}

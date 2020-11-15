@@ -1,4 +1,5 @@
 #include "../agar.h"
+#include "../enums.h"
 
 class LocationDlg : public WithLocationLayout<TopWindow> {
 
@@ -7,6 +8,6 @@ class LocationDlg : public WithLocationLayout<TopWindow> {
 	public:
 		SqlCtrls ctrls;
 		
-		LocationDlg(const int& openingType);	
+		LocationDlg(const OpeningType type);
 
 };
