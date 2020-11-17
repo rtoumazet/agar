@@ -251,7 +251,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void removeActionFromVector(const int id);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void BuildActionTree()
+		/// \fn	void BuildItemTree()
 		///
 		/// \brief	Builds the treecontrol using data from the actionRecords_ vector.
 		///
@@ -259,7 +259,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		/// \date	30/01/2014
 		///
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void buildActionTree();
+		void buildItemTree();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void AddActionToVector(ActionRecord ar)

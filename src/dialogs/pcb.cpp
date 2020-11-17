@@ -286,7 +286,7 @@ void PcbDlg::editRecord() {
 
         *it = dlg.Record();
 
-        buildActionTree();
+        buildItemTree();
 	}
 };
 
@@ -334,7 +334,7 @@ void PcbDlg::addRecord(const int pcbId, const ItemType type) {
     
     addActionToVector(dlg->Record());
 	
-	buildActionTree(); // Treecontrol is rebuilt
+	buildItemTree(); // Treecontrol is rebuilt
 }
 
 int PcbDlg::getRecordNumber(int const pcbId) {
@@ -351,7 +351,7 @@ int PcbDlg::getRecordNumber(int const pcbId) {
 	return count;
 }
 
-void PcbDlg::buildActionTree() {
+void PcbDlg::buildItemTree() {
 	// Fills the tree control with data from action file
 
 	TC_AnalysisAction.Clear();
@@ -365,10 +365,9 @@ void PcbDlg::buildActionTree() {
 	vector<ActionRecord> orphans;
 	
 	// looping through records to fill actions & analysis vectors
-    for (vector<ActionRecord>::iterator it = action_records_.begin(); it != action_records_.end(); ++it)
-    {
-	    if( it->parent_index == 0) analysis.push_back(*it);
-	    else actions.push_back(*it);
+    for(auto const& ar : action_records_){
+        if(ar.parent_index == 0) analysis.push_back(ar);
+        else actions.push_back(ar);
     }
 	
 	TC_AnalysisAction.Clear(); // treecontrol is emptied
@@ -376,33 +375,34 @@ void PcbDlg::buildActionTree() {
 	TC_AnalysisAction.NoRoot(false);
 
 	// Treecontrol is built using data from vector
-	for (auto it = action_records_.begin(); it != action_records_.end(); ++it) {
+	for (auto const& ar : action_records_){
 		// Checking whether current iterator points to an analysis or to an action
-		if (it->parent_index == 0) {
+		if (ar.parent_index == 0) {
 			// It's an analysis, record can be added directly
-			TC_AnalysisAction.Add(0, MyImages::analysis(), it->key, it->commentary, false);
+			TC_AnalysisAction.Add(0, MyImages::analysis(), ar.key, ar.commentary, false);
 		}
 		else {
 			// It's an action, we must check if the parent exists before adding it
 			// Parent id is checked against analysis vector content
-			int id = it->parent_index; // getting parent id of current record
-	        vector<ActionRecord>::iterator ite = std::find_if(analysis.begin(), analysis.end(), [&id](const ActionRecord& ar)
+			int id = ar.parent_index; // getting parent id of current record
+	        auto const& it = std::find_if(analysis.begin(), analysis.end(), [&id](const ActionRecord& r)
 	        {
-	            return ar.node_index == id;
+	            return r.node_index == id;
 	        });
 			
 			// If parent doesn't exist, record is added to the orphans vector
-	        if (ite == analysis.end()) {
+	        if (it == analysis.end()) {
 	            // Parent wasn't found in the vector, so the record is added to the orphans
 	            // vector
-	            //TC_AnalysisAction.Add(0, MyImages::warning(), it->key, it->commentary, false);
-	            orphans.push_back(*it);
+	            orphans.push_back(ar);
 	        }
 	        else {
 	            // Parent was found in the vector, record can be added to the treecontrol
-	            TC_AnalysisAction.Add(it->parent_index,
-	            	!it->finished ? MyImages::action() : MyImages::actionDone(), it->key,
-	            	it->commentary, false);
+	            TC_AnalysisAction.Add(ar.parent_index,
+                    !ar.finished ? MyImages::action() : MyImages::actionDone(),
+                    ar.key,
+                    ar.commentary,
+                    false);
 	        }
 
 		}
@@ -414,10 +414,8 @@ void PcbDlg::buildActionTree() {
 	    PromptOK(t_("Orphan actions exist for current pcb ! Use drag & drop to link them to an analysis"));
 
         // orphans actions are added to the treecontrol as analysis with a special icon
-		for (vector<ActionRecord>::iterator it = orphans.begin(); it != orphans.end(); ++it) // actions loop
-		{
-			// adding action to the treecontrol
-			TC_AnalysisAction.Add(0, MyImages::warning(), it->key, it->commentary, false);
+		for (auto const& o : orphans) {
+			TC_AnalysisAction.Add(0, MyImages::warning(), o.key, o.commentary, false);
 		}
 	}
 
@@ -885,7 +883,7 @@ void PcbDlg::loadActionTreeFromDatabase()
 	// key is saved back to the object member variable
 	actionRecordsKey(key);
 	
-	buildActionTree(); // Treecontrol is reloaded
+	buildItemTree(); // Treecontrol is reloaded
 }
 
 void PcbDlg::saveActionTreeToDatabase()
@@ -1023,7 +1021,7 @@ void PcbDlg::treeDropInsert(const int parent, const int ii, PasteClip& d)
             it->parent_index = TC_AnalysisAction.GetParent(TC_AnalysisAction.GetCursor());
         }
 
-		buildActionTree();
+		buildItemTree();
     
         return;
     }
