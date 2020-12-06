@@ -18,6 +18,13 @@ using namespace Upp;
 #define IMAGEFILE  "agar/img/images.iml"
 #include <Draw/iml_header.h>
 
+    typedef struct ParentIdCorrespondance {
+        int action_id;
+        int pcb_id;
+        int parent_id;
+        int index;
+    } ParentIdCorrespondance;
+
 class MakerDlg;
 class GameDlg;
 class OriginsDlg;
@@ -55,10 +62,11 @@ public:
 	void openAboutDialog();
 	void openSettingsWindow();
 	void initializeConfigurationFile();
+	void updateParentId();
 	
 	String GetVersion();
 	
-	bool Key(dword key,int);
+	auto Key(dword key,int) -> bool;
 
 	AGAR();
 	~AGAR();

@@ -7,6 +7,7 @@
 #define IMAGEFILE  "agar/img/images.iml"
 #include <Draw/iml_source.h>
 
+#include <vector>
 #include "dialogs/maker.h"
 #include "dialogs/game.h"
 #include "dialogs/locations.h"
@@ -21,6 +22,11 @@
 
 constexpr int default_image_width = 1024;
 constexpr int default_image_height = 768;
+
+enum class ParentIdUpdated{
+	not_updated = 0,
+	updated = 1
+};
 
 SqlId count("count(*)");
 
@@ -116,6 +122,8 @@ void AGAR::DatabaseInit() {
 		fault.LABEL = "Sound";
 		sql * Insert(fault);
 	}
+	
+	updateParentId();
 }
 
 void AGAR::Exit() {
@@ -305,15 +313,16 @@ GUI_APP_MAIN
 	SQL.ClearError();
 	
 	//Icon(MyImages::smallIcon());
-	AGAR().Icon(MyImages::smallIcon());
+	AGAR agar;
+	agar.Icon(MyImages::smallIcon());
 	
 	// Entering the main window modal loop
-	AGAR().Run();
+	agar.Run();
 	
 	SQL.Execute("VACUUM;"); // Deleted data is freed
 }
 
-bool AGAR::Key(dword key, int count) {
+auto AGAR::Key(dword key, int count) -> bool {
 	if (key == K_TAB) {
 		return false;
 	}
@@ -343,6 +352,52 @@ void AGAR::initializeConfigurationFile(){
 	saveConfiguration("agar.cfg", cfg);
 }
 
+void AGAR::updateParentId(){
+    auto cfg     = LoadIniFile("agar.cfg");
+	auto updated = static_cast<ParentIdUpdated>(StrInt(cfg.Get("ParentIdUpdated", "0")));
+    
+    if(updated == ParentIdUpdated::not_updated) {
+        std::vector<ParentIdCorrespondance> pics;
+        Sql sql;
+        sql.Execute("select count(*) from pcb_action");
+        if(sql.Fetch()){
+            pics.reserve(static_cast<int>(sql[0]));
+            
+            int index = 0;
+            int saved_pcb_id = 0;
+            sql.Execute("select ID, PCB_ID, PARENT_ID from pcb_action order by pcb_id, action_date;");
+            while(sql.Fetch()){
+                int current_pcb_id = static_cast<int>(sql[1]);
+                if(saved_pcb_id != current_pcb_id){
+                    saved_pcb_id = current_pcb_id;
+                    index = 1;
+                }
+                ParentIdCorrespondance pic = {sql[0], sql[1], sql[2], index};
+                pics.emplace_back(pic);
+                ++index;
+            }
+            
+            for(auto& item: pics) {
+                if(item.parent_id != 0){
+                    const auto it = std::find_if(pics.begin(), pics.end(),[&item](const ParentIdCorrespondance& p) {
+                                                                    return ((p.pcb_id == item.pcb_id) && (p.index == item.parent_id));}
+                                            );
+                    if (it != pics.end()){
+                        item.parent_id = it->action_id;
+                    }
+                    sql.Execute("update pcb_action set PARENT_ID = ? where ID = ?", item.parent_id, item.action_id);
+                }
+                //auto log = Format("%i %i %i %i", item.action_id, item.pcb_id, item.parent_id, item.index);
+                //DUMP(log);
+            }
+            
+        }
+        
+        addConfigurationValue(cfg, "ParentIdUpdated", "1");
+        saveConfiguration("agar.cfg", cfg);
+    }
+}
+
 void saveConfiguration(const String& filename, const VectorMap<String, String>& data){
 	String dataToSave;
 	for(int i = 0; i < data.GetCount(); i++){
@@ -356,3 +411,4 @@ void addConfigurationValue(VectorMap<String, String>& data, const String& key, c
 	int ndx = data.FindAdd(key, value);
 	data[ndx] = value;
 }
+

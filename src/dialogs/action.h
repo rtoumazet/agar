@@ -33,7 +33,7 @@ class ActionDlg : public WithActionLayout<TopWindow> {
 			EDIT ///< Edition
 		};
 		
-		ActionDlg(const int pcb_id, const ItemType type, int parent_id = 0);
+		ActionDlg(const int pcb_id, const ItemType type, const int parent_id = 0);
 		ActionDlg(const ActionRecord& ar);
 		
 		void Record(const ActionRecord& ar){ record_ = ar; }

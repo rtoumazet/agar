@@ -29,14 +29,14 @@ constexpr unsigned int preview_width = 250;
 /// \date	28/01/2014
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 struct ActionRecord {
-	int 		id; //< PCB_ACTION id
-	int     	pcb_id; //< PCB id
-    int     	node_index; //< Treecontrol node index
-	int 		parent_index; //< Treecontrol parent index
-	//int     parentKey; //< PCB_ACTION id of the parent
-	int			key; //< internal key of the record, will be added to the key of the treecontrol record
-	Time 		date; //< PCB_ACTION date
-	String 		commentary;	//< PCB_ACTION commentary
+	int         id; //< PCB_ACTION id
+	int         pcb_id; //< PCB id
+    int         node_index; //< Treecontrol node index
+	int         parent_id; //< Treecontrol parent id
+//	int         parent_key; //< PCB_ACTION id of the parent
+//	int			key; //< internal key of the record, will be added to the key of the treecontrol record
+	Time        date; //< PCB_ACTION date
+	String      commentary;	//< PCB_ACTION commentary
 	int			finished; //< PCB_ACTION finished
 	ItemType	type; //< PCB_ACTION type
 };
@@ -112,19 +112,13 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		
 		// analysis & actions related functions
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void addRecord(const int pcbId, const int type)
-		///
-		/// \brief	Adds a record to the treecontrol, depending on the type parameter. 
-		///
-		/// \author	Runik
-		/// \date	14/07/2014
-		///
-		/// \param  pcbId	 PCB id
-		/// \param  type     ANALYSIS or ACTION (enum defined in action.h)
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Adds a record to the treecontrol, depending on the ItemType parameter.
 		void addRecord(const int pcb_id, const ItemType type);
+		
+        // Edits currently selected record in the treecontrol
 		void editRecord();
+
+        // Removes the selected record from the TreeControl
 		void removeRecord();
 		
 		
@@ -236,7 +230,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \return level in the tree hierarchy (0=root, 1=analysis, 2=action)
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		int treeGetLevel(int id) const;
+		auto treeGetLevel(int id) const -> int;
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void RemoveActionFromVector(const int id)
@@ -262,7 +256,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void buildItemTree();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void AddActionToVector(ActionRecord ar)
+		/// \fn	void AddActionToVector(ActionRecord& ar, const int node_index)
 		///
 		/// \brief	Add record to vector.
 		///
@@ -271,7 +265,7 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		///
 		/// \param  ar   record to add
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void addActionToVector(ActionRecord ar);
+		void addActionToVector(ActionRecord& ar, const int node_index);
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// \fn	void LogActionVector()
@@ -295,13 +289,14 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		////////////////////////////////////////////////////////////////////////////////////////////////////		
 		void sortActionVector();
 		
-		auto getItemType(const int key) -> ItemType;
+		void updateNodeIndexInMainVector(const ActionRecord& current_record, const int& new_index);
+		
+		auto getRecordFromIndex(const int index) -> ActionRecord*;
+		auto getRecordFromId(const int id) -> ActionRecord*;
 		
 		/// ACCESSORS
 		void pcbId(const int id) {pcb_id_ = id;}
 		auto pcbId() const { return pcb_id_;}
-		void actionRecordsKey(const int k) {action_records_key_ = k;}
-		auto actionRecordsKey() const { return action_records_key_;}
 		
 		ArrayMap<int, Option> option_;
 		ArrayMap<int, Option> option_origin_;

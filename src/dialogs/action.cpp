@@ -1,7 +1,7 @@
 #include "action.h"
 
 
-ActionDlg::ActionDlg(const int pcb_id, const ItemType type, int parent_id) {
+ActionDlg::ActionDlg(const int pcb_id, const ItemType type, const int parent_id) {
 	InitializeFields(type);
     
 	E_ParentId	<<= parent_id; // 0 for analysis, param value for action
@@ -19,7 +19,7 @@ ActionDlg::ActionDlg(const ActionRecord& ar) {
 	
 	// Fields are initialized from constructor parameter
 	E_PcbId         <<= ar.pcb_id;
-	E_ParentId      <<= ar.parent_index;
+	E_ParentId      <<= ar.parent_id;
 	E_Time          <<= ar.date;
 	DE_Comment      <<= ar.commentary;
 	O_Finished      <<= ar.finished;
@@ -32,12 +32,12 @@ ActionDlg::ActionDlg(const ActionRecord& ar) {
 
 void ActionDlg::DoOk() {
     // Saves modified data to the current record
-	record_.pcb_id          = ~E_PcbId;
-	record_.parent_index    = ~E_ParentId;
-	record_.date            = ~E_Time;
-	record_.commentary      = ~DE_Comment;
-	record_.finished        = ~O_Finished;
-	record_.type            = ItemType(static_cast<int>(~E_ActionType));
+	record_.pcb_id      = ~E_PcbId;
+	record_.parent_id   = ~E_ParentId;
+	record_.date        = ~E_Time;
+	record_.commentary  = ~DE_Comment;
+	record_.finished    = ~O_Finished;
+	record_.type        = ItemType(static_cast<int>(~E_ActionType));
 
     Break(IDOK); // Breaking the modal loop
 }
@@ -48,17 +48,15 @@ void ActionDlg::InitializeFields(const ItemType type) {
 	E_PcbId.Hide();
 	E_ParentId.Hide();
 	
-	if (type == ItemType::analysis)
-	{
-    	CtrlLayout(*this, t_("Analysis"));
+	if (type == ItemType::analysis)	{
+        CtrlLayout(*this, t_("Analysis"));
 		O_Finished.Hide();
 		// no parent defined for an analysis
-		record_.parent_index = 0;
-		//record_.parentKey   = 0;
+		record_.parent_id = 0;
 	} else {
 		CtrlLayout(*this, t_("Action"));
 		O_Finished.Show(true);
-	}	
+	}
 	
     // Setting up buttons callbacks
     ok <<= THISBACK(DoOk);
