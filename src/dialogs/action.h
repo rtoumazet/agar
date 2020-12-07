@@ -25,8 +25,6 @@ class ActionDlg : public WithActionLayout<TopWindow> {
 	typedef ActionDlg CLASSNAME;
 	
 	public:
-		SqlCtrls ctrls;
-	
 		/// Opening type enum
 		enum OpeningType {
 			CREATION, ///< Creation
@@ -37,7 +35,9 @@ class ActionDlg : public WithActionLayout<TopWindow> {
 		ActionDlg(const ActionRecord& ar);
 		
 		void Record(const ActionRecord& ar){ record_ = ar; }
-		ActionRecord Record() const { return record_; }
+		auto Record() const -> ActionRecord { return record_; }
+
+		SqlCtrls ctrls;
 			
 	private:
 	    ActionRecord record_; ///< record currently created / edited

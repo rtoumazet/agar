@@ -10,23 +10,21 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 
 	typedef PcbsDlg CLASSNAME;
 	
+	public:
+		PcbsDlg();
+		~PcbsDlg();
+
 	private:
 		void Create();
-		void Edit(int pcbId=0);
+		void Edit(const int pcb_id=0);
 		void Remove();
 		void GenerateReport();
 
 		void OwnMenu(Bar& bar);
 
 		// Sort functions and variables
-		bool isSortedAsc_;
-		void ReloadTable(const bool& ascSort);
-		void SortTable(const int& i);
-		
-		// Filter functions and variables
-		int 					filterState_;
-		//Array<Label> 			label_;
-		ArrayMap<int, Option>  	option_;
+		void ReloadTable(const bool asc_sort);
+		void SortTable(const int i);
 		
 		void LoadFaultData();
 		void ExecuteFilter();
@@ -34,24 +32,21 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		// listing extraction functions
 		void ExtractListing();
 		
-		// current sorted column
-		int     sortedColumnIndex_;
-		int     sortedColumnDirection_; // based on SortDirection enum
-		void    TableSort(const int& index, const int& direction);
-		
-	public:
-		PcbsDlg();
-		~PcbsDlg();
-	
+		bool                    is_sorted_asc_;
+		int                     sorted_column_index_;
+		int                     sorted_column_direction_; // based on SortDirection enum
+        int                     filter_state_;
+        ArrayMap<int, Option>   option_;
+
 };
 
 struct Data {
+    void Jsonize(JsonIO& json);
+    void Xmlize(XmlIO& xio) { XmlizeByJsonize(xio, *this); }
+    
     String game;
     String type;
     String tag;
     String location;
     String state;
-
-    void Jsonize(JsonIO& json);
-    void Xmlize(XmlIO& xio) { XmlizeByJsonize(xio, *this); }
 };

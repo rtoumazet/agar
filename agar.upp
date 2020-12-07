@@ -59,7 +59,8 @@ file
 	Layouts readonly separator,
 	agar.lay,
 	Database readonly separator,
-	agar.sch;
+	agar.sch,
+	src.tpp;
 
 mainconfig
 	"" = "GUI SSE2";

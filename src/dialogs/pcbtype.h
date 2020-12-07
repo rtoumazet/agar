@@ -7,10 +7,8 @@ public:
 	PcbTypeDlg();
 	
 private:
-	EditString ES_label_;
-	
 	void MyMenu(Bar& bar);
 	void Add(){};
 
-	
+	EditString ES_label_;
 };

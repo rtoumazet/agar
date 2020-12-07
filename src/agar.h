@@ -64,9 +64,9 @@ public:
 	void initializeConfigurationFile();
 	void updateParentId();
 	
-	String GetVersion();
+	auto GetVersion() -> String;
 	
-	auto Key(dword key,int) -> bool;
+	auto Key(dword key, int) -> bool;
 
 	AGAR();
 	~AGAR();

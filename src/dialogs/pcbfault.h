@@ -7,8 +7,7 @@ public:
 	PcbFaultDlg();
 	
 private:
-	EditString ES_label_;
-	
 	void MyMenu(Bar& bar);
 
+	EditString ES_label_;
 };

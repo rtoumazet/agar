@@ -5,11 +5,9 @@ class MakerDlg : public WithMakersLayout<TopWindow> {
 	typedef MakerDlg CLASSNAME;
 
 	public:
-		MakerDlg();	
+		MakerDlg();
 	
 	private:
-		EditString ES_name_;
-		
 		void OwnMenu(Bar& bar);
 		void MenuAdd();
 		void MenuEdit();
@@ -18,4 +16,6 @@ class MakerDlg : public WithMakersLayout<TopWindow> {
 		void InsertCheck();
 	
 		void DoClose();
+		
+        EditString ES_name_;
 };

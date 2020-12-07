@@ -19,9 +19,8 @@ class ViewerDlg : public TopWindow
 		ViewerDlg(const int i);
 		
 	private:
-
 		void callbackViewMenu(const int i);
-		void openViewMenu( Bar& bar );
+		void openViewMenu(Bar& bar);
 		void openMainMenu(Bar& bar);
 
 		MenuBar menu_;

@@ -1,7 +1,8 @@
 #include "action.h"
 
 
-ActionDlg::ActionDlg(const int pcb_id, const ItemType type, const int parent_id) {
+ActionDlg::ActionDlg(const int pcb_id, const ItemType type, const int parent_id)
+{
 	InitializeFields(type);
     
 	E_ParentId	<<= parent_id; // 0 for analysis, param value for action
@@ -14,7 +15,8 @@ ActionDlg::ActionDlg(const int pcb_id, const ItemType type, const int parent_id)
 	ActiveFocus(DE_Comment);
 }
 
-ActionDlg::ActionDlg(const ActionRecord& ar) {
+ActionDlg::ActionDlg(const ActionRecord& ar)
+{
     InitializeFields(ar.type);
 	
 	// Fields are initialized from constructor parameter
@@ -30,8 +32,10 @@ ActionDlg::ActionDlg(const ActionRecord& ar) {
 	ActiveFocus(DE_Comment); // focus is set to the comment field
 }
 
-void ActionDlg::DoOk() {
+void ActionDlg::DoOk()
+{
     // Saves modified data to the current record
+	record_.id          = -1;
 	record_.pcb_id      = ~E_PcbId;
 	record_.parent_id   = ~E_ParentId;
 	record_.date        = ~E_Time;
@@ -42,7 +46,8 @@ void ActionDlg::DoOk() {
     Break(IDOK); // Breaking the modal loop
 }
 
-void ActionDlg::InitializeFields(const ItemType type) {
+void ActionDlg::InitializeFields(const ItemType type)
+{
 	// Fields not to be seen are hidden
 	E_ActionType.Hide();
 	E_PcbId.Hide();

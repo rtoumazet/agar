@@ -20,8 +20,8 @@
 #include "dialogs/about.h"
 #include "dialogs/settings.h"
 
-constexpr int default_image_width = 1024;
-constexpr int default_image_height = 768;
+auto constexpr default_image_width = int{1024};
+auto constexpr default_image_height = int{768};
 
 enum class ParentIdUpdated{
 	not_updated = 0,
@@ -30,7 +30,8 @@ enum class ParentIdUpdated{
 
 SqlId count("count(*)");
 
-AGAR::AGAR() {
+AGAR::AGAR()
+{
 	version_ = "AGAR 1.2.1";
 	
 	SetDateFormat("%3:02d/%2:02d/%1:4d"); // set dd/mm/yyyy format
@@ -46,18 +47,17 @@ AGAR::AGAR() {
 	initializeConfigurationFile();
 }
 
-AGAR::~AGAR(){
+AGAR::~AGAR() {}
 
-}
-
-void AGAR::DatabaseInit() {
+void AGAR::DatabaseInit()
+{
 
 	// Various database init
 	Sql sql;
 	
-	// PCB_TYPE default values
+    // PCB_TYPE default values
 	sql.Execute("select * from PCB_TYPE;");
-	if(!sql.Fetch()) {
+	if (!sql.Fetch()) {
 		S_PCB_TYPE type;
 		type.LABEL = "Original";
 		sql * Insert(type);
@@ -67,9 +67,9 @@ void AGAR::DatabaseInit() {
 		sql * Insert(type);
 	}
 
-	// PCB_STATE default values	
+    // PCB_STATE default values
 	sql.Execute("select * from PCB_STATE;");
-	if(!sql.Fetch()) {
+	if (!sql.Fetch()) {
 		S_PCB_STATE state;
 		state.LABEL = "Fully working";
 		state.PAPER = Green().GetRaw();
@@ -107,7 +107,7 @@ void AGAR::DatabaseInit() {
 	
 	// PCB_FAULT default values
 	sql.Execute("select * from PCB_FAULT;");
-	if(!sql.Fetch()) {
+	if (!sql.Fetch()) {
 		S_PCB_FAULT fault;
 		fault.LABEL = "Other";
 		sql * Insert(fault);
@@ -126,21 +126,24 @@ void AGAR::DatabaseInit() {
 	updateParentId();
 }
 
-void AGAR::Exit() {
+void AGAR::Exit()
+{
 
-    if(PromptOKCancel(t_("Exit AGAR ?"))) {
-    	Break();
+    if (PromptOKCancel(t_("Exit AGAR ?"))) {
+        Break();
     }
 }
 
-void AGAR::MainMenu(Bar& bar) {
+void AGAR::MainMenu(Bar& bar)
+{
 	bar.Add(t_("File"), THISBACK(SubMenuFile));
 	bar.Add(t_("PCB"), THISBACK(SubMenuPcb));
 	bar.Add(t_("Options"), THISBACK(SubMenuOptions));
 	bar.Add(t_("?"), THISBACK(openAboutDialog));
 }
 
-void AGAR::SubMenuFile(Bar& bar) {
+void AGAR::SubMenuFile(Bar& bar)
+{
     bar.Add(t_("Manufacturers"), THISBACK(openMakerList));
     bar.Add(t_("Games"), THISBACK(openGameList));
     bar.Add(t_("Locations"), THISBACK(openLocationList));
@@ -150,15 +153,15 @@ void AGAR::SubMenuFile(Bar& bar) {
     bar.Add(t_("Exit"), THISBACK(Exit));
 }
 
-void AGAR::SubMenuPcb(Bar& bar) {
+void AGAR::SubMenuPcb(Bar& bar)
+{
     bar.Add(t_("PCB list"), THISBACK(openPcbList));
 }
 
-void AGAR::SubMenuOptions(Bar& bar) {
+void AGAR::SubMenuOptions(Bar& bar)
+{
 	bar.Add(t_("Settings"), THISBACK(openSettingsWindow));
 	bar.Add(t_("Default values"), THISBACK(SubMenuOptionsDefaultvalues));
-	//bar.Add(t_("Reset initial faults"), THISBACK(ResetInitialFault));
-
 }
 
 void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
@@ -167,54 +170,63 @@ void AGAR::SubMenuOptionsDefaultvalues(Bar& bar) {
     bar.Add(t_("PCB Types"), THISBACK(openPcbTypeDialog));
 }
 
-void AGAR::openMakerList() {
-    if(!maker_dialog_){
+void AGAR::openMakerList()
+{
+    if (!maker_dialog_) {
         maker_dialog_ = std::make_unique<MakerDlg>();
     }
 	maker_dialog_->IsOpen() ? maker_dialog_->Close() : maker_dialog_->Open(this);
 }
 
-void AGAR::openGameList() {
-	if(!game_dialog_){
+void AGAR::openGameList()
+{
+	if (!game_dialog_) {
         game_dialog_ = std::make_unique<GameDlg>();
     }
 	game_dialog_->IsOpen() ? game_dialog_->Close() : game_dialog_->Open(this);
 }
 
-void AGAR::openOriginList() {
-	if(!origins_dialog_){
+void AGAR::openOriginList()
+{
+	if (!origins_dialog_) {
         origins_dialog_ = std::make_unique<OriginsDlg>();
     }
 	origins_dialog_->IsOpen() ? origins_dialog_->Close() : origins_dialog_->Open(this);
 }
 
-void AGAR::openLocationList() {
-	if(!locations_dialog_){
+void AGAR::openLocationList()
+{
+	if (!locations_dialog_) {
         locations_dialog_ = std::make_unique<LocationsDlg>();
     }
 	locations_dialog_->IsOpen() ? locations_dialog_->Close() : locations_dialog_->Open(this);
 }
 
-void AGAR::openPinoutList() {
-	if(!pinouts_dialog_){
+void AGAR::openPinoutList()
+{
+	if (!pinouts_dialog_) {
         pinouts_dialog_ = std::make_unique<PinoutsDlg>();
     }
 	pinouts_dialog_->IsOpen() ? pinouts_dialog_->Close() : pinouts_dialog_->Open(this);
 }
 
-void AGAR::openPcbList() {
+void AGAR::openPcbList()
+{
 	PcbsDlg().Sizeable().Run();
 }
 
-void AGAR::openPcbFaultDialog() {
+void AGAR::openPcbFaultDialog()
+{
 	PcbFaultDlg().Run();
 }
 
-void AGAR::openPcbStateDialog() {
+void AGAR::openPcbStateDialog()
+{
 	PcbStateDlg().Run();
 }
 
-void AGAR::openPcbTypeDialog() {
+void AGAR::openPcbTypeDialog()
+{
 	PcbTypeDlg().Run();
 }
 
@@ -234,21 +246,21 @@ GUI_APP_MAIN
 	// Connecting to the main database
 	Sqlite3Session sqlite3;
 	
-	String path_config = ConfigFile("AGAR.db");
-	String path_current= AppendFileName(GetCurrentDirectory(), "AGAR.db");
-	if ( path_config != path_current){
-		if( GetFileLength(path_current)== 0 ){
-			if( !FileDelete(path_current)){
+	auto const path_config = ConfigFile("AGAR.db");
+	auto const path_current= AppendFileName(GetCurrentDirectory(), "AGAR.db");
+	if (path_config != path_current){
+		if (GetFileLength(path_current) == 0) {
+			if (!FileDelete(path_current)) {
 				Exclamation("Could not delete empty AGAR.db");
 			}
 		}
 		
 		// On previous linux version the database was saved in the config directory.
 		// If that's the case, the file is copied to the current directory.
-		if( FileExists(path_config)){
-			if( !FileExists(path_current)){
-				if( !FileCopy(path_config, path_current)){
-					String msg = Format("Can't copy AGAR.db from \001%s\001 &to %s", path_config, path_current);
+		if (FileExists(path_config)){
+			if (!FileExists(path_current)) {
+				if (!FileCopy(path_config, path_current)) {
+					auto msg = Format("Can't copy AGAR.db from \001%s\001 &to %s", path_config, path_current);
 					msg += "&Reason could be you don't have the rights to copy the file.";
 					msg += "&Please do it manually to get your database back at the right place.";
 					Exclamation(msg);
@@ -257,8 +269,8 @@ GUI_APP_MAIN
 		}
 	}
 	//String databaseFullPath = ConfigFile("AGAR.db");
-	String database_full_path = AppendFileName(GetCurrentDirectory(), "AGAR.db");
-	if(!sqlite3.Open(database_full_path)) {
+	auto const database_full_path = AppendFileName(GetCurrentDirectory(), "AGAR.db");
+	if (!sqlite3.Open(database_full_path)) {
 		Cout() << t_("Can't create or open database file\n");
 		return;
 	}
@@ -271,40 +283,40 @@ GUI_APP_MAIN
 	SQL = sqlite3;
 
 	Sql sql;
-	String userVersion = "";
+	auto user_version = String{""};
 	sql.Execute("PRAGMA user_version;");
 	if (sql.Fetch()) {
 		//PromptOK(sql[0].ToString());
-		userVersion = sql[0].ToString();
+		user_version = sql[0].ToString();
 	}
 
 	// Following PRAGMA tells the database to use memory for temp files. (used by VACUUM)
 	sql.Execute("PRAGMA temp_store = 2;");
 
 	// strings initializations
-	String database_directory = GetFileDirectory(database_full_path);
+	auto database_directory = GetFileDirectory(database_full_path);
 
-	String backup_directory = NativePath(database_directory);
+	auto backup_directory = NativePath(database_directory);
 	backup_directory += "backup";
 	RealizeDirectory(backup_directory);
 
-	String schema_directory = NativePath(database_directory);
+	auto schema_directory = NativePath(database_directory);
 	schema_directory += "schema";
 	RealizeDirectory(schema_directory);
 
 	SqlSchema sch(SQLITE3);
 	All_Tables(sch);
-    if(sch.ScriptChanged(SqlSchema::UPGRADE, schema_directory)) {
+    if (sch.ScriptChanged(SqlSchema::UPGRADE, schema_directory)) {
 	   // schema was updated, database is saved
-	   String backup_filename = "AGAR.db.bck";
-	   backup_filename += userVersion;
+	   auto backup_filename = String{"AGAR.db.bck"};
+	   backup_filename += user_version;
 	   FileCopy(database_full_path, AppendFileName(backup_directory, backup_filename));
 	   SqlPerformScript(sch.Upgrade());
-	   int val = ScanInt(userVersion);
-	   val++;
+	   auto val = ScanInt(user_version);
+	   ++val;
 	   sql.Execute(Format("PRAGMA user_version = %i",val));
     }
-    if(sch.ScriptChanged(SqlSchema::ATTRIBUTES, schema_directory)) {
+    if (sch.ScriptChanged(SqlSchema::ATTRIBUTES, schema_directory)) {
         SqlPerformScript(sch.Attributes());
     }
 	
@@ -312,7 +324,6 @@ GUI_APP_MAIN
     
 	SQL.ClearError();
 	
-	//Icon(MyImages::smallIcon());
 	AGAR agar;
 	agar.Icon(MyImages::smallIcon());
 	
@@ -322,52 +333,58 @@ GUI_APP_MAIN
 	SQL.Execute("VACUUM;"); // Deleted data is freed
 }
 
-auto AGAR::Key(dword key, int count) -> bool {
+auto AGAR::Key(dword key, int count) -> bool
+{
 	if (key == K_TAB) {
 		return false;
 	}
 	return TopWindow::Key(key,count);
 }
 
-void AGAR::openAboutDialog() {
+void AGAR::openAboutDialog()
+{
 	AboutDlg(GetVersion()).Run();
 }
 
-String AGAR::GetVersion() {
+String AGAR::GetVersion()
+{
 	
 	return version_;
 }
 
-void AGAR::openSettingsWindow() {
+void AGAR::openSettingsWindow()
+{
 	SettingsDlg().Run();
 }
 
-void AGAR::initializeConfigurationFile(){
+void AGAR::initializeConfigurationFile()
+{
 	
-	VectorMap<String, String> cfg = LoadIniFile("agar.cfg");
+	auto cfg = LoadIniFile("agar.cfg");
 
-	if(cfg.Find("ImageWidth") == -1)	cfg.Add("ImageWidth", IntStr(default_image_width));
-	if(cfg.Find("ImageHeight") == -1)	cfg.Add("ImageHeight", IntStr(default_image_height));
+	if (cfg.Find("ImageWidth") == -1)	cfg.Add("ImageWidth", IntStr(default_image_width));
+	if (cfg.Find("ImageHeight") == -1)	cfg.Add("ImageHeight", IntStr(default_image_height));
 	
 	saveConfiguration("agar.cfg", cfg);
 }
 
-void AGAR::updateParentId(){
+void AGAR::updateParentId()
+{
     auto cfg     = LoadIniFile("agar.cfg");
 	auto updated = static_cast<ParentIdUpdated>(StrInt(cfg.Get("ParentIdUpdated", "0")));
     
-    if(updated == ParentIdUpdated::not_updated) {
+    if (updated == ParentIdUpdated::not_updated) {
         std::vector<ParentIdCorrespondance> pics;
         Sql sql;
         sql.Execute("select count(*) from pcb_action");
-        if(sql.Fetch()){
+        if (sql.Fetch()) {
             pics.reserve(static_cast<int>(sql[0]));
             
-            int index = 0;
-            int saved_pcb_id = 0;
+            auto index = int{0};
+            auto saved_pcb_id = int{0};
             sql.Execute("select ID, PCB_ID, PARENT_ID from pcb_action order by pcb_id, action_date;");
-            while(sql.Fetch()){
-                int current_pcb_id = static_cast<int>(sql[1]);
+            while (sql.Fetch()) {
+                auto const current_pcb_id = int{sql[1]};
                 if(saved_pcb_id != current_pcb_id){
                     saved_pcb_id = current_pcb_id;
                     index = 1;
@@ -377,9 +394,9 @@ void AGAR::updateParentId(){
                 ++index;
             }
             
-            for(auto& item: pics) {
+            for (auto& item: pics) {
                 if(item.parent_id != 0){
-                    const auto it = std::find_if(pics.begin(), pics.end(),[&item](const ParentIdCorrespondance& p) {
+                    auto const it = std::find_if(pics.begin(), pics.end(),[&item](const ParentIdCorrespondance& p) {
                                                                     return ((p.pcb_id == item.pcb_id) && (p.index == item.parent_id));}
                                             );
                     if (it != pics.end()){
@@ -387,8 +404,6 @@ void AGAR::updateParentId(){
                     }
                     sql.Execute("update pcb_action set PARENT_ID = ? where ID = ?", item.parent_id, item.action_id);
                 }
-                //auto log = Format("%i %i %i %i", item.action_id, item.pcb_id, item.parent_id, item.index);
-                //DUMP(log);
             }
             
         }
@@ -398,7 +413,8 @@ void AGAR::updateParentId(){
     }
 }
 
-void saveConfiguration(const String& filename, const VectorMap<String, String>& data){
+void saveConfiguration(const String& filename, const VectorMap<String, String>& data)
+{
 	String dataToSave;
 	for(int i = 0; i < data.GetCount(); i++){
 		dataToSave << data.GetKey(i) << "=" << data[i] << "\n";
@@ -407,8 +423,8 @@ void saveConfiguration(const String& filename, const VectorMap<String, String>& 
 	if(!SaveFile("agar.cfg", dataToSave)) Exclamation("Error saving configuration!");
 };
 
-void addConfigurationValue(VectorMap<String, String>& data, const String& key, const String& value){
-	int ndx = data.FindAdd(key, value);
+void addConfigurationValue(VectorMap<String, String>& data, const String& key, const String& value)
+{
+	auto const ndx = data.FindAdd(key, value);
 	data[ndx] = value;
 }
-

@@ -1,13 +1,13 @@
 #include "location.h"
 #include "../enums.h"
 
-LocationDlg::LocationDlg(const OpeningType type) {
-	
+LocationDlg::LocationDlg(const OpeningType type)
+{
 	CtrlLayoutOKCancel(*this, t_("Location"));
 
 	ctrls // manual declaration
 		(LABEL, LE_Label)
-	;	
+    ;
 	
 	ActiveFocus(LE_Label); // setting focus
 	

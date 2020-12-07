@@ -7,8 +7,6 @@ public:
 	PcbStateDlg();
 	
 private:
-	EditString ES_label_;
-	
 	void MyMenu(Bar& bar);
 	void Add(){};
 	
@@ -18,4 +16,5 @@ private:
 	void Edit();
 	void AfterEdit();
 
+	EditString ES_label_;
 };

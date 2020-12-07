@@ -16,6 +16,4 @@ class LocationsDlg : public WithLocationsLayout<TopWindow> {
 		void DoClose();
 		
 		EditString location_;
-
-
 };

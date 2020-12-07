@@ -20,6 +20,38 @@ enum class ResizePicture {
 	do_not_resize = 1
 };
 
+void PreviewCtrl::SetImage(const int id) {
+	if( id < 0) return;
+	Sql sql;
+	sql * Select(PREVIEW_DATA, DATA).From(PICTURE).Where(ID == id);
+	if (sql.Fetch()) {
+		if (sql[PREVIEW_DATA].IsNull()) {
+            auto const sz = Size{preview_width, preview_height};
+            img_ = JPGRaster().LoadString(sql[DATA]);
+            preview_img_ = Rescale(img_, GetFitSize(img_.GetSize(),sz));
+
+			JPGEncoder jpg;
+			Sql sql_update;
+			sql_update * ::Update(PICTURE)
+			(PREVIEW_DATA, SqlBinary(jpg.SaveString(preview_img_)))
+			.Where(ID == id);
+
+			if (sql_update.WasError()) {
+			    PromptOK(sql_update.GetErrorCodeString());
+			}
+		} else {
+			JPGRaster jpgr;
+			preview_img_ = jpgr.LoadString(sql[PREVIEW_DATA]);
+		}
+	}
+}
+
+void PreviewCtrl::Paint(Draw& w) {
+	w.DrawRect(GetSize(),White);
+	if (preview_img_) { w.DrawImage(0, 0, this->preview_img_); }
+	else { w.DrawText(0, 0, "Preview not available!", Arial(12).Italic()); }
+}
+		
 PcbDlg::PcbDlg(const OpeningType type, const int pcb_id)
 {
 
@@ -57,7 +89,7 @@ PcbDlg::PcbDlg(const OpeningType type, const int pcb_id)
 	// Signature tab
 	CtrlLayout(signature_tab_);
 	TC_Tab.Add(signature_tab_, t_("Signatures"));
-	signature_tab_.signatures.WhenBar = THISBACK(signatureTabMenu);
+	signature_tab_.signatures.WhenBar = THISBACK(generateSignatureTabMenu);
 	signature_tab_.signatures.AddIndex(ID);
 	signature_tab_.signatures.AddColumn(ROM_NAME, t_("Rom name"));
 	signature_tab_.signatures.AddColumn(SECTION, t_("Section"));
@@ -330,7 +362,7 @@ void PcbDlg::addRecord(const int pcb_id, const ItemType type)
                                         new_record.id,
                                         new_record.commentary,
                                         false);
-    updateNodeIndexInMainVector(new_record, index);
+    //updateNodeIndexInMainVector(new_record, index);
     
     addActionToVector(new_record, index);
 	
@@ -339,7 +371,6 @@ void PcbDlg::addRecord(const int pcb_id, const ItemType type)
 
 auto PcbDlg::getRecordNumber(const int pcb_id) -> int
 {
-	// returns number of record from action table for the pcb id in parameter
 	auto count = int{0};
 	
 	Sql sql;
@@ -838,7 +869,7 @@ void PcbDlg::dragAndDrop(PasteClip& d, ArrayCtrl& a)
    }
 }
 
-void PcbDlg::signatureTabMenu(Bar& bar)
+void PcbDlg::generateSignatureTabMenu(Bar& bar)
 {
 	bar.Add(t_("Remove"),THISBACK(removeSignatureRecord));
 }
@@ -1008,7 +1039,6 @@ void PcbDlg::treeDropInsert(const int parent, const int ii, PasteClip& d)
         // Updating the parent_id of the dropped action
         if (!inserted_indexes.empty()) {
             // only one action can be selected at a time
-            //auto const dropped_id = TC_AnalysisAction.Get(inserted_indexes[0]);
             auto const before_drop_index = int{-1};
             auto record = getRecordFromIndex(before_drop_index);
             if (record != nullptr){
@@ -1047,15 +1077,6 @@ void PcbDlg::doOk()
     Break(IDOK);
 }
 
-void PcbDlg::sortActionVector()
-{
-     // Vector is sorted on nodeIndex member
-     std::sort(action_records_.begin(), action_records_.end(),
-        [](ActionRecord const & a, ActionRecord const &b){return a.node_index < b.node_index;});
-
-    logActionVector();
-}
-
 auto PcbDlg::getRecordFromIndex(const int index) -> ActionRecord*
 {
     auto it = std::find_if(action_records_.begin(), action_records_.end(), [&](const ActionRecord& ar) {
@@ -1078,4 +1099,27 @@ auto PcbDlg::getRecordFromId(const int id) -> ActionRecord*
         return &(*it);
     }
     return nullptr;
+}
+
+Popup::Popup(const int& id) {
+
+	SQL * Select(DATA).From(PICTURE).Where(ID == id);
+    if (SQL.Fetch()) {
+        JPGRaster jpgr;
+        auto img = jpgr.LoadString(SQL[DATA]);
+        auto sz = jpgr.GetSize();
+        
+	    AddFrame( menu );
+	    AddFrame( TopSeparatorFrame() );
+	    AddFrame( status );
+	    AddFrame( InsetFrame() );
+
+		raster_.Open("Y:\\repair_logs\\cyvern.jpg");
+
+		// adds raster control
+		Add(raster_.HSizePos().VSizePos());
+	    Sizeable().Zoomable();
+		BackPaint();
+		Refresh();
+    }
 }

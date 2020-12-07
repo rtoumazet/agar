@@ -9,5 +9,4 @@ class SettingsDlg : public WithSettingsLayout<TopWindow> {
 		~SettingsDlg();
 		
 		void clickOption();
-	
 };

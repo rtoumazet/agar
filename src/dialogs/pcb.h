@@ -20,21 +20,12 @@
 constexpr unsigned int preview_height = 200;
 constexpr unsigned int preview_width = 250;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-/// \struct	ActionRecord
-///
-/// \brief	Defines a record from PCB_ACTION table.
-///
-/// \author	Runik
-/// \date	28/01/2014
-///////////////////////////////////////////////////////////////////////////////////////////////////
+// Defines a record from PCB_ACTION table.
 struct ActionRecord {
 	int         id; //< PCB_ACTION id
 	int         pcb_id; //< PCB id
     int         node_index; //< Treecontrol node index
 	int         parent_id; //< Treecontrol parent id
-//	int         parent_key; //< PCB_ACTION id of the parent
-//	int			key; //< internal key of the record, will be added to the key of the treecontrol record
 	Time        date; //< PCB_ACTION date
 	String      commentary;	//< PCB_ACTION commentary
 	int			finished; //< PCB_ACTION finished
@@ -45,49 +36,22 @@ class PreviewCtrl : public StaticText {
 	
 	typedef PreviewCtrl CLASSNAME;
 	
-	private:
-        Image   img_;
-        Image	preview_img_;
-	
 	public:
-		Vector<String> files;
+		// Constructor.
+		PreviewCtrl() {};
 		
-		PreviewCtrl() {
-		};
-		
-		void SetImage(const int& id) {
-			if( id < 0) return;
-			Sql sql;
-			sql * Select(PREVIEW_DATA, DATA).From(PICTURE).Where(ID == id);
-			if (sql.Fetch()) {
-				if(sql[PREVIEW_DATA].IsNull()){
-	                Size sz(preview_width, preview_height);
-	                img_ = JPGRaster().LoadString(sql[DATA]);
-	                preview_img_ = Rescale(img_, GetFitSize(img_.GetSize(),sz));
+		// Initializes internal widget image from database.
+		void SetImage(const int id);
+        
+        // Returns the address of the internal image.
+        auto GetImage() -> Image& { return img_; }
 
-					JPGEncoder jpg;
-					Sql sql_update;
-					sql_update * ::Update(PICTURE)
-					(PREVIEW_DATA, SqlBinary(jpg.SaveString(preview_img_)))
-					.Where(ID == id);
+		// Widget paint function.
+		virtual void Paint(Draw& w);
 
-					if(sql_update.WasError()){
-					    PromptOK(sql_update.GetErrorCodeString());
-					}
-				} else {
-					JPGRaster jpgr;
-					preview_img_ = jpgr.LoadString(sql[PREVIEW_DATA]);
-				}
-			}
-		}
-
-    	auto GetImage() -> Image& { return img_; }
-    	
-		virtual void Paint(Draw& w) {
-			w.DrawRect(GetSize(),White);
-			if (preview_img_) { w.DrawImage(0, 0, this->preview_img_); }
-			else { w.DrawText(0, 0, "Preview not available!", Arial(12).Italic()); }
-		}
+	private:
+        Image   img_;           // Internal fullsize image.
+        Image	preview_img_;   // Internal preview image.
 };
 
 class PcbDlg : public WithPcbLayout<TopWindow> {
@@ -95,14 +59,9 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 	typedef PcbDlg CLASSNAME;
 	
 	public:
-		SqlCtrls ctrls;
+		PcbDlg(const OpeningType type, const int pcbId=0);
+		~PcbDlg();
 
-		WithTabPicturesLayout<ParentCtrl>  pictures_tab_;
-		WithTabMiscLayout<ParentCtrl>      misc_tab_;
-		WithTabSignatureLayout<ParentCtrl> signature_tab_;
-		
-		PreviewCtrl preview_;
-		
 		// fault data functions
 		void generateFaultData();
 		void loadFaultData();
@@ -121,8 +80,8 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
         // Removes the selected record from the TreeControl
 		void removeRecord();
 		
-		
-		int	getRecordNumber(const int pcb_id);
+		// returns number of record from action table for the pcb id in parameter
+		auto getRecordNumber(const int pcb_id) -> int;
 		
 		enum class TableType {
 			game,
@@ -137,225 +96,132 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		void createLinkedRecord(const TableType tableType);
 		void loadDropList(const TableType tableType);
 		
-		static bool getFaultValue(const int i, const String& faults); // returns the option value for the id selected
+		// returns the option value for the id selected
+		static auto getFaultValue(const int i, const String& faults) -> bool;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void DoOk()
-		///
-		/// \brief	Callback called when OK button is pressed.
-		///
-		/// \author	Runik
-		/// \date	01/02/2014
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Callback called when OK button is pressed.
 		void doOk();
 
-		PcbDlg(const OpeningType type, const int pcbId=0);
-		~PcbDlg();
-	
+        SqlCtrls ctrls; // Controls of the dialog.
+
+        // Various tabs of the dialog.
+        WithTabPicturesLayout<ParentCtrl>  pictures_tab_;
+        WithTabMiscLayout<ParentCtrl>      misc_tab_;
+        WithTabSignatureLayout<ParentCtrl> signature_tab_;
+		
+        PreviewCtrl preview_; // Widget for image preview.
 
 	private:
+		// Resets up signatures tab display.
 		void resetDisplay(Ctrl* ctrl);
+		
+		// Sets up signatures tab display.
 		void setupDisplay(Ctrl* ctrl);
+		
+		// Called when a different tab is selected.
 		void tabChanged();
 		
+		// Edits the picture label.
 		void editPictureLabel(ArrayCtrl* a, const int id);
+		
+		// Removes picture from database.
 		void removePicture(ArrayCtrl* a, const int id);
+		
+		// Save pictures to database.
 		void savePictureToDatabase(const int id, const String& label, const Image& img);
+		
+        // Loads pictures from database.
 		void populatePicturesArray();
+		
+		// Opens a window to display the picture fullsize.
 		void displayPicture();
+		
+		// Display a preview of the currently selected picture.
 		void displayPicturePreview();
+		
+		// Updates the picture label.
 		void updatePictureLabel();
+		
+		// Loads pictures from the file explorer using drag & drop.
 		void dragAndDrop(PasteClip& d, ArrayCtrl& a);
 	
-		void signatureTabMenu(Bar& bar);
+		// Generates the mouse menu of the signature tab.
+		void generateSignatureTabMenu(Bar& bar);
+		
+		// Adds signature to database.
 		void addSignatureRecord();
+		
+		// Remove selected signature from database.
 		void removeSignatureRecord();
+		
+		// Loads signatures from database.
 		void populateSignatureArray();
 		
-
-		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void LoadActionTreeFromDatabase()
-		///
-		/// \brief	Loads action/analysis treecontrol for current pcb. 
-		///
-		/// \author	Runik
-		/// \date	28/01/2014
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Loads treecontrol content from database.
 		void loadActionTreeFromDatabase();
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void SaveActionTreeToDatabase()
-		///
-		/// \brief	Save action/analysis treecontrol for current pcb to the database. 
-		///
-		/// \author	Runik
-		/// \date	29/01/2014
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Saves treecontrol content to database.
 		void saveActionTreeToDatabase();
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void TreeDrag()
-		///
-		/// \brief	Function called when drag is initialized in the treecontrol. 
-		///
-		/// \author	Runik
-		/// \date	29/01/2014
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Function called when drag is initialized in the treecontrol.
 		void treeDrag();
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void TreeDropInsert()
-		///
-		/// \brief	Function called when dragged item in the treecontrol is dropped. 
-		///
-		/// \author	Runik
-		/// \date	29/01/2014
-		///
-		/// \param  parent   Parent id
-		/// \param  ii       Record id
-		/// \param  d        PasteClip value
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void treeDropInsert(const int parent, const int ii, PasteClip& d);
+        // Function called when dragged item in the treecontrol is dropped.
+		void treeDropInsert(const int new_parent_index, const int index_to_parent, PasteClip& d);
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	int TreeGetLevel(int i) const
-		///
-		/// \brief	Returns level in the tree hierarchy of the given parameter.
-		///
-		/// \author	Runik
-		/// \date	30/01/2014
-		///
-		/// \param  id   tree index to get level from
-		///
-		/// \return level in the tree hierarchy (0=root, 1=analysis, 2=action)
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
+        // Returns level in the tree hierarchy of the given parameter. (0=root, 1=analysis,
+        // 2=action).
 		auto treeGetLevel(int id) const -> int;
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void RemoveActionFromVector(const int id)
-		///
-		/// \brief	Removes record from vector corresponding to the id.
-		///
-		/// \author	Runik
-		/// \date	30/01/2014
-		///
-		/// \param  id   id of record to be removed
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
+		// Removes the item with parameter as id from the vector.
 		void removeActionFromVector(const int id);
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void BuildItemTree()
-		///
-		/// \brief	Builds the treecontrol using data from the actionRecords_ vector.
-		///
-		/// \author	Runik
-		/// \date	30/01/2014
-		///
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
+		// Builds the treecontrol using data from the main vector.
 		void buildItemTree();
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void AddActionToVector(ActionRecord& ar, const int node_index)
-		///
-		/// \brief	Add record to vector.
-		///
-		/// \author	Runik
-		/// \date	31/01/2014
-		///
-		/// \param  ar   record to add
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
+		// Adds an item to the main vector
 		void addActionToVector(ActionRecord& ar, const int node_index);
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void LogActionVector()
-		///
-		/// \brief	Logs the vector content.
-		///
-		/// \author	Runik
-		/// \date	06/02/2014
-		///
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
+		// Logs the main vector content.
 		void logActionVector();
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// \fn	void SortActionVector()
-		///
-		/// \brief	Sorts the vector using nodeIndex member
-		///
-		/// \author	Runik
-		/// \date	05/02/2014
-		///
-		////////////////////////////////////////////////////////////////////////////////////////////////////		
-		void sortActionVector();
-		
+		// Updates the treecontrol id of an item in the main vector
 		void updateNodeIndexInMainVector(const ActionRecord& current_record, const int& new_index);
 		
+		// Returns a pointer to the record corresponding to the treecontrol index in the main
+		// vector, nullptr otherwise.
 		auto getRecordFromIndex(const int index) -> ActionRecord*;
+		
+		// Returns a pointer to the record corresponding to the database id in the main vector,
+		// nullptr otherwise
 		auto getRecordFromId(const int id) -> ActionRecord*;
 		
 		/// ACCESSORS
 		void pcbId(const int id) {pcb_id_ = id;}
 		auto pcbId() const { return pcb_id_;}
 		
+		// Options management.
 		ArrayMap<int, Option> option_;
 		ArrayMap<int, Option> option_origin_;
 	
+		// Controls for direct edition.
 		EditString::Style edit_style_;
 		EditString picture_label_;
 
-		std::vector<ActionRecord> 	action_records_;
-		int 						pcb_id_;
-		int							action_records_key_; //< unique key of action records. Incremented as records are added
+        std::vector<ActionRecord> action_records_; // Main vector, linked to the treecontrol.
+		int pcb_id_; // Id of the current PCB.
 };
 
 class Popup : public TopWindow {
 	
 	typedef Popup CLASSNAME;
 	
-	private:
-		StatusBar status;
-		MenuBar menu;
-		RasterCtrl raster_;
-		
 	public:
-   
-    	Popup(const int& id) {
+        Popup(const int& id);
 
-			SQL * Select(DATA).From(PICTURE).Where(ID == id);
-		    if (SQL.Fetch()) {
-		        JPGRaster jpgr;
-		        auto img = jpgr.LoadString(SQL[DATA]);
-		        auto sz = jpgr.GetSize();
-		        
-			    AddFrame( menu );
-			    AddFrame( TopSeparatorFrame() );
-			    AddFrame( status );
-			    AddFrame( InsetFrame() );
-
-				/*StringStream ss(SQL[DATA]);
-				raster_.Open(ss);*/
-				raster_.Open("Y:\\repair_logs\\cyvern.jpg");
-				//SetS
-
-				// adds raster control
-				Add(raster_.HSizePos().VSizePos());
-				//Add(raster_.SetRect(0,0,img.GetWidth(),img.GetHeight()));
-				//Add(raster_.TopPosZ(0,img.GetWidth()).LeftPosZ(0,img.GetHeight()));
-			    Sizeable().Zoomable();
-				BackPaint();
-
-		
-				//raster_.SetPage(0);
-				//raster_.ShowThumbnails(false);
-				//raster_.Zoom(100);
-
-			
-				Refresh();
-
-        
-		    }
-		
-
-		}
+	private:
+		StatusBar   status;
+		MenuBar     menu;
+		RasterCtrl  raster_;
+	
 };

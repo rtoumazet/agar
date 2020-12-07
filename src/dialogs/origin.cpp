@@ -1,14 +1,14 @@
 #include "origin.h"
 
-OriginDlg::OriginDlg(const OpeningType type) {
-	
+OriginDlg::OriginDlg(const OpeningType type)
+{
 	CtrlLayoutOKCancel(*this, t_("Origin"));
 
 	ctrls // manual declaration
 		(NAME, LE_Name)
 		(ORIGIN, LE_Origin)
 		(COMMENTARY, DE_Comment)
-	;	
+    ;
 	
 	// remove tab character insertion to allow tab navigation in the control
 	LE_Name.NoProcessTab();
@@ -23,5 +23,4 @@ OriginDlg::OriginDlg(const OpeningType type) {
 			Title(t_("Edit origin"));
 			break;
 	}
-	
 }

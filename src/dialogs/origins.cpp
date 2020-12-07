@@ -1,8 +1,8 @@
 #include "origins.h"
 #include "origin.h"
 
-OriginsDlg::OriginsDlg() {
-
+OriginsDlg::OriginsDlg()
+{
 	CtrlLayout(*this, t_("Origins list"));
 	BTN_Close <<= THISBACK(DoClose);
 	
@@ -19,28 +19,34 @@ OriginsDlg::OriginsDlg() {
 	TAB_origins.Query();
 }
                  
-void OriginsDlg::OwnMenu(Bar& bar) {
+void OriginsDlg::OwnMenu(Bar& bar)
+{
 	bar.Add(t_("Add"),THISBACK(MenuAdd));
 	bar.Add(t_("Edit"),THISBACK(MenuEdit));
 	bar.Add(t_("Remove"),THISBACK(MenuRemove));
 }
 
-void OriginsDlg::MenuAdd() {
+void OriginsDlg::MenuAdd()
+{
 	TAB_origins.StartInsert();
 }
 
-void OriginsDlg::MenuEdit() {
+void OriginsDlg::MenuEdit()
+{
 	TAB_origins.DoEdit();
 }
 
-void OriginsDlg::MenuRemove() {
-	int id = TAB_origins.GetKey();
-	if(IsNull(id) || !PromptYesNo(t_("Delete origin ?")))
+void OriginsDlg::MenuRemove()
+{
+	auto const id = int{TAB_origins.GetKey()};
+	if (IsNull(id) || !PromptYesNo(t_("Delete origin ?"))) {
 	   return;
+	}
 	 SQL * SqlDelete(ORIGIN).Where(ID == id);
 	 TAB_origins.ReQuery();
 }
 
-void OriginsDlg::DoClose() {
+void OriginsDlg::DoClose()
+{
 	Close();
 }
