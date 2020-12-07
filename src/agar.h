@@ -4,6 +4,7 @@
 #include <CtrlLib/CtrlLib.h>
 #include <plugin/sqlite3/Sqlite3.h>
 #include <SqlCtrl/SqlCtrl.h>
+#include <memory> // unique_ptr
 
 using namespace Upp;
 
