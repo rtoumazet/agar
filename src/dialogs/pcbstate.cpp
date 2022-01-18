@@ -31,8 +31,8 @@ PcbStateDlg::PcbStateDlg()
 	Sql sql;
 	sql.Execute("select ID,LABEL,INK,PAPER from PCB_STATE");
 	while (sql.Fetch()) {
-		auto const ink   = Color::FromRaw(static_cast<dword>(sql[2].To<int64>()));
-		auto const paper = Color::FromRaw(static_cast<dword>(sql[3].To<int64>()));
+		const auto ink   = Color::FromRaw(static_cast<dword>(sql[2].To<int64>()));
+		const auto paper = Color::FromRaw(static_cast<dword>(sql[3].To<int64>()));
 		
 		TAB_pcbStateArray.Add(
 			sql[0], // record id
@@ -61,17 +61,17 @@ void PcbStateDlg::CellUpdate(int i)
 {
 
 	// getting updated data from the table
-	auto const str      = TAB_pcbStateArray.Get(i,2).ToString();
-	auto const paper    = Color{TAB_pcbStateArray.Get(i,3)};
-	auto const ink      = Color{TAB_pcbStateArray.Get(i,4)};
-	auto const id       = int{TAB_pcbStateArray.Get(i,0)};
+	const auto str      = TAB_pcbStateArray.Get(i,2).ToString();
+	const auto paper    = Color{TAB_pcbStateArray.Get(i,3)};
+	const auto ink      = Color{TAB_pcbStateArray.Get(i,4)};
+	const auto id       = int{TAB_pcbStateArray.Get(i,0)};
 	
 	// updating the display
 	TAB_pcbStateArray.Set(i,1,AttrText(str).Ink(ink).Paper(paper)); 
 	
 	// saving changes to the database
 	Sql sql;
-	auto const statement = Format("update PCB_STATE set LABEL='%s', INK=%d, PAPER=%d where ID=%i",
+	const auto statement = Format("update PCB_STATE set LABEL='%s', INK=%d, PAPER=%d where ID=%i",
 		str,
 		static_cast<int>(ink.GetRaw()),
 		static_cast<int>(paper.GetRaw()),
@@ -89,8 +89,8 @@ void PcbStateDlg::Edit()
 
 void PcbStateDlg::AfterEdit()
 {
-	auto const cursor   = TAB_pcbStateArray.GetCursor(); // getting current line id
-	auto const str      = TAB_pcbStateArray.Get(cursor,1).ToString(); // getting updated text
+	const auto cursor   = TAB_pcbStateArray.GetCursor(); // getting current line id
+	const auto str      = TAB_pcbStateArray.Get(cursor,1).ToString(); // getting updated text
 	TAB_pcbStateArray.Set(cursor,2,str); // updating raw text cell
 
     CellUpdate(cursor);

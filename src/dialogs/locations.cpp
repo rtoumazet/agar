@@ -36,7 +36,7 @@ void LocationsDlg::MenuEdit()
 
 void LocationsDlg::MenuRemove()
 {
-	auto const id = int{TAB_locations.GetKey()};
+	const auto id = int{TAB_locations.GetKey()};
 	if (IsNull(id) || !PromptYesNo(t_("Delete location ?"))) {
 	   return;
 	}

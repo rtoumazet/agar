@@ -74,8 +74,8 @@ void GameDlg::MenuRemove()
 void GameDlg::InsertCheck()
 {
 	// checking if the entered value doesn't already exist in the database
-	auto const game_name = String{~game_name_};
-	auto const maker_id = int{~manufacturer_};
+	const auto game_name = String{~game_name_};
+	const auto maker_id = int{~manufacturer_};
 
 	Sql sql;
 	sql.Execute("select * from GAME where MAKER_ID = ? and GAME_NAME = ?",maker_id, game_name);

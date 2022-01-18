@@ -51,7 +51,7 @@ void MakerDlg::MenuRemove()
 void MakerDlg::InsertCheck()
 {
 	// checking if the entered value doesn't already exist in the database
-	auto const str = ES_name_.GetData().ToString();
+	const auto str = ES_name_.GetData().ToString();
 
 	Sql sql;
 	sql.Execute("select * from MAKER where MAKER_NAME = ?",str);

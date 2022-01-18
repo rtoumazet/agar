@@ -36,7 +36,7 @@ void PinoutsDlg::MenuAdd()
 
 void PinoutsDlg::MenuEdit()
 {
-	auto const id = int{TAB_pinouts.GetKey()};
+	const auto id = int{TAB_pinouts.GetKey()};
 	if (IsNull(id)) {
 		return;
 	}
@@ -54,7 +54,7 @@ void PinoutsDlg::MenuEdit()
 
 void PinoutsDlg::MenuRemove()
 {
-	auto const id = int{TAB_pinouts.GetKey()};
+	const auto id = int{TAB_pinouts.GetKey()};
 	if (IsNull(id) || !PromptYesNo(t_("Delete pinout ?"))) {
 	   return;
 	}

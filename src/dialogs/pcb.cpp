@@ -26,7 +26,7 @@ void PreviewCtrl::SetImage(const int id) {
 	sql * Select(PREVIEW_DATA, DATA).From(PICTURE).Where(ID == id);
 	if (sql.Fetch()) {
 		if (sql[PREVIEW_DATA].IsNull()) {
-            auto const sz = Size{preview_width, preview_height};
+            const auto sz = Size{preview_width, preview_height};
             img_ = JPGRaster().LoadString(sql[DATA]);
             preview_img_ = Rescale(img_, GetFitSize(img_.GetSize(),sz));
 
@@ -80,10 +80,11 @@ PcbDlg::PcbDlg(const OpeningType type, const int pcb_id)
 	pictures_tab_.pictures.AddColumn(LABEL,t_("Label")).Edit(picture_label_);
 	pictures_tab_.pictures.AddColumn("").Margin(0);
 	pictures_tab_.pictures.AddColumn("").Margin(0);
+	pictures_tab_.pictures.AddColumn("").Margin(0);
 	pictures_tab_.pictures.WhenLeftDouble = THISBACK(displayPicture);
 	pictures_tab_.pictures.WhenLeftClick = THISBACK(displayPicturePreview);
 	pictures_tab_.pictures.WhenAcceptEdit = THISBACK(updatePictureLabel);
-    pictures_tab_.pictures.ColumnWidths("195 16 16");
+    pictures_tab_.pictures.ColumnWidths("195 16 16 16");
 	pictures_tab_.Add(preview_.RightPosZ(-15, 250).TopPosZ(20, 200));
     
 	// Signature tab
@@ -291,7 +292,7 @@ void PcbDlg::createAnalysisAndActionsMenu(Bar& bar)
 	auto isRemoveEntryVisible    = bool{false};
 
 	// Setting options to display
-	auto const id = int{TC_AnalysisAction.GetCursor()};
+	const auto id = int{TC_AnalysisAction.GetCursor()};
 	if (id != -1 && id != 0) {
 		isAddActionEntryVisible = true;
 		isEditEntryVisible = true;
@@ -308,7 +309,7 @@ void PcbDlg::createAnalysisAndActionsMenu(Bar& bar)
 
 void PcbDlg::editRecord()
 {
-	auto const selected_index = TC_AnalysisAction.GetCursor();
+	const auto selected_index = TC_AnalysisAction.GetCursor();
 	if(selected_index < 0) return;
 	
 	auto record = getRecordFromIndex(selected_index);
@@ -323,7 +324,7 @@ void PcbDlg::editRecord()
 
 void PcbDlg::removeRecord()
 {
-	auto const selected_index = TC_AnalysisAction.GetCursor();
+	const auto selected_index = TC_AnalysisAction.GetCursor();
 	if((selected_index < 0) || !PromptYesNo(t_("Delete entry ?")))
 	   return;
 	
@@ -357,7 +358,7 @@ void PcbDlg::addRecord(const int pcb_id, const ItemType type)
 	if(dlg->Execute() != IDOK) return;
     
     auto new_record  = dlg->Record();
-    auto const index = TC_AnalysisAction.Add((new_record.parent_id == 0) ? 0 : TC_AnalysisAction.GetCursor(),
+    const auto index = TC_AnalysisAction.Add((new_record.parent_id == 0) ? 0 : TC_AnalysisAction.GetCursor(),
                                         (new_record.parent_id == 0) ? MyImages::analysis() : MyImages::action(),
                                         new_record.id,
                                         new_record.commentary,
@@ -411,7 +412,7 @@ void PcbDlg::buildItemTree()
 	auto orphans    = vector<ActionRecord>{};
 	
 	// looping through records to fill actions & analysis vectors
-    for(auto const& ar : action_records_){
+    for(const auto& ar : action_records_){
         if(ar.parent_id == 0) analysis.push_back(ar);
         else actions.push_back(ar);
     }
@@ -421,8 +422,8 @@ void PcbDlg::buildItemTree()
 	TC_AnalysisAction.NoRoot(false);
 
     // First pass to create analysis and update linked node index in the vector.
-    for(auto const& a : analysis) {
-        auto const index = TC_AnalysisAction.Add(0,
+    for(const auto& a : analysis) {
+        const auto index = TC_AnalysisAction.Add(0,
                                                 MyImages::analysis(),
                                                 a.id,
                                                 a.commentary,
@@ -430,18 +431,18 @@ void PcbDlg::buildItemTree()
         updateNodeIndexInMainVector(a, index);
     }
 
-    for(auto const& a : actions) {
-		auto const parent_id = int{a.parent_id}; // getting parent id of current record
-        auto const& it = std::find_if(analysis.begin(), analysis.end(), [&](const ActionRecord& r) {
+    for(const auto& a : actions) {
+		const auto parent_id = int{a.parent_id}; // getting parent id of current record
+        const auto& it = std::find_if(analysis.begin(), analysis.end(), [&](const ActionRecord& r) {
             return r.id == parent_id;
         });
 		
         if (it == analysis.end()) {
             orphans.push_back(a);
         } else {
-            auto const id = TC_AnalysisAction.Find(parent_id);
+            const auto id = TC_AnalysisAction.Find(parent_id);
             if (id > 0){
-                auto const index = TC_AnalysisAction.Add(id,
+                const auto index = TC_AnalysisAction.Add(id,
                                                           !a.finished ? MyImages::action() : MyImages::actionDone(),
                                                           a.id,
                                                           a.commentary,
@@ -457,8 +458,8 @@ void PcbDlg::buildItemTree()
 	    PromptOK(t_("Orphan actions exist for current pcb ! Use drag & drop to link them to an analysis"));
 
         // orphans actions are added to the treecontrol as analysis with a special icon
-		for (auto const& o : orphans) {
-            auto const index = TC_AnalysisAction.Add(0, 
+		for (const auto& o : orphans) {
+            const auto index = TC_AnalysisAction.Add(0, 
                                                     MyImages::warning(),
                                                     o.id,
                                                     o.commentary,
@@ -777,7 +778,7 @@ void PcbDlg::updatePictureLabel()
     if (row_id == -1) return;
     auto label = pictures_tab_.pictures.Get(row_id, label_id);
 
-    auto const key = pictures_tab_.pictures.GetKey();
+    const auto key = pictures_tab_.pictures.GetKey();
     SQL * ::Update(PICTURE)(LABEL, label).Where(ID == key);
     
     populatePicturesArray();
@@ -799,10 +800,10 @@ void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const 
 		}
 	}
 	
-	auto const img_to_save = Rescale(img, GetFitSize(img.GetSize(), img_size));
+	const auto img_to_save = Rescale(img, GetFitSize(img.GetSize(), img_size));
 	
-	auto const preview_size = Size{preview_width, preview_height};
-	auto const preview_to_save = Rescale(img, GetFitSize(img.GetSize(), preview_size));
+	const auto preview_size = Size{preview_width, preview_height};
+	const auto preview_to_save = Rescale(img, GetFitSize(img.GetSize(), preview_size));
 
 	JPGEncoder jpg;
 	SQL * Insert(PICTURE)
@@ -827,7 +828,8 @@ void PcbDlg::populatePicturesArray()
     while (SQL.Fetch()) {
         pictures_tab_.pictures.Add(SQL[ID],SQL[LABEL]);
         pictures_tab_.pictures.CreateCtrl<Button>(i, 1).SetImage(MyImages::edit) <<= THISBACK2(editPictureLabel, &pictures_tab_.pictures, i);
-        pictures_tab_.pictures.CreateCtrl<Button>(i, 2).SetImage(MyImages::remove)<<= THISBACK2(removePicture, &pictures_tab_.pictures, i);;
+        pictures_tab_.pictures.CreateCtrl<Button>(i, 2).SetImage(MyImages::remove)<<= THISBACK2(removePicture, &pictures_tab_.pictures, i);
+        pictures_tab_.pictures.CreateCtrl<Button>(i, 3).SetImage(MyImages::save)<<= THISBACK2(savePicture, &pictures_tab_.pictures, i);
         ++i;
     }
 }
@@ -845,6 +847,21 @@ void PcbDlg::removePicture(ArrayCtrl* a, const int id)
         SQL * Delete(PICTURE).Where(ID == a->GetKey());
         populatePicturesArray();
 	}
+}
+
+void PcbDlg::savePicture(ArrayCtrl* a, const int id){
+    
+    const String fileName = SelectFileSaveAs("*.jpg");
+    if (!fileName.IsVoid()){
+        a->SetCursor(id);
+        SQL * Select(DATA).From(PICTURE).Where(ID == a->GetKey());
+        if (SQL.Fetch()) {
+            JPGRaster jpgr;
+            auto img = jpgr.LoadString(SQL[DATA]);
+            JPGEncoder jpg;
+            jpg.SaveFile(fileName, img);
+        }
+    }
 }
 
 void PcbDlg::dragAndDrop(PasteClip& d, ArrayCtrl& a)
@@ -959,13 +976,13 @@ void PcbDlg::saveActionTreeToDatabase()
 	auto orphans    = vector<ActionRecord>{};
 	
 	// looping through records to fill actions & analysis vectors
-    for(auto const& ar : action_records_){
+    for(const auto& ar : action_records_){
         if(ar.parent_id == 0) analysis.push_back(ar);
         else actions.push_back(ar);
     }
 
     // Creating analysis
-    for (auto const& an : analysis) {
+    for (const auto& an : analysis) {
 	       sql * Insert(PCB_ACTION)
                     (PCB_ID,        an.pcb_id)
                     (PARENT_ID,     an.parent_id)
@@ -984,8 +1001,8 @@ void PcbDlg::saveActionTreeToDatabase()
     }
     
     // Creating actions
-    for (auto const& ac : actions) {
-        auto const parent_index = TC_AnalysisAction.GetParent(ac.node_index);
+    for (const auto& ac : actions) {
+        const auto parent_index = TC_AnalysisAction.GetParent(ac.node_index);
         auto parent_id = int{-1};
         auto record = getRecordFromIndex(parent_index);
         if (record != nullptr) {
@@ -1003,7 +1020,7 @@ void PcbDlg::saveActionTreeToDatabase()
 }
 
 void PcbDlg::treeDrag() {
-    auto const selected_index   = TC_AnalysisAction.GetCursor();
+    const auto selected_index   = TC_AnalysisAction.GetCursor();
     if (selected_index == 0) return; // can't drag root
 
     auto record = getRecordFromIndex(selected_index);
@@ -1039,10 +1056,10 @@ void PcbDlg::treeDropInsert(const int parent, const int ii, PasteClip& d)
         // Updating the parent_id of the dropped action
         if (!inserted_indexes.empty()) {
             // only one action can be selected at a time
-            auto const before_drop_index = int{-1};
+            const auto before_drop_index = int{-1};
             auto record = getRecordFromIndex(before_drop_index);
             if (record != nullptr){
-                auto const parent_id = TC_AnalysisAction.Get(parent);
+                const auto parent_id = TC_AnalysisAction.Get(parent);
                 record->parent_id = parent_id;
                 record->node_index = inserted_indexes[0];
             }

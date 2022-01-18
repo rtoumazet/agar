@@ -61,17 +61,17 @@ PcbsDlg::PcbsDlg()
 	S_ExtractType = 0; // Text
 	
 	// Getting column widths from the ini file
-	auto const cfg = LoadIniFile("agar.cfg");
-	auto const column_widths = String{cfg.Get("PcbsListColumnWidths", Null)};
+	const auto cfg = LoadIniFile("agar.cfg");
+	const auto column_widths = String{cfg.Get("PcbsListColumnWidths", Null)};
 	if (!IsNull(column_widths)) TAB_pcbs.ColumnWidths(column_widths);
 	
-	auto const l = ScanInt(cfg.Get("PcbsListWindowPosLeft", Null));
+	const auto l = ScanInt(cfg.Get("PcbsListWindowPosLeft", Null));
 	if (!IsNull(l)) {
-		auto const t = ScanInt(cfg.Get("PcbsListWindowPosTop", Null));
-		auto const r = ScanInt(cfg.Get("PcbsListWindowPosRight", Null));
-		auto const b = ScanInt(cfg.Get("PcbsListWindowPosBottom", Null));
+		const auto t = ScanInt(cfg.Get("PcbsListWindowPosTop", Null));
+		const auto r = ScanInt(cfg.Get("PcbsListWindowPosRight", Null));
+		const auto b = ScanInt(cfg.Get("PcbsListWindowPosBottom", Null));
 		
-		auto const rect = Rect{l, t, r, b};
+		const auto rect = Rect{l, t, r, b};
 		this->SetRect(rect);
 	}
 
@@ -126,7 +126,7 @@ PcbsDlg::PcbsDlg()
 PcbsDlg::~PcbsDlg()
 {
 	// Saving column data to the cfg file
-	auto const r = this->GetRect();
+	const auto r = this->GetRect();
 	auto cfg = LoadIniFile("agar.cfg");
 	addConfigurationValue(cfg, "PcbsListColumnWidths", TAB_pcbs.GetColumnWidths());
 	addConfigurationValue(cfg, "PcbsListWindowPosLeft", IntStr(r.left));
@@ -162,7 +162,7 @@ void PcbsDlg::Create()
 	dlg.ES_FaultsOrigin.SetData(~dlg.ES_Faults);
 		
 	SQL * dlg.ctrls.Insert(PCB); // record is inserted in the database
-	auto const id = int{SQL.GetInsertedId()};
+	const auto id = int{SQL.GetInsertedId()};
 	// Do we want an initial analysis to be created ?
 	if (PromptYesNo(t_("Do you want to create an initial analysis ?"))) {
 		// Creation of the initial analysis
@@ -205,7 +205,7 @@ void PcbsDlg::Edit(const int pcb_id)
 	
 	SQL * dlg.ctrls.Update(PCB).Where(ID == id);
 
-	auto const index = TAB_pcbs.GetCursor();
+	const auto index = TAB_pcbs.GetCursor();
 	ReloadTable(true);
 	TAB_pcbs.DoColumnSort();
 	
@@ -216,7 +216,7 @@ void PcbsDlg::Edit(const int pcb_id)
 
 void PcbsDlg::Remove()
 {
-	auto const id = int{TAB_pcbs.GetKey()};
+	const auto id = int{TAB_pcbs.GetKey()};
 	if (IsNull(id) || !PromptYesNo(t_("Delete PCB ?"))) {
 	   return;
 	}
@@ -233,8 +233,8 @@ void PcbsDlg::GenerateReport()
 	// Generates a text report extracted from the pcb data
 	auto report = String{};
 	auto filename = String{};
-	auto const nl = String{"\r\n"};
-	auto const id = int{TAB_pcbs.GetKey()}; //getting the pcb id
+	const auto nl = String{"\r\n"};
+	const auto id = int{TAB_pcbs.GetKey()}; //getting the pcb id
 	
 	auto statement = String{"select MAKER.MAKER_NAME, GAME.GAME_NAME, PCB.PCB_ORIGIN_FAULT_OPTION "};
 	statement += "from PCB, GAME, MAKER ";
@@ -253,10 +253,10 @@ void PcbsDlg::GenerateReport()
 	
 	// Original faults listing
 	report += "Original fault(s): ";
-	auto const faults = AsString(sql[2]);
+	const auto faults = AsString(sql[2]);
 	sql.Execute("select ID,LABEL from PCB_FAULT order by LABEL");
 	while (sql.Fetch()) {
-		auto const id = StdConvertInt().Scan(sql[ID].ToString());
+		const auto id = StdConvertInt().Scan(sql[ID].ToString());
 		// faults at 1 will be added to the report
 		if (PcbDlg::getFaultValue(id, faults)) {
 			report += AsString(sql[LABEL]) + " ";
@@ -378,11 +378,11 @@ void PcbsDlg::ReloadTable(const bool asc_sort)
 	sql.Execute(statement);
 	LOG(statement);
 	while (sql.Fetch()) {
-		auto const game     = String{sql[1].ToString()+" - "+sql[2].ToString()};
-		auto const ink      = Color::FromRaw(static_cast<dword>(sql[3].To<int64>()));
-		auto const paper    = Color::FromRaw(static_cast<dword>(sql[4].To<int64>()));
+		const auto game     = String{sql[1].ToString()+" - "+sql[2].ToString()};
+		const auto ink      = Color::FromRaw(static_cast<dword>(sql[3].To<int64>()));
+		const auto paper    = Color::FromRaw(static_cast<dword>(sql[4].To<int64>()));
 		
-		auto const at_game = AttrText(game)
+		const auto at_game = AttrText(game)
 		                        .Ink(ink)
 		                        .Paper(paper);
 		TAB_pcbs.Add(
@@ -409,9 +409,9 @@ void PcbsDlg::LoadFaultData()
 {
 	// fault option list
 	Sql sql;
-	auto const r = L_Faults.GetRect();
+	const auto r = L_Faults.GetRect();
 	auto y = int{116};
-	auto const linecy = Draw::GetStdFontCy() + 2;
+	const auto linecy = Draw::GetStdFontCy() + 2;
 	auto current = int{0};
 	sql * Select(ID,LABEL).From(PCB_FAULT).OrderBy(LABEL);
 	while (sql.Fetch()) {
@@ -436,7 +436,7 @@ void PcbsDlg::LoadFaultData()
 void PcbsDlg::ExtractListing()
 {
 	auto listing = String{""};
-	auto const nl = String{"\r\n"};
+	const auto nl = String{"\r\n"};
 	auto ja = JsonArray{};
 	
 	for (int i=0; i<TAB_pcbs.GetCount(); ++i) {

@@ -127,6 +127,9 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 		// Removes picture from database.
 		void removePicture(ArrayCtrl* a, const int id);
 		
+		// Saves picture from database to hdd.
+		void savePicture(ArrayCtrl* a, const int id);
+
 		// Save pictures to database.
 		void savePictureToDatabase(const int id, const String& label, const Image& img);
 		

@@ -38,7 +38,7 @@ void OriginsDlg::MenuEdit()
 
 void OriginsDlg::MenuRemove()
 {
-	auto const id = int{TAB_origins.GetKey()};
+	const auto id = int{TAB_origins.GetKey()};
 	if (IsNull(id) || !PromptYesNo(t_("Delete origin ?"))) {
 	   return;
 	}

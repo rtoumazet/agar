@@ -4,7 +4,7 @@ SettingsDlg::SettingsDlg()
 {
 	CtrlLayout(*this, t_("Settings"));
 	
-	auto const cfg = LoadIniFile("agar.cfg");
+	const auto cfg = LoadIniFile("agar.cfg");
 	
 	O_NoResize      = StrInt(cfg.Get("NoResize", Null));
 	E_ImageWidth    = StrInt(cfg.Get("ImageWidth", Null));

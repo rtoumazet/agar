@@ -20,8 +20,8 @@
 #include "dialogs/about.h"
 #include "dialogs/settings.h"
 
-auto constexpr default_image_width = int{1024};
-auto constexpr default_image_height = int{768};
+constexpr auto default_image_width = int{1024};
+constexpr auto default_image_height = int{768};
 
 enum class ParentIdUpdated{
 	not_updated = 0,
@@ -246,8 +246,8 @@ GUI_APP_MAIN
 	// Connecting to the main database
 	Sqlite3Session sqlite3;
 	
-	auto const path_config = ConfigFile("AGAR.db");
-	auto const path_current= AppendFileName(GetCurrentDirectory(), "AGAR.db");
+	const auto path_config = ConfigFile("AGAR.db");
+	const auto path_current= AppendFileName(GetCurrentDirectory(), "AGAR.db");
 	if (path_config != path_current){
 		if (GetFileLength(path_current) == 0) {
 			if (!FileDelete(path_current)) {
@@ -269,7 +269,7 @@ GUI_APP_MAIN
 		}
 	}
 	//String databaseFullPath = ConfigFile("AGAR.db");
-	auto const database_full_path = AppendFileName(GetCurrentDirectory(), "AGAR.db");
+	const auto database_full_path = AppendFileName(GetCurrentDirectory(), "AGAR.db");
 	if (!sqlite3.Open(database_full_path)) {
 		Cout() << t_("Can't create or open database file\n");
 		return;
@@ -384,7 +384,7 @@ void AGAR::updateParentId()
             auto saved_pcb_id = int{0};
             sql.Execute("select ID, PCB_ID, PARENT_ID from pcb_action order by pcb_id, action_date;");
             while (sql.Fetch()) {
-                auto const current_pcb_id = int{sql[1]};
+                const auto current_pcb_id = int{sql[1]};
                 if(saved_pcb_id != current_pcb_id){
                     saved_pcb_id = current_pcb_id;
                     index = 1;
@@ -396,7 +396,7 @@ void AGAR::updateParentId()
             
             for (auto& item: pics) {
                 if(item.parent_id != 0){
-                    auto const it = std::find_if(pics.begin(), pics.end(),[&item](const ParentIdCorrespondance& p) {
+                    const auto it = std::find_if(pics.begin(), pics.end(),[&item](const ParentIdCorrespondance& p) {
                                                                     return ((p.pcb_id == item.pcb_id) && (p.index == item.parent_id));}
                                             );
                     if (it != pics.end()){
@@ -425,6 +425,6 @@ void saveConfiguration(const String& filename, const VectorMap<String, String>& 
 
 void addConfigurationValue(VectorMap<String, String>& data, const String& key, const String& value)
 {
-	auto const ndx = data.FindAdd(key, value);
+	const auto ndx = data.FindAdd(key, value);
 	data[ndx] = value;
 }
