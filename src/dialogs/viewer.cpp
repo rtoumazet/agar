@@ -31,7 +31,6 @@ void ViewerDlg::openViewMenu(Bar& bar)
 void ViewerDlg::openMainMenu(Bar& bar)
 {
     bar.Add( "View", THISBACK(openViewMenu) );
-
 }
 
 ViewerDlg::ViewerDlg(const int id)
