@@ -455,7 +455,6 @@ void PcbDlg::buildItemTree() {
 	}
 
 	TC_AnalysisAction.OpenDeep(0); // All tree nodes are opened
-
 }
 
 void PcbDlg::updateNodeIndexInMainVector(const ActionRecord& current_record, const int& new_index) {
@@ -791,7 +790,6 @@ void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const 
 	if(SQL.WasError()){
 	    PromptOK(SQL.GetErrorCodeString());
 	}
-
 }
 
 void PcbDlg::populatePicturesArray(){
@@ -849,7 +847,6 @@ void PcbDlg::dragAndDrop(PasteClip& d, ArrayCtrl& a){
                }
                ProcessEvents();
                pi.Step();
-               
            }
            populatePicturesArray();
        }
@@ -877,7 +874,6 @@ void PcbDlg::addSignatureRecord(){
 		(~signature_tab_.ES_SigOrigin == "Origin") ||
 		(~signature_tab_.ES_SigCrc32 == "CRC32") ||
 		(~signature_tab_.ES_SigSig == "Sig") ) {
-		
 		if (!PromptYesNo(t_("At least one of the fields isn't filled. Do you want to add the record anyway ?")) ) {
 			insert_record = false;
 		}
@@ -1003,7 +999,6 @@ void PcbDlg::treeDrag() {
 void PcbDlg::treeDropInsert(const int parent, const int ii, PasteClip& d){
     // Check type of drag data, and restrict to analysis level
     if (IsAvailableInternal<TreeCtrl>(d, "mytreedrag") && treeGetLevel(parent) == 1) {
-        
         if (parent == TC_AnalysisAction.GetCursor()){ // preventing drop to self
             d.Reject();
             return;
