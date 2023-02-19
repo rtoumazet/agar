@@ -1,4 +1,5 @@
 # AGAR
+[![CodeFactor](https://www.codefactor.io/repository/github/rtoumazet/agar/badge/master)](https://www.codefactor.io/repository/github/rtoumazet/agar/overview/master)
 
 AGAR stands for Arcade Games Analysis & Repair, an arcade game monitoring and repair software.
 
