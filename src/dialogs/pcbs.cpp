@@ -120,7 +120,6 @@ PcbsDlg::PcbsDlg()
 			}
 		}
 	}
-
 }
 
 PcbsDlg::~PcbsDlg()
@@ -247,7 +246,6 @@ void PcbsDlg::GenerateReport()
 	if (sql.Fetch()) {
 		report = AsString(sql[0]) + " " + AsString(sql[1]);
 		filename = report + ".txt";
-		
 	}
 	report += nl;
 	
@@ -335,7 +333,6 @@ void PcbsDlg::SortTable(const int i)
 			    .SetRightImage(CtrlImg::SortDown());
 		}
 		ReloadTable(is_sorted_asc_);
-
 	}
 }
 
@@ -494,5 +491,4 @@ void Data::Jsonize(JsonIO& json)
         ("location", location)
         ("state", state)
     ;
-
 }
