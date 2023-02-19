@@ -51,7 +51,6 @@ AGAR::~AGAR() {}
 
 void AGAR::DatabaseInit()
 {
-
 	// Various database init
 	Sql sql;
 	
@@ -128,7 +127,6 @@ void AGAR::DatabaseInit()
 
 void AGAR::Exit()
 {
-
     if (PromptOKCancel(t_("Exit AGAR ?"))) {
         Break();
     }
@@ -348,7 +346,6 @@ void AGAR::openAboutDialog()
 
 String AGAR::GetVersion()
 {
-	
 	return version_;
 }
 
@@ -359,7 +356,6 @@ void AGAR::openSettingsWindow()
 
 void AGAR::initializeConfigurationFile()
 {
-	
 	auto cfg = LoadIniFile("agar.cfg");
 
 	if (cfg.Find("ImageWidth") == -1)	cfg.Add("ImageWidth", IntStr(default_image_width));
@@ -405,7 +401,6 @@ void AGAR::updateParentId()
                     sql.Execute("update pcb_action set PARENT_ID = ? where ID = ?", item.parent_id, item.action_id);
                 }
             }
-            
         }
         
         addConfigurationValue(cfg, "ParentIdUpdated", "1");
