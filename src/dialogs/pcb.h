@@ -226,5 +226,4 @@ class Popup : public TopWindow {
 		StatusBar   status;
 		MenuBar     menu;
 		RasterCtrl  raster_;
-	
 };
