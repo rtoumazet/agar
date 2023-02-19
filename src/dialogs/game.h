@@ -1,7 +1,6 @@
 #include "../agar.h"
 
 class GameDlg : public WithGamesLayout<TopWindow> {
-
 	typedef GameDlg CLASSNAME;
 	
 	public:
@@ -21,5 +20,4 @@ class GameDlg : public WithGamesLayout<TopWindow> {
 	
 		DropList manufacturer_;
 		EditString game_name_;
-
 };
