@@ -33,7 +33,6 @@ struct ActionRecord {
 };
 
 class PreviewCtrl : public StaticText {
-	
 	typedef PreviewCtrl CLASSNAME;
 	
 	public:
@@ -55,7 +54,6 @@ class PreviewCtrl : public StaticText {
 };
 
 class PcbDlg : public WithPcbLayout<TopWindow> {
-
 	typedef PcbDlg CLASSNAME;
 	
 	public:
@@ -216,7 +214,6 @@ class PcbDlg : public WithPcbLayout<TopWindow> {
 };
 
 class Popup : public TopWindow {
-	
 	typedef Popup CLASSNAME;
 	
 	public:
