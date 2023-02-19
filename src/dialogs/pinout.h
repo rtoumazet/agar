@@ -2,7 +2,6 @@
 #include "../enums.h"
 
 class PinoutDlg : public WithPinoutLayout<TopWindow> {
-
 	typedef PinoutDlg CLASSNAME;
 	
 	public:
