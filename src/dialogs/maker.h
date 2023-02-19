@@ -1,7 +1,6 @@
 #include "../agar.h"
 
 class MakerDlg : public WithMakersLayout<TopWindow> {
-
 	typedef MakerDlg CLASSNAME;
 
 	public:
