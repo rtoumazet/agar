@@ -52,10 +52,8 @@ void PreviewCtrl::Paint(Draw& w) {
 	else { w.DrawText(0, 0, "Preview not available!", Arial(12).Italic()); }
 }
 		
-PcbDlg::PcbDlg(const OpeningType type, const int pcb_id)
-{
-
-	CtrlLayout(*this, t_("Pcb"));
+PcbDlg::PcbDlg(const OpeningType type, const int pcb_id){
+    CtrlLayout(*this, t_("Pcb"));
 	
     // Setting up buttons callbacks
     ok <<= THISBACK(doOk);
@@ -197,12 +195,9 @@ PcbDlg::PcbDlg(const OpeningType type, const int pcb_id)
 	pictures_tab_.pictures.WhenDrop = [=] (PasteClip& d) { dragAndDrop(d, pictures_tab_.pictures); };
 }
 
-PcbDlg::~PcbDlg() {
-	
-}
+PcbDlg::~PcbDlg() {}
 
-void PcbDlg::generateFaultData()
-{
+void PcbDlg::generateFaultData(){
 	// builds the string containing checked values
 	auto faults = String{""};
 	auto key    = Value{};
@@ -254,8 +249,7 @@ auto PcbDlg::getFaultValue(const int id, const String& faults) -> bool {
 	return ret;
 }
 
-void PcbDlg::loadFaultData()
-{
+void PcbDlg::loadFaultData(){
 	// fault option list
 	
 	auto r = Rect{L_Faults.GetRect()};
@@ -285,8 +279,7 @@ void PcbDlg::loadFaultData()
 	misc_tab_.L_Faults.TopPosZ(r_origin.top, y - 100);
 }
 
-void PcbDlg::createAnalysisAndActionsMenu(Bar& bar)
-{
+void PcbDlg::createAnalysisAndActionsMenu(Bar& bar){
 	auto isAddActionEntryVisible = bool{false};
 	auto isEditEntryVisible      = bool{false};
 	auto isRemoveEntryVisible    = bool{false};
@@ -307,8 +300,7 @@ void PcbDlg::createAnalysisAndActionsMenu(Bar& bar)
 	bar.Add(isRemoveEntryVisible, t_("Remove"), THISBACK(removeRecord));
 }
 
-void PcbDlg::editRecord()
-{
+void PcbDlg::editRecord(){
 	const auto selected_index = TC_AnalysisAction.GetCursor();
 	if(selected_index < 0) return;
 	
@@ -322,8 +314,7 @@ void PcbDlg::editRecord()
 	}
 };
 
-void PcbDlg::removeRecord()
-{
+void PcbDlg::removeRecord(){
 	const auto selected_index = TC_AnalysisAction.GetCursor();
 	if((selected_index < 0) || !PromptYesNo(t_("Delete entry ?")))
 	   return;
@@ -332,8 +323,7 @@ void PcbDlg::removeRecord()
 	removeActionFromVector(selected_index);
 }
 
-void PcbDlg::addRecord(const int pcb_id, const ItemType type)
-{
+void PcbDlg::addRecord(const int pcb_id, const ItemType type){
 	// adds a new record to the treecontrol
 	auto dlg = std::unique_ptr<ActionDlg>{};
 	
@@ -370,8 +360,7 @@ void PcbDlg::addRecord(const int pcb_id, const ItemType type)
     TC_AnalysisAction.OpenDeep(0);
 }
 
-auto PcbDlg::getRecordNumber(const int pcb_id) -> int
-{
+auto PcbDlg::getRecordNumber(const int pcb_id) -> int {
 	auto count = int{0};
 	
 	Sql sql;
@@ -383,22 +372,19 @@ auto PcbDlg::getRecordNumber(const int pcb_id) -> int
 	return count;
 }
 
-void PcbDlg::removeActionFromVector(const int index)
-{
+void PcbDlg::removeActionFromVector(const int index) {
     action_records_.erase(std::remove_if(action_records_.begin(), action_records_.end(), [&](const ActionRecord& ar) {
         return ar.node_index == index;
     }), action_records_.end());
 }
 
-void PcbDlg::addActionToVector(ActionRecord& ar, const int node_index)
-{
+void PcbDlg::addActionToVector(ActionRecord& ar, const int node_index) {
     ar.id = -1; // new record, no id yet
     ar.node_index = node_index;
     action_records_.push_back(ar);
 }
 
-void PcbDlg::buildItemTree()
-{
+void PcbDlg::buildItemTree() {
 	// Fills the tree control with data from action file
 
 	TC_AnalysisAction.Clear();
@@ -472,16 +458,14 @@ void PcbDlg::buildItemTree()
 
 }
 
-void PcbDlg::updateNodeIndexInMainVector(const ActionRecord& current_record, const int& new_index)
-{
+void PcbDlg::updateNodeIndexInMainVector(const ActionRecord& current_record, const int& new_index) {
     auto record = getRecordFromId(current_record.id);
     if (record != nullptr) {
         record->node_index = new_index;
     }
 }
 
-void PcbDlg::createLinkedRecord(const TableType tableType)
-{
+void PcbDlg::createLinkedRecord(const TableType tableType){
 	auto id = int{0};
 	switch (tableType) {
 		case TableType::pinout:
@@ -565,8 +549,7 @@ void PcbDlg::createLinkedRecord(const TableType tableType)
 	}
 }
 
-void PcbDlg::loadDropList(const TableType table_type)
-{
+void PcbDlg::loadDropList(const TableType table_type){
 	Sql sql;
 	switch (table_type) {
 		case TableType::pinout:
@@ -647,8 +630,7 @@ void PcbDlg::loadDropList(const TableType table_type)
 	}
 }
 
-void PcbDlg::setupDisplay(Ctrl* ctrl)
-{
+void PcbDlg::setupDisplay(Ctrl* ctrl){
 	if (ctrl->GetLayoutId() == signature_tab_.ES_SigOrigin.GetLayoutId()) {
 		if (signature_tab_.ES_SigOrigin.GetData() == "") {
 			signature_tab_.ES_SigOrigin <<= "Origin";
@@ -688,8 +670,7 @@ void PcbDlg::setupDisplay(Ctrl* ctrl)
 	}
 }
 
-void PcbDlg::resetDisplay(Ctrl* ctrl)
-{
+void PcbDlg::resetDisplay(Ctrl* ctrl){
 	if (ctrl->GetLayoutId() == signature_tab_.ES_SigOrigin.GetLayoutId()) {
 		signature_tab_.ES_SigOrigin.SetStyle(EditString::StyleDefault());
 		if (signature_tab_.ES_SigOrigin.GetData() == "Origin") {
@@ -729,8 +710,7 @@ void PcbDlg::resetDisplay(Ctrl* ctrl)
 	}
 }
 
-void PcbDlg::tabChanged()
-{
+void PcbDlg::tabChanged(){
 	constexpr int8 pictures_tab{1};
 	constexpr int8 signatures_tab{2};
 	auto i = int{~TC_Tab};
@@ -760,19 +740,16 @@ void PcbDlg::tabChanged()
 	}
 }
 
-void PcbDlg::displayPicture()
-{
+void PcbDlg::displayPicture(){
     ViewerDlg(pictures_tab_.pictures.GetKey()).RunAppModal();
 }
 
-void PcbDlg::displayPicturePreview()
-{
+void PcbDlg::displayPicturePreview(){
 	preview_.SetImage(pictures_tab_.pictures.GetKey());
 	preview_.Refresh();
 }
 
-void PcbDlg::updatePictureLabel()
-{
+void PcbDlg::updatePictureLabel(){
     constexpr int label_id{1};
     const int row_id = pictures_tab_.pictures.GetCursor();
     if (row_id == -1) return;
@@ -784,8 +761,7 @@ void PcbDlg::updatePictureLabel()
     populatePicturesArray();
 }
 
-void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const Image& img)
-{
+void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const Image& img){
 	auto cfg            = LoadIniFile("agar.cfg");
 	auto resize_picture = static_cast<ResizePicture>(StrInt(cfg.Get("NoResize", Null)));
 	auto width          = StrInt(cfg.Get("ImageWidth", Null));
@@ -818,8 +794,7 @@ void PcbDlg::savePictureToDatabase(const int pcb_id, const String& label, const 
 
 }
 
-void PcbDlg::populatePicturesArray()
-{
+void PcbDlg::populatePicturesArray(){
 	// Fills pictures array with data from database
 	
 	pictures_tab_.pictures.Clear();
@@ -834,14 +809,12 @@ void PcbDlg::populatePicturesArray()
     }
 }
 
-void PcbDlg::editPictureLabel(ArrayCtrl* a, const int id)
-{
+void PcbDlg::editPictureLabel(ArrayCtrl* a, const int id){
     a->SetCursor(id);
     a->DoEdit();
 }
 
-void PcbDlg::removePicture(ArrayCtrl* a, const int id)
-{
+void PcbDlg::removePicture(ArrayCtrl* a, const int id){
 	if(PromptOKCancel(t_("The picture will be permanently deleted. Continue ?")) == 1){
         a->SetCursor(id);
         SQL * Delete(PICTURE).Where(ID == a->GetKey());
@@ -849,8 +822,7 @@ void PcbDlg::removePicture(ArrayCtrl* a, const int id)
 	}
 }
 
-void PcbDlg::savePicture(ArrayCtrl* a, const int id){
-    
+void PcbDlg::savePicture(ArrayCtrl* a, const int id) {
     const String fileName = SelectFileSaveAs("*.jpg");
     if (!fileName.IsVoid()){
         a->SetCursor(id);
@@ -864,8 +836,7 @@ void PcbDlg::savePicture(ArrayCtrl* a, const int id){
     }
 }
 
-void PcbDlg::dragAndDrop(PasteClip& d, ArrayCtrl& a)
-{
+void PcbDlg::dragAndDrop(PasteClip& d, ArrayCtrl& a){
    if(AcceptFiles(d)) {
        auto files = GetFiles(d);
        if(files.GetCount()){
@@ -886,13 +857,11 @@ void PcbDlg::dragAndDrop(PasteClip& d, ArrayCtrl& a)
    }
 }
 
-void PcbDlg::generateSignatureTabMenu(Bar& bar)
-{
+void PcbDlg::generateSignatureTabMenu(Bar& bar){
 	bar.Add(t_("Remove"),THISBACK(removeSignatureRecord));
 }
 
-void PcbDlg::removeSignatureRecord()
-{
+void PcbDlg::removeSignatureRecord(){
 	// Fluke record removal from database
 	SQL * Delete(FLUKE).Where(ID == signature_tab_.signatures.GetKey());
 	
@@ -900,9 +869,7 @@ void PcbDlg::removeSignatureRecord()
 	populateSignatureArray();
 }
 
-void PcbDlg::addSignatureRecord()
-{
-
+void PcbDlg::addSignatureRecord(){
 	auto insert_record = bool{true};
 	if ( (~signature_tab_.ES_SigRomName == "Rom name") ||
 		(~signature_tab_.ES_SigSection == "Section") ||
@@ -939,8 +906,7 @@ void PcbDlg::populateSignatureArray() {
     }
 }
 
-void PcbDlg::loadActionTreeFromDatabase()
-{
+void PcbDlg::loadActionTreeFromDatabase(){
 	// query is done to fill action vector with current PCB_ACTION data
 	Sql sql;
 	sql.Execute(Format("SELECT * FROM PCB_ACTION WHERE PCB_ID = %i ORDER BY PARENT_ID,ACTION_DATE", pcb_id_));
@@ -965,8 +931,7 @@ void PcbDlg::loadActionTreeFromDatabase()
 	buildItemTree(); // Treecontrol is reloaded
 }
 
-void PcbDlg::saveActionTreeToDatabase()
-{
+void PcbDlg::saveActionTreeToDatabase(){
     // Current records for the pcb are deleted from the database prior adding the new ones
     Sql sql;
     sql.Execute(Format("DELETE FROM PCB_ACTION WHERE PCB_ID = %i",pcbId()));
@@ -1035,8 +1000,7 @@ void PcbDlg::treeDrag() {
     }
 }
 
-void PcbDlg::treeDropInsert(const int parent, const int ii, PasteClip& d)
-{
+void PcbDlg::treeDropInsert(const int parent, const int ii, PasteClip& d){
     // Check type of drag data, and restrict to analysis level
     if (IsAvailableInternal<TreeCtrl>(d, "mytreedrag") && treeGetLevel(parent) == 1) {
         
@@ -1068,8 +1032,7 @@ void PcbDlg::treeDropInsert(const int parent, const int ii, PasteClip& d)
     }
 }
 
-auto PcbDlg::treeGetLevel(int id) const -> int
-{
+auto PcbDlg::treeGetLevel(int id) const -> int {
     int i=0;
     while (id != 0){
         id = TC_AnalysisAction.GetParent(id);
@@ -1078,8 +1041,7 @@ auto PcbDlg::treeGetLevel(int id) const -> int
     return i;
 }
 
-void PcbDlg::logActionVector()
-{
+void PcbDlg::logActionVector(){
     LOG("actionRecord_ content : ");
     for (vector<ActionRecord>::iterator it = action_records_.begin(); it != action_records_.end(); ++it)
     {
@@ -1087,15 +1049,13 @@ void PcbDlg::logActionVector()
     }
 }
 
-void PcbDlg::doOk()
-{
+void PcbDlg::doOk(){
     saveActionTreeToDatabase();
     
     Break(IDOK);
 }
 
-auto PcbDlg::getRecordFromIndex(const int index) -> ActionRecord*
-{
+auto PcbDlg::getRecordFromIndex(const int index) -> ActionRecord* {
     auto it = std::find_if(action_records_.begin(), action_records_.end(), [&](const ActionRecord& ar) {
         return ar.node_index == index;
     });
@@ -1106,8 +1066,7 @@ auto PcbDlg::getRecordFromIndex(const int index) -> ActionRecord*
     return nullptr;
 }
 
-auto PcbDlg::getRecordFromId(const int id) -> ActionRecord*
-{
+auto PcbDlg::getRecordFromId(const int id) -> ActionRecord* {
     auto it = std::find_if(action_records_.begin(), action_records_.end(), [&](const ActionRecord& ar) {
         return ar.id == id;
     });
@@ -1119,7 +1078,6 @@ auto PcbDlg::getRecordFromId(const int id) -> ActionRecord*
 }
 
 Popup::Popup(const int& id) {
-
 	SQL * Select(DATA).From(PICTURE).Where(ID == id);
     if (SQL.Fetch()) {
         JPGRaster jpgr;
