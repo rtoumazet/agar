@@ -33,11 +33,9 @@ class LocationsDlg;
 class PinoutsDlg;
 
 class AGAR : public WithAGARLayout<TopWindow> {
-
 	typedef AGAR CLASSNAME;
 
 public:
-
 	void DatabaseInit();
 
 	// menu handling functions
