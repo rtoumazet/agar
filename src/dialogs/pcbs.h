@@ -7,7 +7,6 @@ enum SortDirection {
 };
 
 class PcbsDlg : public WithPcbsLayout<TopWindow> {
-
 	typedef PcbsDlg CLASSNAME;
 	
 	public:
@@ -37,7 +36,6 @@ class PcbsDlg : public WithPcbsLayout<TopWindow> {
 		int                     sorted_column_direction_; // based on SortDirection enum
         int                     filter_state_;
         ArrayMap<int, Option>   option_;
-
 };
 
 struct Data {
