@@ -5,7 +5,6 @@
 
 GameDlg::GameDlg()
 {
-
 	CtrlLayout(*this, t_("Games list"));
 	BTN_Close <<= THISBACK(DoClose);
 	TAB_game.WhenBar = THISBACK(OwnMenu); // own menu
@@ -38,16 +37,13 @@ GameDlg::GameDlg()
 
 void GameDlg::OwnMenu(Bar& bar)
 {
-	
 	bar.Add(t_("Add"),THISBACK(MenuAdd));
 	bar.Add(t_("Edit"),THISBACK(MenuEdit));
 	bar.Add(t_("Remove"),THISBACK(MenuRemove));
-	
 }
 
 void GameDlg::MenuAdd()
 {
-	
 	// regular behaviour
 	TAB_game.StartInsert();
 }
