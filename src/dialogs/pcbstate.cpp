@@ -1,7 +1,6 @@
 #include "pcbstate.h"
 
 struct CellDisplay : public Display {
-
 	virtual void Paint(Draw& w, const Rect& r, const Value& q, Color ink, Color paper, dword style) const
 	{
 		w.DrawRect(r, q);
@@ -59,7 +58,6 @@ void PcbStateDlg::WidgetFactory(int line, One<Ctrl>& x, int cellIndex)
 
 void PcbStateDlg::CellUpdate(int i)
 {
-
 	// getting updated data from the table
 	const auto str      = TAB_pcbStateArray.Get(i,2).ToString();
 	const auto paper    = Color{TAB_pcbStateArray.Get(i,3)};
