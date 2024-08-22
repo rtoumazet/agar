@@ -15,8 +15,10 @@ check the [user guide](https://github.com/rtoumazet/agar/wiki/UserGuide) and the
 AGAR is developed using C++, and [Ultimate++](http://ultimatepp.org) framework.
 
 ## Supported platforms
+
 - Windows XP, 7, 10
 - Linux
 
 ##
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S2122MKA)
