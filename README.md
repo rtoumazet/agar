@@ -1,5 +1,5 @@
 # AGAR
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/rtoumazet/agar?display_name=tag) [![CodeFactor](https://www.codefactor.io/repository/github/rtoumazet/agar/badge/master)](https://www.codefactor.io/repository/github/rtoumazet/agar/overview/master) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e0ceb2aafaf74f80bad35f422d322f38)](https://www.codacy.com/gh/rtoumazet/agar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rtoumazet/agar&amp;utm_campaign=Badge_Grade)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/rtoumazet/agar?display_name=tag) [![CodeFactor](https://www.codefactor.io/repository/github/rtoumazet/agar/badge/master)](https://www.codefactor.io/repository/github/rtoumazet/agar/overview/master)
 
 AGAR stands for Arcade Games Analysis & Repair, an arcade game monitoring and repair software.
 
@@ -17,3 +17,8 @@ AGAR is developed using C++, and [Ultimate++](http://ultimatepp.org) framework.
 ## Supported platforms
 - Windows XP, 7, 10
 - Linux
+
+<br/>
+<br/>
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S2122MKA)
