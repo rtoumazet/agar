@@ -18,7 +18,5 @@ AGAR is developed using C++, and [Ultimate++](http://ultimatepp.org) framework.
 - Windows XP, 7, 10
 - Linux
 
-<br/>
-<br/>
-
+##
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S2122MKA)
